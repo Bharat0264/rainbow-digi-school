@@ -29,6 +29,6 @@
     document.querySelectorAll('[data-open]').forEach(b=>b.addEventListener('click',()=>{const v=b.dataset.open; title.textContent=v==='visit'?'Book a campus visit':'Admission enquiry';copy.textContent=v==='visit'?'Choose a convenient date and our admissions team will confirm your visit.':'Tell us a little about your family and the admissions team will get in touch.';modal.classList.add('open');document.querySelector('[name=parentName]').focus()}));
     document.getElementById('close').onclick=()=>modal.classList.remove('open');modal.onclick=e=>{if(e.target===modal)modal.classList.remove('open')};
     document.getElementById('hamb').onclick=function(){document.getElementById('menu').classList.toggle('open');this.setAttribute('aria-expanded',document.getElementById('menu').classList.contains('open'))};
-    form.onsubmit=e=>{e.preventDefault();document.getElementById('success').style.display='block';form.querySelector('button[type=submit]').disabled=true;};
+    form.onsubmit=e=>{e.preventDefault();const s=document.getElementById('success');s.textContent='Enquiry capture needs a configured admissions API before submissions can be accepted.';s.style.display='block';};
   </script>
 </body></html>
