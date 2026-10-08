@@ -1,46 +1,50 @@
 # Rainbow Digi School
 
-Responsive public website with a validated Vercel Function for admission enquiries. It deploys directly to Vercel—no ChatGPT Sites configuration is required.
+A premium, modern multi-page school website with a React + Vite frontend and a PostgreSQL-backed admissions enquiry API.
 
-## Deploy to Vercel
+## Tech Stack
+- **Frontend:** React, Vite, React Router, Tailwind CSS (v4), Framer Motion, Lenis (smooth scroll).
+- **Backend (API):** Vercel Serverless Functions (`/api`), Node.js, Zod validation.
+- **Database:** PostgreSQL (via Prisma ORM).
 
-1. Push this folder to a GitHub, GitLab, or Bitbucket repository.
-2. Import that repository in Vercel.
-3. Add `DATABASE_URL` and `ALLOWED_ORIGINS` from `.env.example` under **Project Settings → Environment Variables**.
-4. Run `npm run db:deploy` against the target PostgreSQL database before accepting production enquiries.
-5. Deploy.
+## Setup & Local Development
 
-Or, using the Vercel CLI:
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-```bash
-npx vercel
-```
+2. **Environment Variables:**
+   Create a `.env` file based on `.env.example`:
+   ```bash
+   cp .env.example .env
+   ```
+   Update the `DATABASE_URL` with your local or cloud PostgreSQL connection string. Ensure `ALLOWED_ORIGINS` includes `http://localhost:5173`.
 
-Use `npx vercel --prod` for a production deployment.
+3. **Database Migration:**
+   Apply the database schema to your PostgreSQL database and generate the Prisma Client:
+   ```bash
+   npm run db:migrate
+   ```
 
-## Database setup
+4. **Run the Development Server:**
+   ```bash
+   npm run dev
+   ```
+   The site will be running at `http://localhost:5173`. The Vercel CLI (if used via `vercel dev`) can also run the serverless functions locally.
 
-The first migration creates the admissions enquiry table and CRM pipeline status. From a trusted machine with `DATABASE_URL` configured:
+## Deployment to Vercel
 
-```bash
-npm install
-npm run db:deploy
-```
+This repository is pre-configured for Vercel deployment.
 
-For development migrations, use `npm run db:migrate`. The included database URL example is intentionally non-working. Keep PostgreSQL accessible only from trusted LAN/VPN hosts; never expose port `5432` to the public internet.
+1. Create a Vercel project and connect this GitHub repository.
+2. Under **Environment Variables** in the Vercel dashboard, add:
+   - `DATABASE_URL`: Your production PostgreSQL URL (e.g. from Neon, Supabase, or AWS RDS).
+   - `ALLOWED_ORIGINS`: Your production domain (e.g. `https://rainbowdigischool.com`).
+3. Deploy! Vercel will automatically run `npm run vercel-build`, generate the Prisma client, build the Vite frontend to `dist/`, and map `/api/*` to the serverless functions.
+4. Run `npm run db:deploy` (or `npx prisma migrate deploy`) in a CI pipeline or locally against the production database to ensure schema migrations are applied.
 
-## Current scope
-
-The public enquiry flow is implemented: it validates input server-side, captures UTM attribution, creates a uniquely numbered enquiry, and stores it in PostgreSQL. It requires the environment variables and migration above before it can accept live submissions.
-
-The wider CRM, online applications, authentication, portals, attendance, finance, CMS, and notifications remain out of scope for this completed slice.
-
-## Project structure
-
-```
-api/enquiries.ts                         # validated Vercel Function
-prisma/schema.prisma                     # PostgreSQL data model
-prisma/migrations/.../migration.sql      # deployable schema migration
-dist/index.html                          # site markup, styles, and browser interactions
-vercel.json                              # static-output deployment and security headers
-```
+## Design Highlights
+- **Palette:** Warm ivory (#FFFDF6), golden yellow (#F6C945), and royal blue (#2B5BA8).
+- **Typography:** Elegant serifs paired with clean sans-serif body text.
+- **Animations:** Subtle parallax, hover reveals, and page transitions handled gracefully with Framer Motion.

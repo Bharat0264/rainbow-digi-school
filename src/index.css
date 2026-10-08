@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+
+  --color-ivory: #FFFDF6;
+  --color-champagne: #FBF3D5;
+  --color-gold: #F6C945;
+  --color-gold-deep: #D9A514;
+  --color-gold-light: #FDF0C4;
+  --color-royal-blue: #2B5BA8;
+  --color-royal-blue-light: #3B6BBD;
+  --color-espresso: #2B2118;
+  --color-espresso-light: #3D3028;
+  --color-espresso-muted: #6B5D52;
+  --color-warm-gray: #A89888;
+}
+
+/* ── Base ──────────────────────────────────────────── */
+
+html {
+  font-family: var(--font-sans);
+  background-color: #FFFDF6;
+  color: #2B2118;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: #F6C945;
+  color: #2B5BA8;
+}
+
+/* ── Custom Utilities ──────────────────────────────── */
+
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Thin gold divider */
+.gold-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #D9A514 20%, #F6C945 50%, #D9A514 80%, transparent);
+}
+
+/* Subtle rainbow gradient line – the elegant nod */
+.rainbow-line {
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    #E84855 25%, /* red */
+    #F6511D 50%, /* orange */
+    #40A060 75%, /* green */
+    transparent 100%
+  );
+  opacity: 0.8;
+}
+
+/* Arched photo mask */
+.arch-mask {
+  border-radius: 9999px 9999px 24px 24px;
+}
+
+/* Glass effect */
+.glass {
+  background: rgba(255, 253, 246, 0.82);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+}
+
+.glass-dark {
+  background: rgba(43, 33, 24, 0.88);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #FFFDF6; }
+::-webkit-scrollbar-thumb {
+  background: #D9A514;
+  border-radius: 9999px;
+  border: 2px solid #FFFDF6;
+}
+::-webkit-scrollbar-thumb:hover { background: #F6C945; }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
