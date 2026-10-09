@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Nunito:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
+@import "./painted-glass-v2.css";
 
 @theme {
   --font-serif: 'Playfair Display', Georgia, serif;
@@ -122,3 +123,5 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+@import './painted-glass-v2.css';
