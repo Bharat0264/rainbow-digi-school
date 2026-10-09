@@ -7,7 +7,8 @@
     "dev": "vite",
     "server": "node server/server.js",
     "start": "concurrently \"npm run dev\" \"npm run server\"",
-    "build": "vite build", "postinstall": "prisma generate",
+    "build": "vite build",
+    "postinstall": "prisma generate",
     "lint": "oxlint",
     "preview": "vite preview"
   },
@@ -31,6 +32,7 @@
     "oxlint": "^1.81.0",
     "postcss": "^8.5.29",
     "prisma": "^6.16.3",
+    "puppeteer": "^25.13.0",
     "tailwindcss": "^4.3.3",
     "typescript": "^5.9.2",
     "vite": "^8.3.0"
