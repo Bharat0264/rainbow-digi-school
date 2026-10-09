@@ -1,146 +1,108 @@
-import { useEffect, useRef, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { motion, useMotionValue, useReducedMotion, useSpring } from 'framer-motion';
+import { useLayoutEffect, useRef } from 'react';
+import { useReducedMotion } from 'framer-motion';
 
-const findPathPoint = (path, x) => {
-  let low = 0;
-  let high = path.getTotalLength();
-  for (let index = 0; index < 18; index += 1) {
-    const middle = (low + high) / 2;
-    if (path.getPointAtLength(middle).x < x) low = middle;
-    else high = middle;
-  }
-  return path.getPointAtLength((low + high) / 2);
-};
-
-export function useBranchTarget(geometry, width, mobile, allItems, open, pathRef) {
-  const location = useLocation();
-  const [hoverPath, setHoverPath] = useState(null);
-  const [target, setTarget] = useState(null);
-  const targetPath = hoverPath || location.pathname;
-
-  useEffect(() => {
-    if (!geometry || !pathRef.current) return;
-    let index = allItems.findIndex(item => item.path === targetPath || (item.path !== '/' && targetPath.startsWith(item.path)));
-    if (index < 0) index = 0;
-
-    if (mobile) {
-      const [left, right] = geometry.boards[open ? Math.min(index, geometry.boards.length - 1) : 0];
-      setTarget({
-        x: (left.x + right.x) / 2 + geometry.boardW / 2 + 18,
-        y: open ? 150 + index * 45 : left.y - 12,
-        path: targetPath,
-        index,
-      });
-      return;
-    }
-
-    const [left, right] = geometry.boards[index];
-    const center = (left.x + right.x) / 2;
-    const x = center + (center < width / 2 ? 1 : -1) * (geometry.boardW / 2 + 20);
-    const point = findPathPoint(pathRef.current, x);
-    setTarget({ x, y: point.y - 12, path: targetPath, index });
-  }, [allItems, geometry, mobile, open, pathRef, targetPath, width]);
-
-  return { hoverPath, setHoverPath, target };
-}
-
-function SquirrelArt({ state, facingRight, reduced }) {
-  const running = state === 'run';
-  const landing = state === 'land';
-  const tailAnimation = reduced ? undefined : running
-    ? { rotate: [-8, 10, -8], scale: [1, 1.04, 1] }
-    : { rotate: [-3, 5, -3], scale: [1, 1.025, 1] };
-
-  return (
-    <motion.svg viewBox="0 0 120 120" width="78" height="78" aria-hidden="true" style={{ overflow: 'visible', scaleX: facingRight ? 1 : -1 }}>
-      <defs>
-        <linearGradient id="squirrel-fur" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#ffad37"/><stop offset=".55" stopColor="#ef7022"/><stop offset="1" stopColor="#bd461c"/></linearGradient>
-        <linearGradient id="squirrel-tail" x1="0" y1="0" x2=".8" y2="1"><stop stopColor="#ffba43"/><stop offset=".5" stopColor="#f36c20"/><stop offset="1" stopColor="#b93e1b"/></linearGradient>
-        <linearGradient id="squirrel-belly" x1="0" y1="0" x2="0" y2="1"><stop stopColor="#fff2cd"/><stop offset="1" stopColor="#ffd49c"/></linearGradient>
-        <filter id="squirrel-shadow" x="-40%" y="-35%" width="180%" height="190%"><feDropShadow dx="0" dy="5" stdDeviation="3" floodColor="#743819" floodOpacity=".26"/></filter>
-      </defs>
-      {running && !reduced && <motion.g animate={{ opacity: [0, .55, 0], x: [0, -18, -30] }} transition={{ repeat: Infinity, duration: .45 }}><path d="M23 80h-16M25 88H1M28 96H11" stroke="#f6b44b" strokeWidth="3" strokeLinecap="round" opacity=".75"/></motion.g>}
-      <g filter="url(#squirrel-shadow)">
-        <motion.g style={{ transformOrigin: '42px 71px' }} animate={tailAnimation} transition={{ duration: running ? .38 : 2.2, repeat: Infinity, ease: 'easeInOut' }}>
-          <path d="M40 75C4 70 5 29 35 13c27-15 50 10 34 31-7 10-20 13-25 23 14-7 26-14 38-2 14 15 0 42-23 39-18-2-29-14-19-29Z" fill="url(#squirrel-tail)" stroke="#a93c1c" strokeWidth="2.5"/>
-          <path d="M33 23c16-11 31-2 28 12-3 13-16 13-26 26" fill="none" stroke="#ffd477" strokeWidth="5" strokeLinecap="round" opacity=".82"/>
-          <path d="M22 42c7-10 15-15 27-16" fill="none" stroke="#fff0af" strokeWidth="3" strokeLinecap="round" opacity=".66"/>
-        </motion.g>
-        <motion.g animate={running && !reduced ? { y: [0, -3, 0] } : landing ? { y: [0, 5, 0] } : { y: [0, -1.5, 0] }} transition={{ duration: running ? .28 : landing ? .34 : 2.4, repeat: running || !reduced ? Infinity : 0, ease: 'easeInOut' }}>
-          <path d="M41 65c-6-27 8-43 28-43 22 0 34 16 28 44l-8 31H48Z" fill="url(#squirrel-fur)" stroke="#a93c1c" strokeWidth="2.5"/>
-          <ellipse cx="71" cy="78" rx="17" ry="24" fill="url(#squirrel-belly)"/>
-          <motion.g animate={running && !reduced ? { rotate: [-26, 24, -26] } : undefined} transition={{ duration: .28, repeat: Infinity, ease: 'linear' }} style={{ transformOrigin: '56px 92px' }}><path d="M58 87c-12 7-13 19-6 23 6 4 18-2 20-9" fill="none" stroke="#c54e20" strokeWidth="9" strokeLinecap="round"/><path d="M55 103c6 3 11 1 16-4" stroke="#ffe2ae" strokeWidth="4" strokeLinecap="round"/></motion.g>
-          <motion.g animate={running && !reduced ? { rotate: [24, -26, 24] } : undefined} transition={{ duration: .28, repeat: Infinity, ease: 'linear' }} style={{ transformOrigin: '83px 92px' }}><path d="M84 88c14 5 16 16 9 22-6 5-18 0-21-8" fill="none" stroke="#c54e20" strokeWidth="9" strokeLinecap="round"/><path d="M78 103c6 4 12 2 17-2" stroke="#ffe2ae" strokeWidth="4" strokeLinecap="round"/></motion.g>
-          <path d="M50 61c-8 2-15 10-13 17 2 8 11 5 17-2M91 60c9 1 16 8 15 15-1 8-11 6-17-1" fill="none" stroke="#e96b28" strokeWidth="8" strokeLinecap="round"/>
-          <path d="M40 49c-5-19 4-32 16-35l8 14M87 27l10-17c9 8 11 25 4 37" fill="url(#squirrel-fur)" stroke="#a93c1c" strokeWidth="2.5" strokeLinejoin="round"/>
-          <ellipse cx="71" cy="47" rx="27" ry="25" fill="url(#squirrel-fur)" stroke="#a93c1c" strokeWidth="2.5"/>
-          <ellipse cx="71" cy="57" rx="19" ry="14" fill="url(#squirrel-belly)"/>
-          <motion.g animate={reduced ? undefined : { scaleY: [1, 1, .12, 1, 1] }} transition={{ duration: 4.7, repeat: Infinity, times: [0, .7, .73, .77, 1] }} style={{ transformOrigin: '71px 44px' }}><ellipse cx="61" cy="44" rx="8" ry="9" fill="#fffdf4"/><ellipse cx="82" cy="44" rx="8" ry="9" fill="#fffdf4"/><circle cx="63" cy="46" r="4.2" fill="#39231b"/><circle cx="80" cy="46" r="4.2" fill="#39231b"/><circle cx="64" cy="44" r="1.4" fill="white"/><circle cx="81" cy="44" r="1.4" fill="white"/></motion.g>
-          <path d="M67 55q4-4 8 0" fill="none" stroke="#8d3b28" strokeWidth="2" strokeLinecap="round"/><path d="M67 65q5 5 11 0" fill="none" stroke="#8d3b28" strokeWidth="2" strokeLinecap="round"/>
-          <circle cx="71" cy="56" r="3.3" fill="#6e3023"/><path d="M48 36q7-5 12-1M80 34q8-4 13 2" fill="none" stroke="#8d3b28" strokeWidth="3" strokeLinecap="round"/>
-        </motion.g>
+// Articulated vector layers; the planted feet are at (95,130).
+function SquirrelArt() {
+  return <svg viewBox="0 0 160 140" aria-hidden="true">
+    <defs>
+      <linearGradient id="sq-fur" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#ffc26a"/><stop offset=".4" stopColor="#ef8b2e"/><stop offset="1" stopColor="#ac4217"/></linearGradient>
+      <linearGradient id="sq-tail" x1="0" y1="0" x2="1" y2=".8"><stop stopColor="#ffe09a"/><stop offset=".3" stopColor="#f8a447"/><stop offset=".75" stopColor="#d56624"/><stop offset="1" stopColor="#a34019"/></linearGradient>
+    </defs>
+    <g className="sq-facing"><g className="sq-body">
+      <g className="sq-tail">
+        <path d="M76 109C48 115 35 91 34 71C34 52 20 58 19 71C4 60 5 37 19 23L14 21L25 16L22 12L35 12L34 8C74 6 88 31 79 54C72 72 53 86 76 109Z" fill="url(#sq-tail)" stroke="#b75a26" strokeWidth="1.3"/>
+        <path d="M69 103C40 92 51 62 35 48C23 39 15 51 19 65C8 47 22 27 39 31C67 38 40 74 69 103" fill="#ffe1a0" opacity=".78"/>
+        <path d="M24 23Q50 9 67 31M20 29Q45 15 64 36M39 19Q64 22 68 44" fill="none" stroke="#ffd17b" strokeWidth="2" opacity=".6"/>
       </g>
-      {landing && <motion.path initial={{ opacity: 0, scale: .4 }} animate={{ opacity: [0, 1, 0], scale: [0.4, 1, 1.2] }} transition={{ duration: .65 }} d="M100 25l3 8 8 3-8 3-3 8-3-8-8-3 8-3Z" fill="#ffcf3c"/>}
-    </motion.svg>
-  );
+      <g className="sq-leg sq-leg-far"><path d="M86 106Q91 119 82 126L97 128" fill="none" stroke="#9f411c" strokeWidth="9" strokeLinecap="round"/></g>
+      <g className="sq-arm sq-arm-far"><path d="M111 84Q119 104 127 117" fill="none" stroke="#b45322" strokeWidth="8" strokeLinecap="round"/></g>
+      <path d="M76 76Q89 62 106 75Q120 89 112 116Q103 133 80 124Q59 119 67 98Z" fill="url(#sq-fur)" stroke="#a9481d" strokeWidth="1.4"/>
+      <path d="M101 81Q115 88 108 113Q102 124 91 118Q81 110 90 93Z" fill="#fff0c8"/>
+      <g className="sq-leg sq-leg-near"><ellipse cx="78" cy="111" rx="15" ry="16" fill="url(#sq-fur)"/><path d="M77 117Q73 129 88 128L96 128" fill="none" stroke="#c26828" strokeWidth="8" strokeLinecap="round"/><path d="M85 127h9" stroke="#f5b45c" strokeWidth="2" strokeLinecap="round"/></g>
+      <g className="sq-arm sq-arm-near"><path d="M99 87Q90 101 106 104" fill="none" stroke="#a94a20" strokeWidth="10" strokeLinecap="round"/><path d="M99 86Q92 99 107 101" fill="none" stroke="#f6a449" strokeWidth="7" strokeLinecap="round"/><ellipse cx="109" cy="102" rx="6" ry="4" fill="#ffe0a5"/></g>
+      <g className="sq-head" id="sq-head-art">
+        <path d="M91 53Q81 38 89 24L92 19L96 26Q108 33 104 48M114 45Q109 27 117 19L121 32L123 47" fill="url(#sq-fur)" stroke="#a64b21" strokeWidth="1.4"/>
+        <path d="M91 31L95 43L91 42ZM117 29L119 41L115 40Z" fill="#ffd4a0"/>
+        <path d="M86 49Q99 34 116 42Q133 47 132 63L141 69Q143 80 127 85Q108 93 94 80Q79 71 86 49Z" fill="url(#sq-fur)" stroke="#ab4c21" strokeWidth="1.2"/>
+        <path d="M93 66Q102 57 111 69Q120 77 133 67L142 71Q145 80 125 85Q105 87 93 76Z" fill="#ffeac2"/>
+        <g className="sq-eye"><ellipse cx="117" cy="57" rx="9" ry="12" fill="#fff8e9"/><ellipse cx="120" cy="58" rx="5.5" ry="8" fill="#482519"/><ellipse cx="122" cy="54" rx="2.3" ry="3" fill="white"/></g>
+        <path d="M108 43Q116 37 123 45" fill="none" stroke="#884019" strokeWidth="2" strokeLinecap="round"/>
+        <ellipse cx="139" cy="68" rx="4" ry="3" fill="#522c22"/>
+        <path d="M123 76Q130 80 135 74" fill="none" stroke="#84432b" strokeWidth="1.5" strokeLinecap="round"/>
+        <path d="M128 78v4l4-1v-3" fill="white"/><path d="M88 62l-5 5 6 1-4 5 8-1" fill="#fbbb69"/>
+      </g>
+    </g>
+    <g className="sq-gallop">
+      <g className="sq-run-tail"><path d="M73 108C43 104 36 72 4 83C13 42 48 42 64 66Q73 89 83 102Z" fill="url(#sq-tail)" stroke="#b75a26" strokeWidth="1.3"/><path d="M7 81Q35 60 72 102Q45 78 7 81" fill="#ffe1a0"/></g>
+      <g className="sq-run-back far"><path d="M78 109l-11 10 14 8" fill="none" stroke="#a64a20" strokeWidth="8" strokeLinecap="round"/></g>
+      <g className="sq-run-front far"><path d="M113 105l5 14 16 7" fill="none" stroke="#a64a20" strokeWidth="7" strokeLinecap="round"/></g>
+      <path d="M67 100Q83 88 113 98L124 108Q104 121 78 116Q65 115 67 100Z" fill="url(#sq-fur)" stroke="#aa4c20"/>
+      <path d="M83 111Q100 115 118 106L117 113Q97 121 83 116Z" fill="#ffe9be"/>
+      <g className="sq-run-back"><path d="M78 109l-11 10 14 8" fill="none" stroke="#d7752b" strokeWidth="9" strokeLinecap="round"/></g>
+      <g className="sq-run-front"><path d="M113 105l5 14 16 7" fill="none" stroke="#e78a37" strokeWidth="8" strokeLinecap="round"/><ellipse cx="134" cy="127" rx="5" ry="3" fill="#ffd495"/></g>
+      <use href="#sq-head-art" transform="translate(13 27) scale(.95)"/>
+    </g></g>
+  </svg>;
 }
 
-export function SquirrelMascot({ target, pathRef, mobile }) {
-  const reduced = useReducedMotion();
-  const [state, setState] = useState('idle');
-  const [facingRight, setFacingRight] = useState(true);
-  const initialised = useRef(false);
-  const stateTimer = useRef();
-  const rawX = useMotionValue(0);
-  const rawY = useMotionValue(0);
-  const x = useSpring(rawX, { stiffness: 125, damping: 18, mass: .72 });
-  const y = useSpring(rawY, { stiffness: 125, damping: 18, mass: .72 });
-
-  useEffect(() => () => clearTimeout(stateTimer.current), []);
-
-  useEffect(() => {
-    const unsubscribe = x.on('change', value => {
-      if (!pathRef.current || mobile || state !== 'run') return;
-      const point = findPathPoint(pathRef.current, value);
-      rawY.set(point.y - 16 - Math.abs(Math.sin(value / 25)) * 5);
-    });
-    return unsubscribe;
-  }, [mobile, pathRef, rawY, state, x]);
-
-  useEffect(() => {
-    if (!target) return undefined;
-    clearTimeout(stateTimer.current);
-    if (!initialised.current) {
-      rawX.set(target.x);
-      rawY.set(target.y);
-      initialised.current = true;
-      return undefined;
-    }
-    const distance = target.x - x.get();
-    setFacingRight(distance >= 0);
-    rawX.set(target.x);
-    rawY.set(target.y);
-    if (reduced || Math.abs(distance) < 5) {
-      setState('idle');
-      return undefined;
-    }
-    setState('run');
-    const journey = Math.min(1250, Math.max(460, Math.abs(distance) * 1.65));
-    stateTimer.current = setTimeout(() => {
-      setState('land');
-      window.dispatchEvent(new CustomEvent('squirrelLand', { detail: { path: target.path } }));
-      stateTimer.current = setTimeout(() => setState('idle'), 680);
-    }, journey);
-    return () => clearTimeout(stateTimer.current);
-  }, [rawX, rawY, reduced, target, x]);
-
-  return (
-    <motion.div
-      className="bn-squirrel"
-      style={{ x, y, marginLeft: -39, marginTop: -60, pointerEvents: 'none', position: 'absolute', top: 0, left: 0, zIndex: 55, willChange: 'transform' }}
-    >
-      <SquirrelArt state={state} facingRight={facingRight} reduced={reduced}/>
-    </motion.div>
-  );
+export function SquirrelMascot({containerRef,pathRef,selected,layoutKey,mobile}) {
+  const ref=useRef(null), simulation=useRef({x:null,v:0}), destination=useRef(selected);
+  const reduced=useReducedMotion();
+  useLayoutEffect(()=>{destination.current=selected;},[selected]);
+  useLayoutEffect(()=>{
+    const node=ref.current, container=containerRef.current, path=pathRef.current;
+    if(!node||!container||!path)return;
+    let frame,previous=0,points=[],signs=[],landingUntil=0,disposed=false,lastPaint='';
+    const state=simulation.current;
+    const measure=()=>{
+      const box=container.getBoundingClientRect(), matrix=path.getScreenCTM(), length=path.getTotalLength();
+      if(!matrix)return;
+      points=Array.from({length:201},(_,i)=>{const p=path.getPointAtLength(length*i/200);const q=new DOMPoint(p.x,p.y-12).matrixTransform(matrix);return{x:q.x-box.left,y:q.y-box.top};});
+      signs=[...container.querySelectorAll('[data-nav-id]')].map(el=>{const r=el.getBoundingClientRect();return{id:el.dataset.navId,x:r.left+r.width/2-box.left,el};});
+    };
+    const yAt=x=>{
+      const index=points.findIndex(p=>p.x>=x), bIndex=Math.max(1,index<0?points.length-1:index);
+      const b=points[bIndex],a=points[bIndex-1];
+      return a.y+(b.y-a.y)*Math.max(0,Math.min(1,(x-a.x)/(b.x-a.x||1)));
+    };
+    const paint=phase=>{
+      const stamp=`${phase}-${state.x.toFixed(2)}-${yAt(state.x).toFixed(2)}-${state.facing}`;
+      if(stamp===lastPaint)return;
+      lastPaint=stamp;
+      node.dataset.phase=phase;
+      node.style.transform=`translate3d(${state.x}px,${yAt(state.x)}px,0)`;
+      node.style.setProperty('--face',state.facing||1);
+      node.dataset.x=state.x.toFixed(2);node.dataset.y=yAt(state.x).toFixed(2);
+      for(const sign of signs)sign.el.dataset.passing=String(phase==='run'&&Math.abs(sign.x-state.x)<45);
+      node.style.visibility='visible';
+    };
+    measure();
+    const tick=time=>{
+      const dt=Math.min((time-(previous||time))/1000,.032);previous=time;
+      const target=signs.find(s=>s.id===destination.current);
+      if(target&&points.length){
+        if(state.x===null||reduced){state.x=target.x;state.v=0;landingUntil=0;paint('idle');}
+        else {
+          const delta=target.x-state.x;
+          // Damped travel preserves velocity on a mid-stride retarget; no arrival timers.
+          state.v+=(52*delta-14.5*state.v)*dt;state.x+=state.v*dt;
+          if(Math.abs(delta)>.6||Math.abs(state.v)>3){
+            state.facing=Math.abs(state.v)>8?Math.sign(state.v):state.facing;
+            state.moving=true;landingUntil=0;paint('run');
+          } else {
+            state.x=target.x;state.v=0;
+            if(state.moving){state.moving=false;landingUntil=time+280;}
+            paint(time<landingUntil?'land':'idle');
+          }
+        }
+      }
+      frame=requestAnimationFrame(tick);
+    };
+    const observer=new ResizeObserver(measure);observer.observe(container);
+    for(const sign of signs)observer.observe(sign.el);
+    document.fonts.ready.then(()=>{if(!disposed)measure();});
+    frame=requestAnimationFrame(tick);
+    return()=>{disposed=true;cancelAnimationFrame(frame);observer.disconnect();};
+  },[containerRef,pathRef,layoutKey,reduced]);
+  return <div ref={ref} className={`bn-squirrel${mobile?' bn-squirrel-mobile':''}`} aria-hidden="true" data-phase="idle"><SquirrelArt/></div>;
 }
