@@ -61,7 +61,7 @@ function Leg({ side, lag, kick }) {
   </g>;
 }
 
-export function MonkeyArtwork({ x, y, scale, angle, push, onBounds }) {
+export function MonkeyArtwork({ x, y, scale, angle, push, onBounds, logoSize = { width: 265, height: 92 } }) {
   const id=useId().replace(/:/g,'');const reduced=useReducedMotion();const navigate=useNavigate();
   const [hover,setHover]=useState(false),[blink,setBlink]=useState(false),[look,setLook]=useState({x:0,y:0}),[kick,setKick]=useState(0);
   const [lag,setLag]=useState({head:0,arms:0,legs:0});const history=useRef([]),timer=useRef();const face=useRef(null),art=useRef(null);
@@ -102,7 +102,7 @@ export function MonkeyArtwork({ x, y, scale, angle, push, onBounds }) {
           <g stroke="#c7966b" strokeWidth=".8" opacity=".6"><path d="M-28 36l-3 5M-30 42l-2 5M28 38l3 5M28 45l3 4M-10 26l5 3M6 28l4 3"/></g>
         </g>
         <g transform={`rotate(${lag.head*.3} 0 123)`}>
-          <foreignObject x="-150" y="120" width="300" height="110"><Link to="/" className="bn-logo-board" aria-label="Rainbow Digi School home" onFocus={greet} onBlur={()=>setHover(false)} onClick={e=>{if(reduced||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey)return;e.preventDefault();push(.3);setKick(12);clearTimeout(timer.current);timer.current=setTimeout(()=>navigate('/'),160);}}><Logo className="h-24 w-64"/></Link></foreignObject>
+          <foreignObject x={-logoSize.width/2} y="120" width={logoSize.width} height={logoSize.height}><Link to="/" className="bn-logo-board" style={{width:logoSize.width,height:logoSize.height}} aria-label="Rainbow Digi School home" onFocus={greet} onBlur={()=>setHover(false)} onClick={e=>{if(reduced||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey)return;e.preventDefault();push(.3);setKick(12);clearTimeout(timer.current);timer.current=setTimeout(()=>navigate('/'),160);}}><Logo style={{height:logoSize.height-16,width:logoSize.width-22}}/></Link></foreignObject>
           <g aria-hidden="true"><Hand side={-1}/><Hand side={1}/></g>
         </g>
       </g>
