@@ -1,51 +1,24 @@
-import { memo, useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Logo from '../ui/Logo';
 import { NAV } from '../../data/nav';
 import './BranchNav.css';
 
-const ITEMS = [...NAV.left, ...NAV.right, NAV.cta].map(item => ({ ...item, id: item.label.toLowerCase() }));
-
-const Decoration = memo(function Decoration() {
-  return <>
-    <img className="compact-branch" src="/images/navigation/branch-compact.webp" width="960" height="160" alt="" aria-hidden="true" decoding="async" />
-    <img className="compact-treehouse" src="/images/navigation/treehouse-compact.webp" width="116" height="116" alt="" aria-hidden="true" decoding="async" />
-  </>;
-});
-
-function HomeLink({ active, onHome }) {
-  return <Link to="/" aria-label="Go to Home page" className={`compact-home${active ? ' compact-active' : ''}`} onClick={onHome}>
-    <span className="compact-monkey-crop" aria-hidden="true"><img src="/images/navigation/monkey-compact.webp" width="150" height="279" alt="" decoding="async" /></span>
-    <span className="compact-logo-board"><Logo /></span>
-  </Link>;
-}
-
-function NavBoard({ item, active, onNavigate }) {
-  return <Link to={item.path} state={{ navItem: item.id }} data-nav-id={item.id} aria-current={active ? 'page' : undefined} className={`compact-board${active ? ' compact-active' : ''}`} onClick={onNavigate}><span>{item.label}</span></Link>;
-}
-
+const ITEMS = [{ path: '/', label: 'Home', id: 'home' }, ...NAV.left.slice(1), ...NAV.right, NAV.cta].map(item => ({ ...item, id: item.id || item.label.toLowerCase() }));
+const ForestScenery = memo(function ForestScenery({ squirrelHome }) { return <><img className="featured-branch" src="/images/navigation/branch-house.webp" width="1536" height="512" alt="" aria-hidden="true" decoding="async" /><span className={`featured-squirrel${squirrelHome ? ' featured-squirrel-home' : ''}`} aria-hidden="true"><img src="/images/navigation/squirrel-featured.webp" width="320" height="160" alt="" decoding="async" /></span></>; });
+function Sign({ item, active, onNavigate }) { return <Link to={item.path} state={{ navItem: item.id }} data-nav-id={item.id} aria-current={active ? 'page' : undefined} className={`featured-sign${active ? ' featured-active' : ''}`} onClick={onNavigate}><i aria-hidden="true" /><i aria-hidden="true" /><span>{item.label}</span></Link>; }
+function CenterHome({ active, onHome }) { return <Link to="/" aria-label="Go to Home page" className={`featured-home${active ? ' featured-active' : ''}`} onClick={onHome}><span className="featured-monkey"><img src="/images/navigation/monkey-featured.webp" width="250" height="465" alt="" decoding="async" /></span><span className="featured-logo"><Logo /></span></Link>; }
 export default function BranchNav() {
-  const location = useLocation();
-  const [open, setOpen] = useState(false);
-  const [compact, setCompact] = useState(false);
-  const lastScroll = useRef(0);
+  const location = useLocation(); const [open, setOpen] = useState(false); const [squirrelHome, setSquirrelHome] = useState(false);
   const selected = ITEMS.find(item => item.id === location.state?.navItem && item.path === location.pathname)?.id || ITEMS.find(item => item.path === location.pathname)?.id;
-  const activeHome = location.pathname === '/';
+  const homeActive = location.pathname === '/';
+  useEffect(() => { setOpen(false); }, [location.key]);
   useEffect(() => {
-    const update = () => { const y = window.scrollY; setCompact(y > 84 && y > lastScroll.current); lastScroll.current = y; };
-    window.addEventListener('scroll', update, { passive: true }); return () => window.removeEventListener('scroll', update);
-  }, []);
-  useEffect(() => setOpen(false), [location.key]);
-  const goHome = event => { if (location.pathname === '/') { event.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); } setOpen(false); };
-  const close = () => setOpen(false);
-  return <header className={`bn-header compact-nav${compact ? ' compact-nav-scrolled' : ''}`}>
-    <nav className="compact-nav-inner" aria-label="Main navigation">
-      <Decoration />
-      <div className="compact-desktop-links compact-left-links">{ITEMS.slice(0, 3).map(item => <NavBoard key={item.id} item={item} active={selected === item.id} onNavigate={close} />)}</div>
-      <HomeLink active={activeHome} onHome={goHome} />
-      <div className="compact-desktop-links compact-right-links">{ITEMS.slice(3).map(item => <NavBoard key={item.id} item={item} active={selected === item.id} onNavigate={close} />)}</div>
-      <button className="compact-menu-button" type="button" aria-label="Open navigation menu" aria-expanded={open} onClick={() => setOpen(value => !value)}><span>☰</span></button>
-      {open && <div className="compact-drawer" aria-label="Navigation menu">{ITEMS.map(item => <NavBoard key={item.id} item={item} active={selected === item.id} onNavigate={close} />)}</div>}
-    </nav>
-  </header>;
+    if (!squirrelHome) return undefined;
+    const reset = window.setTimeout(() => setSquirrelHome(false), 1300);
+    return () => window.clearTimeout(reset);
+  }, [squirrelHome]);
+  const visit = () => setOpen(false);
+  const home = event => { setOpen(false); setSquirrelHome(true); if (location.pathname === '/') { event.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); } };
+  return <header className="bn-header featured-nav"><nav className="featured-inner" aria-label="Main navigation"><ForestScenery squirrelHome={squirrelHome} /><div className="featured-signs featured-left">{ITEMS.slice(0, 3).map(item => <Sign key={item.id} item={item} active={item.id === selected} onNavigate={visit} />)}</div><CenterHome active={homeActive} onHome={home} /><div className="featured-signs featured-right">{ITEMS.slice(3).map(item => <Sign key={item.id} item={item} active={item.id === selected} onNavigate={visit} />)}</div><button type="button" className="featured-menu" aria-expanded={open} aria-label="Open navigation menu" onClick={() => setOpen(value => !value)}>☰</button>{open && <div className="featured-drawer">{ITEMS.map(item => <Sign key={item.id} item={item} active={item.id === selected} onNavigate={visit} />)}</div>}</nav></header>;
 }
