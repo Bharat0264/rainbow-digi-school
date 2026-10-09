@@ -1,53 +1,32 @@
-.bn-header{position:relative;z-index:60;width:100%;background:transparent}
+.bn-header{position:relative;z-index:60;width:100%;background:#f7f1e5}
 .bn-main-nav{position:relative;isolation:isolate}
-.bn-scene{display:block;overflow:visible;pointer-events:none}
+.bn-scene{position:relative;display:block;overflow:hidden;pointer-events:none;z-index:2}
 .bn-scene a,.bn-scene button{pointer-events:auto}
 .bn-header + main{padding-top:0}
-.bn-board{box-sizing:border-box;position:relative;display:flex;align-items:center;justify-content:center;min-height:40px;width:100%;border:2px solid #815333;border-radius:7px;background:repeating-linear-gradient(2deg,#c99c66 0 5px,#d9b47e 6px 8px);box-shadow:inset 0 2px #fff7d699,inset 0 -3px #99693855,0 3px 3px #4a2a121a;color:#4a2e16;font:600 clamp(12px,1.08vw,16px) Fredoka,sans-serif;text-decoration:none;padding:4px;transition:box-shadow .2s,border-color .2s;background-clip:padding-box}
-.bn-board span{display:block;background:#fff0c8;border-radius:3px;padding:2px 5px;white-space:nowrap}
-.bn-board:before,.bn-board:after{content:'';position:absolute;top:3px;width:3px;height:3px;background:#79502e;border-radius:50%}
-.bn-board:before{left:4px}.bn-board:after{right:4px}
-.bn-board:hover,.bn-board[data-passing=true]{box-shadow:0 0 12px #ffc93c99,inset 0 0 0 2px #ffe7a2}
-.bn-board.bn-active{border-color:#bf7927;box-shadow:0 0 0 2px #ffd575,0 0 15px #ffc43d70,inset 0 0 0 2px #ffdf77}
-.bn-active span{background:#ffe895}
-.bn-board:focus-visible,.logo-board:focus-visible{outline:3px solid #a75c14;outline-offset:4px}
-.bn-monkey-art{pointer-events:visiblePainted}
-.logo-board{box-sizing:border-box;display:flex;width:var(--logo-board-w);height:var(--logo-board-h);min-width:0;padding:7px;background:repeating-linear-gradient(4deg,#ad7446 0 4px,#c78e59 5px 7px);border-radius:10px;box-shadow:inset 0 2px #ffffff66,0 5px 9px #4a2a1229}
-.logo-plate{box-sizing:border-box;display:flex;flex:1;min-width:0;height:100%;align-items:center;justify-content:center;overflow:hidden;border-radius:6px;background:#fff;padding:4px 8px}
-.logo-plate svg,.logo-plate img{width:100%;height:100%;min-width:0;object-fit:contain}
-.bn-squirrel{position:absolute;top:0;left:0;z-index:2;width:136px;height:119px;margin-left:-80.75px;margin-top:-110.5px;pointer-events:none;visibility:hidden;will-change:transform}
-.bn-squirrel svg{width:100%;height:100%;overflow:visible;filter:drop-shadow(0 2px 1px #67320f20)}
-.sq-facing{transform:scaleX(var(--face,1));transform-origin:95px 130px}
-.sq-body{transform-origin:90px 130px}
-.sq-tail{transform-origin:73px 108px;animation:sq-tail-idle 3.8s ease-in-out infinite}
-.sq-head{transform-origin:105px 77px}
-.sq-eye{transform-origin:118px 57px;animation:sq-blink 4.7s infinite}
-.sq-leg{transform-origin:80px 107px}.sq-arm{transform-origin:102px 86px}
-.sq-gallop{display:none;transform-origin:95px 130px}
-[data-phase=run] .sq-body{display:none}
-[data-phase=run] .sq-gallop{display:block;animation:sq-gallop .34s ease-in-out infinite}
-.sq-run-tail{transform-origin:78px 105px;animation:sq-tail-run .34s ease-in-out infinite}
-.sq-run-back{transform-origin:78px 109px;animation:sq-leg .34s ease-in-out infinite}
-.sq-run-front{transform-origin:113px 105px;animation:sq-arm .34s ease-in-out -.17s infinite}
-.sq-gallop .far{animation-delay:-.17s}
-@keyframes sq-gallop{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
-[data-phase=run] .sq-tail{animation:sq-tail-run .34s ease-in-out infinite}
-[data-phase=run] .sq-leg-near{animation:sq-leg .34s ease-in-out infinite}
-[data-phase=run] .sq-leg-far{animation:sq-leg .34s ease-in-out -.17s infinite}
-[data-phase=run] .sq-arm-near{animation:sq-arm .34s ease-in-out -.17s infinite}
-[data-phase=run] .sq-arm-far{animation:sq-arm .34s ease-in-out infinite}
-[data-phase=land] .sq-body{animation:sq-land .28s ease-out both}
-@keyframes sq-stride{0%,100%{transform:rotate(20deg) translate(0,-2px)}50%{transform:rotate(24deg) translate(0,-6px)}}
-@keyframes sq-leg{0%,100%{transform:rotate(-32deg)}50%{transform:rotate(38deg)}}
-@keyframes sq-arm{0%,100%{transform:rotate(-42deg)}50%{transform:rotate(45deg)}}
-@keyframes sq-tail-run{0%,100%{transform:rotate(-22deg)}50%{transform:rotate(-6deg)}}
-@keyframes sq-tail-idle{50%{transform:rotate(4deg)}}
-@keyframes sq-blink{0%,43%,47%,100%{transform:scaleY(1)}45%{transform:scaleY(.08)}}
-@keyframes sq-land{0%{transform:scaleY(.94) scaleX(1.03)}55%{transform:scaleY(1.025)}100%{transform:none}}
+.bn-board{box-sizing:border-box;position:relative;display:flex;align-items:center;justify-content:center;height:58px;width:100%;border:2px solid #a65e26;border-radius:10px;background:repeating-linear-gradient(2deg,#e9a15a 0 7px,#fac17b 8px 10px,#b76d32 11px,#eda45f 12px 20px);box-shadow:inset 0 2px #fff3c4,inset 0 -4px #93502066,0 4px 5px #4a2a122b;color:#4b260e;font:600 clamp(12px,1.3vw,22px) Fredoka,sans-serif;text-decoration:none;padding:6px;transition:box-shadow .2s,border-color .2s}
+.bn-board span{display:block;text-align:center;width:100%;background:linear-gradient(#fff3cf,#ffe0a5);border-radius:5px;padding:5px 2px;white-space:nowrap;box-shadow:inset 0 1px #fff8e2}
+.bn-board:hover,.bn-board[data-passing=true]{box-shadow:0 0 17px #ffc93c99,inset 0 0 0 2px #ffe7a2}
+.bn-board.bn-active{border-color:#d18817;box-shadow:0 0 0 2px #ffdc77,0 6px 22px #ffc43d99,inset 0 0 0 2px #ffdf77}
+.bn-active span{background:linear-gradient(#ffed8a,#ffd041)}
+.bn-board:focus-visible,.forest-mascot:focus-visible{outline:3px solid #9b4b16;outline-offset:5px}
+.forest-mascot{position:absolute;left:50%;transform:translateX(-50%);z-index:3;padding:0;border:0;background:none;cursor:pointer;border-radius:12px;line-height:0}
+.forest-monkey-image{display:block;width:100%;height:auto;pointer-events:none}
+.forest-logo-inset{position:absolute;top:8%;left:7%;width:86%;height:18.7%;display:flex;align-items:center;justify-content:center;padding:5%;border-radius:6px;background:linear-gradient(#fff9e9,#fff0d2);box-shadow:inset 0 0 0 1px #c68a4566;pointer-events:none}
+.forest-logo-inset svg{width:100%;height:100%;overflow:visible}
+.forest-treehouse{position:absolute;left:50%;margin-left:calc(var(--house-width)/-2);pointer-events:none}
+.forest-treehouse>img{position:absolute;width:100%;height:100%;inset:0;z-index:1}
+.forest-door-target{position:absolute;left:29%;top:49%;width:22%;height:25%}
+.forest-treehouse>.forest-door-frame{clip-path:polygon(evenodd,0 0,100% 0,100% 100%,0 100%,0 0,28% 72%,50% 72%,50% 61%,48% 54%,45% 50%,40% 49%,35% 51%,30% 57%,28% 64%,28% 72%,0 0);z-index:5}
+.bn-squirrel{position:absolute;top:0;left:0;z-index:4;width:108px;height:108px;margin-left:-70px;margin-top:-91px;pointer-events:none;visibility:hidden;will-change:transform}
+.squirrel-facing{width:100%;height:100%;transform:scaleX(var(--face,1));transform-origin:65% 85%}
+.squirrel-sprite{width:100%;height:100%;background-image:url('/images/navigation/squirrel-poses.webp');background-size:200% 100%;background-position:0 0;transform-origin:65% 85%}
+[data-phase=run] .squirrel-sprite{animation:squirrel-gallop .32s steps(1,end) infinite}
+[data-state=enteringTreehouse] .squirrel-facing{transform:translateY(calc(var(--entry)*-15px)) scaleX(var(--face,1)) scale(calc(1 - var(--entry)*.75));opacity:calc(1 - var(--entry))}
+@keyframes squirrel-gallop{0%,100%{background-position:0 0;transform:translateY(0)}50%{background-position:100% 0;transform:translateY(-3px)}}
 .bn-menu-trigger{cursor:pointer}
-.bn-chain-dim{position:fixed;inset:0;border:0;background:#36230e22;z-index:4}
-.bn-mobile-chain{position:absolute;top:183px;left:12px;z-index:5;width:min(220px,65vw);display:grid;gap:12px;padding:14px;background:#fff7e7;border:1px solid #d9bd8d;border-radius:12px;box-shadow:0 10px 25px #49301b25;max-height:calc(100dvh - 195px);overflow-y:auto}
+.bn-chain-dim{position:fixed;inset:0;border:0;background:#36230e22;z-index:6}
+.bn-mobile-chain{position:absolute;left:12px;z-index:7;width:min(220px,65vw);display:grid;gap:12px;padding:14px;background:#fff7e7;border:1px solid #d9bd8d;border-radius:12px;box-shadow:0 10px 25px #49301b25;max-height:calc(100dvh - 270px);overflow-y:auto}
 .bn-mobile-chain .bn-board{font-size:16px;min-height:44px}
-@media(max-width:767px){.bn-squirrel{width:96px;height:84px;margin-left:-57px;margin-top:-78px}.bn-board{font-size:14px}}
-@media(min-width:768px) and (max-width:1000px){.bn-board{font-size:11px;padding:2px}.bn-board span{padding:2px}}
+@media(max-width:767px){.bn-squirrel{width:76px;height:76px;margin-left:-49px;margin-top:-64px}.bn-board{height:48px;font-size:14px;padding:4px}.forest-logo-inset{padding:3%;border-radius:4px}}
+@media(min-width:768px) and (max-width:1000px){.bn-board{height:46px;font-size:11px;padding:3px}.bn-board span{padding:3px 0}}
 @media(prefers-reduced-motion:reduce){.bn-squirrel *{animation:none!important;transition:none!important}.bn-board{transition:none}}

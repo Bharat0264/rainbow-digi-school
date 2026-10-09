@@ -1,34 +1,28 @@
-# Navigation implementation and verification
+# Forest navigation verification
 
-Scope: branch navigation only. Hero and route content are unchanged.
+Scope: navigation artwork and mascot interactions. Hero, route content, and API code are unchanged.
 
-## Findings in the previous implementation
+## Implementation
 
-- A new navigation array on each render retriggered the target effect and reset arrival timers.
-- Target positions were estimated offsets, rather than measured link centers.
-- Apply and Admissions used the same path as their identity, selecting the wrong sign.
-- Independent x/y springs introduced vertical lag; reduced motion still used those springs.
-- Pendulums moved signs, and scrolling resized the monkey/header independently of travel.
+- Replaced the old vector monkey with a transparent, reference-edited furry monkey/wooden-board asset. Hands and board remain in one image so their anatomical alignment cannot drift during resizing.
+- Composited the existing `Logo` component on a cream inset. No generated logo text is used.
+- Added textured branch foliage, twisted SVG ropes, inset wooden signs, treehouse background and separately clipped doorway foreground.
+- Replaced the vector squirrel with reference-edited standing/running sprite poses at a smaller scale.
+- Explicit states: `idle`, `runningToNavigation`, `runningToTreehouse`, `enteringTreehouse`, `insideTreehouse`.
+- Monkey/board is one native keyboard-accessible button. Activating it does not navigate; a normal sign click interrupts entry and follows its original route.
+- Targets use real DOM bounds, ResizeObserver and font readiness; the squirrel follows the branch's mapped top surface. Reduced motion places it at its destination immediately.
+- Removed unused old monkey artwork and navigation metrics implementation. No new dependency added.
 
-## Replacement
+## Verification
 
-- Stable link IDs stored in React Router location state; direct URLs still resolve by path.
-- DOM-measured centers, ResizeObserver and font readiness, converted SVG branch coordinates.
-- Velocity-preserving damped travel, geometric arrival detection, landing and idle phases.
-- Transparent native SVG with separate standing and four-legged running poses, coordinated paws, tail and blink.
-- Stationary signs and centered existing monkey; seven desktop links and mobile Menu/Apply.
-- Reduced motion disables the character animations and immediately sets the destination.
+Build with `npm run build`, start `npm run preview`, then run:
 
-## Reproducible checks
+`node scripts/verify-forest-navigation.mjs http://localhost:4173`
 
-Run `npm run build`, start `npm run preview`, then:
+Checks cover treehouse state progression, unchanged URL on mascot activation, keyboard activation, interrupted entry, every navigation route, landing within 1px of the measured sign center, one monkey/logo, desktop 1535px and 1024/768/390/320px layouts, overflow, containment, and reduced motion. Screenshots are saved under ignored `artifacts/forest-*.png`.
 
-`node scripts/verify-navigation.mjs http://localhost:4173`
+The pre-existing production `/api/events` 404 is recorded separately. The existing Contact email block also extends beyond a 320px viewport; the suite reports full-page overflow separately from navigation overflow. Navigation requires no API/environment configuration. Page exceptions and unrelated failed resources are test failures.
 
-The script tests every route, unique active highlight, actual arrival within 1px of the measured sign, leg articulation, interrupted travel, fixed monkey placement, continuous branch alignment, 1024/768/390/320px widths, duplicate mascot absence, overflow, and reduced motion. Screenshots go to ignored `artifacts/`.
+## Assets
 
-`node scripts/inspect-nav-reference.mjs <video-path>` decodes the reference at 0/2/4/6/8 seconds. Range responses are necessary for real video seeking; the script logs the decoded timestamps.
-
-The Events page logs its existing backend fallback when a local API is unavailable. The test reports these separately; it does not suppress unexpected console errors or page errors. No backend or environment settings were changed for navigation.
-
-The character is an original SVG interpretation of the reference, not a pixel-identical rendering of the video artwork.
+See `navigation-assets.md` for source roles, editing prompts and encoding. These are reference-guided image edits, not an assertion of pixel-identical source extraction.
