@@ -102,7 +102,7 @@ export function MonkeyArtwork({ x, y, scale, angle, push, onBounds, logoSize = {
           <g stroke="#c7966b" strokeWidth=".8" opacity=".6"><path d="M-28 36l-3 5M-30 42l-2 5M28 38l3 5M28 45l3 4M-10 26l5 3M6 28l4 3"/></g>
         </g>
         <g transform={`rotate(${lag.head*.3} 0 123)`}>
-          <foreignObject x={-logoSize.width/2} y="95" width={logoSize.width} height={logoSize.height}><Link to="/" className="bn-logo-board" style={{width:logoSize.width,height:logoSize.height}} aria-label="Rainbow Digi School home" onFocus={greet} onBlur={()=>setHover(false)} onClick={e=>{if(reduced||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey)return;e.preventDefault();push(.3);setKick(12);clearTimeout(timer.current);timer.current=setTimeout(()=>navigate('/'),160);}}><Logo style={{height:logoSize.height-28,width:logoSize.width-24}}/></Link></foreignObject>
+          <foreignObject x={-logoSize.width/2} y="95" width={logoSize.width} height={logoSize.height}><Link to="/" className="bn-logo-board"  aria-label="Rainbow Digi School home" onFocus={greet} onBlur={()=>setHover(false)} onClick={e=>{if(reduced||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey)return;e.preventDefault();push(.3);setKick(12);clearTimeout(timer.current);timer.current=setTimeout(()=>navigate('/'),160);}}><Logo style={{ maxWidth: "88%", maxHeight: "80%" }}/></Link></foreignObject>
           <g aria-hidden="true"><Hand side={-1}/><Hand side={1}/></g>
         </g>
       </g>
