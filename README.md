@@ -1,50 +1,23 @@
 # Rainbow Digi School
 
-A premium, modern multi-page school website with a React + Vite frontend and a PostgreSQL-backed admissions enquiry API.
+React + Vite school website with a warm crayon/glossy theme: cream paper, golden accents, rounded type, glass panels, and a branch navbar with hanging wooden signs and an animated storybook monkey holding the school logo.
 
-## Tech Stack
-- **Frontend:** React, Vite, React Router, Tailwind CSS (v4), Framer Motion, Lenis (smooth scroll).
-- **Backend (API):** Vercel Serverless Functions (`/api`), Node.js, Zod validation.
-- **Database:** PostgreSQL (via Prisma ORM).
+## Navbar
 
-## Setup & Local Development
+- Branch, ropes, signs and foliage share SVG coordinates. Rope anchors are sampled from the branch path.
+- The monkey uses a damped pendulum, layered SVG shading, detailed hands and feet, and reduced-motion support.
+- Navbar height follows the monkey's visible lower edge, keeping the hero close on desktop and mobile.
+- Navigation labels are maintained in src/data/nav.js.
+- Artwork and animation are in src/components/layout/BranchNavArt.jsx; geometry is in BranchNav.jsx; scoped styling is in BranchNav.css.
 
-1. **Install dependencies:**
-   ```bash
-   npm install
-   ```
+Replace with the school's original vector/high-res logo when available (SVG or PNG 1000px+).
 
-2. **Environment Variables:**
-   Create a `.env` file based on `.env.example`:
-   ```bash
-   cp .env.example .env
-   ```
-   Update the `DATABASE_URL` with your local or cloud PostgreSQL connection string. Ensure `ALLOWED_ORIGINS` includes `http://localhost:5173`.
+## Development
 
-3. **Database Migration:**
-   Apply the database schema to your PostgreSQL database and generate the Prisma Client:
-   ```bash
-   npm run db:migrate
-   ```
+Run npm install, then npm run dev. Run npm run build for production and npm run preview to inspect the built site.
 
-4. **Run the Development Server:**
-   ```bash
-   npm run dev
-   ```
-   The site will be running at `http://localhost:5173`. The Vercel CLI (if used via `vercel dev`) can also run the serverless functions locally.
+## Deployment and data
 
-## Deployment to Vercel
+The existing API, Prisma configuration and Vercel configuration are retained. Configure production credentials in the hosting environment; never commit .env files. Generated dist/ files are ignored and should be built by the deployment pipeline.
 
-This repository is pre-configured for Vercel deployment.
-
-1. Create a Vercel project and connect this GitHub repository.
-2. Under **Environment Variables** in the Vercel dashboard, add:
-   - `DATABASE_URL`: Your production PostgreSQL URL (e.g. from Neon, Supabase, or AWS RDS).
-   - `ALLOWED_ORIGINS`: Your production domain (e.g. `https://rainbowdigischool.com`).
-3. Deploy! Vercel will automatically run `npm run vercel-build`, generate the Prisma client, build the Vite frontend to `dist/`, and map `/api/*` to the serverless functions.
-4. Run `npm run db:deploy` (or `npx prisma migrate deploy`) in a CI pipeline or locally against the production database to ensure schema migrations are applied.
-
-## Design Highlights
-- **Palette:** Warm ivory (#FFFDF6), golden yellow (#F6C945), and royal blue (#2B5BA8).
-- **Typography:** Elegant serifs paired with clean sans-serif body text.
-- **Animations:** Subtle parallax, hover reveals, and page transitions handled gracefully with Framer Motion.
+School content lives in src/data/school.js. Confirm the plot number with the school before changing the address. Use only approved photographs with parental consent and genuine supplied reviews.
