@@ -72,7 +72,7 @@ export function Monkey({ x, y, scale=1, onBounds, logoSize }) {
   const { angle, push } = usePendulum({pivot:{x,y},limit:4});
   return <MonkeyArtwork x={x} y={y} scale={scale} angle={angle} push={push} onBounds={onBounds} logoSize={logoSize}/>;
 }
-function MobileNestedChain({items, index=0, firstLinkRef, closeMenu}){if(index>=items.length)return null;const item=items[index];return <div className="bn-chain-link" style={{"--chain-index":index}}><i className="bn-chain-ropes" aria-hidden="true"/><NavLink ref={index===0?firstLinkRef:null} to={item.path} className={({isActive})=>`bn-board bn-chain-board ${isActive?"bn-active":""}`} onClick={()=>closeMenu()}>{item.label}</NavLink><MobileNestedChain items={items} index={index+1} firstLinkRef={firstLinkRef} closeMenu={closeMenu} /></div>;} 
+function MobileNestedChain({items, index=0, firstLinkRef, closeMenu}){if(index>=items.length)return null;const item=items[index];return <div className="bn-chain-link" style={{"--chain-index":index}}><div className="bn-chain-ropes" aria-hidden="true"><i/><i/></div><NavLink ref={index===0?firstLinkRef:null} to={item.path} className={({isActive})=>`bn-board bn-chain-board ${isActive?"bn-active":""}`} onClick={()=>closeMenu()}>{item.label}</NavLink><MobileNestedChain items={items} index={index+1} firstLinkRef={firstLinkRef} closeMenu={closeMenu} /></div>;} 
 export default function BranchNav() {
   const metrics=useNavMetrics(); const { width, isMobile: mobile, boardW, boardH, ropeLen, logoBoardW, logoBoardH }=metrics;
   const ref=useRef(null),pathRef=useRef(null),menuButtonRef=useRef(null),firstLinkRef=useRef(null);const[open,setOpen]=useState(false),[compact,setCompact]=useState(false),[geometry,setGeometry]=useState(null);
