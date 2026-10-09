@@ -150,10 +150,9 @@ export function SquirrelMascot({ target, monkeyX, pathRef, mobile }) {
     return () => clearInterval(interval);
   }, [state]);
 
-  let sprite = '/mascot/squirrel-sit.png';
-  if (state === 'run') sprite = '/mascot/squirrel-run.png';
-  if (state === 'look' || state === 'anticipate') sprite = '/mascot/squirrel-look.png';
-  if (state === 'acorn') sprite = '/mascot/squirrel-acorn.png';
+  // The former mascot sprites were referenced but never committed. Use a tracked
+  // public asset until the intended sprite set is supplied.
+  const sprite = '/logo-mark.svg';
 
   const scaleY = state === 'idle' ? [1, 1.02, 1] : state === 'anticipate' ? 0.94 : 1;
   const scaleX = state === 'anticipate' ? 1.06 : 1;

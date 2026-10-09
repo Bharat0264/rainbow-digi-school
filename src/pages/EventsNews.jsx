@@ -19,8 +19,13 @@ export default function EventsNews() {
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    fetch('http://localhost:3001/api/events')
-      .then((res) => res.json())
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000);
+    fetch('/api/events', { signal: controller.signal })
+      .then((res) => {
+        if (!res.ok) throw new Error(`Events request failed: ${res.status}`);
+        return res.json();
+      })
       .then((data) => {
         if (data && data.length > 0) {
           setEvents(data);
@@ -29,7 +34,14 @@ export default function EventsNews() {
       .catch((err) => {
         console.error('Failed to fetch events from backend. Using fallback.', err);
       })
-      .finally(() => setLoading(false));
+      .finally(() => {
+        clearTimeout(timeout);
+        setLoading(false);
+      });
+    return () => {
+      clearTimeout(timeout);
+      controller.abort();
+    };
   }, []);
 
   const pageVariants = {

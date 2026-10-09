@@ -26,11 +26,14 @@ export default function Contact() {
     setIsSubmitting(true);
     setSubmitError('');
 
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000);
     try {
-      const response = await fetch('http://localhost:3001/api/enquiry', {
+      const response = await fetch('/api/enquiries', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
+        signal: controller.signal,
       });
 
       if (!response.ok) {
@@ -45,6 +48,7 @@ export default function Contact() {
     } catch (err) {
       setSubmitError(err.message);
     } finally {
+      clearTimeout(timeout);
       setIsSubmitting(false);
     }
   };
