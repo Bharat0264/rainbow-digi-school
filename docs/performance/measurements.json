@@ -1,0 +1,704 @@
+{
+  "baselineCommit": "3661fb7366de0ef6b13a776b15a12981402699ca",
+  "localBefore": {
+    "score": 70,
+    "LCPms": 3723.9130000000005,
+    "CLS": 0,
+    "TBTms": 280.9124499999998,
+    "lighthouseVersion": "13.5.0",
+    "fetchTime": "2026-10-09T11:41:03.666Z",
+    "settings": {
+      "output": [
+        "json"
+      ],
+      "maxWaitForFcp": 30000,
+      "maxWaitForLoad": 45000,
+      "pauseAfterFcpMs": 1000,
+      "pauseAfterLoadMs": 1000,
+      "networkQuietThresholdMs": 1000,
+      "cpuQuietThresholdMs": 1000,
+      "formFactor": "mobile",
+      "throttling": {
+        "rttMs": 150,
+        "throughputKbps": 1638.4,
+        "requestLatencyMs": 562.5,
+        "downloadThroughputKbps": 1474.5600000000002,
+        "uploadThroughputKbps": 675,
+        "cpuSlowdownMultiplier": 4
+      },
+      "throttlingMethod": "simulate",
+      "screenEmulation": {
+        "mobile": true,
+        "width": 412,
+        "height": 823,
+        "deviceScaleFactor": 1.75,
+        "disabled": false
+      },
+      "emulatedUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Mobile Safari/537.36",
+      "auditMode": false,
+      "gatherMode": false,
+      "clearStorageTypes": [
+        "file_systems",
+        "shader_cache",
+        "service_workers",
+        "cache_storage"
+      ],
+      "disableStorageReset": false,
+      "debugNavigation": false,
+      "channel": "cli",
+      "usePassiveGathering": false,
+      "disableFullPageScreenshot": false,
+      "skipAboutBlank": false,
+      "blankPage": "about:blank",
+      "ignoreStatusCode": false,
+      "locale": "en-US",
+      "blockedUrlPatterns": null,
+      "additionalTraceCategories": null,
+      "extraHeaders": null,
+      "precomputedLanternData": null,
+      "onlyAudits": null,
+      "onlyCategories": [
+        "performance"
+      ],
+      "skipAudits": null
+    }
+  },
+  "localAfter": {
+    "score": 75,
+    "LCPms": 3725.849649999999,
+    "CLS": 0,
+    "TBTms": 250.5,
+    "lighthouseVersion": "13.5.0",
+    "fetchTime": "2026-10-09T11:46:52.104Z",
+    "settings": {
+      "output": [
+        "json"
+      ],
+      "maxWaitForFcp": 30000,
+      "maxWaitForLoad": 45000,
+      "pauseAfterFcpMs": 1000,
+      "pauseAfterLoadMs": 1000,
+      "networkQuietThresholdMs": 1000,
+      "cpuQuietThresholdMs": 1000,
+      "formFactor": "mobile",
+      "throttling": {
+        "rttMs": 150,
+        "throughputKbps": 1638.4,
+        "requestLatencyMs": 562.5,
+        "downloadThroughputKbps": 1474.5600000000002,
+        "uploadThroughputKbps": 675,
+        "cpuSlowdownMultiplier": 4
+      },
+      "throttlingMethod": "simulate",
+      "screenEmulation": {
+        "mobile": true,
+        "width": 412,
+        "height": 823,
+        "deviceScaleFactor": 1.75,
+        "disabled": false
+      },
+      "emulatedUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Mobile Safari/537.36",
+      "auditMode": false,
+      "gatherMode": false,
+      "clearStorageTypes": [
+        "file_systems",
+        "shader_cache",
+        "service_workers",
+        "cache_storage"
+      ],
+      "disableStorageReset": false,
+      "debugNavigation": false,
+      "channel": "cli",
+      "usePassiveGathering": false,
+      "disableFullPageScreenshot": false,
+      "skipAboutBlank": false,
+      "blankPage": "about:blank",
+      "ignoreStatusCode": false,
+      "locale": "en-US",
+      "blockedUrlPatterns": null,
+      "additionalTraceCategories": null,
+      "extraHeaders": null,
+      "precomputedLanternData": null,
+      "onlyAudits": null,
+      "onlyCategories": [
+        "performance"
+      ],
+      "skipAudits": null
+    }
+  },
+  "liveBefore": {
+    "score": 46,
+    "LCPms": 3560.6522,
+    "CLS": 0.004257499908227473,
+    "TBTms": 2866.5,
+    "lighthouseVersion": "13.5.0",
+    "fetchTime": "2026-10-09T11:45:12.846Z",
+    "settings": {
+      "output": [
+        "json"
+      ],
+      "maxWaitForFcp": 30000,
+      "maxWaitForLoad": 45000,
+      "pauseAfterFcpMs": 1000,
+      "pauseAfterLoadMs": 1000,
+      "networkQuietThresholdMs": 1000,
+      "cpuQuietThresholdMs": 1000,
+      "formFactor": "mobile",
+      "throttling": {
+        "rttMs": 150,
+        "throughputKbps": 1638.4,
+        "requestLatencyMs": 562.5,
+        "downloadThroughputKbps": 1474.5600000000002,
+        "uploadThroughputKbps": 675,
+        "cpuSlowdownMultiplier": 4
+      },
+      "throttlingMethod": "simulate",
+      "screenEmulation": {
+        "mobile": true,
+        "width": 412,
+        "height": 823,
+        "deviceScaleFactor": 1.75,
+        "disabled": false
+      },
+      "emulatedUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Mobile Safari/537.36",
+      "auditMode": false,
+      "gatherMode": false,
+      "clearStorageTypes": [
+        "file_systems",
+        "shader_cache",
+        "service_workers",
+        "cache_storage"
+      ],
+      "disableStorageReset": false,
+      "debugNavigation": false,
+      "channel": "cli",
+      "usePassiveGathering": false,
+      "disableFullPageScreenshot": false,
+      "skipAboutBlank": false,
+      "blankPage": "about:blank",
+      "ignoreStatusCode": false,
+      "locale": "en-US",
+      "blockedUrlPatterns": null,
+      "additionalTraceCategories": null,
+      "extraHeaders": null,
+      "precomputedLanternData": null,
+      "onlyAudits": null,
+      "onlyCategories": [
+        "performance"
+      ],
+      "skipAudits": null
+    }
+  },
+  "scrollBefore": {
+    "longTasks": [
+      {
+        "start": 4752.199999999255,
+        "duration": 51
+      },
+      {
+        "start": 4878.199999999255,
+        "duration": 57
+      },
+      {
+        "start": 4935.5,
+        "duration": 61
+      },
+      {
+        "start": 5019.799999998882,
+        "duration": 83
+      },
+      {
+        "start": 5129.699999999255,
+        "duration": 119
+      },
+      {
+        "start": 5308.699999999255,
+        "duration": 51
+      },
+      {
+        "start": 5394.39999999851,
+        "duration": 75
+      },
+      {
+        "start": 5476.699999999255,
+        "duration": 55
+      },
+      {
+        "start": 5607.799999998882,
+        "duration": 154
+      },
+      {
+        "start": 5794.5999999996275,
+        "duration": 78
+      },
+      {
+        "start": 5896.199999999255,
+        "duration": 171
+      },
+      {
+        "start": 6144.0999999996275,
+        "duration": 114
+      },
+      {
+        "start": 6296.39999999851,
+        "duration": 84
+      },
+      {
+        "start": 6657.0999999996275,
+        "duration": 62
+      },
+      {
+        "start": 6785.5999999996275,
+        "duration": 67
+      },
+      {
+        "start": 6867.89999999851,
+        "duration": 63
+      },
+      {
+        "start": 7308.699999999255,
+        "duration": 115
+      },
+      {
+        "start": 7431.0999999996275,
+        "duration": 86
+      },
+      {
+        "start": 7523.699999999255,
+        "duration": 98
+      },
+      {
+        "start": 7627.199999999255,
+        "duration": 64
+      },
+      {
+        "start": 7791.5999999996275,
+        "duration": 191
+      },
+      {
+        "start": 7983.199999999255,
+        "duration": 122
+      },
+      {
+        "start": 8107.89999999851,
+        "duration": 294
+      },
+      {
+        "start": 8448.5,
+        "duration": 159
+      },
+      {
+        "start": 8676,
+        "duration": 132
+      },
+      {
+        "start": 8858.699999999255,
+        "duration": 50
+      },
+      {
+        "start": 8991.699999999255,
+        "duration": 119
+      },
+      {
+        "start": 9124.699999999255,
+        "duration": 83
+      },
+      {
+        "start": 9250.89999999851,
+        "duration": 155
+      },
+      {
+        "start": 9410.89999999851,
+        "duration": 55
+      },
+      {
+        "start": 9468.599999999627,
+        "duration": 112
+      },
+      {
+        "start": 9588,
+        "duration": 63
+      },
+      {
+        "start": 9670.299999998882,
+        "duration": 50
+      },
+      {
+        "start": 10217.199999999255,
+        "duration": 166
+      },
+      {
+        "start": 10421.199999999255,
+        "duration": 142
+      },
+      {
+        "start": 10578.299999998882,
+        "duration": 118
+      },
+      {
+        "start": 10724.799999998882,
+        "duration": 127
+      },
+      {
+        "start": 10882.89999999851,
+        "duration": 155
+      },
+      {
+        "start": 11055,
+        "duration": 163
+      },
+      {
+        "start": 11220.5,
+        "duration": 62
+      },
+      {
+        "start": 11285.799999998882,
+        "duration": 112
+      },
+      {
+        "start": 11409.39999999851,
+        "duration": 147
+      },
+      {
+        "start": 11595.599999999627,
+        "duration": 117
+      },
+      {
+        "start": 11761.39999999851,
+        "duration": 124
+      },
+      {
+        "start": 11944.299999998882,
+        "duration": 75
+      },
+      {
+        "start": 12039.299999998882,
+        "duration": 95
+      },
+      {
+        "start": 12147.699999999255,
+        "duration": 109
+      },
+      {
+        "start": 12319.89999999851,
+        "duration": 90
+      },
+      {
+        "start": 12506.199999999255,
+        "duration": 161
+      },
+      {
+        "start": 12695.799999998882,
+        "duration": 103
+      },
+      {
+        "start": 12825,
+        "duration": 121
+      },
+      {
+        "start": 12967.39999999851,
+        "duration": 63
+      },
+      {
+        "start": 13050.199999999255,
+        "duration": 89
+      },
+      {
+        "start": 13154.099999999627,
+        "duration": 90
+      },
+      {
+        "start": 13249.39999999851,
+        "duration": 66
+      },
+      {
+        "start": 13331.799999998882,
+        "duration": 90
+      },
+      {
+        "start": 13581.599999999627,
+        "duration": 87
+      },
+      {
+        "start": 13685.699999999255,
+        "duration": 55
+      },
+      {
+        "start": 13803.5,
+        "duration": 100
+      },
+      {
+        "start": 14254.5,
+        "duration": 72
+      },
+      {
+        "start": 14484.599999999627,
+        "duration": 68
+      },
+      {
+        "start": 14574.599999999627,
+        "duration": 63
+      },
+      {
+        "start": 14692,
+        "duration": 59
+      },
+      {
+        "start": 14761.099999999627,
+        "duration": 58
+      },
+      {
+        "start": 14897.099999999627,
+        "duration": 68
+      },
+      {
+        "start": 15049.599999999627,
+        "duration": 57
+      },
+      {
+        "start": 15114.39999999851,
+        "duration": 62
+      },
+      {
+        "start": 15196.699999999255,
+        "duration": 81
+      },
+      {
+        "start": 15343.299999998882,
+        "duration": 57
+      }
+    ],
+    "frames": 88,
+    "frameMedianMs": 99.70000000000073,
+    "frameP95Ms": 216,
+    "framesOver34ms": 78,
+    "scrollY": 4800,
+    "scrollHeight": 5924,
+    "horizontalOverflow": false,
+    "domNodes": 1493,
+    "backdropElements": 0,
+    "errors": []
+  },
+  "scrollAfter": {
+    "longTasks": [
+      {
+        "start": 4074.300000000745,
+        "duration": 51
+      },
+      {
+        "start": 4146.4000000003725,
+        "duration": 55
+      },
+      {
+        "start": 4237.4000000003725,
+        "duration": 110
+      },
+      {
+        "start": 4396.4000000003725,
+        "duration": 66
+      },
+      {
+        "start": 4480.4000000003725,
+        "duration": 113
+      },
+      {
+        "start": 4630.700000001118,
+        "duration": 74
+      },
+      {
+        "start": 4739.9000000003725,
+        "duration": 109
+      },
+      {
+        "start": 4849.800000000745,
+        "duration": 144
+      },
+      {
+        "start": 4995.10000000149,
+        "duration": 987
+      },
+      {
+        "start": 6009.700000001118,
+        "duration": 55
+      },
+      {
+        "start": 6116.10000000149,
+        "duration": 51
+      },
+      {
+        "start": 6470.5,
+        "duration": 58
+      },
+      {
+        "start": 6566.700000001118,
+        "duration": 58
+      },
+      {
+        "start": 7624.700000001118,
+        "duration": 54
+      },
+      {
+        "start": 7705.300000000745,
+        "duration": 69
+      },
+      {
+        "start": 7889.800000000745,
+        "duration": 60
+      },
+      {
+        "start": 7950.800000000745,
+        "duration": 61
+      },
+      {
+        "start": 8113.10000000149,
+        "duration": 93
+      },
+      {
+        "start": 8277.700000001118,
+        "duration": 60
+      },
+      {
+        "start": 8475.60000000149,
+        "duration": 56
+      },
+      {
+        "start": 8532.800000000745,
+        "duration": 52
+      },
+      {
+        "start": 8724.900000000373,
+        "duration": 63
+      },
+      {
+        "start": 9456.800000000745,
+        "duration": 79
+      },
+      {
+        "start": 9887.5,
+        "duration": 74
+      },
+      {
+        "start": 10245.10000000149,
+        "duration": 73
+      },
+      {
+        "start": 10402.300000000745,
+        "duration": 79
+      },
+      {
+        "start": 10569.5,
+        "duration": 84
+      },
+      {
+        "start": 10973.800000000745,
+        "duration": 76
+      },
+      {
+        "start": 11064.5,
+        "duration": 57
+      },
+      {
+        "start": 11124.700000001118,
+        "duration": 55
+      },
+      {
+        "start": 11240.800000000745,
+        "duration": 66
+      },
+      {
+        "start": 11325.300000000745,
+        "duration": 54
+      },
+      {
+        "start": 11477,
+        "duration": 78
+      },
+      {
+        "start": 12109.300000000745,
+        "duration": 58
+      },
+      {
+        "start": 12503.900000000373,
+        "duration": 58
+      }
+    ],
+    "frames": 164,
+    "frameMedianMs": 33.20000000000073,
+    "frameP95Ms": 116.29999999999927,
+    "framesOver34ms": 67,
+    "scrollY": 4800,
+    "scrollHeight": 5924,
+    "horizontalOverflow": false,
+    "domNodes": 1398,
+    "backdropElements": 0,
+    "errors": []
+  },
+  "protectedFiles": [
+    {
+      "path": "src/components/layout/BranchNav.jsx",
+      "repositoryBytesIdentical": true,
+      "baselineBlob": "89fdcce43e86a0256310f2f91839242e346ec30e",
+      "currentBlob": "89fdcce43e86a0256310f2f91839242e346ec30e"
+    },
+    {
+      "path": "src/components/layout/BranchNav.css",
+      "repositoryBytesIdentical": true,
+      "baselineBlob": "c87486d7a58013dbed6ed0a328ae06548d5ea173",
+      "currentBlob": "c87486d7a58013dbed6ed0a328ae06548d5ea173"
+    },
+    {
+      "path": "src/components/layout/BranchNavArt.jsx",
+      "repositoryBytesIdentical": true,
+      "baselineBlob": "a290dc54d33ce1c6f3f13723bf6ec703b93c1576",
+      "currentBlob": "a290dc54d33ce1c6f3f13723bf6ec703b93c1576"
+    },
+    {
+      "path": "src/components/layout/Navbar.jsx",
+      "repositoryBytesIdentical": true,
+      "baselineBlob": "4daf83946d4baeea67a6462ce9486321034ebbb5",
+      "currentBlob": "4daf83946d4baeea67a6462ce9486321034ebbb5"
+    },
+    {
+      "path": "src/components/nav/useNavMetrics.js",
+      "repositoryBytesIdentical": true,
+      "baselineBlob": "bcf2dc291e95009be10b5325f5da56855654965c",
+      "currentBlob": "bcf2dc291e95009be10b5325f5da56855654965c"
+    },
+    {
+      "path": "src/data/nav.js",
+      "repositoryBytesIdentical": true,
+      "baselineBlob": "0fc2201a8ec81c1695d8e8b960613bc286006219",
+      "currentBlob": "0fc2201a8ec81c1695d8e8b960613bc286006219"
+    },
+    {
+      "path": "src/index.css",
+      "repositoryBytesIdentical": true,
+      "baselineBlob": "8807fab0ca18e1411e405e193b501327ed8601e3",
+      "currentBlob": "8807fab0ca18e1411e405e193b501327ed8601e3"
+    },
+    {
+      "path": "src/components/ui/Logo.jsx",
+      "repositoryBytesIdentical": true,
+      "baselineBlob": "601ee52d2e65c30053d05d2de86dff88ae127079",
+      "currentBlob": "601ee52d2e65c30053d05d2de86dff88ae127079"
+    },
+    {
+      "path": "public/logo.svg",
+      "repositoryBytesIdentical": true,
+      "baselineBlob": "84d222628ed2c6f9c7380e60b3699a3a83283a12",
+      "currentBlob": "84d222628ed2c6f9c7380e60b3699a3a83283a12"
+    },
+    {
+      "path": "public/logo-mark.svg",
+      "repositoryBytesIdentical": true,
+      "baselineBlob": "526dde01fc320824a376f9985fdf215fb55e289f",
+      "currentBlob": "526dde01fc320824a376f9985fdf215fb55e289f"
+    },
+    {
+      "path": "index.html",
+      "repositoryBytesIdentical": true,
+      "baselineBlob": "6bf3250aaf8e5927c61d07b9f19205fd869546ce",
+      "currentBlob": "6bf3250aaf8e5927c61d07b9f19205fd869546ce"
+    }
+  ]
+}

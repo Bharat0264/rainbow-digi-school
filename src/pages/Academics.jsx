@@ -15,7 +15,7 @@ const AnimatedText = ({ text }) => {
     <motion.div
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "-100px" }}
+      viewport={{ once: true, margin: "-80px" }}
       variants={{
         visible: { transition: { staggerChildren: 0.05 } },
       }}
@@ -67,33 +67,32 @@ export default function Academics() {
           return (
             <div key={idx} className={`py-20 px-4 md:px-12 ${isEven ? 'bg-[#FFFDF6]' : 'bg-[#FBF3D5]'}`}>
               <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-                
+
                 {/* Image Side */}
                 <motion.div
-                  initial={{ opacity: 0, x: isEven ? -40 : 40 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.8 }}
-                  className={`${!isEven ? 'md:order-last' : ''} relative aspect-[4/3] rounded-[24px] overflow-hidden shadow-2xl`}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 0.5 }}
+                  className={`${!isEven ? 'md:order-last' : ''} relative aspect-[4/3] rounded-[24px] overflow-hidden shadow-md`}
                 >
-                  <motion.div 
-                    whileHover={{ scale: 1.05 }} 
-                    transition={{ duration: 0.8, ease: 'easeOut' }}
+                  <motion.div
+                    whileHover={{ scale: 1.02 }}
+                    transition={{ duration: 0.5, ease: 'easeOut' }}
                     className="w-full h-full"
                   >
-                    <img 
-                      src={stage.image || "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&q=80"} 
-                      alt={stage.title} 
+                    <img src={stage.image || "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?fm=webp&fit=crop&w=1000&q=75"}
+                      alt={stage.title}
                       className="w-full h-full object-cover"
-                    />
+                     width="800" height="600" loading="lazy" decoding="async" />
                   </motion.div>
                 </motion.div>
 
                 {/* Text Side */}
                 <motion.div
-                  initial={{ opacity: 0, y: 30 }}
+                  initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
+                  viewport={{ once: true, margin: "-80px" }}
                   transition={{ duration: 0.6, delay: 0.2 }}
                   className="flex flex-col justify-center"
                 >
@@ -149,7 +148,7 @@ export default function Academics() {
                   key={idx}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: true, margin: "-80px" }}
                   transition={{ duration: 0.5, delay: idx * 0.1 }}
                   className="bg-[#3D3028] rounded-[20px] p-8 border border-[#F6C945]/10 hover:border-[#F6C945]/40 transition-colors"
                 >
@@ -171,11 +170,11 @@ export default function Academics() {
           <h2 className="font-serif text-4xl text-royal-blue mb-6">Our Methodology</h2>
           <p className="font-sans text-lg text-[#6B5D52]">A structured yet flexible approach to ensure deep understanding.</p>
         </div>
-        
+
         <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-12 relative">
           {/* Connecting Line (Desktop) */}
           <div className="hidden md:block absolute top-12 left-[10%] right-[10%] h-[2px] bg-[#F6C945]/30 z-0" />
-          
+
           {[
             { step: "01", title: "Explore", desc: "Spark curiosity through hands-on activities." },
             { step: "02", title: "Discover", desc: "Guide students to find answers independently." },
@@ -185,7 +184,7 @@ export default function Academics() {
               key={idx}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.6, delay: idx * 0.2 }}
               className="relative z-10 flex flex-col items-center text-center max-w-[250px]"
             >

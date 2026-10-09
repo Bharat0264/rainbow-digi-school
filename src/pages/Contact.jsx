@@ -50,9 +50,9 @@ export default function Contact() {
   };
 
   return (
-    <motion.div 
+    <motion.div
       initial="initial" animate="animate" exit="exit" variants={pageVariants}
-      className="min-h-screen bg-[#FFFDF6]"
+      className="min-h-svh bg-[#FFFDF6]"
     >
       {/* Hero Banner */}
       <section className="bg-royal-blue text-white pt-32 pb-16 px-6 relative overflow-hidden">
@@ -69,9 +69,9 @@ export default function Contact() {
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16">
           {/* Left Column: Form */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.6 }}
             className="bg-[#FBF3D5] p-8 md:p-12 rounded-3xl shadow-sm"
           >
@@ -86,7 +86,7 @@ export default function Contact() {
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
                 <h2 className="text-3xl font-serif text-royal-blue mb-8">Send us a Message</h2>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-[#6B5D52] mb-2">Full Name</label>
@@ -121,7 +121,7 @@ export default function Contact() {
                   <label className="block text-sm font-medium text-[#6B5D52] mb-2">Your Message</label>
                   <textarea required name="message" value={formData.message} onChange={handleChange} rows="4" className="w-full bg-white px-4 py-3 rounded-xl border border-[#D9A514]/30 focus:outline-none focus:ring-2 focus:ring-[#F6C945]" placeholder="How can we help you?"></textarea>
                 </div>
-                
+
                 {submitError && (
                   <div className="bg-red-50 text-red-600 p-4 rounded-xl text-sm">
                     {submitError}
@@ -137,15 +137,15 @@ export default function Contact() {
 
           {/* Right Column: Info & Map */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.6 }}
             className="space-y-8"
           >
             <div className="bg-white p-8 rounded-3xl shadow-sm border border-[#FBF3D5]">
               <h3 className="text-2xl font-serif text-royal-blue mb-8">Contact Information</h3>
-              
+
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 bg-[#FBF3D5] rounded-full flex items-center justify-center flex-shrink-0 text-[#D9A514]">
@@ -202,13 +202,13 @@ export default function Contact() {
             </div>
 
             <div className="rounded-2xl overflow-hidden shadow-sm h-64 border border-[#FBF3D5]">
-              <iframe 
-                src={SCHOOL.mapsEmbed} 
-                width="100%" 
-                height="100%" 
-                style={{ border: 0 }} 
-                allowFullScreen="" 
-                loading="lazy" 
+              <iframe
+                src={SCHOOL.mapsEmbed}
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen=""
+                loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 title="School Location Map"
               ></iframe>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Calendar } from 'lucide-react';
-import { EVENTS } from '../data/school';
+import { EVENTS, SCHOOL } from '../data/school';
 
 // Inline SVGs for social icons
 const Instagram = ({ size = 24, ...props }) => (
@@ -48,9 +48,9 @@ export default function EventsNews() {
   };
 
   return (
-    <motion.div 
+    <motion.div
       initial="initial" animate="animate" exit="exit" variants={pageVariants}
-      className="min-h-screen bg-[#FFFDF6]"
+      className="min-h-svh bg-[#FFFDF6]"
     >
       {/* Hero Banner */}
       <section className="bg-royal-blue text-white pt-32 pb-16 px-6 relative overflow-hidden">
@@ -70,11 +70,11 @@ export default function EventsNews() {
             {events.map((event, index) => (
               <motion.div
                 key={event.title}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
+                viewport={{ once: true, margin: "-80px" }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 group"
+                className="bg-white p-8 rounded-2xl shadow-sm hover:scale-[1.02] transition-all duration-300 group"
               >
                 <div className="flex items-start justify-between mb-4">
                   <span className={`px-4 py-1 rounded-full text-xs font-semibold uppercase tracking-wider ${getTagColor(event.tag)}`}>

@@ -9,13 +9,13 @@ export default function CampusGallery() {
   const [activeCategory, setActiveCategory] = useState('All');
   const [lightboxIndex, setLightboxIndex] = useState(null);
 
-  const filteredImages = activeCategory === 'All' 
-    ? GALLERY_IMAGES 
+  const filteredImages = activeCategory === 'All'
+    ? GALLERY_IMAGES
     : GALLERY_IMAGES.filter(img => img.category === activeCategory);
 
   const openLightbox = (index) => setLightboxIndex(index);
   const closeLightbox = () => setLightboxIndex(null);
-  
+
   const showPrev = useCallback((e) => {
     if (e) e.stopPropagation();
     setLightboxIndex((prev) => (prev > 0 ? prev - 1 : filteredImages.length - 1));
@@ -52,9 +52,9 @@ export default function CampusGallery() {
   };
 
   return (
-    <motion.div 
+    <motion.div
       initial="initial" animate="animate" exit="exit" variants={pageVariants}
-      className="min-h-screen bg-[#FFFDF6]"
+      className="min-h-svh bg-[#FFFDF6]"
     >
       {/* Hero Banner */}
       <section className="bg-royal-blue text-white pt-32 pb-16 px-6 relative overflow-hidden">
@@ -88,7 +88,7 @@ export default function CampusGallery() {
           </div>
 
           {/* Masonry Grid */}
-          <motion.div 
+          <motion.div
             layout
             className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-6 space-y-6"
           >
@@ -97,21 +97,20 @@ export default function CampusGallery() {
                 <motion.div
                   layout
                   key={img.id}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true, margin: "-50px" }}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-80px" }}
                   transition={{ duration: 0.4, delay: (index % 10) * 0.05 }}
                   exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
                   className="break-inside-avoid cursor-pointer group"
                   onClick={() => openLightbox(index)}
                 >
-                  <div className="relative rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300">
-                    <img 
-                      src={img.url} 
-                      alt={img.alt || img.title} 
+                  <div className="relative rounded-2xl overflow-hidden shadow-sm hover:scale-[1.02] transition-transform duration-300">
+                    <img src={img.url}
+                      alt={img.alt || img.title}
                       loading="lazy"
-                      className="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-500 ease-out"
-                    />
+                      className="w-full h-auto object-cover transform group-hover:scale-[1.02] transition-transform duration-500 ease-out"
+                     width="800" height="600" decoding="async" />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#2B2118]/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
                       <span className="text-white font-medium">{img.title}</span>
                     </div>
@@ -130,37 +129,36 @@ export default function CampusGallery() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-royal-blue/95 backdrop-blur-sm flex items-center justify-center"
+            className="fixed inset-0 z-50 bg-royal-blue/95 flex items-center justify-center"
             onClick={closeLightbox}
           >
-            <button 
+            <button
               className="absolute top-6 right-6 text-[#A89888] hover:text-[#F6C945] transition-colors p-2"
               onClick={closeLightbox}
               aria-label="Close lightbox"
             >
               <X size={32} />
             </button>
-            
-            <button 
+
+            <button
               className="absolute left-6 text-[#A89888] hover:text-[#F6C945] transition-colors p-2"
               onClick={showPrev}
               aria-label="Previous image"
             >
               <ChevronLeft size={48} />
             </button>
-            
+
             <div className="relative max-w-5xl max-h-[85vh] w-full px-16 flex justify-center items-center" onClick={e => e.stopPropagation()}>
-              <img 
-                src={filteredImages[lightboxIndex].url} 
+              <img src={filteredImages[lightboxIndex].url}
                 alt={filteredImages[lightboxIndex].alt || filteredImages[lightboxIndex].title}
-                className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl"
-              />
+                className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-md"
+               width="800" height="600" loading="lazy" decoding="async" />
               <div className="absolute bottom-[-40px] text-center w-full text-[#FBF3D5]">
                 {filteredImages[lightboxIndex].title}
               </div>
             </div>
 
-            <button 
+            <button
               className="absolute right-6 text-[#A89888] hover:text-[#F6C945] transition-colors p-2"
               onClick={showNext}
               aria-label="Next image"

@@ -1,19 +1,15 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import { memo } from 'react';
+import Reveal from '../ui/Reveal';
 import { Link } from 'react-router-dom';
 import { IMAGES } from '../../data/images';
 import SmartImage from '../ui/SmartImage';
 import PaintCanvasV2 from '../ui/PaintCanvasV2';
 
-export default function PaintedAboutTeaserV2() {
+function PaintedAboutTeaserV2() {
   return (
-    <PaintCanvasV2 mood="sun" className="py-24 px-6 md:px-16 lg:px-24">
+    <PaintCanvasV2 mood="sun" className="pg-deferred py-24 px-6 md:px-16 lg:px-24">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16 relative z-10">
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
+        <Reveal
           className="w-full md:w-1/2"
         >
           <div className="pg-glass pg-glass--strong p-3 rounded-[40px] md:rounded-[60px_30px_60px_30px]">
@@ -21,13 +17,9 @@ export default function PaintedAboutTeaserV2() {
               <SmartImage image={IMAGES.about} className="h-full w-full" />
             </div>
           </div>
-        </motion.div>
-        
-        <motion.div 
-          initial={{ opacity: 0, x: 20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6, delay: 0.1 }}
+        </Reveal>
+
+        <Reveal
           className="w-full md:w-1/2 flex flex-col items-start pg-glass pg-glass--panel pg-glass--strong p-8 md:p-12"
         >
           <span className="pg-glass-chip mb-4">About Us</span>
@@ -42,8 +34,10 @@ export default function PaintedAboutTeaserV2() {
               Learn More
             </button>
           </Link>
-        </motion.div>
+        </Reveal>
       </div>
     </PaintCanvasV2>
   );
 }
+
+export default memo(PaintedAboutTeaserV2);

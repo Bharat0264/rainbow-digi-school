@@ -15,7 +15,7 @@ const AnimatedText = ({ text }) => {
     <motion.div
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "-100px" }}
+      viewport={{ once: true, margin: "-80px" }}
       variants={{
         visible: { transition: { staggerChildren: 0.05 } },
       }}
@@ -72,10 +72,10 @@ export default function About() {
       <section className="py-24 px-4 md:px-12 bg-[#FFFDF6]">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.5 }}
           >
             <h2 className="font-serif text-4xl text-royal-blue mb-8">
               <AnimatedText text="Our Story" />
@@ -88,17 +88,16 @@ export default function About() {
             </p>
           </motion.div>
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="relative h-[500px] rounded-[9999px_9999px_24px_24px] overflow-hidden shadow-2xl"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.5 }}
+            className="relative h-[500px] rounded-[9999px_9999px_24px_24px] overflow-hidden shadow-md"
           >
-            <img 
-              src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&q=80" 
-              alt="School building" 
+            <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?fm=webp&fit=crop&w=1000&q=75"
+              alt="School building"
               className="w-full h-full object-cover"
-            />
+             width="800" height="600" loading="lazy" decoding="async" />
           </motion.div>
         </div>
       </section>
@@ -107,11 +106,11 @@ export default function About() {
       <section className="py-24 px-4 md:px-12 bg-[#FBF3D5]">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.6 }}
-            className="bg-white/80 backdrop-blur-lg p-12 rounded-[24px] border border-[#F6C945]/30 shadow-lg relative overflow-hidden"
+            className="bg-white/80 p-12 rounded-[24px] border border-[#F6C945]/30 shadow-lg relative overflow-hidden"
           >
             <div className="absolute top-0 left-0 w-2 h-full bg-[#F6C945]" />
             <h3 className="font-serif text-3xl text-royal-blue mb-6">Our Vision</h3>
@@ -120,11 +119,11 @@ export default function About() {
             </p>
           </motion.div>
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="bg-white/80 backdrop-blur-lg p-12 rounded-[24px] border border-[#F6C945]/30 shadow-lg relative overflow-hidden"
+            className="bg-white/80 p-12 rounded-[24px] border border-[#F6C945]/30 shadow-lg relative overflow-hidden"
           >
             <div className="absolute top-0 left-0 w-2 h-full bg-[#F6C945]" />
             <h3 className="font-serif text-3xl text-royal-blue mb-6">Our Mission</h3>
@@ -150,11 +149,11 @@ export default function About() {
                 key={idx}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, margin: "-80px" }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="bg-white rounded-[24px] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] text-center flex flex-col items-center group hover:shadow-[0_8px_30px_rgb(246,201,69,0.15)] transition-shadow"
+                className="bg-white rounded-[24px] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] text-center flex flex-col items-center group hover:scale-[1.02] transition-transform"
               >
-                <div className="w-16 h-16 rounded-full bg-[#FBF3D5] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <div className="w-16 h-16 rounded-full bg-[#FBF3D5] flex items-center justify-center mb-6 group-hover:scale-[1.02] transition-transform">
                   <IconComponent className="w-8 h-8 text-[#D9A514]" />
                 </div>
                 <h4 className="font-serif text-xl text-royal-blue mb-3">{value.title}</h4>
@@ -169,24 +168,23 @@ export default function About() {
       <section className="py-24 px-4 md:px-12 bg-[#FBF3D5]">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
             className="md:col-span-5 relative"
           >
-            <div className="aspect-[3/4] rounded-[9999px_9999px_24px_24px] overflow-hidden shadow-2xl relative z-10 border-4 border-white">
-              <img 
-                src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80" 
-                alt="Principal" 
+            <div className="aspect-[3/4] rounded-[9999px_9999px_24px_24px] overflow-hidden shadow-md relative z-10 border-4 border-white">
+              <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?fm=webp&fit=crop&w=1000&q=75"
+                alt="Principal"
                 className="w-full h-full object-cover"
-              />
+               width="800" height="600" loading="lazy" decoding="async" />
             </div>
-            <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-[#F6C945] rounded-full -z-0 opacity-50" />
+            <div className="absolute -bottom-6 right-0 md:-right-6 w-32 h-32 bg-[#F6C945] rounded-full -z-0 opacity-50" />
           </motion.div>
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
             className="md:col-span-7 pl-0 md:pl-12"
           >
             <h2 className="font-serif text-4xl text-royal-blue mb-8">

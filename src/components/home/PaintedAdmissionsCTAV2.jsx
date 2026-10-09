@@ -1,10 +1,10 @@
-import React from 'react';
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import PaintCanvasV2 from '../ui/PaintCanvasV2';
 
-export default function PaintedAdmissionsCTAV2() {
+function PaintedAdmissionsCTAV2() {
   return (
-    <PaintCanvasV2 mood="crimson" className="w-full px-5 py-24 sm:px-6 lg:px-24">
+    <PaintCanvasV2 mood="crimson" className="pg-deferred w-full px-5 py-24 sm:px-6 lg:px-24">
       <div className="mx-auto flex max-w-[900px] flex-col items-center text-center relative z-10">
         <div className="pg-glass pg-glass--panel pg-glass--strong p-10 md:p-16 flex flex-col items-center w-full">
           <h2 className="max-w-[800px] text-balance pg-heading text-[clamp(2rem,4vw,3.5rem)] text-[#3B2412] mb-4">
@@ -26,3 +26,5 @@ export default function PaintedAdmissionsCTAV2() {
     </PaintCanvasV2>
   );
 }
+
+export default memo(PaintedAdmissionsCTAV2);

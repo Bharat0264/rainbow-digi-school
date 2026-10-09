@@ -53,17 +53,17 @@ export default function Admissions() {
             <h2 className="font-serif text-4xl text-royal-blue mb-4">Admission Process</h2>
             <p className="font-sans text-lg text-[#6B5D52]">A simple and transparent path to joining our family.</p>
           </div>
-          
+
           <div className="relative flex flex-col md:flex-row justify-between gap-8 md:gap-4 mt-12">
             {/* Connecting Line (Desktop) */}
             <div className="hidden md:block absolute top-[28px] left-0 w-full h-[2px] bg-[#F6C945]/30 z-0" />
-            
+
             {ADMISSION_STEPS?.map((step, idx) => (
               <motion.div
                 key={idx}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, margin: "-80px" }}
                 transition={{ duration: 0.5, delay: idx * 0.15 }}
                 className="relative z-10 flex flex-col items-center text-center flex-1"
               >
@@ -82,7 +82,7 @@ export default function Admissions() {
 
       {/* Documents Required */}
       <section className="py-24 px-4 md:px-12 bg-[#FBF3D5]">
-        <div className="max-w-4xl mx-auto bg-white/80 backdrop-blur-md rounded-[24px] p-8 md:p-12 shadow-xl border border-white/50">
+        <div className="max-w-4xl mx-auto bg-white/80 rounded-[24px] p-8 md:p-12 shadow-xl border border-white/50">
           <h2 className="font-serif text-3xl text-royal-blue mb-8 text-center">Documents Required</h2>
           <ul className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {ADMISSION_DOCS?.map((doc, idx) => (
@@ -101,11 +101,11 @@ export default function Admissions() {
           <div className="text-center mb-16">
             <h2 className="font-serif text-4xl text-royal-blue mb-4">Frequently Asked Questions</h2>
           </div>
-          
+
           <div className="space-y-4">
             {ADMISSION_FAQ?.map((faq, idx) => (
-              <div 
-                key={idx} 
+              <div
+                key={idx}
                 className={`bg-white border ${openFaqIndex === idx ? 'border-[#F6C945] shadow-md' : 'border-[#A89888]/20'} rounded-2xl overflow-hidden transition-all duration-300`}
               >
                 <button
@@ -120,9 +120,9 @@ export default function Admissions() {
                 <AnimatePresence>
                   {openFaqIndex === idx && (
                     <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
                       transition={{ duration: 0.3, ease: "easeInOut" }}
                     >
                       <div className="px-6 pb-5 pt-2 border-t border-[#A89888]/10 text-sans text-[#6B5D52] leading-relaxed">
@@ -142,11 +142,11 @@ export default function Admissions() {
         <div className="max-w-3xl mx-auto">
           <div className="bg-white rounded-[24px] p-8 md:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-[#F6C945]/20">
             <h2 className="font-serif text-3xl text-royal-blue mb-8 text-center">Start Your Enquiry</h2>
-            
+
             {formStatus === 'success' ? (
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
                 className="text-center py-12"
               >
                 <div className="w-16 h-16 bg-[#F6C945]/20 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -183,7 +183,7 @@ export default function Admissions() {
                     <input required type="text" className="w-full px-4 py-3 rounded-xl border border-[#A89888]/30 focus:border-[#F6C945] focus:ring-1 focus:ring-[#F6C945] outline-none transition-all font-sans" placeholder="Jane Doe" />
                   </div>
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-sans text-[#3D3028] mb-2">Grade Applying For *</label>
                   <select required className="w-full px-4 py-3 rounded-xl border border-[#A89888]/30 focus:border-[#F6C945] focus:ring-1 focus:ring-[#F6C945] outline-none transition-all font-sans bg-white">

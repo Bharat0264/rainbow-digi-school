@@ -1,4 +1,4 @@
-import React from 'react';
+import { memo } from 'react';
 import { motion } from 'framer-motion';
 import PaintedHeroV2 from '../components/home/PaintedHeroV2';
 import PaintedAboutTeaserV2 from '../components/home/PaintedAboutTeaserV2';
@@ -8,7 +8,7 @@ import PaintedPhotoStripV2 from '../components/home/PaintedPhotoStripV2';
 import PaintedTestimonialsSectionV2 from '../components/home/PaintedTestimonialsSectionV2';
 import PaintedAdmissionsCTAV2 from '../components/home/PaintedAdmissionsCTAV2';
 
-export default function Home() {
+function Home() {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -27,3 +27,5 @@ export default function Home() {
     </motion.div>
   );
 }
+
+export default memo(Home);
