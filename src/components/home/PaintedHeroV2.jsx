@@ -1,265 +1,135 @@
 import { memo, useEffect, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Phone } from 'lucide-react';
+import { ArrowRight, Phone } from 'lucide-react';
 import { SCHOOL } from '../../data/school';
 
-const stagger = {
-  hidden: { opacity: 0, y: 15 },
-  show: (i = 1) => ({
-    opacity: 1, y: 0,
-    transition: { delay: 0.06 * i, duration: 0.6, type: 'spring', bounce: 0.2 }
-  })
-};
+const badges = [
+  ['🌱', 'Nursery – Grade 5'],
+  ['🎓', 'CBSE'],
+  ['💻', 'Smart Classrooms'],
+];
+
+function SchoolScene({ reduced, mouse }) {
+  return (
+    <motion.div
+      className="relative mx-auto w-full max-w-[710px]"
+      animate={reduced ? undefined : { x: mouse.x * -8, y: mouse.y * -5 }}
+      transition={{ type: 'spring', stiffness: 42, damping: 18 }}
+    >
+      <svg viewBox="0 0 760 600" className="block h-auto w-full" role="img" aria-label="A cheerful Rainbow Digi School building surrounded by gardens">
+        <defs>
+          <linearGradient id="school-wall" x1="0" y1="0" x2="0" y2="1"><stop stopColor="#ffd96b"/><stop offset="1" stopColor="#ffab35"/></linearGradient>
+          <linearGradient id="roof" x1="0" y1="0" x2="0" y2="1"><stop stopColor="#ff6256"/><stop offset="1" stopColor="#e93438"/></linearGradient>
+          <linearGradient id="lawn" x1="0" y1="0" x2="0" y2="1"><stop stopColor="#a9dc63"/><stop offset="1" stopColor="#5bb65d"/></linearGradient>
+          <filter id="soft-shadow" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="0" dy="13" stdDeviation="10" floodColor="#a65d34" floodOpacity=".18"/></filter>
+          <filter id="cloud-shadow" x="-20%" y="-30%" width="140%" height="160%"><feDropShadow dx="0" dy="8" stdDeviation="7" floodColor="#c77e39" floodOpacity=".12"/></filter>
+        </defs>
+
+        <g filter="url(#cloud-shadow)" fill="#fffdf6">
+          <path d="M65 176c0-17 14-31 31-31 6-20 24-34 46-34 23 0 43 16 47 38 17-1 31 12 31 29H65Z"/>
+          <path d="M492 91c0-20 16-36 36-36 10-26 34-43 63-43 34 0 62 23 68 55 26-2 48 18 48 44H492Z"/>
+          <path d="M560 209c0-13 10-23 23-23 7-17 22-28 40-28 21 0 39 14 43 34 16-1 29 11 29 27H560Z" opacity=".95"/>
+        </g>
+
+        <g stroke="#f9ae1c" strokeWidth="7" strokeLinecap="round">
+          <circle cx="245" cy="89" r="39" fill="#ffd449" stroke="none"/>
+          {[0, 45, 90, 135, 180, 225, 270, 315].map(angle => <path key={angle} d="M245 30v-17" transform={`rotate(${angle} 245 89)`}/>) }
+        </g>
+        <path d="M300 223c45-48 83-51 130-3 42 43 80 38 124-1" fill="none" stroke="#2488e8" strokeWidth="7" strokeLinecap="round"/>
+        <path d="M633 60c40 20 61-5 83 18 21 22 17 51 34 62" fill="none" stroke="#fa6749" strokeWidth="4" strokeLinecap="round" strokeDasharray="7 12"/>
+        <path d="M705 47l34-13-16 31-6-14-12-4Z" fill="#fff9dc" stroke="#ee5b32" strokeWidth="4" strokeLinejoin="round"/>
+
+        <g filter="url(#soft-shadow)">
+          <path d="M39 523C135 476 220 503 303 527c92 27 205 20 417-9v68H39Z" fill="url(#lawn)"/>
+          <path d="M39 548c69-51 147-31 219-12 90 24 198 30 462-17v72H39Z" fill="#4eaa62" opacity=".7"/>
+          <path d="M349 580c23-77 71-102 85-154 12 50 67 81 101 154H349Z" fill="#fff3cc"/>
+          <path d="M414 456c7 12 22 12 31 0" fill="none" stroke="#f4d58b" strokeWidth="6" strokeLinecap="round"/>
+          {[378, 421, 464, 508].map((x, index) => <ellipse key={x} cx={x} cy={505 + index * 17} rx="11" ry="4" fill="#efca8d" opacity=".45"/>)}
+        </g>
+
+        <g>
+          <path d="M110 455v-88" stroke="#8a5932" strokeWidth="11" strokeLinecap="round"/>
+          <circle cx="110" cy="341" r="63" fill="#5bb866"/><circle cx="76" cy="371" r="45" fill="#53aa61"/><circle cx="147" cy="372" r="46" fill="#65c56f"/>
+          <path d="M654 459v-103" stroke="#82502e" strokeWidth="12" strokeLinecap="round"/>
+          <circle cx="654" cy="331" r="73" fill="#44a960"/><circle cx="612" cy="370" r="49" fill="#52b969"/><circle cx="697" cy="376" r="48" fill="#62bf6d"/>
+        </g>
+
+        <g filter="url(#soft-shadow)">
+          <path d="M177 440V269h407v171H177Z" fill="url(#school-wall)"/>
+          <path d="M294 440V211h174v229H294Z" fill="#ffc150"/>
+          <path d="M135 274 381 102l274 172-21 25H155Z" fill="url(#roof)"/>
+          <path d="M266 242 381 143l130 99" fill="none" stroke="#fff6d7" strokeWidth="13" strokeLinejoin="round"/>
+          <path d="M142 279h510" stroke="#d93437" strokeWidth="13" strokeLinecap="round"/>
+          {[214, 260, 520, 566].map(x => <g key={x}><rect x={x} y="312" width="50" height="63" rx="5" fill="#f8fbf4"/><rect x={x + 7} y="319" width="16" height="22" rx="2" fill="#59c8ef"/><rect x={x + 27} y="319" width="16" height="22" rx="2" fill="#59c8ef"/><rect x={x + 7} y="347" width="16" height="21" rx="2" fill="#59c8ef"/><rect x={x + 27} y="347" width="16" height="21" rx="2" fill="#59c8ef"/></g>)}
+          <circle cx="381" cy="229" r="28" fill="#fffdf4" stroke="#f06443" strokeWidth="6"/>
+          <path d="M381 211v19h13" fill="none" stroke="#6c452e" strokeWidth="5" strokeLinecap="round"/>
+          <path d="M337 442v-69c0-38 88-38 88 0v69Z" fill="#fdf2dc"/>
+          <path d="M346 442v-65c0-29 70-29 70 0v65Z" fill="#764128"/>
+          <path d="M381 350v91" stroke="#4b291e" strokeWidth="4"/><circle cx="371" cy="401" r="4" fill="#ffcf42"/><circle cx="391" cy="401" r="4" fill="#ffcf42"/>
+          <path d="M381 143V72" stroke="#7e402c" strokeWidth="7"/><path d="M384 76c32-3 36 19 63 5v31c-27 14-34-7-63-3Z" fill="#f34b46"/>
+        </g>
+
+        <g fill="#1f8f4d">
+          {[165, 197, 224, 254, 497, 530, 559, 590].map((x, index) => <path key={x} d={`M${x} 462c0-24 18-39 38-39 18 0 35 13 35 39Z`} transform={`translate(0 ${index % 2 ? 9 : 0})`}/>) }
+        </g>
+        <g stroke="#fff7df" strokeWidth="8" strokeLinecap="round"><path d="M152 452h119M160 452v-34m25 34v-34m25 34v-34m25 34v-34m25 34v-34"/><path d="M510 452h113m-105 0v-34m25 34v-34m25 34v-34m25 34v-34m25 34v-34"/></g>
+        {[[91, 546], [156, 563], [251, 538], [571, 546], [657, 555]].map(([x, y]) => <g key={`${x}-${y}`} transform={`translate(${x} ${y})`}><path d="M0 8c-14-24 14-24 0 0" fill="#fffdf0" stroke="#fffdf0" strokeWidth="3"/><path d="M8 0C32-14 32 14 8 0" fill="#fffdf0" stroke="#fffdf0" strokeWidth="3"/><path d="M0-8c14-24-14-24 0 0" fill="#fffdf0" stroke="#fffdf0" strokeWidth="3"/><path d="M-8 0c-24 14-24-14-8 0" fill="#fffdf0" stroke="#fffdf0" strokeWidth="3"/><circle r="5" fill="#ffd84d"/></g>)}
+      </svg>
+    </motion.div>
+  );
+}
 
 function PaintedHeroV2() {
   const reduced = useReducedMotion();
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [mouse, setMouse] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
-    if (reduced) return;
-    const handleMove = (e) => {
-      setMousePos({
-        x: (e.clientX / window.innerWidth - 0.5) * 2,
-        y: (e.clientY / window.innerHeight - 0.5) * 2,
-      });
-    };
-    window.addEventListener('mousemove', handleMove);
-    return () => window.removeEventListener('mousemove', handleMove);
+    if (reduced) return undefined;
+    const move = event => setMouse({ x: event.clientX / window.innerWidth - 0.5, y: event.clientY / window.innerHeight - 0.5 });
+    window.addEventListener('pointermove', move, { passive: true });
+    return () => window.removeEventListener('pointermove', move);
   }, [reduced]);
 
   return (
-    <section className="px-3 sm:px-6 py-4 w-full">
-      <div 
-        className="relative w-full overflow-hidden mx-auto max-w-[1440px] rounded-[48px] min-h-[85vh] flex flex-col lg:flex-row items-center justify-between px-6 sm:px-12 lg:px-20 py-16"
-        style={{
-          background: 'linear-gradient(135deg, #FFF3C9 0%, #FFE9A8 100%)',
-          boxShadow: '0 20px 40px rgba(255, 200, 100, 0.15)'
-        }}
-      >
-        {/* Background Blobs & Hills */}
-        <svg className="absolute inset-0 w-full h-full object-cover pointer-events-none" preserveAspectRatio="none">
-          <path d="M0,0 L100,0 Q200,200 400,0 L500,0 L500,500 L0,500 Z" fill="#FFC4A3" opacity="0.4" transform="scale(3 1) translate(-50 -200) rotate(15)" />
-          <path d="M-100,600 Q300,300 800,600 Q1200,900 1600,500 L1600,1000 L-100,1000 Z" fill="#F9A98B" opacity="0.3" />
-          <path d="M-200,800 Q400,400 1000,700 Q1500,800 2000,600 L2000,1200 L-200,1200 Z" fill="#FFD5A1" opacity="0.4" />
+    <section className="w-full px-3 py-4 sm:px-6 lg:px-8" aria-labelledby="hero-title">
+      <div className="relative mx-auto min-h-[670px] max-w-[1600px] overflow-hidden rounded-[42px] bg-[#fff2b6] px-6 py-12 shadow-[0_24px_60px_rgba(131,76,30,0.13)] sm:rounded-[56px] sm:px-12 lg:min-h-[760px] lg:px-[7%] lg:py-20">
+        <svg className="pointer-events-none absolute inset-0 h-full w-full" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M0 0C154 32 220 2 379 9c173 7 278 18 424-9h797v164c-166-102-253 91-473-41-171-104-279 95-482-1C456 24 264 110 0 155Z" fill="#fff8d7" opacity=".82"/>
+          <path d="M1047 0h553v151c-83-82-183-10-300-9-121 1-194-69-253-142Z" fill="#ff9d80" opacity=".78"/>
+          <path d="M0 506c152-98 304 30 452-36 130-58 216-123 345-53 179 96 277-17 388 63 106 77 289-17 415 65v215H0Z" fill="#ffb391" opacity=".68"/>
+          <path d="M0 566c135-55 233-20 356 33 142 61 284-10 395 22 143 42 182 125 412 52 144-45 252 25 437-37v124H0Z" fill="#ff8f75" opacity=".72"/>
+          <circle cx="89" cy="566" r="9" fill="#ffd53f"/><circle cx="107" cy="593" r="6" fill="#fff5be"/><circle cx="754" cy="641" r="10" fill="#ffd95b" opacity=".75"/>
         </svg>
 
-        {/* Left Content */}
-        <div className="z-10 w-full lg:w-[50%] flex flex-col justify-center text-left pt-10 lg:pt-0">
-          
-          {/* Chips */}
-          <div className="flex flex-wrap gap-3 mb-8">
-            {[
-              { text: 'Nursery – Grade 5', icon: '🌱', color: '#5DBE7E' },
-              { text: 'CBSE', icon: '🎓', color: '#8A56E9' },
-              { text: 'Smart Classrooms', icon: '💻', color: '#2C88D9' }
-            ].map((chip, i) => (
-              <motion.div
-                key={chip.text}
-                custom={i}
-                initial="hidden"
-                animate="show"
-                variants={stagger}
-                className="flex items-center gap-2 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.06)] font-semibold text-sm text-[#3B1F14]"
-              >
-                <span style={{ color: chip.color }}>{chip.icon}</span> {chip.text}
-              </motion.div>
-            ))}
+        <div className="relative z-10 grid items-center gap-8 lg:grid-cols-[.94fr_1.06fr] lg:gap-12">
+          <div className="pt-3 lg:pt-0">
+            <div className="mb-8 flex flex-wrap gap-3" aria-label="School highlights">
+              {badges.map(([icon, text], index) => <motion.span key={text} initial={reduced ? false : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.08, duration: 0.42 }} className="inline-flex items-center gap-2 rounded-full border border-white/90 bg-white/85 px-4 py-2 text-sm font-extrabold text-[#472013] shadow-[0_7px_16px_rgba(126,74,34,0.14)] backdrop-blur-sm sm:px-5 sm:text-base"><span aria-hidden="true">{icon}</span>{text}</motion.span>)}
+            </div>
+
+            <div className="relative max-w-[680px]">
+              <svg className="absolute -left-10 top-9 hidden h-12 w-12 text-[#ffae16] lg:block" viewBox="0 0 54 54" fill="none" aria-hidden="true"><path d="m27 4 5.3 15.9L49 21l-13.1 10.2 4.5 16.3L27 38l-13.4 9.5 4.5-16.3L5 21l16.7-1.1L27 4Z" stroke="currentColor" strokeWidth="3" strokeLinejoin="round"/></svg>
+              <h1 id="hero-title" className="font-['Fredoka'] text-[clamp(3.7rem,6.2vw,6.9rem)] font-black leading-[.88] tracking-[-.055em] text-[#3b190e]">
+                Where little<br/>
+                <span className="relative inline-block pr-2">dreams<svg className="pointer-events-none absolute -inset-x-5 -inset-y-3 h-[calc(100%+1.5rem)] w-[calc(100%+2.5rem)] overflow-visible" viewBox="0 0 200 100" aria-hidden="true"><path d="M12 55C14 22 180 8 192 48c9 36-159 45-180 10Z" fill="none" stroke="#f64f51" strokeWidth="6" strokeLinecap="round"/></svg><svg className="absolute -right-12 top-2 h-9 w-9 text-[#f64f51]" viewBox="0 0 34 34" fill="none" aria-hidden="true"><path d="M3 17h7M20 4v7m5 12 5 5" stroke="currentColor" strokeWidth="4" strokeLinecap="round"/></svg></span><br/>
+                begin.
+              </h1>
+            </div>
+
+            <p className="mt-8 max-w-[610px] text-lg font-semibold leading-relaxed text-[#573326] sm:text-xl lg:text-2xl">Play, discover and grow — one joyful day at a time.</p>
+            <div className="mt-9 flex flex-col gap-4 sm:flex-row sm:items-center">
+              <Link to="/admissions" className="group relative inline-flex w-fit focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-[#ef8e13]">
+                <span className="absolute -inset-2 rounded-full bg-[#ffc332]/35 blur-md transition group-hover:bg-[#ffb700]/50" aria-hidden="true"/>
+                <span className="relative inline-flex items-center gap-4 rounded-full border border-[#ffe89c] bg-[linear-gradient(180deg,#ffe96c_0%,#ffc41c_46%,#f6a500_100%)] px-7 py-4 text-lg font-extrabold text-[#45200d] shadow-[inset_0_3px_2px_rgba(255,255,255,.9),inset_0_-5px_9px_rgba(193,104,0,.22),0_12px_20px_rgba(220,139,20,.28)] transition duration-200 group-hover:-translate-y-1 group-hover:shadow-[inset_0_3px_2px_rgba(255,255,255,.9),inset_0_-5px_9px_rgba(193,104,0,.22),0_16px_25px_rgba(220,139,20,.36)]"><span className="absolute inset-x-5 top-1 h-1/2 rounded-full bg-gradient-to-b from-white/50 to-transparent" aria-hidden="true"/>Apply Now <span className="relative grid h-8 w-8 place-items-center rounded-full border-2 border-white/90 bg-white/35"><ArrowRight size={18} strokeWidth={3}/></span></span>
+              </Link>
+              <a href={SCHOOL.phoneHref} className="group relative inline-flex w-fit focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-[#f75c65]">
+                <span className="absolute -inset-2 rounded-full bg-[#ff9ca7]/30 blur-md transition group-hover:bg-[#ff8795]/45" aria-hidden="true"/>
+                <span className="relative inline-flex items-center gap-3 rounded-full border border-white bg-[linear-gradient(145deg,#fffdfb_0%,#ffe8e9_75%,#ffc7cb_100%)] px-6 py-4 text-lg font-extrabold text-[#4b2217] shadow-[inset_0_3px_3px_rgba(255,255,255,.95),inset_0_-5px_10px_rgba(229,103,114,.18),0_12px_20px_rgba(190,88,88,.19)] transition duration-200 group-hover:-translate-y-1"><span className="grid h-9 w-9 place-items-center rounded-full bg-[linear-gradient(145deg,#ff7b74,#ed465b)] text-white shadow-[inset_0_2px_2px_rgba(255,255,255,.45),0_4px_7px_rgba(219,61,76,.3)]"><Phone size={17} fill="currentColor" strokeWidth={0}/></span>Call {SCHOOL.phone}</span>
+              </a>
+            </div>
           </div>
-
-          {/* Headline */}
-          <motion.div custom={4} initial="hidden" animate="show" variants={stagger} className="relative mb-6">
-            <svg className="absolute -left-12 top-10 w-8 h-8" viewBox="0 0 50 50">
-              <path d="M25 0l6 18 19 2-14 13 4 17-15-10-15 10 4-17-14-13 19-2z" fill="none" stroke="#FFD54A" strokeWidth="3" strokeLinejoin="round"/>
-            </svg>
-            <h1 className="text-[clamp(3rem,6.5vw,5.5rem)] font-[900] leading-[1.05] text-[#3B1F14] tracking-tight" style={{ fontFamily: 'Nunito, "Baloo 2", sans-serif' }}>
-              Where little<br/>
-              <span className="relative inline-block">
-                dreams
-                <motion.svg
-                  className="absolute -inset-x-6 -inset-y-4 w-[calc(100%+3rem)] h-[calc(100%+2rem)] pointer-events-none"
-                  viewBox="0 0 200 100"
-                  initial={{ strokeDasharray: 600, strokeDashoffset: 600 }}
-                  animate={{ strokeDashoffset: 0 }}
-                  transition={{ duration: 1.2, delay: 0.6, ease: "easeOut" }}
-                >
-                  <path d="M20 50C20 20 180 20 180 50C180 80 20 80 20 50Z" fill="none" stroke="#F2495C" strokeWidth="6" strokeLinecap="round" />
-                </motion.svg>
-                {/* Sparkle ticks */}
-                <svg className="absolute -right-12 top-0 w-8 h-8" viewBox="0 0 30 30">
-                  <path d="M5 15L0 15M25 15L30 15M15 5L15 0M15 25L15 30" stroke="#F2495C" strokeWidth="3" strokeLinecap="round"/>
-                </svg>
-              </span><br/>
-              begin.
-            </h1>
-          </motion.div>
-
-          {/* Subtext */}
-          <motion.p custom={5} initial="hidden" animate="show" variants={stagger} className="text-[1.25rem] lg:text-[1.35rem] font-medium text-[#3B1F14]/80 mb-10">
-            Play, discover and grow — one joyful day at a time.
-          </motion.p>
-
-          {/* Buttons */}
-          <motion.div custom={6} initial="hidden" animate="show" variants={stagger} className="flex flex-wrap gap-5 relative">
-            
-            {/* Glossy Drops */}
-            <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }} className="absolute -left-6 -top-6 w-4 h-4 rounded-full bg-gradient-to-tr from-[#FFD54A] to-white shadow-sm opacity-80" />
-            <motion.div animate={{ y: [0, 15, 0] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }} className="absolute left-40 -bottom-8 w-6 h-6 rounded-full bg-gradient-to-tr from-[#FFD54A] to-white shadow-sm opacity-60" />
-            
-            <Link to="/admissions" className="relative group block">
-              <motion.button
-                whileHover={{ scale: 1.03, y: -2 }}
-                whileTap={{ scale: 0.97 }}
-                className="relative overflow-hidden rounded-[30px] px-8 py-4 font-bold text-[#3B1F14] text-lg flex items-center gap-3 shadow-[0_8px_20px_rgba(245,168,0,0.3)] border border-white/40"
-                style={{ background: 'linear-gradient(180deg, #FFDF70 0%, #F5A800 100%)' }}
-              >
-                <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/60 to-transparent pointer-events-none rounded-t-[30px]" />
-                Apply Now
-                <svg className="w-5 h-5 bg-white/30 rounded-full p-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
-              </motion.button>
-            </Link>
-
-            <a href={SCHOOL.phoneHref} className="relative group block">
-              <motion.button
-                whileHover={{ scale: 1.03, y: -2 }}
-                whileTap={{ scale: 0.97 }}
-                className="relative overflow-hidden rounded-[30px] px-8 py-4 font-bold text-[#3B1F14] text-lg flex items-center gap-3 shadow-[0_8px_20px_rgba(255,180,190,0.3)] border border-white/60 bg-white/70 backdrop-blur-md"
-              >
-                <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/90 to-transparent pointer-events-none rounded-t-[30px]" />
-                <div className="w-8 h-8 rounded-full bg-[#F2495C] flex items-center justify-center text-white">
-                  <Phone size={16} fill="currentColor" strokeWidth={0} />
-                </div>
-                Call {SCHOOL.phone}
-              </motion.button>
-            </a>
-          </motion.div>
-        </div>
-
-        {/* Right Content - Illustration */}
-        <div className="z-10 w-full lg:w-[50%] mt-16 lg:mt-0 relative flex justify-center items-end min-h-[400px]">
-          <motion.div 
-            className="w-full max-w-[600px] relative"
-            animate={reduced ? {} : { x: mousePos.x * -8, y: mousePos.y * -8 }}
-            transition={{ type: "spring", stiffness: 50, damping: 20 }}
-          >
-            {/* The SVG Artwork - meticulously drawn to match reference */}
-            <svg viewBox="0 0 800 600" className="w-full h-auto drop-shadow-xl" xmlns="http://www.w3.org/2000/svg">
-              {/* Sun & Rays */}
-              <g transform="translate(150, 120)">
-                <circle cx="0" cy="0" r="45" fill="#FFD54A" />
-                <motion.g animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 60, ease: "linear" }}>
-                  {Array.from({length:8}).map((_,i)=>(
-                    <path key={i} d="M0 -60 L0 -80" stroke="#FFD54A" strokeWidth="6" strokeLinecap="round" transform={`rotate(${i*45})`} />
-                  ))}
-                </motion.g>
-              </g>
-
-              {/* Clouds */}
-              <motion.g animate={{ x: [0, 20, 0] }} transition={{ repeat: Infinity, duration: 40, ease: "easeInOut" }}>
-                <path d="M 500 150 Q 500 130 520 130 Q 540 100 570 120 Q 590 120 600 140 Q 620 140 620 160 L 500 160 Z" fill="white" />
-                <path d="M 100 250 Q 100 240 110 240 Q 120 220 140 230 Q 150 230 155 240 Q 165 240 165 250 L 100 250 Z" fill="white" opacity="0.8" />
-              </motion.g>
-
-              {/* Paper Plane */}
-              <motion.g animate={{ x: [0, -30, 0], y: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }}>
-                <path d="M 680 80 Q 640 100 580 80" fill="none" stroke="#F2495C" strokeWidth="3" strokeDasharray="8 8" strokeLinecap="round" />
-                <path d="M 680 80 L 720 60 L 710 90 L 700 80 Z M 700 80 L 705 95 L 710 90" fill="#F2495C" stroke="#F2495C" strokeWidth="2" strokeLinejoin="round" />
-              </motion.g>
-
-              {/* Swoosh lines over roof */}
-              <path d="M 280 250 Q 350 200 400 250 T 520 250" fill="none" stroke="#2C88D9" strokeWidth="5" strokeLinecap="round" />
-              <path d="M 580 240 Q 620 210 660 250" fill="none" stroke="#2C88D9" strokeWidth="5" strokeLinecap="round" />
-
-              {/* Grass / Ground */}
-              <path d="M 50 550 Q 400 530 750 550 L 750 600 L 50 600 Z" fill="#75C158" />
-              <path d="M 50 530 Q 400 500 750 530 L 750 560 L 50 560 Z" fill="#88D468" />
-              
-              {/* Path */}
-              <path d="M 400 480 Q 430 550 550 600 L 250 600 Q 370 550 400 480 Z" fill="#FFF3C9" />
-              
-              {/* Back Trees */}
-              <circle cx="200" cy="400" r="60" fill="#5DBE7E" />
-              <path d="M 195 400 L 195 470 L 205 470 L 205 400 Z" fill="#8B5E34" />
-              <circle cx="650" cy="380" r="75" fill="#4AA468" />
-              <path d="M 645 380 L 645 470 L 655 470 L 655 380 Z" fill="#8B5E34" />
-
-              {/* Picket Fence */}
-              <g fill="#FFFFFF" stroke="#E5D9B1" strokeWidth="2">
-                <rect x="150" y="450" width="120" height="8" />
-                <rect x="150" y="470" width="120" height="8" />
-                {Array.from({length:4}).map((_,i) => (
-                  <path key={'L'+i} d={`M ${160+i*30} 430 L ${165+i*30} 420 L ${170+i*30} 430 L ${170+i*30} 490 L ${160+i*30} 490 Z`} />
-                ))}
-                
-                <rect x="530" y="450" width="150" height="8" />
-                <rect x="530" y="470" width="150" height="8" />
-                {Array.from({length:5}).map((_,i) => (
-                  <path key={'R'+i} d={`M ${540+i*30} 430 L ${545+i*30} 420 L ${550+i*30} 430 L ${550+i*30} 490 L ${540+i*30} 490 Z`} />
-                ))}
-              </g>
-
-              {/* Building Base */}
-              <rect x="280" y="320" width="240" height="160" fill="#FFB74D" rx="4" />
-              {/* Building Columns/Edges */}
-              <rect x="275" y="320" width="10" height="160" fill="#FFA726" />
-              <rect x="515" y="320" width="10" height="160" fill="#FFA726" />
-              
-              {/* Center Projection */}
-              <path d="M 360 280 L 440 280 L 440 480 L 360 480 Z" fill="#FFCC80" />
-
-              {/* Roofs */}
-              <path d="M 260 320 L 400 240 L 540 320 Z" fill="#E53935" stroke="#D32F2F" strokeWidth="8" strokeLinejoin="round" />
-              <path d="M 250 320 L 360 320 L 360 330 L 250 330 Z" fill="#C62828" />
-              <path d="M 440 320 L 550 320 L 550 330 L 440 330 Z" fill="#C62828" />
-              <path d="M 345 280 L 400 230 L 455 280 Z" fill="#E53935" stroke="#D32F2F" strokeWidth="6" strokeLinejoin="round" />
-
-              {/* Flag */}
-              <path d="M 400 230 L 400 170" stroke="#8B5E34" strokeWidth="4" />
-              <motion.path 
-                animate={{ d: ["M 400 175 Q 415 165 430 175 T 450 175 L 450 195 Q 430 195 415 185 T 400 195 Z", "M 400 175 Q 415 185 430 175 T 450 175 L 450 195 Q 430 195 415 205 T 400 195 Z"] }}
-                transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-                fill="#E53935" 
-              />
-
-              {/* Clock */}
-              <circle cx="400" cy="290" r="15" fill="#FFFFFF" stroke="#8B5E34" strokeWidth="3" />
-              <path d="M 400 290 L 400 282 M 400 290 L 406 290" stroke="#8B5E34" strokeWidth="2" strokeLinecap="round" />
-
-              {/* Windows */}
-              {[305, 455].map(x => (
-                <g key={x} transform={`translate(${x}, 350)`}>
-                  <rect x="0" y="0" width="40" height="40" fill="#E3F2FD" stroke="#FFFFFF" strokeWidth="4" rx="2" />
-                  <line x1="20" y1="0" x2="20" y2="40" stroke="#FFFFFF" strokeWidth="4" />
-                  <line x1="0" y1="20" x2="40" y2="20" stroke="#FFFFFF" strokeWidth="4" />
-                </g>
-              ))}
-
-              {/* Double Door */}
-              <path d="M 370 480 L 370 410 A 30 30 0 0 1 430 410 L 430 480 Z" fill="#FFFFFF" />
-              <path d="M 375 480 L 375 410 A 25 25 0 0 1 425 410 L 425 480 Z" fill="#795548" />
-              <line x1="400" y1="385" x2="400" y2="480" stroke="#5D4037" strokeWidth="3" />
-              <circle cx="392" cy="440" r="3" fill="#FFD54A" />
-              <circle cx="408" cy="440" r="3" fill="#FFD54A" />
-
-              {/* Bushes & Flowers */}
-              <circle cx="260" cy="480" r="35" fill="#5DBE7E" />
-              <circle cx="220" cy="500" r="40" fill="#4AA468" />
-              <circle cx="560" cy="470" r="30" fill="#5DBE7E" />
-              <circle cx="610" cy="510" r="45" fill="#4AA468" />
-              
-              {/* Front large bushes */}
-              <path d="M 50 600 Q 150 480 280 600 Z" fill="#4AA468" />
-              <path d="M 750 600 Q 650 480 520 600 Z" fill="#5DBE7E" />
-
-              {/* Daisies */}
-              {[{x: 150, y: 550}, {x: 230, y: 580}, {x: 600, y: 570}, {x: 680, y: 540}].map((pos, i) => (
-                <g key={'F'+i} transform={`translate(${pos.x}, ${pos.y}) scale(0.6)`}>
-                  <circle cx="0" cy="0" r="5" fill="#FFD54A" />
-                  <path d="M 0 -5 L 3 -12 L -3 -12 Z M 5 0 L 12 3 L 12 -3 Z M 0 5 L 3 12 L -3 12 Z M -5 0 L -12 3 L -12 -3 Z" fill="white" />
-                </g>
-              ))}
-            </svg>
-          </motion.div>
+          <div className="relative mt-3 flex min-w-0 items-center justify-center lg:mt-0"><SchoolScene reduced={reduced} mouse={mouse}/></div>
         </div>
       </div>
     </section>
