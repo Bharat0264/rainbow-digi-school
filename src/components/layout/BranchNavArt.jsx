@@ -46,7 +46,7 @@ export function Tail({ layer = 'front', x = 0, y = 0, scale = 1 }) {
 }
 
 function Hand({ side }) {
-  return <g transform={`translate(${side*88} 123) scale(${side} 1)`} fill="#F2B58A" stroke="#925c3c" strokeWidth="1.2">
+  return <g transform={`translate(${side*88} 97) scale(${side} 1)`} fill="#F2B58A" stroke="#925c3c" strokeWidth="1.2">
     <ellipse cx="0" cy="5" rx="16" ry="5" fill="#4f2c14" opacity=".22" stroke="none"/>
     <path d="M-12-8Q-13-23-3-22Q9-22 13-9L14 0Q10 10 2 7L-10 3Z"/>
     {[0,1,2,3].map(i=><g key={i}><path d={`M${-10+i*5}-5v10q2.6 8 5 0v-9`} fill="#f8c69e"/><path d={`M${-8+i*5}-3v7`} fill="none" stroke="#ffe0ba" strokeWidth="1.2"/></g>)}
@@ -102,7 +102,7 @@ export function MonkeyArtwork({ x, y, scale, angle, push, onBounds, logoSize = {
           <g stroke="#c7966b" strokeWidth=".8" opacity=".6"><path d="M-28 36l-3 5M-30 42l-2 5M28 38l3 5M28 45l3 4M-10 26l5 3M6 28l4 3"/></g>
         </g>
         <g transform={`rotate(${lag.head*.3} 0 123)`}>
-          <foreignObject x={-logoSize.width/2} y="120" width={logoSize.width} height={logoSize.height}><Link to="/" className="bn-logo-board" style={{width:logoSize.width,height:logoSize.height}} aria-label="Rainbow Digi School home" onFocus={greet} onBlur={()=>setHover(false)} onClick={e=>{if(reduced||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey)return;e.preventDefault();push(.3);setKick(12);clearTimeout(timer.current);timer.current=setTimeout(()=>navigate('/'),160);}}><Logo style={{height:logoSize.height-16,width:logoSize.width-22}}/></Link></foreignObject>
+          <foreignObject x={-logoSize.width/2} y="95" width={logoSize.width} height={logoSize.height}><Link to="/" className="bn-logo-board" style={{width:logoSize.width,height:logoSize.height}} aria-label="Rainbow Digi School home" onFocus={greet} onBlur={()=>setHover(false)} onClick={e=>{if(reduced||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey)return;e.preventDefault();push(.3);setKick(12);clearTimeout(timer.current);timer.current=setTimeout(()=>navigate('/'),160);}}><Logo style={{height:logoSize.height-28,width:logoSize.width-24}}/></Link></foreignObject>
           <g aria-hidden="true"><Hand side={-1}/><Hand side={1}/></g>
         </g>
       </g>
