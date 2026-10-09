@@ -7,27 +7,32 @@
     "dev": "vite",
     "server": "node server/server.js",
     "start": "concurrently \"npm run dev\" \"npm run server\"",
-    "build": "vite build",
+    "build": "vite build", "postinstall": "prisma generate",
     "lint": "oxlint",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@prisma/client": "^6.16.3",
     "framer-motion": "^14.0.0",
     "lucide-react": "^1.53.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "react-router-dom": "^7.18.4"
+    "react-router-dom": "^7.18.4",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",
+    "@vercel/node": "^5.1.16",
     "@vitejs/plugin-react": "^6.1.1",
     "autoprefixer": "^10.6.1",
     "concurrently": "^10.0.6",
     "oxlint": "^1.81.0",
     "postcss": "^8.5.29",
+    "prisma": "^6.16.3",
     "tailwindcss": "^4.3.3",
+    "typescript": "^5.9.2",
     "vite": "^8.3.0"
   }
 }
