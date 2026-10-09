@@ -1,9 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import PaintedHero from '../components/home/PaintedHero';
+import HeroSection from '../components/home/HeroSection';
 import AboutTeaser from '../components/home/AboutTeaser';
 import StatsSection from '../components/home/StatsSection';
-import PaintedProgramsCard from '../components/home/PaintedProgramsCard';
+import ProgramsPreview from '../components/home/ProgramsPreview';
 import PhotoStrip from '../components/home/PhotoStrip';
 import TestimonialsSection from '../components/home/TestimonialsSection';
 import AdmissionsCTA from '../components/home/AdmissionsCTA';
@@ -17,10 +17,10 @@ export default function Home() {
       transition={{ duration: 0.5 }}
       className="w-full"
     >
-      <PaintedHero />
+      <HeroSection />
       <AboutTeaser />
       <StatsSection />
-      <PaintedProgramsCard />
+      <ProgramsPreview />
       <PhotoStrip />
       <TestimonialsSection />
       <AdmissionsCTA />
