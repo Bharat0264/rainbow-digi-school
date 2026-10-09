@@ -48,7 +48,7 @@ export function checkNavOverlap() {
   const menu = document.querySelector('.bn-menu-trigger');
   const apply = [...document.querySelectorAll('.bn-board')].find(node => node.textContent === 'Apply');
   const logo = document.querySelector('.bn-logo-board');
-  if (innerWidth < 768 && !menu) console.warn('BranchNav: Menu button is missing on mobile');
+  if (innerWidth < 768 && apply && !menu) console.warn('BranchNav: Menu button is missing on mobile');
   if (menu && logo && overlap(menu.getBoundingClientRect(), logo.getBoundingClientRect())) console.warn('BranchNav: Menu overlaps logo group');
   if (apply && logo && overlap(apply.getBoundingClientRect(), logo.getBoundingClientRect())) console.warn('BranchNav: Apply overlaps logo group');
 }
@@ -82,6 +82,7 @@ export default function BranchNav() {
   const all=[...NAV.left,...NAV.right,NAV.cta];
   const closeMenu=useCallback((focus=false)=>{setOpen(false);if(focus)requestAnimationFrame(()=>requestAnimationFrame(()=>menuButtonRef.current?.focus()));},[]);
   useEffect(()=>{if(!open)return;const key=e=>{if(e.key==='Escape')closeMenu(true);};window.addEventListener('keydown',key);requestAnimationFrame(()=>firstLinkRef.current?.focus());return()=>window.removeEventListener('keydown',key);},[open,closeMenu]);
+  useEffect(()=>{if(!open)return;const previous=document.body.style.overflow;document.body.style.overflow='hidden';return()=>{document.body.style.overflow=previous;};},[open]);
   const desktopScale=mobile?visualScale:visualScale;
   const logoSize=mobile?{width:280,height:120}:{width:271,height:112};
   return <header ref={ref} className="bn-header" style={{height:mobile?Math.max(contentHeight,198):contentHeight}}><div className="bn-main-nav" aria-label="Main"><svg viewBox={`0 0 ${width} ${sceneHeight}`} width="100%" height={sceneHeight} className="bn-scene">{geometry&&<>{mobile?<><MenuBoard anchors={geometry.boards[0]} width={82} drop={compact?16:18} open={open} onToggle={()=>setOpen(!open)} buttonRef={menuButtonRef}/><WoodBoard item={NAV.cta} anchors={geometry.boards[1]} width={82} drop={compact?16:18} onNavigate={()=>closeMenu()}/></>:all.map((item,i)=><WoodBoard key={item.label} item={item} anchors={geometry.boards[i]} width={geometry.boardWidth} drop={compact?20:24+i%3*2} onNavigate={()=>closeMenu()}/>)}</>}<Tail layer="back" x={width/2} y={branchY} scale={desktopScale}/><Branch d={d} pathRef={pathRef}/>{geometry?.boards.flat().map((from,i)=><Rope key={`wrap-${i}`} from={from} wrapOnly/>)}{geometry?.leaves.map((anchor,i)=><LeafTwig key={i} anchor={anchor} index={i} width={width}/>)}<Monkey x={width/2} y={branchY} scale={desktopScale} onBounds={onBounds} logoSize={logoSize}/></svg>{mobile&&open&&<><button className="bn-chain-dim" aria-label="Close menu" onClick={()=>closeMenu(true)}/><nav id="mobile-link-chain" className="bn-mobile-chain" aria-label="Mobile navigation"><ol>{all.slice(0,6).map((item,index)=><li key={item.path} style={{'--chain-index':index}}><i className="bn-chain-ropes" aria-hidden="true"/><NavLink ref={index===0?firstLinkRef:null} to={item.path} className={({isActive})=>`bn-board bn-chain-board ${isActive?'bn-active':''}`} onClick={()=>closeMenu()}>{item.label}</NavLink></li>)}</ol></nav></>}</div></header>;
