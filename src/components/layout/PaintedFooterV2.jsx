@@ -26,11 +26,11 @@ function GoogleIcon(props) {
 export default function PaintedFooterV2() {
   return (
     <footer className="relative mt-auto">
-      <PaintCanvasV2 mood="footer" className="pt-24 pb-8 bg-[#F7F1E6]">
+      <PaintCanvasV2 mood="footer" className="pt-24 pb-8 bg-[#F7F1E6] [&_.pg-paint]:!bg-cover [&_.pg-paint]:!bg-top">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
           
           {/* Main Footer Panel */}
-          <div className="pg-glass pg-glass--panel p-8 md:p-12 mb-6 border border-white/40 shadow-[0_8px_32px_rgba(31,78,140,0.08)] rounded-[2.5rem]" style={{ background: 'rgba(248,250,252,0.85)' }}>
+          <div className="pg-glass pg-glass--panel p-8 md:p-12 mb-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
               
               {/* Column 1 - School Info */}
@@ -38,7 +38,7 @@ export default function PaintedFooterV2() {
                 <div className="h-14 mb-1">
                   <Logo className="h-full" iconOnly={false} />
                 </div>
-                <p className="text-[#475569] text-sm max-w-sm font-medium leading-relaxed">
+                <p className="text-[#3B2412]/90 text-sm max-w-sm font-medium leading-relaxed">
                   {SCHOOL.address.full}
                 </p>
                 <div className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-sm border border-gray-100">
@@ -54,7 +54,7 @@ export default function PaintedFooterV2() {
               {/* Column 2 - Quick Links */}
               <div className="md:pl-8">
                 <h4 className="font-bold text-[#1F4E8C] text-lg mb-6">Quick Links</h4>
-                <ul className="flex flex-col gap-4 text-sm font-semibold text-[#475569]">
+                <ul className="flex flex-col gap-4 text-sm font-semibold text-[#3B2412]/80">
                   {['about', 'academics', 'admissions', 'campus'].map(path => (
                     <li key={path}>
                       <Link to={"/" + path} className="hover:text-[#1F4E8C] transition-colors capitalize inline-block">
@@ -68,7 +68,7 @@ export default function PaintedFooterV2() {
               {/* Column 3 - Contact */}
               <div>
                 <h4 className="font-bold text-[#1F4E8C] text-lg mb-6">Contact</h4>
-                <ul className="flex flex-col gap-5 text-sm font-semibold text-[#475569]">
+                <ul className="flex flex-col gap-5 text-sm font-semibold text-[#3B2412]/80">
                   <li>
                     <a href={SCHOOL.phoneHref} className="group flex items-center gap-3 hover:text-[#1F4E8C] transition-colors">
                       <div className="flex items-center justify-center w-8 h-8 rounded-full bg-[#1F4E8C]/10 text-[#1F4E8C] group-hover:bg-[#1F4E8C] group-hover:text-white transition-colors">
@@ -99,15 +99,15 @@ export default function PaintedFooterV2() {
           </div>
 
           {/* Bottom Copyright Bar */}
-          <div className="flex flex-col md:flex-row justify-between items-center text-xs text-[#475569] font-medium pg-glass pg-glass--pill px-6 py-4 rounded-full border border-white/20 shadow-sm" style={{ background: 'rgba(203, 213, 225, 0.4)' }}>
+          <div className="flex flex-col md:flex-row justify-between items-center text-xs text-[#3B2412]/80 font-medium pg-glass pg-glass--pill px-6 py-4">
             <div className="flex items-center gap-2 mb-3 md:mb-0">
-              <Diamond size={12} className="text-[#475569]" />
+              <Diamond size={12} className="text-[#3B2412]/60" />
               <p>&copy; 2026 {SCHOOL.name}. All rights reserved.</p>
             </div>
             
             <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
               <p>Excellence Begins Early.</p>
-              <div className="hidden md:block w-px h-4 bg-[#94A3B8]"></div>
+              <div className="hidden md:block w-px h-4 bg-[#3B2412]/20"></div>
               <a 
                 href="https://my-work-umber.vercel.app/" 
                 target="_blank" 
