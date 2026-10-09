@@ -1,1 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="15" fill="#FFC93C"/><path d="M16 47V17h18c11 0 16 14 6 21l12 9H39L28 38h-4v9Z" fill="#E84855"/><path d="M19 22h14c5 0 7 6 3 9H19Z" fill="#F6511D"/><path d="M19 31h17l7 7H19Z" fill="#2B5BA8"/><path d="M16 47h36v7H16Z" fill="#2B5BA8"/><path d="M46 11l2 5 5 2-5 2-2 5-2-5-5-2 5-2Z" fill="#fff"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs><linearGradient id="rainbow" x1="0" x2="1"><stop stop-color="#E84855"/><stop offset=".33" stop-color="#F27D32"/><stop offset=".66" stop-color="#55A95D"/><stop offset="1" stop-color="#2B5BA8"/></linearGradient></defs>
+  <rect width="64" height="64" rx="16" fill="#FFC93C"/>
+  <path d="M13 35C20 10 44 10 51 35" fill="none" stroke="url(#rainbow)" stroke-width="6" stroke-linecap="round"/>
+  <path d="M17 38q8-7 15 0q7-7 15 0v13q-8-4-15 3q-7-7-15-3Z" fill="#fff" stroke="#2B5BA8" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M18 53h28v4H18Z" fill="#2B5BA8"/>
+  <circle cx="51" cy="14" r="3" fill="#fff"/>
+</svg>
