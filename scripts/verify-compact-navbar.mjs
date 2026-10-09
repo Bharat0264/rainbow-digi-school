@@ -22,9 +22,9 @@ for (const id of ['about', 'academics', 'admissions', 'campus', 'events', 'conta
 }
 await page.locator('.compact-home').click(); await page.waitForURL('**/'); assert.equal(new URL(page.url()).pathname, '/'); await page.locator('.compact-home.compact-active').waitFor();
 assert.ok(await page.locator('.compact-home.compact-active').count());
-await page.evaluate(() => window.scrollTo(0, 600)); await page.waitForTimeout(350);
+await page.evaluate(() => window.scrollTo(0, 600)); await page.waitForTimeout(1000);
 assert.equal(await page.locator('.compact-nav').evaluate(el => Math.round(el.getBoundingClientRect().height)), 64);
-await page.evaluate(() => window.scrollTo(0, 0)); await page.waitForTimeout(350);
+await page.evaluate(() => window.scrollTo(0, 0)); await page.waitForTimeout(1000);
 assert.equal(await page.locator('.compact-nav').evaluate(el => Math.round(el.getBoundingClientRect().height)), 150);
 const assetBytes = await page.evaluate(async () => {
   const items = await Promise.all(['/images/navigation/branch-compact.webp', '/images/navigation/treehouse-compact.webp', '/images/navigation/monkey-compact.webp'].map(async url => ({ url, size: (await (await fetch(url)).blob()).size })));
