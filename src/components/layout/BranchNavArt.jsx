@@ -16,7 +16,7 @@ export function LeafTwig({ anchor, index, width }) {
   const id = useId().replace(/:/g, '');
   const reduced = useReducedMotion();
   const lower = index % 3 === 1;
-  const size = lower ? .29 : width < 768 ? .48 : .7;
+  const size = lower ? .18 : width < 768 ? .32 : .49;
   return <g transform={`translate(${anchor.center.x} ${anchor.center.y})`} aria-hidden="true">
     <defs><linearGradient id={id} x1="0" y1="1" x2=".8" y2="0"><stop stopColor="#2F6B1E"/><stop offset=".5" stopColor="#5FA52A"/><stop offset="1" stopColor="#A9D04A"/></linearGradient></defs>
     <g transform={`rotate(${lower ? 157 : index % 2 ? 24 : -21}) scale(${size})`}>
@@ -102,7 +102,7 @@ export function MonkeyArtwork({ x, y, scale, angle, push, onBounds }) {
           <g stroke="#c7966b" strokeWidth=".8" opacity=".6"><path d="M-28 36l-3 5M-30 42l-2 5M28 38l3 5M28 45l3 4M-10 26l5 3M6 28l4 3"/></g>
         </g>
         <g transform={`rotate(${lag.head*.3} 0 123)`}>
-          <foreignObject x="-105" y="120" width="210" height="90"><Link to="/" className="bn-logo-board" aria-label="Rainbow Digi School home" onFocus={greet} onBlur={()=>setHover(false)} onClick={e=>{if(reduced||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey)return;e.preventDefault();push(.3);setKick(12);clearTimeout(timer.current);timer.current=setTimeout(()=>navigate('/'),160);}}><Logo className="h-20 w-44"/></Link></foreignObject>
+          <foreignObject x="-150" y="120" width="300" height="110"><Link to="/" className="bn-logo-board" aria-label="Rainbow Digi School home" onFocus={greet} onBlur={()=>setHover(false)} onClick={e=>{if(reduced||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey)return;e.preventDefault();push(.3);setKick(12);clearTimeout(timer.current);timer.current=setTimeout(()=>navigate('/'),160);}}><Logo className="h-24 w-64"/></Link></foreignObject>
           <g aria-hidden="true"><Hand side={-1}/><Hand side={1}/></g>
         </g>
       </g>

@@ -21,14 +21,14 @@ export default function CountUp({ value, suffix = '', decimal = false, className
 
     const animate = (time) => {
       if (!startTime) startTime = time;
-      const progress = Math.min((time - startTime) / duration, 1);
+      const phase = Math.min((time - startTime) / duration, 1);
       
       // Easing function (easeOutExpo)
-      const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+      const easedPhase = phase === 1 ? 1 : 1 - Math.pow(2, -10 * phase);
       
-      setCount(easeProgress * value);
+      setCount(easedPhase * value);
       
-      if (progress < 1) {
+      if (phase < 1) {
         requestAnimationFrame(animate);
       }
     };

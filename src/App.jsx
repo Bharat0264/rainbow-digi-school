@@ -3,7 +3,6 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import Lenis from 'lenis';
 import Layout from './components/layout/Layout';
-import ScrollProgress from './components/layout/ScrollProgress';
 import Preloader from './components/layout/Preloader';
 
 /* ── Route-level code splitting ────────────────────── */
@@ -66,7 +65,6 @@ export default function App() {
 
       {!loading && (
         <>
-          <ScrollProgress />
           <ScrollToTop />
           <Layout>
             <Suspense fallback={<PageLoader />}>
