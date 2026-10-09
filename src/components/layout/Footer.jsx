@@ -1,5 +1,58 @@
 import { Link } from 'react-router-dom';
-import { Camera, MapPin, Phone, Clock } from 'lucide-react';
-import { SCHOOL } from '../../data/school';
 import Logo from '../ui/Logo';
-export default function Footer() { return <footer className="relative mt-16 overflow-hidden bg-[#fff3c4] px-6 pb-24 pt-20 text-[#6b5535]"><div className="absolute inset-x-0 top-0 h-6 -translate-y-1/2 bg-[radial-gradient(circle_at_12px_12px,transparent_11px,#fff3c4_12px)] bg-[size:24px_24px]"/><div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-[1.3fr_1fr_1fr]"><section><Link to="/" className="logo-tile inline-flex"><Logo className="h-16 w-36"/></Link><h2 className="mt-5 font-['Fredoka'] text-3xl font-semibold text-[#4a2e0a]">{SCHOOL.tagline}</h2><p className="mt-3 max-w-sm text-sm leading-6">A sunny beginning for young learners in Kandlakoya.</p></section><section><h3 className="font-['Fredoka'] text-xl font-semibold text-[#4a2e0a]">Visit us</h3><p className="mt-3 text-sm leading-6">{SCHOOL.address.full}</p><a href={SCHOOL.mapsUrl} className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-[#2b5ba8]"><MapPin size={16}/>Directions</a></section><section><h3 className="font-['Fredoka'] text-xl font-semibold text-[#4a2e0a]">Let’s connect</h3><a href={SCHOOL.phoneHref} className="mt-3 flex items-center gap-2 text-sm"><Phone size={16}/>{SCHOOL.phone}</a><p className="mt-3 flex items-center gap-2 text-sm"><Clock size={16}/>{SCHOOL.timings}</p><a href={SCHOOL.social.instagram} target="_blank" rel="noreferrer" aria-label="Instagram" className="mt-5 inline-flex rounded-full bg-white p-3 text-[#2b5ba8] shadow-sm"><Camera size={18}/></a></section></div><p className="mx-auto mt-12 max-w-6xl border-t border-[#b9903e]/20 pt-5 text-xs">© {new Date().getFullYear()} {SCHOOL.name}.</p></footer>; }
+import { SCHOOL } from '../../data/school';
+import PaintCanvas from '../ui/PaintCanvas';
+import PaintDivider from '../ui/PaintDivider';
+
+export default function Footer() {
+  return (
+    <footer className="relative mt-auto">
+      <PaintDivider flip className="absolute -top-8 w-full h-16 z-20 text-[#1F4E8C]" />
+      <PaintCanvas mood="cobalt" parallax={false} className="pt-24 pb-8 bg-[#1F4E8C]">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+          <div className="glass glass--strong p-10 rounded-[40px] mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+              <div className="flex flex-col items-start gap-6">
+                <div className="h-14 bg-white p-2 rounded-2xl shadow-lg">
+                  <Logo className="h-full" iconOnly={false} />
+                </div>
+                <p className="text-[#3B2412]/90 text-sm max-w-sm font-medium">
+                  {SCHOOL.address.full}
+                </p>
+                <div className="flex items-center gap-2">
+                  <span className="glass-chip">
+                    {SCHOOL.rating.score} ? Google Rated
+                  </span>
+                </div>
+              </div>
+              
+              <div>
+                <h4 className="font-bold text-[#1F4E8C] mb-6 tracking-wide">Quick Links</h4>
+                <ul className="flex flex-col gap-3 text-sm font-medium text-[#3B2412]/80">
+                  <li><Link to="/about" className="hover:text-[#1F4E8C] transition-colors">About Us</Link></li>
+                  <li><Link to="/academics" className="hover:text-[#1F4E8C] transition-colors">Academics</Link></li>
+                  <li><Link to="/admissions" className="hover:text-[#1F4E8C] transition-colors">Admissions</Link></li>
+                  <li><Link to="/campus" className="hover:text-[#1F4E8C] transition-colors">Campus & Gallery</Link></li>
+                </ul>
+              </div>
+              
+              <div>
+                <h4 className="font-bold text-[#1F4E8C] mb-6 tracking-wide">Contact</h4>
+                <ul className="flex flex-col gap-3 text-sm font-medium text-[#3B2412]/80">
+                  <li>Call: <a href={SCHOOL.phoneHref} className="text-[#1F4E8C] hover:underline font-bold">{SCHOOL.phone}</a></li>
+                  <li><a href={SCHOOL.mapsUrl} target="_blank" rel="noreferrer" className="hover:text-[#1F4E8C] transition-colors">Open in Maps</a></li>
+                  <li><a href={SCHOOL.whatsappUrl} target="_blank" rel="noreferrer" className="hover:text-[#1F4E8C] transition-colors">WhatsApp us</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          
+          <div className="flex flex-col md:flex-row justify-between items-center text-xs text-[#F7F1E6]/60 font-medium">
+            <p>� {new Date().getFullYear()} {SCHOOL.name}. All rights reserved.</p>
+            <p className="mt-2 md:mt-0">Excellence Begins Early.</p>
+          </div>
+        </div>
+      </PaintCanvas>
+    </footer>
+  );
+}
