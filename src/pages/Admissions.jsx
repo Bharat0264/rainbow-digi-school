@@ -11,46 +11,16 @@ const pageVariants = {
 
 export default function Admissions() {
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
-  const [formStatus, setFormStatus] = useState('idle'); // 'idle', 'submitting', 'success', 'error'
-  const [submitError, setSubmitError] = useState('');
-  const [formData, setFormData] = useState({
-    parentName: '', phone: '', email: '', childName: '', program: '', message: '', website: ''
-  });
+  const [formStatus, setFormStatus] = useState('idle'); // 'idle', 'success'
 
   const toggleFaq = (idx) => {
     setOpenFaqIndex(openFaqIndex === idx ? null : idx);
   };
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleFormSubmit = async (e) => {
+  const handleFormSubmit = (e) => {
     e.preventDefault();
-    setFormStatus('submitting');
-    setSubmitError('');
-
-    try {
-      const response = await fetch('/api/enquiries', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to submit enquiry.');
-      }
-
-      setFormStatus('success');
-      setTimeout(() => {
-        setFormStatus('idle');
-        setFormData({ parentName: '', phone: '', email: '', childName: '', program: '', message: '', website: '' });
-      }, 5000);
-    } catch (err) {
-      setSubmitError(err.message);
-      setFormStatus('error');
-    }
+    // Simulate submission
+    setFormStatus('success');
   };
 
   return (
@@ -142,7 +112,7 @@ export default function Admissions() {
                   onClick={() => toggleFaq(idx)}
                   className="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none"
                 >
-                  <h3 className="font-serif text-lg text-royal-blue pr-8">{faq.q}</h3>
+                  <h3 className="font-serif text-lg text-royal-blue pr-8">{faq.question}</h3>
                   <div className="text-[#D9A514] shrink-0">
                     {openFaqIndex === idx ? <Minus className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
                   </div>
@@ -156,7 +126,7 @@ export default function Admissions() {
                       transition={{ duration: 0.3, ease: "easeInOut" }}
                     >
                       <div className="px-6 pb-5 pt-2 border-t border-[#A89888]/10 text-sans text-[#6B5D52] leading-relaxed">
-                        {faq.a}
+                        {faq.answer}
                       </div>
                     </motion.div>
                   )}
@@ -184,57 +154,54 @@ export default function Admissions() {
                 </div>
                 <h3 className="font-serif text-2xl text-royal-blue mb-4">Thank You!</h3>
                 <p className="font-sans text-[#6B5D52] mb-8">We have received your enquiry and will contact you shortly.</p>
+                <a
+                  href="https://wa.me/1234567890"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center justify-center px-8 py-3 bg-[#25D366] text-white rounded-full font-sans font-medium hover:bg-[#20bd5a] transition-colors"
+                >
+                  Connect on WhatsApp
+                </a>
               </motion.div>
             ) : (
               <form onSubmit={handleFormSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-sans text-[#3D3028] mb-2">Parent's Name *</label>
-                    <input required type="text" name="parentName" value={formData.parentName} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-[#A89888]/30 focus:border-[#F6C945] focus:ring-1 focus:ring-[#F6C945] outline-none transition-all font-sans" placeholder="John Doe" />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-sans text-[#3D3028] mb-2">Child's Name *</label>
-                    <input required type="text" name="childName" value={formData.childName} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-[#A89888]/30 focus:border-[#F6C945] focus:ring-1 focus:ring-[#F6C945] outline-none transition-all font-sans" placeholder="Jane Doe" />
+                    <input required type="text" className="w-full px-4 py-3 rounded-xl border border-[#A89888]/30 focus:border-[#F6C945] focus:ring-1 focus:ring-[#F6C945] outline-none transition-all font-sans" placeholder="John Doe" />
                   </div>
                   <div>
                     <label className="block text-sm font-sans text-[#3D3028] mb-2">Phone Number *</label>
-                    <input required type="tel" name="phone" value={formData.phone} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-[#A89888]/30 focus:border-[#F6C945] focus:ring-1 focus:ring-[#F6C945] outline-none transition-all font-sans" placeholder="+91 98765 43210" />
+                    <input required type="tel" className="w-full px-4 py-3 rounded-xl border border-[#A89888]/30 focus:border-[#F6C945] focus:ring-1 focus:ring-[#F6C945] outline-none transition-all font-sans" placeholder="+91 98765 43210" />
                   </div>
                   <div>
                     <label className="block text-sm font-sans text-[#3D3028] mb-2">Email Address *</label>
-                    <input required type="email" name="email" value={formData.email} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-[#A89888]/30 focus:border-[#F6C945] focus:ring-1 focus:ring-[#F6C945] outline-none transition-all font-sans" placeholder="john@example.com" />
+                    <input required type="email" className="w-full px-4 py-3 rounded-xl border border-[#A89888]/30 focus:border-[#F6C945] focus:ring-1 focus:ring-[#F6C945] outline-none transition-all font-sans" placeholder="john@example.com" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-sans text-[#3D3028] mb-2">Child's Name *</label>
+                    <input required type="text" className="w-full px-4 py-3 rounded-xl border border-[#A89888]/30 focus:border-[#F6C945] focus:ring-1 focus:ring-[#F6C945] outline-none transition-all font-sans" placeholder="Jane Doe" />
                   </div>
                 </div>
                 
                 <div>
                   <label className="block text-sm font-sans text-[#3D3028] mb-2">Grade Applying For *</label>
-                  <select required name="program" value={formData.program} onChange={handleChange} className="w-full px-4 py-3 rounded-xl border border-[#A89888]/30 focus:border-[#F6C945] focus:ring-1 focus:ring-[#F6C945] outline-none transition-all font-sans bg-white">
+                  <select required className="w-full px-4 py-3 rounded-xl border border-[#A89888]/30 focus:border-[#F6C945] focus:ring-1 focus:ring-[#F6C945] outline-none transition-all font-sans bg-white">
                     <option value="">Select a grade...</option>
                     {ACADEMICS?.map((stage, idx) => (
-                      <option key={idx} value={stage.stage}>{stage.stage} ({stage.grades})</option>
+                      <option key={idx} value={stage.title}>{stage.title} ({stage.grade})</option>
                     ))}
                   </select>
                 </div>
 
-                <div style={{ display: 'none' }} aria-hidden="true">
-                  <label>Leave this field empty</label>
-                  <input type="text" name="website" value={formData.website} onChange={handleChange} tabIndex="-1" autoComplete="off" />
-                </div>
-
                 <div>
                   <label className="block text-sm font-sans text-[#3D3028] mb-2">Message (Optional)</label>
-                  <textarea name="message" value={formData.message} onChange={handleChange} rows="4" className="w-full px-4 py-3 rounded-xl border border-[#A89888]/30 focus:border-[#F6C945] focus:ring-1 focus:ring-[#F6C945] outline-none transition-all font-sans resize-none" placeholder="Any specific questions?"></textarea>
+                  <textarea rows="4" className="w-full px-4 py-3 rounded-xl border border-[#A89888]/30 focus:border-[#F6C945] focus:ring-1 focus:ring-[#F6C945] outline-none transition-all font-sans resize-none" placeholder="Any specific questions?"></textarea>
                 </div>
 
-                {submitError && (
-                  <div className="bg-red-50 text-red-600 p-4 rounded-xl text-sm">
-                    {submitError}
-                  </div>
-                )}
-
                 <div className="pt-4">
-                  <button type="submit" disabled={formStatus === 'submitting'} className={`w-full py-4 ${formStatus === 'submitting' ? 'bg-[#FDF0C4] text-royal-blue/50' : 'bg-[#F6C945] hover:bg-[#D9A514]'} text-royal-blue font-sans font-semibold rounded-full transition-colors shadow-md`}>
-                    {formStatus === 'submitting' ? 'Submitting...' : 'Submit Enquiry'}
+                  <button type="submit" className="w-full py-4 bg-[#F6C945] text-royal-blue font-sans font-semibold rounded-full hover:bg-[#D9A514] transition-colors shadow-md">
+                    Submit Enquiry
                   </button>
                 </div>
               </form>

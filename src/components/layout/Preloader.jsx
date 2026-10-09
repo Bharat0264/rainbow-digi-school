@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SCHOOL } from '../../data/school';
-import logo from '../../assets/logo.png';
+import Logo from '../ui/Logo';
 
 export default function Preloader({ onComplete }) {
   const [visible, setVisible] = useState(true);
@@ -10,7 +10,7 @@ export default function Preloader({ onComplete }) {
     const timer = setTimeout(() => {
       setVisible(false);
       if (onComplete) onComplete();
-    }, 1500);
+    }, 850);
     return () => clearTimeout(timer);
   }, [onComplete]);
 
@@ -30,7 +30,7 @@ export default function Preloader({ onComplete }) {
             className="flex flex-col items-center"
           >
             <div className="bg-white p-4 rounded-full shadow-lg mb-6">
-              <img src={logo} alt={SCHOOL.name} className="w-24 h-24 object-contain filter drop-shadow-sm" />
+              <Logo className="h-20 w-28" />
             </div>
             <motion.h1 
               className="text-royal-blue font-serif text-3xl md:text-4xl font-bold tracking-wide"

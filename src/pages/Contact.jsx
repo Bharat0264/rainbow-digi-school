@@ -5,7 +5,7 @@ import { SCHOOL } from '../data/school';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
-    parentName: '', phone: '', email: '', childName: '', program: 'Playgroup', message: '', website: ''
+    parentName: '', phone: '', email: '', classApplying: 'Playgroup', message: ''
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -27,23 +27,20 @@ export default function Contact() {
     setSubmitError('');
 
     try {
-      // POST to the Vercel serverless function endpoint
-      const response = await fetch('/api/enquiries', {
+      const response = await fetch('http://localhost:3001/api/enquiry', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
 
-      const data = await response.json();
-
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to send message. Please try again.');
+        throw new Error('Failed to send message. Please try again.');
       }
 
       setIsSubmitted(true);
       setTimeout(() => {
         setIsSubmitted(false);
-        setFormData({ parentName: '', phone: '', email: '', childName: '', program: 'Playgroup', message: '', website: '' });
+        setFormData({ parentName: '', phone: '', email: '', classApplying: 'Playgroup', message: '' });
       }, 5000);
     } catch (err) {
       setSubmitError(err.message);
@@ -92,30 +89,23 @@ export default function Contact() {
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-[#6B5D52] mb-2">Parent Name</label>
+                    <label className="block text-sm font-medium text-[#6B5D52] mb-2">Full Name</label>
                     <input required type="text" name="parentName" value={formData.parentName} onChange={handleChange} className="w-full bg-white px-4 py-3 rounded-xl border border-[#D9A514]/30 focus:outline-none focus:ring-2 focus:ring-[#F6C945]" placeholder="John Doe" />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-[#6B5D52] mb-2">Child Name</label>
-                    <input required type="text" name="childName" value={formData.childName} onChange={handleChange} className="w-full bg-white px-4 py-3 rounded-xl border border-[#D9A514]/30 focus:outline-none focus:ring-2 focus:ring-[#F6C945]" placeholder="Jane Doe" />
+                    <label className="block text-sm font-medium text-[#6B5D52] mb-2">Phone Number</label>
+                    <input required type="tel" name="phone" value={formData.phone} onChange={handleChange} className="w-full bg-white px-4 py-3 rounded-xl border border-[#D9A514]/30 focus:outline-none focus:ring-2 focus:ring-[#F6C945]" placeholder="+1 234 567 890" />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-[#6B5D52] mb-2">Phone Number</label>
-                    <input required type="tel" name="phone" value={formData.phone} onChange={handleChange} className="w-full bg-white px-4 py-3 rounded-xl border border-[#D9A514]/30 focus:outline-none focus:ring-2 focus:ring-[#F6C945]" placeholder="+91 98765 43210" />
-                  </div>
                   <div>
                     <label className="block text-sm font-medium text-[#6B5D52] mb-2">Email Address</label>
-                    <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full bg-white px-4 py-3 rounded-xl border border-[#D9A514]/30 focus:outline-none focus:ring-2 focus:ring-[#F6C945]" placeholder="john@example.com (optional)" />
+                    <input required type="email" name="email" value={formData.email} onChange={handleChange} className="w-full bg-white px-4 py-3 rounded-xl border border-[#D9A514]/30 focus:outline-none focus:ring-2 focus:ring-[#F6C945]" placeholder="john@example.com" />
                   </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-[#6B5D52] mb-2">Program Interested In</label>
-                    <select name="program" value={formData.program} onChange={handleChange} className="w-full bg-white px-4 py-3 rounded-xl border border-[#D9A514]/30 focus:outline-none focus:ring-2 focus:ring-[#F6C945]">
+                  <div>
+                    <label className="block text-sm font-medium text-[#6B5D52] mb-2">Class Applying For</label>
+                    <select name="classApplying" value={formData.classApplying} onChange={handleChange} className="w-full bg-white px-4 py-3 rounded-xl border border-[#D9A514]/30 focus:outline-none focus:ring-2 focus:ring-[#F6C945]">
                       <option>Playgroup</option>
                       <option>Nursery</option>
                       <option>Junior KG</option>
@@ -127,15 +117,9 @@ export default function Contact() {
                   </div>
                 </div>
 
-                {/* Honeypot field - hidden from users to catch bots */}
-                <div style={{ display: 'none' }} aria-hidden="true">
-                  <label>Leave this field empty</label>
-                  <input type="text" name="website" value={formData.website} onChange={handleChange} tabIndex="-1" autoComplete="off" />
-                </div>
-
                 <div>
                   <label className="block text-sm font-medium text-[#6B5D52] mb-2">Your Message</label>
-                  <textarea name="message" value={formData.message} onChange={handleChange} rows="4" className="w-full bg-white px-4 py-3 rounded-xl border border-[#D9A514]/30 focus:outline-none focus:ring-2 focus:ring-[#F6C945]" placeholder="How can we help you?"></textarea>
+                  <textarea required name="message" value={formData.message} onChange={handleChange} rows="4" className="w-full bg-white px-4 py-3 rounded-xl border border-[#D9A514]/30 focus:outline-none focus:ring-2 focus:ring-[#F6C945]" placeholder="How can we help you?"></textarea>
                 </div>
                 
                 {submitError && (

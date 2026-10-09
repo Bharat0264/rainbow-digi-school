@@ -20,25 +20,29 @@ export default function StatsSection() {
   };
 
   return (
-    <section className="bg-royal-blue py-20 px-6 md:px-16 lg:px-24">
-      <div className="max-w-7xl mx-auto">
+    <section className="px-5 py-14 sm:px-8">
+      <div className="mx-auto max-w-6xl rounded-[32px] border border-white/80 bg-gradient-to-br from-[#fff3c4] via-[#ffe27a] to-[#ffc93c]/80 px-5 py-10 shadow-[0_16px_36px_rgba(181,125,22,.13)] sm:px-8">
         <motion.div 
           variants={container}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-50px" }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-12 md:gap-8 divide-y md:divide-y-0 md:divide-x divide-gold/30"
+          className="grid grid-cols-2 gap-8 md:grid-cols-4 md:gap-4"
         >
           {STATS.map((stat, index) => (
             <motion.div 
               key={index} 
               variants={item}
-              className={`flex flex-col items-center text-center ${index > 0 ? 'pt-8 md:pt-0' : ''}`}
+              className="flex flex-col items-center text-center"
             >
-              <div className="text-4xl md:text-5xl lg:text-6xl font-serif text-gold mb-2 flex items-center justify-center">
-                <CountUp end={Number(stat.value)} decimals={stat.decimal ? 1 : 0} suffix={stat.suffix || ""} />
+              <div className="mb-2 flex items-center justify-center font-['Fredoka'] text-3xl font-semibold text-[#4a2e0a] sm:text-4xl">
+                {typeof stat.value === 'number' ? (
+                  <CountUp value={stat.value} suffix={stat.suffix} decimal={stat.decimal} />
+                ) : (
+                  <span>{stat.value}{stat.suffix}</span>
+                )}
               </div>
-              <p className="text-white font-sans text-sm md:text-base uppercase tracking-wider">{stat.label}</p>
+              <p className="max-w-32 text-sm font-semibold leading-5 text-[#6b5535]">{stat.label}</p>
             </motion.div>
           ))}
         </motion.div>

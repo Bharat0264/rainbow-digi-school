@@ -19,7 +19,7 @@ export default function EventsNews() {
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    Promise.reject(new Error("No API"))
+    fetch('http://localhost:3001/api/events')
       .then((res) => res.json())
       .then((data) => {
         if (data && data.length > 0) {

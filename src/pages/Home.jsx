@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import HeroSection from '../components/home/HeroSection';
 import AboutTeaser from '../components/home/AboutTeaser';
 import StatsSection from '../components/home/StatsSection';
-import MarqueeStrip from '../components/ui/MarqueeStrip';
 import ProgramsPreview from '../components/home/ProgramsPreview';
 import PhotoStrip from '../components/home/PhotoStrip';
 import TestimonialsSection from '../components/home/TestimonialsSection';
@@ -21,7 +20,6 @@ export default function Home() {
       <HeroSection />
       <AboutTeaser />
       <StatsSection />
-      <MarqueeStrip />
       <ProgramsPreview />
       <PhotoStrip />
       <TestimonialsSection />

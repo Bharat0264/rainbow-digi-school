@@ -1,6 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { IMAGES } from '../../data/images';
+import SmartImage from '../ui/SmartImage';
 
 export default function AboutTeaser() {
   return (
@@ -14,12 +16,7 @@ export default function AboutTeaser() {
           className="w-full md:w-1/2"
         >
           <div className="relative aspect-square md:aspect-[4/5] overflow-hidden rounded-[40px] md:rounded-[80px_40px_80px_40px]">
-            <img 
-              src="https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=800&q=80" 
-              alt="Students collaborating" 
-              loading="lazy"
-              className="w-full h-full object-cover"
-            />
+            <SmartImage image={IMAGES.about} className="h-full w-full" />
           </div>
         </motion.div>
         
