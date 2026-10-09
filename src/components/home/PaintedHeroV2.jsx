@@ -3,6 +3,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Phone } from 'lucide-react';
 import { SCHOOL } from '../../data/school';
+import './PaintedHeroV2.css';
 
 const badges = [
   ['🌱', 'Nursery – Grade 5'],
@@ -13,7 +14,7 @@ const badges = [
 function SchoolScene({ reduced, mouse }) {
   return (
     <motion.div
-      className="relative mx-auto w-full max-w-[710px]"
+      className="relative mx-auto w-full max-w-[780px]"
       animate={reduced ? undefined : { x: mouse.x * -8, y: mouse.y * -5 }}
       transition={{ type: 'spring', stiffness: 42, damping: 18 }}
     >
@@ -93,7 +94,7 @@ function PaintedHeroV2() {
 
   return (
     <section className="w-full px-3 py-4 sm:px-6 lg:px-8" aria-labelledby="hero-title">
-      <div className="relative mx-auto min-h-[670px] max-w-[1600px] overflow-hidden rounded-[42px] bg-[#fff2b6] px-6 py-12 shadow-[0_24px_60px_rgba(131,76,30,0.13)] sm:rounded-[56px] sm:px-12 lg:min-h-[760px] lg:px-[7%] lg:py-20">
+      <div className="relative mx-auto min-h-[690px] max-w-[1640px] overflow-hidden rounded-[42px] bg-[#fff2b6] px-6 py-12 shadow-[0_24px_60px_rgba(131,76,30,0.13)] sm:rounded-[56px] sm:px-12 lg:min-h-[790px] lg:px-[6.5%] lg:py-[5.4rem]">
         <svg className="pointer-events-none absolute inset-0 h-full w-full" preserveAspectRatio="none" aria-hidden="true">
           <path d="M0 0C154 32 220 2 379 9c173 7 278 18 424-9h797v164c-166-102-253 91-473-41-171-104-279 95-482-1C456 24 264 110 0 155Z" fill="#fff8d7" opacity=".82"/>
           <path d="M1047 0h553v151c-83-82-183-10-300-9-121 1-194-69-253-142Z" fill="#ff9d80" opacity=".78"/>
@@ -102,7 +103,7 @@ function PaintedHeroV2() {
           <circle cx="89" cy="566" r="9" fill="#ffd53f"/><circle cx="107" cy="593" r="6" fill="#fff5be"/><circle cx="754" cy="641" r="10" fill="#ffd95b" opacity=".75"/>
         </svg>
 
-        <div className="relative z-10 grid items-center gap-8 lg:grid-cols-[.94fr_1.06fr] lg:gap-12">
+        <div className="relative z-10 grid items-center gap-8 lg:grid-cols-[.96fr_1.04fr] lg:gap-8">
           <div className="pt-3 lg:pt-0">
             <div className="mb-8 flex flex-wrap gap-3" aria-label="School highlights">
               {badges.map(([icon, text], index) => <motion.span key={text} initial={reduced ? false : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.08, duration: 0.42 }} className="inline-flex items-center gap-2 rounded-full border border-white/90 bg-white/85 px-4 py-2 text-sm font-extrabold text-[#472013] shadow-[0_7px_16px_rgba(126,74,34,0.14)] backdrop-blur-sm sm:px-5 sm:text-base"><span aria-hidden="true">{icon}</span>{text}</motion.span>)}
@@ -110,22 +111,22 @@ function PaintedHeroV2() {
 
             <div className="relative max-w-[680px]">
               <svg className="absolute -left-10 top-9 hidden h-12 w-12 text-[#ffae16] lg:block" viewBox="0 0 54 54" fill="none" aria-hidden="true"><path d="m27 4 5.3 15.9L49 21l-13.1 10.2 4.5 16.3L27 38l-13.4 9.5 4.5-16.3L5 21l16.7-1.1L27 4Z" stroke="currentColor" strokeWidth="3" strokeLinejoin="round"/></svg>
-              <h1 id="hero-title" className="font-['Fredoka'] text-[clamp(3.7rem,6.2vw,6.9rem)] font-black leading-[.88] tracking-[-.055em] text-[#3b190e]">
+              <h1 id="hero-title" className="font-['Fredoka'] text-[clamp(4rem,6.7vw,7.55rem)] font-black leading-[.86] tracking-[-.06em] text-[#3b190e]">
                 Where little<br/>
                 <span className="relative inline-block pr-2">dreams<svg className="pointer-events-none absolute -inset-x-5 -inset-y-3 h-[calc(100%+1.5rem)] w-[calc(100%+2.5rem)] overflow-visible" viewBox="0 0 200 100" aria-hidden="true"><path d="M12 55C14 22 180 8 192 48c9 36-159 45-180 10Z" fill="none" stroke="#f64f51" strokeWidth="6" strokeLinecap="round"/></svg><svg className="absolute -right-12 top-2 h-9 w-9 text-[#f64f51]" viewBox="0 0 34 34" fill="none" aria-hidden="true"><path d="M3 17h7M20 4v7m5 12 5 5" stroke="currentColor" strokeWidth="4" strokeLinecap="round"/></svg></span><br/>
                 begin.
               </h1>
             </div>
 
-            <p className="mt-8 max-w-[610px] text-lg font-semibold leading-relaxed text-[#573326] sm:text-xl lg:text-2xl">Play, discover and grow — one joyful day at a time.</p>
+            <p className="mt-8 max-w-[690px] text-lg font-semibold leading-relaxed text-[#573326] sm:text-xl lg:whitespace-nowrap lg:text-[1.55rem]">Play, discover and grow — one joyful day at a time.</p>
             <div className="mt-9 flex flex-col gap-4 sm:flex-row sm:items-center">
-              <Link to="/admissions" className="group relative inline-flex w-fit focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-[#ef8e13]">
-                <span className="absolute -inset-2 rounded-full bg-[#ffc332]/35 blur-md transition group-hover:bg-[#ffb700]/50" aria-hidden="true"/>
-                <span className="relative inline-flex items-center gap-4 rounded-full border border-[#ffe89c] bg-[linear-gradient(180deg,#ffe96c_0%,#ffc41c_46%,#f6a500_100%)] px-7 py-4 text-lg font-extrabold text-[#45200d] shadow-[inset_0_3px_2px_rgba(255,255,255,.9),inset_0_-5px_9px_rgba(193,104,0,.22),0_12px_20px_rgba(220,139,20,.28)] transition duration-200 group-hover:-translate-y-1 group-hover:shadow-[inset_0_3px_2px_rgba(255,255,255,.9),inset_0_-5px_9px_rgba(193,104,0,.22),0_16px_25px_rgba(220,139,20,.36)]"><span className="absolute inset-x-5 top-1 h-1/2 rounded-full bg-gradient-to-b from-white/50 to-transparent" aria-hidden="true"/>Apply Now <span className="relative grid h-8 w-8 place-items-center rounded-full border-2 border-white/90 bg-white/35"><ArrowRight size={18} strokeWidth={3}/></span></span>
+              <Link to="/admissions" className="hero-liquid-button hero-liquid-apply inline-flex items-center gap-4 focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-[#ef8e13]">
+                <i className="hero-liquid-orb hero-liquid-orb--one" aria-hidden="true"/><i className="hero-liquid-orb hero-liquid-orb--two" aria-hidden="true"/>
+                <span className="relative">Apply Now</span><span className="hero-liquid-icon"><ArrowRight size={20} strokeWidth={3}/></span>
               </Link>
-              <a href={SCHOOL.phoneHref} className="group relative inline-flex w-fit focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-[#f75c65]">
-                <span className="absolute -inset-2 rounded-full bg-[#ff9ca7]/30 blur-md transition group-hover:bg-[#ff8795]/45" aria-hidden="true"/>
-                <span className="relative inline-flex items-center gap-3 rounded-full border border-white bg-[linear-gradient(145deg,#fffdfb_0%,#ffe8e9_75%,#ffc7cb_100%)] px-6 py-4 text-lg font-extrabold text-[#4b2217] shadow-[inset_0_3px_3px_rgba(255,255,255,.95),inset_0_-5px_10px_rgba(229,103,114,.18),0_12px_20px_rgba(190,88,88,.19)] transition duration-200 group-hover:-translate-y-1"><span className="grid h-9 w-9 place-items-center rounded-full bg-[linear-gradient(145deg,#ff7b74,#ed465b)] text-white shadow-[inset_0_2px_2px_rgba(255,255,255,.45),0_4px_7px_rgba(219,61,76,.3)]"><Phone size={17} fill="currentColor" strokeWidth={0}/></span>Call {SCHOOL.phone}</span>
+              <a href={SCHOOL.phoneHref} className="hero-liquid-button hero-liquid-call inline-flex items-center gap-3 focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-[#f75c65]">
+                <i className="hero-liquid-orb hero-liquid-orb--one" aria-hidden="true"/><i className="hero-liquid-orb hero-liquid-orb--two" aria-hidden="true"/>
+                <span className="hero-liquid-icon"><Phone size={18} fill="currentColor" strokeWidth={0}/></span><span className="relative">Call {SCHOOL.phone}</span>
               </a>
             </div>
           </div>
