@@ -16,7 +16,6 @@ const Youtube = ({ size = 24, ...props }) => (
 
 export default function EventsNews() {
   const [events, setEvents] = React.useState(EVENTS);
-  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     const controller = new AbortController();
@@ -34,10 +33,7 @@ export default function EventsNews() {
       .catch((err) => {
         console.error('Failed to fetch events from backend. Using fallback.', err);
       })
-      .finally(() => {
-        clearTimeout(timeout);
-        setLoading(false);
-      });
+      .finally(() => clearTimeout(timeout));
     return () => {
       clearTimeout(timeout);
       controller.abort();
