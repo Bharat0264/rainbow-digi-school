@@ -9,6 +9,9 @@ const ITEMS = [{ path: '/', label: 'Home', id: 'home' }, ...NAV.left.slice(1), .
   .map(item => ({ ...item, id: item.id || item.label.toLowerCase() }));
 // Contact points traced on the original 1536x512 artwork, shared by ropes and feet.
 const BRANCH = [[0,159],[.12,197],[.25,220],[.4,223],[.5,226],[.62,238],[.75,224],[.88,193],[1,156]];
+// Original transparent artwork, retained at its native resolution without re-encoding.
+// Both scene layers must use the same source and the existing normalized geometry.
+const BRANCH_ART = '/images/navigation/branch-house-original.png';
 function branchY(x, art) {
   const ratio = Math.max(0, Math.min(1, (x-art.x)/art.width));
   const index = BRANCH.findIndex(point => point[0] >= ratio);
@@ -131,12 +134,12 @@ export default function BranchNav() {
     className={`featured-sign${selected===item.id?' featured-active':''}`} onClick={event=>visit(event,item)}><span>{item.label}</span></Link>;
   const art=geometry.art;
   return <header className="bn-header featured-nav"><nav ref={navRef} className="featured-inner" aria-label="Main navigation">
-    <img ref={artRef} className="featured-branch" src="/images/navigation/branch-featured.svg" width="1600" height="260" alt="" aria-hidden="true" decoding="async" />
+    <img ref={artRef} className="featured-branch" src={BRANCH_ART} width="2172" height="724" alt="" aria-hidden="true" decoding="async" />
     <NavigationRopes ropes={geometry.ropes} />
     <canvas ref={canvasRef} className="featured-squirrel" width="128" height="128" aria-hidden="true" />
     {entering && <svg className="featured-house-front" width="100%" height="100%" aria-hidden="true">
       <defs><clipPath id={maskId}><path clipRule="evenodd" fillRule="evenodd" d={`M${art.x+art.width*.39},${art.y+art.height*.235} h${art.width*.19} v${art.height*.22} h${-art.width*.19} Z M${art.x+art.width*746/1536},${art.y+art.height*164/512} a${art.width*26/1536},${art.height*26/512} 0 1 0 ${-art.width*52/1536},0 a${art.width*26/1536},${art.height*26/512} 0 1 0 ${art.width*52/1536},0 Z`}/></clipPath></defs>
-      <image href="/images/navigation/branch-featured.svg" x={art.x} y={art.y} width={art.width} height={art.height} preserveAspectRatio="none" clipPath={`url(#${maskId})`}/>
+      <image href={BRANCH_ART} x={art.x} y={art.y} width={art.width} height={art.height} preserveAspectRatio="none" clipPath={`url(#${maskId})`}/>
     </svg>}
     <div className="featured-signs featured-left">{ITEMS.slice(0,3).map(item=>sign(item))}</div>
     <div className="featured-home"><Link ref={logoRef} to="/" aria-label="Go to Home page" className={`featured-logo${location.pathname==='/'?' featured-active':''}`} onClick={event=>visit(event,ITEMS[0],true)}><Logo /></Link>
