@@ -15,7 +15,7 @@ export const SCHOOL = {
     ],
     email: "rainbowdigischool01@gmail.com",
     address:
-      "Plot No. 61, Padmashree Enclave, near Sanjana Courtyard, Kandlakoya, Hyderabad 501401",
+      "Plot No. 61, Padmashree Enclave, near Sanjana Courtyard, Kandlakoya, Hyderabad – 501401",
     mapsUrl:
       "https://www.google.com/maps/search/?api=1&query=Rainbow+Digi+School+Plot+No+61+Padmashree+Enclave+near+Sanjana+Courtyard+Kandlakoya+Hyderabad+501401",
   },
