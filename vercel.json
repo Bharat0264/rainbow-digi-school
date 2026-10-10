@@ -5,6 +5,10 @@
   "framework": "vite",
   "trailingSlash": false,
   "cleanUrls": true,
+  "redirects": [
+    { "source": "/about", "destination": "/", "permanent": true },
+    { "source": "/events", "destination": "/school-life", "permanent": true }
+  ],
   "headers": [{
     "source": "/(.*)",
     "headers": [

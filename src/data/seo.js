@@ -5,19 +5,13 @@ export const SEO_ROUTES = {
   "/": {
     title: "Rainbow Digi School, Kandlakoya | Nursery to Grade V",
     description:
-      "Discover Rainbow Digi School in Kandlakoya, Hyderabad. Explore Nursery to Grade V learning, our educational approach and the admissions enquiry journey.",
+      "Explore Rainbow Digi School in Kandlakoya, Hyderabad, for early-years and primary education. Discover learning programmes, campus information, and admission enquiries.",
     label: "Home",
-  },
-  "/about": {
-    title: "About Rainbow Digi School | Kandlakoya, Hyderabad",
-    description:
-      "Get to know Rainbow Digi School, our early-years and primary learning philosophy, and the questions to explore when choosing a school in Kandlakoya.",
-    label: "About",
   },
   "/academics": {
     title: "Nursery & Primary Learning | Rainbow Digi School",
     description:
-      "Explore Nursery, LKG, UKG and Grades I–V at Rainbow Digi School, Kandlakoya. Learn about our advertised curriculum and questions to discuss with the school.",
+      "Explore Nursery, LKG, UKG and Grades I-V at Rainbow Digi School, Kandlakoya. Learn about our advertised curriculum and questions to discuss with the school.",
     label: "Academics",
   },
   "/admissions": {
@@ -32,11 +26,11 @@ export const SEO_ROUTES = {
       "Plan what to look for during a Rainbow Digi School campus visit in Kandlakoya. Explore learning spaces and ask the school about current facilities.",
     label: "Campus",
   },
-  "/events": {
-    title: "Student Life & Activities | Rainbow Digi School",
+  "/school-life": {
+    title: "School Life & Activities | Rainbow Digi School",
     description:
-      "Explore the activity and celebration themes shared by Rainbow Digi School, Kandlakoya, and discover questions to ask about student life.",
-    label: "Student life",
+      "Explore the activity and celebration themes shared by Rainbow Digi School, Kandlakoya, and discover questions to ask about school life.",
+    label: "School Life",
   },
   "/contact": {
     title: "Contact & Enquiries | Rainbow Digi School, Kandlakoya",

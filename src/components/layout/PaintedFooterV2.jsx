@@ -83,7 +83,7 @@ function PaintedFooterV2() {
             </h3>
             <ul className="space-y-4">
               {[
-                { name: 'About', path: '/about', icon: Home, bg: 'bg-[#FFE082]', color: 'text-[#F57F17]' },
+                { name: 'School Life', path: '/school-life', icon: Home, bg: 'bg-[#FFE082]', color: 'text-[#F57F17]' },
                 { name: 'Academics', path: '/academics', icon: BookOpen, bg: 'bg-[#BBDEFB]', color: 'text-[#1976D2]' },
                 { name: 'Admissions', path: '/admissions', icon: GraduationCap, bg: 'bg-[#FFCDD2]', color: 'text-[#D32F2F]' },
                 { name: 'Campus & Gallery', path: '/campus', icon: ImageIcon, bg: 'bg-[#E1BEE7]', color: 'text-[#7B1FA2]' },

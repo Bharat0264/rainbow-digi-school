@@ -1,6 +1,7 @@
+import { Link } from "react-router-dom";
 import { MapPin, Phone, Mail, ArrowUpRight } from "lucide-react";
 import { SCHOOL } from "../data/school";
-import EnquiryForm from "../components/ui/EnquiryForm";
+
 import { PageIntro, SectionHeading } from "../components/ui/PageElements";
 export default function Contact() {
   return (
@@ -52,10 +53,15 @@ export default function Contact() {
         </div>
         <div className="form-surface">
           <SectionHeading
-            eyebrow="An easy first step"
-            title="Send your enquiry."
+            eyebrow="Admissions"
+            title="Looking for admissions?"
           />
-          <EnquiryForm idPrefix="contact" />
+          <p className="mb-6">
+            If you have questions about our Nursery to Grade V programmes, fees, availability, or the admissions process, please use our dedicated admissions enquiry form.
+          </p>
+          <Link to="/admissions#enquiry" className="button button-primary">
+            Go to Admissions
+          </Link>
         </div>
       </section>
       <section className="community-band">

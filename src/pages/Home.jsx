@@ -103,7 +103,7 @@ export default function Home() {
             learning approach, and the people your child will learn with. We’ve
             brought the key information and questions together to help.
           </p>
-          <ArrowLink to="/about">Get to know Rainbow</ArrowLink>
+          <ArrowLink to="/school-life">Get to know school life</ArrowLink>
         </div>
       </section>
       <section className="section learning-section">
@@ -179,7 +179,7 @@ export default function Home() {
               participation feature in Rainbow’s community updates. Discover the
               stories shared by the school.
             </p>
-            <ArrowLink to="/events">Explore school life</ArrowLink>
+            <ArrowLink to="/school-life">Explore school life</ArrowLink>
           </div>
         </div>
       </section>

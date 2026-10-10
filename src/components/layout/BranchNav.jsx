@@ -5,8 +5,8 @@ import NavigationRopes from './NavigationRopes';
 import { NAV } from '../../data/nav';
 import './BranchNav.css';
 
-const ITEMS = [{ path: '/', label: 'Home', id: 'home' }, ...NAV.left.slice(1), ...NAV.right, NAV.cta]
-  .map(item => ({ ...item, id: item.id || item.label.toLowerCase() }));
+const ITEMS = [{ path: '/', label: 'Home', id: 'home' }, ...NAV.left, ...NAV.right]
+  .map(item => ({ ...item, id: item.id || item.label.toLowerCase().replace(/\s+/g, '-') }));
 // Contact points traced on the original 1536x512 artwork, shared by ropes and feet.
 const BRANCH = [[0,159],[.12,197],[.25,220],[.4,223],[.5,226],[.62,238],[.75,224],[.88,193],[1,156]];
 // Original transparent artwork, retained at its native resolution without re-encoding.
@@ -164,6 +164,6 @@ export default function BranchNav() {
     </div>
     <div className="featured-signs featured-right">{ITEMS.slice(3).map(item=>sign(item))}</div>
     <button ref={menuRef} type="button" className="featured-menu" aria-controls="school-navigation-menu" aria-expanded={open} aria-label={open?'Close navigation menu':'Open navigation menu'} onClick={()=>setOpen(value=>!value)}>☰</button>
-    {open && <div ref={drawerRef} id="school-navigation-menu" className="featured-drawer">{ITEMS.map(item=>sign(item,true))}<Link to="/about" className="featured-sign" onClick={()=>setOpen(false)}><span>About Rainbow</span></Link></div>}
+    {open && <div ref={drawerRef} id="school-navigation-menu" className="featured-drawer">{ITEMS.map(item=>sign(item,true))}</div>}
   </nav></header>;
 }

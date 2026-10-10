@@ -16,10 +16,9 @@ export default function SiteFooter() {
           <h2>Explore our school</h2>
           <nav aria-label="Footer navigation">
             {[
-              ["/about", "About Rainbow"],
+              ["/school-life", "School Life"],
               ["/academics", "Curriculum & learning"],
               ["/campus", "Our campus"],
-              ["/events", "Student life"],
               ["/admissions", "Admissions"],
               ["/contact", "Contact"],
             ].map(([to, label]) => (
