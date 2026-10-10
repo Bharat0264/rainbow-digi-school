@@ -1,91 +1,150 @@
-import { memo, useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Logo from '../ui/Logo';
 import { NAV } from '../../data/nav';
 import './BranchNav.css';
 
-const ITEMS = [{ path: '/', label: 'Home', id: 'home' }, ...NAV.left.slice(1), ...NAV.right, NAV.cta].map(item => ({ ...item, id: item.id || item.label.toLowerCase() }));
-const SQUIRREL_WIDTH = 64;
-
-const ForestScenery = memo(function ForestScenery({ squirrelRef, squirrelState }) {
-  return <><img className="featured-branch" src="/images/navigation/branch-house.webp" width="1536" height="512" alt="" aria-hidden="true" decoding="async" /><span ref={squirrelRef} className={`featured-squirrel featured-squirrel-${squirrelState}`} aria-hidden="true"><img src="/images/navigation/squirrel-featured.webp" width="320" height="160" alt="" decoding="async" /></span></>;
-});
-
-function Sign({ item, active, onNavigate }) {
-  return <Link to={item.path} state={{ navItem: item.id }} data-nav-id={item.id} aria-current={active ? 'page' : undefined} className={`featured-sign${active ? ' featured-active' : ''}`} onClick={event => onNavigate(event, item)}><i aria-hidden="true" /><i aria-hidden="true" /><span>{item.label}</span></Link>;
+const ITEMS = [{ path: '/', label: 'Home', id: 'home' }, ...NAV.left.slice(1), ...NAV.right, NAV.cta]
+  .map(item => ({ ...item, id: item.id || item.label.toLowerCase() }));
+// Contact points traced on the original 1536x512 artwork, shared by ropes and feet.
+const BRANCH = [[0,159],[.12,197],[.25,220],[.4,223],[.5,226],[.62,238],[.75,224],[.88,193],[1,156]];
+function branchY(x, art) {
+  const ratio = Math.max(0, Math.min(1, (x-art.x)/art.width));
+  const index = BRANCH.findIndex(point => point[0] >= ratio);
+  const a = BRANCH[Math.max(0,index-1)], b = BRANCH[Math.max(1,index)];
+  return art.y + (a[1]+(b[1]-a[1])*(ratio-a[0])/(b[0]-a[0]))/512*art.height;
 }
-
-function CenterHome({ active, onHome, onMonkeyHome }) {
-  return <div className="featured-home"><Link to="/" aria-label="Go to Home page" className={`featured-logo${active ? ' featured-active' : ''}`} onClick={onHome}><Logo /></Link><button type="button" className="featured-monkey" aria-label="Send the squirrel home" onClick={onMonkeyHome}><img src="/images/navigation/monkey-featured.webp" width="250" height="465" alt="" decoding="async" /></button></div>;
-}
+function ordinaryClick(event) { return event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey; }
 
 export default function BranchNav() {
   const location = useLocation();
-  const innerRef = useRef(null);
-  const squirrelRef = useRef(null);
-  const positionRef = useRef(null);
-  const frameRef = useRef(0);
-  const [open, setOpen] = useState(false);
-  const [squirrelState, setSquirrelState] = useState('idle');
-  const selected = ITEMS.find(item => item.id === location.state?.navItem && item.path === location.pathname)?.id || ITEMS.find(item => item.path === location.pathname)?.id;
-
-  const getTarget = useCallback(id => {
-    const inner = innerRef.current;
-    if (!inner) return 0;
-    const innerBox = inner.getBoundingClientRect();
-    // The house is centered above the logo. Its doorstep is kept just to the left
-    // of the logo so the resting squirrel stays visible rather than being covered.
-    if (id === 'house') return Math.max(0, innerBox.width / 2 - 200);
-    const target = [...inner.querySelectorAll(`[data-nav-id="${id}"]`)].find(element => element.getClientRects().length);
-    if (!target) return positionRef.current ?? 0;
-    const box = target.getBoundingClientRect();
-    return Math.max(0, Math.min(innerBox.width - SQUIRREL_WIDTH, box.left - innerBox.left + box.width / 2 - SQUIRREL_WIDTH / 2));
-  }, []);
-
-  const moveSquirrel = useCallback((id, returningHome = false) => {
-    const node = squirrelRef.current;
-    if (!node) return;
-    window.cancelAnimationFrame(frameRef.current);
-    const start = positionRef.current ?? getTarget('house');
-    const target = getTarget(id);
-    const distance = Math.abs(target - start);
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || distance < 2) {
-      positionRef.current = target;
-      node.style.transform = `translate3d(${target}px, 0, 0)`;
-      setSquirrelState('idle');
-      return;
-    }
-    const duration = Math.min(900, Math.max(400, distance * 2.2));
-    const startedAt = performance.now();
-    setSquirrelState('running');
-    const tick = now => {
-      const progress = Math.min(1, (now - startedAt) / duration);
-      const eased = progress < .5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2;
-      const next = start + (target - start) * eased;
-      positionRef.current = next;
-      node.style.transform = `translate3d(${next}px, ${Math.sin(progress * Math.PI * 8) * -2}px, 0)`;
-      if (progress < 1) frameRef.current = window.requestAnimationFrame(tick);
-      else { node.style.transform = `translate3d(${target}px, 0, 0)`; setSquirrelState(returningHome ? 'home' : 'idle'); }
-    };
-    frameRef.current = window.requestAnimationFrame(tick);
-  }, [getTarget]);
+  const navRef = useRef(null), artRef = useRef(null), canvasRef = useRef(null), logoRef = useRef(null);
+  const boardsRef = useRef(new Map()), startRef = useRef(() => {});
+  const [open,setOpen] = useState(false);
+  const [geometry,setGeometry] = useState({width:1,height:1,ropes:[],art:{x:0,y:0,width:1,height:1}});
+  const [entering,setEntering] = useState(false);
+  const maskId = useId().replaceAll(':','');
+  const selected = ITEMS.find(item => item.id === location.state?.navItem && item.path === location.pathname)?.id
+    || ITEMS.find(item => item.path === location.pathname)?.id;
 
   useEffect(() => {
-    const placeAtHouse = () => {
-      const target = getTarget('house');
-      positionRef.current = target;
-      if (squirrelRef.current) squirrelRef.current.style.transform = `translate3d(${target}px, 0, 0)`;
+    const nav = navRef.current, canvas = canvasRef.current, context = canvas.getContext('2d');
+    const sprite = new Image(); sprite.src = '/images/navigation/squirrel-gait-v2.webp';
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let raf = 0, disposed = false, lastTime = 0;
+    let layout, x, y, target = 'rest', direction = 1, speed = 0, distance = 0;
+    let state = 'idle', phaseStart = 0, entryStart = null, rememberedElement = null;
+    const setState = next => {
+      if(state === next) return;
+      state = next; canvas.dataset.state = next;
+      setEntering(next === 'enteringHouse' || next === 'inside');
     };
-    placeAtHouse();
-    window.addEventListener('resize', placeAtHouse);
-    return () => { window.removeEventListener('resize', placeAtHouse); window.cancelAnimationFrame(frameRef.current); };
-  }, [getTarget]);
-  useEffect(() => { setOpen(false); }, [location.key]);
+    canvas.dataset.state = state;
+    const relative = element => { const a=element.getBoundingClientRect(), b=nav.getBoundingClientRect(); return {x:a.x-b.x,y:a.y-b.y,width:a.width,height:a.height}; };
+    const targetX = () => {
+      if(target === 'house') return layout.art.x + layout.art.width * 720/1536;
+      if(target === 'rest') return layout.art.x + layout.art.width * .385;
+      const element = boardsRef.current.get(target);
+      const rect = element?.getClientRects().length ? relative(element) : rememberedElement;
+      return Math.max(layout.size/2,Math.min(layout.width-layout.size/2,rect ? rect.x+rect.width/2 : x));
+    };
+    const draw = (frame=0,scale=1) => {
+      if(!layout || x === undefined) return;
+      context.clearRect(0,0,128,128);
+      if(state !== 'inside' && sprite.complete && sprite.naturalWidth) {
+        context.save(); context.translate(64,120); context.scale(direction*scale,scale);
+        context.drawImage(sprite,frame*128,0,128,128,-64,-120,128,128); context.restore();
+      }
+      canvas.style.transform = `translate3d(${x-layout.size/2}px,${y-layout.size*120/128}px,0)`;
+      canvas.dataset.frame = String(frame); canvas.dataset.direction = String(direction);
+      canvas.dataset.target = target;
+    };
+    const measure = () => {
+      const art = relative(artRef.current), box = nav.getBoundingClientRect();
+      layout = {art,width:box.width,height:box.height,size:parseFloat(getComputedStyle(canvas).width)};
+      const ropes = [];
+      [...boardsRef.current.values(),logoRef.current].forEach(element => {
+        if(!element?.getClientRects().length || element.closest('.featured-drawer')) return;
+        const r=relative(element);
+        [.22,.78].forEach(anchor => { const rx=r.x+r.width*anchor; ropes.push({x:rx,top:branchY(rx,art)+3,bottom:r.y+5}); });
+      });
+      setGeometry({...layout,ropes});
+      // Re-measure the current destination without resetting an interrupted journey.
+      if(x === undefined || state === 'idle' || state === 'inside') {
+        x=targetX(); y=branchY(x,art); draw();
+      } else { x=Math.max(layout.size/2,Math.min(layout.width-layout.size/2,x)); }
+    };
+    const tick = now => {
+      const dt=Math.min(.04,(now-lastTime)/1000 || .016); lastTime=now;
+      const goal=targetX(), delta=goal-x;
+      if(state === 'walking' || state === 'running') {
+        const desired=Math.sign(delta)*Math.min(520,Math.sqrt(2*1400*Math.abs(delta)));
+        speed += Math.max(-1800*dt,Math.min(1800*dt,desired-speed));
+        const step=speed*dt;
+        if(Math.abs(delta)<1.5 || (Math.sign(step)===Math.sign(delta) && Math.abs(step)>=Math.abs(delta))) {
+          x=goal; speed=0; phaseStart=now; entryStart={x,y:branchY(x,layout.art)};
+          setState(target==='house' ? 'enteringHouse' : 'stopping');
+        } else { x+=step; distance+=Math.abs(step); if(Math.abs(speed)>12) direction=Math.sign(speed); setState(Math.abs(speed)>210?'running':'walking'); }
+        y=branchY(x,layout.art);
+        // Advance poses by ground distance, so faster travel has a faster gait.
+        const cycle=state==='running'?[1,5,2,6,3,5,4,6]:[1,2,3,4];
+        draw(cycle[Math.floor(distance/(layout.size*.28))%cycle.length]);
+      } else if(state === 'stopping') {
+        draw(7);
+        if(now-phaseStart>=150) {setState('idle');draw(0);return;}
+      } else if(state === 'enteringHouse') {
+        const t=Math.min(1,(now-phaseStart)/520), eased=t*t*(3-2*t);
+        const doorY=layout.art.y+layout.art.height*180/512;
+        y=entryStart.y+(doorY-entryStart.y)*eased;
+        draw([1,2,3,4][Math.floor(t*12)%4],1-.7*eased);
+        if(t===1) {setState('inside');draw();return;}
+      } else return;
+      raf=requestAnimationFrame(tick);
+    };
+    startRef.current = (id, element) => {
+      if(id === 'house' && (target==='house' && ['walking','running','enteringHouse','inside'].includes(state))) return;
+      cancelAnimationFrame(raf);
+      if(element) rememberedElement=relative(element);
+      if(state==='inside') {x=layout.art.x+layout.art.width*720/1536;y=branchY(x,layout.art);}
+      target=id;
+      if(reduced.matches) { x=targetX();y=branchY(x,layout.art);setState(id==='house'?'inside':'idle');draw();return; }
+      setState('walking'); lastTime=performance.now(); raf=requestAnimationFrame(tick);
+    };
+    measure(); sprite.onload=()=>{if(!disposed) draw();};
+    const observer=new ResizeObserver(measure); observer.observe(nav); observer.observe(artRef.current);
+    const motionChanged=()=>startRef.current(target);
+    reduced.addEventListener('change',motionChanged);
+    return ()=>{disposed=true;cancelAnimationFrame(raf);observer.disconnect();reduced.removeEventListener('change',motionChanged);startRef.current=()=>{};};
+  },[]);
 
-  const visit = (event, item) => {
-    moveSquirrel(item.id);
+  const visit = useCallback((event,item,house=false) => {
+    if(!ordinaryClick(event)) return;
+    startRef.current(house?'house':item.id,event.currentTarget);
     setOpen(false);
-    if (item.id === 'home' && location.pathname === '/') { event.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
-  };
-  return <header className="bn-header featured-nav"><nav ref={innerRef} className="featured-inner" aria-label="Main navigation"><ForestScenery squirrelRef={squirrelRef} squirrelState={squirrelState} /><div className="featured-signs featured-left">{ITEMS.slice(0, 3).map(item => <Sign key={item.id} item={item} active={item.id === selected} onNavigate={visit} />)}</div><CenterHome active={location.pathname === '/'} onHome={event => visit(event, ITEMS[0])} onMonkeyHome={() => moveSquirrel('house', true)} /><div className="featured-signs featured-right">{ITEMS.slice(3).map(item => <Sign key={item.id} item={item} active={item.id === selected} onNavigate={visit} />)}</div><button type="button" className="featured-menu" aria-expanded={open} aria-label="Open navigation menu" onClick={() => setOpen(value => !value)}>☰</button>{open && <div className="featured-drawer">{ITEMS.map(item => <Sign key={item.id} item={item} active={item.id === selected} onNavigate={visit} />)}</div>}</nav></header>;
+    if(item.path==='/' && location.pathname==='/') {
+      event.preventDefault();window.scrollTo({top:0,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+    }
+  },[location.pathname]);
+  const sign = (item,drawer=false) => <Link key={item.id} ref={element=>{if(!drawer) {if(element) boardsRef.current.set(item.id,element);else boardsRef.current.delete(item.id);}}}
+    to={item.path} state={{navItem:item.id}} data-nav-id={item.id} aria-current={selected===item.id?'page':undefined}
+    className={`featured-sign${selected===item.id?' featured-active':''}`} onClick={event=>visit(event,item)}><span>{item.label}</span></Link>;
+  const art=geometry.art;
+  return <header className="bn-header featured-nav"><nav ref={navRef} className="featured-inner" aria-label="Main navigation">
+    <img ref={artRef} className="featured-branch" src="/images/navigation/branch-house.webp" width="1536" height="512" alt="" aria-hidden="true" decoding="async" />
+    <svg className="featured-ropes" width="100%" height="100%" aria-hidden="true">
+      {geometry.ropes.map((rope,i)=><g key={i} data-rope="true"><path d={`M${rope.x} ${rope.top} V${rope.bottom}`} stroke="#70421f" strokeWidth="7" strokeLinecap="round"/><path d={`M${rope.x-1} ${rope.top} V${rope.bottom}`} stroke="#d9aa73" strokeWidth="4"/><path d={`M${rope.x} ${rope.top} V${rope.bottom}`} stroke="#9b673d" strokeWidth="5" strokeDasharray="2 4"/><ellipse cx={rope.x} cy={rope.bottom} rx="5" ry="3" fill="#b57c46" stroke="#70421f"/></g>)}
+    </svg>
+    <canvas ref={canvasRef} className="featured-squirrel" width="128" height="128" aria-hidden="true" />
+    {entering && <svg className="featured-house-front" width="100%" height="100%" aria-hidden="true">
+      <defs><clipPath id={maskId}><path clipRule="evenodd" fillRule="evenodd" d={`M${art.x+art.width*.39},${art.y+art.height*.235} h${art.width*.19} v${art.height*.22} h${-art.width*.19} Z M${art.x+art.width*746/1536},${art.y+art.height*164/512} a${art.width*26/1536},${art.height*26/512} 0 1 0 ${-art.width*52/1536},0 a${art.width*26/1536},${art.height*26/512} 0 1 0 ${art.width*52/1536},0 Z`}/></clipPath></defs>
+      <image href="/images/navigation/branch-house.webp" x={art.x} y={art.y} width={art.width} height={art.height} preserveAspectRatio="none" clipPath={`url(#${maskId})`}/>
+    </svg>}
+    <div className="featured-signs featured-left">{ITEMS.slice(0,3).map(item=>sign(item))}</div>
+    <div className="featured-home"><Link ref={logoRef} to="/" aria-label="Go to Home page" className={`featured-logo${location.pathname==='/'?' featured-active':''}`} onClick={event=>visit(event,ITEMS[0],true)}><Logo /></Link>
+      <button type="button" className="featured-monkey" aria-label="Send the squirrel home" onClick={()=>startRef.current('house')}><img src="/images/navigation/monkey-featured.webp" width="250" height="465" alt="" decoding="async" /></button>
+    </div>
+    <div className="featured-signs featured-right">{ITEMS.slice(3).map(item=>sign(item))}</div>
+    <button type="button" className="featured-menu" aria-controls="school-navigation-menu" aria-expanded={open} aria-label={open?'Close navigation menu':'Open navigation menu'} onClick={()=>setOpen(value=>!value)}>☰</button>
+    {open && <div id="school-navigation-menu" className="featured-drawer" onKeyDown={event=>{if(event.key==='Escape')setOpen(false);}}>{ITEMS.map(item=>sign(item,true))}</div>}
+  </nav></header>;
 }
