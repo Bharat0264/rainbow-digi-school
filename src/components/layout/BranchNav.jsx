@@ -33,7 +33,9 @@ export default function BranchNav() {
     const inner = innerRef.current;
     if (!inner) return 0;
     const innerBox = inner.getBoundingClientRect();
-    if (id === 'house') return (innerBox.width - SQUIRREL_WIDTH) / 2 - 48;
+    // The house is centered above the logo. Its doorstep is kept just to the left
+    // of the logo so the resting squirrel stays visible rather than being covered.
+    if (id === 'house') return Math.max(0, innerBox.width / 2 - 200);
     const target = [...inner.querySelectorAll(`[data-nav-id="${id}"]`)].find(element => element.getClientRects().length);
     if (!target) return positionRef.current ?? 0;
     const box = target.getBoundingClientRect();
