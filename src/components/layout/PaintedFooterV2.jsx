@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { MapPin, Phone, MessageCircle, Navigation2, Send, GraduationCap, Home, BookOpen, Image as ImageIcon } from 'lucide-react';
+import { MapPin, Phone, MessageCircle, Navigation2, Send, GraduationCap, Home, BookOpen, Image as ImageIcon, Star, ArrowRight } from 'lucide-react';
 import { IMAGES } from '../../data/images';
 
 function PaintedFooterV2() {
