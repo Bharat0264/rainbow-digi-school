@@ -45,9 +45,14 @@ const filmstrip=await page.evaluate(async()=>{
 await writeFile('artifacts/squirrel-cycle/browser-gait-filmstrip.png',Buffer.from(filmstrip,'base64'));
 await page.locator('[data-nav-id="apply"]').click();await page.waitForFunction(()=>document.querySelector('.featured-squirrel').dataset.state==='idle');
 await page.locator('[data-nav-id="home"]').click();await page.waitForTimeout(100);
-const before=await sprite.boundingBox();
-await page.locator('[data-nav-id="contact"]').click();
-const after=await sprite.boundingBox();assert.ok(Math.abs(before.x-after.x)<50,'Redirect teleported');
+// Measure the interruption within one browser task, excluding click auto-wait travel.
+const redirect=await page.evaluate(()=>{
+ const squirrel=document.querySelector('.featured-squirrel');
+ const before=squirrel.getBoundingClientRect().x;
+ document.querySelector('[data-nav-id="contact"]').click();
+ return Math.abs(before-squirrel.getBoundingClientRect().x);
+});
+assert.equal(redirect,0,'Redirect teleported');
 await page.waitForFunction(()=>document.querySelector('.featured-squirrel').dataset.state==='idle');
 await page.locator('.featured-monkey').click();
 await page.waitForFunction(()=>document.querySelector('.featured-squirrel').dataset.state==='enteringHouse');

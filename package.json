@@ -7,13 +7,18 @@
     "dev": "vite",
     "server": "node server/server.js",
     "start": "concurrently \"npm run dev\" \"npm run server\"",
-    "build": "vite build",
+    "build": "vite build && node scripts/prerender.mjs",
     "postinstall": "prisma generate",
-    "lint": "oxlint",
+    "lint": "oxlint src api",
+    "typecheck": "tsc --noEmit",
+    "test:enquiries": "node scripts/check-enquiries.mjs",
+    "test:seo": "node scripts/verify-seo.mjs",
+    "test:browser": "node scripts/verify-premium.mjs",
+    "test:a11y": "node scripts/verify-accessibility.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@prisma/client": "^6.16.3",
+    "@prisma/client": "^6.19.3",
     "framer-motion": "^14.0.0",
     "lucide-react": "^1.53.0",
     "react": "^19.2.8",
@@ -22,7 +27,9 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^22.20.5",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",
     "@vercel/node": "^5.1.16",

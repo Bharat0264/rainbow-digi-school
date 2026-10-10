@@ -24,7 +24,7 @@ class ErrorBoundary extends React.Component {
         <div className="min-h-screen bg-[#FFFDF6] flex flex-col items-center justify-center p-8 text-center">
           <h1 className="text-3xl font-serif text-[#D9A514] mb-4">Something went wrong</h1>
           <p className="text-[#2B2118] bg-red-100 p-4 rounded max-w-2xl overflow-auto text-left">
-            {this.state.error?.toString()}
+            The page could not be displayed. Please reload or return later.
           </p>
           <button 
             className="mt-6 px-6 py-3 bg-[#F6C945] text-[#2B2118] rounded-full font-semibold hover:bg-[#D9A514] transition-colors"

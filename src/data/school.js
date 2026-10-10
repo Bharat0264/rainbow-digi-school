@@ -1,27 +1,141 @@
-// The single content source for Rainbow Digi School. Keep facts here, not in components.
+// One source of truth. Contact details and campus image confirmed by the school owner.
 export const SCHOOL = {
-  name: 'Rainbow Digi School', tagline: 'Excellence Begins Early', location: 'Kandlakoya, Hyderabad',
-  phone: '080085 33078', phoneHref: 'tel:+918008533078', timings: 'Mon–Fri 8:15 AM – 4:00 PM',
-  address: { line1: 'Plot No. 104, Padmasree Enclave', line2: 'near Sanjana Courtyard, Kandlakoya', city: 'Hyderabad, Telangana 501401', full: 'Plot No. 104, Padmasree Enclave, near Sanjana Courtyard, Kandlakoya, Hyderabad, Telangana 501401' },
-  rating: { score: 4.9, count: 31 },
-  mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Rainbow+Digi+School+Padmasree+Enclave+Plot+No+104+Kandlakoya+Hyderabad+Telangana+501401',
-  mapsEmbed: 'https://www.google.com/maps?q=Padmasree+Enclave,+Plot+No.+104,+near+Sanjana+Courtyard,+Kandlakoya,+Hyderabad,+Telangana+501401&output=embed',
-  whatsappUrl: 'https://wa.me/918008533078?text=Hello%2C%20I%20would%20like%20to%20enquire%20about%20admissions.',
-  social: { instagram: 'https://www.instagram.com/rainbowdigischool/' },
-  principal: { name: 'Anita', title: 'Principal', experience: '24+ years of experience', message: 'Every early step deserves patient attention, playful discovery, and a steady belief in what a child can become.' },
+  name: "Rainbow DIGI School",
+  tagline: "Excellence Begins Early",
+  location: "Kandlakoya, Hyderabad",
+  classes: "Nursery to Grade V",
+  curriculum: "CBSE curriculum",
+  curriculumNote:
+    "The school advertises a CBSE curriculum. This is not a statement of formal CBSE affiliation.",
+  contact: {
+    verified: true,
+    phones: [
+      { label: "+91 80085 33078", href: "tel:+918008533078" },
+      { label: "+91 91210 59881", href: "tel:+919121059881" },
+    ],
+    email: "rainbowdigischool01@gmail.com",
+    address:
+      "Plot No. 61, Padmashree Enclave, near Sanjana Courtyard, Kandlakoya, Hyderabad – 501401",
+    mapsUrl:
+      "https://www.google.com/maps/search/?api=1&query=Rainbow+Digi+School+Plot+No+61+Padmashree+Enclave+near+Sanjana+Courtyard+Kandlakoya+Hyderabad+501401",
+  },
+  admissions: {
+    academicYear: "2026–2027",
+    status: "enquiries",
+    availabilityConfirmed: false,
+  },
+  social: { instagram: "https://www.instagram.com/rainbowdigischool/" },
+  campusPhoto: {
+    src: "/images/about-building-real.jpg",
+    width: 765,
+    height: 1020,
+    alt: "Rainbow Digi School exterior with its school sign and colourful entrance in Kandlakoya",
+  },
 };
-
 export const ACADEMICS = [
-  { id: 'nursery', stage: 'Early Years', grades: 'Nursery · LKG · UKG', age: 'A joyful beginning', description: 'Play and Learn gives early curiosity room to grow.', highlights: ['Activity-based learning', 'One-to-one care', 'Interactive smart panels'] },
-  { id: 'primary', stage: 'Primary', grades: 'Grades 1 – 5', age: 'A confident foundation', description: 'CBSE-aligned learning made hands-on, thoughtful and connected.', highlights: ['Maths Lab', 'Computer Lab', 'Olympiad preparation'] },
+  {
+    id: "nursery",
+    stage: "Early years",
+    grades: "Nursery · LKG · UKG",
+    description:
+      "A first step into school life. Explore the early-years programme and talk with the school about your child’s readiness, the daily routine, and settling in.",
+    highlights: [
+      "Language and expression",
+      "Early number sense",
+      "Play and participation",
+    ],
+  },
+  {
+    id: "primary",
+    stage: "Primary years",
+    grades: "Grade I – Grade V",
+    description:
+      "The next chapter in a child’s learning. Ask how the advertised CBSE curriculum connects reading, writing, mathematics, and wider exploration.",
+    highlights: [
+      "Literacy and numeracy",
+      "Communication",
+      "Creative exploration",
+    ],
+  },
 ];
-export const STATS = [{ value: 'Nursery–5', suffix: '', label: 'Learning years' }, { value: 24, suffix: '+', label: 'Years of principal experience' }, { value: 4.9, suffix: '★', label: 'Google rating', decimal: true }, { value: 31, suffix: '', label: 'Google reviews' }];
-export const FEATURES = [{ title: 'Smart Panels', desc: 'Interactive classrooms made for active participation', icon: 'MonitorPlay' }, { title: 'Maths Lab', desc: 'Ideas become tangible through doing', icon: 'Calculator' }, { title: 'Computer Lab', desc: 'Early digital confidence, thoughtfully guided', icon: 'Laptop' }, { title: 'Olympiad', desc: 'A supportive pathway for curious thinkers', icon: 'Medal' }, { title: 'AI-powered learning', desc: 'Early concepts for a changing world', icon: 'Sparkles' }, { title: 'Safe Transport', desc: 'Verified school transport across Medchal region', icon: 'Bus' }];
-export const VALUES = [{ title: 'Play and Learn', description: 'Learning begins with a sense of wonder.', icon: 'Sparkles' }, { title: 'Individual care', description: 'Every child is seen and supported.', icon: 'Heart' }, { title: 'Future-ready', description: 'Digital confidence grows with strong foundations.', icon: 'Monitor' }];
-// Photo placeholders only — replace with permissioned school photography.
-export const GALLERY_IMAGES = [{ id: 1, src: null, alt: 'PHOTO SLOT — school exterior', category: 'Campus' }, { id: 2, src: null, alt: 'PHOTO SLOT — smart classroom', category: 'Classrooms' }, { id: 3, src: null, alt: 'PHOTO SLOT — Play and Learn activity', category: 'Learning' }, { id: 4, src: null, alt: 'PHOTO SLOT — safe school transport', category: 'Campus' }];
-export const TESTIMONIALS = [];
+export const FEATURES = [
+  {
+    title: "Communication & expression",
+    desc: "Communication and soft-skills development feature in the school’s programme information.",
+    question:
+      "How do children practise speaking, listening, and working together?",
+  },
+  {
+    title: "Mathematics & reasoning",
+    desc: "The school promotes mathematics enrichment and Olympiad foundation learning.",
+    question:
+      "Which classes take part, and what does a typical activity involve?",
+  },
+  {
+    title: "Digital learning",
+    desc: "Digital learning and AI-powered learning appear in school promotional material.",
+    question:
+      "What tools are used, for which age groups, and with what teacher supervision?",
+  },
+];
+export const VALUES = [
+  {
+    title: "Curiosity",
+    description:
+      "Make room for questions, new interests, and the pleasure of discovery.",
+  },
+  {
+    title: "Expression",
+    description: "Value a child’s ideas and the confidence to share them.",
+  },
+  {
+    title: "Foundations",
+    description:
+      "Keep reading, communication, and number sense at the centre of the conversation.",
+  },
+];
+export const ADMISSION_FAQ = [
+  {
+    q: "Which classes does Rainbow Digi School offer?",
+    a: "The school’s published information covers Nursery, LKG, UKG, and Grades I to V. Ask the admissions team about availability for your child’s prospective class.",
+  },
+  {
+    q: "What curriculum is advertised?",
+    a: "The school advertises a CBSE curriculum. For formal affiliation details, textbooks, or the programme for a specific class, please ask the school directly.",
+  },
+  { q: "Where is the school?", a: SCHOOL.contact.address + "." },
+  {
+    q: "Can I ask about a school visit?",
+    a: "Yes. Include your interest in visiting in the enquiry message, or call the school. The school will need to confirm whether a visit is available and agree a time with you; submitting an enquiry does not book an appointment.",
+  },
+  {
+    q: "What about fees, age criteria, and required documents?",
+    a: "Ask the school for the current fee details, age criteria, and document checklist for your prospective class. Please do not upload identity documents or private information about your child in this initial enquiry.",
+  },
+];
+export const ADMISSION_STEPS = [
+  {
+    step: 1,
+    title: "Introduce yourself",
+    description:
+      "Share your contact details and the class you are interested in.",
+  },
+  {
+    step: 2,
+    title: "Discuss your questions",
+    description:
+      "Ask about the programme, availability, fees, and a possible visit.",
+  },
+  {
+    step: 3,
+    title: "Confirm the next step",
+    description:
+      "Get the current process and requirements directly from the school.",
+  },
+];
+// Only school-approved dated announcements and permissioned images belong here.
 export const EVENTS = [];
-export const ADMISSION_STEPS = [{ step: 1, title: 'Enquire', description: 'Call or send an enquiry.' }, { step: 2, title: 'Visit', description: 'Meet us and see the campus.' }, { step: 3, title: 'Apply', description: 'Share the required documents.' }, { step: 4, title: 'Welcome', description: 'Begin your Rainbow journey.' }];
-export const ADMISSION_DOCS = ['Birth certificate', 'Child and parent Aadhaar cards', 'Previous school transfer certificate, if applicable', 'Recent passport photographs', 'Address proof'];
-export const ADMISSION_FAQ = [{ q: 'Which grades are offered?', a: 'Rainbow Digi School welcomes learners from Nursery through Grade 5.' }, { q: 'What curriculum framework do you follow?', a: 'The school follows the CBSE curriculum framework through an activity-based Play and Learn approach.' }, { q: 'Is transport available?', a: 'Verified school transport is available for the Medchal region. Please contact the school for route details.' }];
+export const GALLERY_IMAGES = [];
+export const STATS = [];
+export const TESTIMONIALS = [];
+export const ADMISSION_DOCS = [];

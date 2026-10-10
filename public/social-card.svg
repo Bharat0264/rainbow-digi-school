@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#F7F1E6"/>
+  <path d="M0 540Q230 420 450 550T900 550T1200 470V630H0Z" fill="#E2E8D4"/>
+  <path d="M840 240a110 110 0 0 1 220 0" fill="none" stroke="#D7795F" stroke-width="22"/>
+  <path d="M866 240a84 84 0 0 1 168 0" fill="none" stroke="#E9BA4F" stroke-width="18"/>
+  <path d="M890 240a60 60 0 0 1 120 0" fill="none" stroke="#658874" stroke-width="18"/>
+  <path d="M914 240a36 36 0 0 1 72 0" fill="none" stroke="#729AA9" stroke-width="18"/>
+  <text x="80" y="155" font-family="Arial,sans-serif" font-size="23" letter-spacing="4" fill="#526C50">EXCELLENCE BEGINS EARLY</text>
+  <text x="75" y="275" font-family="Georgia,serif" font-size="86" fill="#2D3C32">Rainbow</text>
+  <text x="80" y="350" font-family="Arial,sans-serif" font-size="49" font-weight="700" letter-spacing="5" fill="#2D3C32">DIGI SCHOOL</text>
+  <path d="M80 395H710" stroke="#C7B89D" stroke-width="2"/>
+  <text x="80" y="449" font-family="Arial,sans-serif" font-size="29" fill="#4D5149">Nursery to Grade V</text>
+  <text x="80" y="496" font-family="Arial,sans-serif" font-size="26" fill="#4D5149">Kandlakoya, Hyderabad</text>
+</svg>

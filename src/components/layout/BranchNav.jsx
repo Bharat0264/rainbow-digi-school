@@ -25,6 +25,23 @@ export default function BranchNav() {
   const navRef = useRef(null), artRef = useRef(null), canvasRef = useRef(null), logoRef = useRef(null);
   const boardsRef = useRef(new Map()), startRef = useRef(() => {});
   const [open,setOpen] = useState(false);
+  const menuRef = useRef(null), drawerRef = useRef(null);
+  useEffect(() => {
+    if (!open) return;
+    drawerRef.current?.querySelector('a')?.focus();
+    const dismiss = event => {
+      if (event.key === 'Escape') { setOpen(false); menuRef.current?.focus(); }
+    };
+    const outside = event => {
+      if (!drawerRef.current?.contains(event.target) && !menuRef.current?.contains(event.target)) setOpen(false);
+    };
+    document.addEventListener('keydown', dismiss);
+    document.addEventListener('pointerdown', outside);
+    return () => {
+      document.removeEventListener('keydown', dismiss);
+      document.removeEventListener('pointerdown', outside);
+    };
+  }, [open]);
   const [geometry,setGeometry] = useState({width:1,height:1,ropes:[],art:{x:0,y:0,width:1,height:1}});
   const [entering,setEntering] = useState(false);
   const maskId = useId().replaceAll(':','');
@@ -134,7 +151,7 @@ export default function BranchNav() {
     className={`featured-sign${selected===item.id?' featured-active':''}`} onClick={event=>visit(event,item)}><span>{item.label}</span></Link>;
   const art=geometry.art;
   return <header className="bn-header featured-nav"><nav ref={navRef} className="featured-inner" aria-label="Main navigation">
-    <img ref={artRef} className="featured-branch" src={BRANCH_ART} width="2172" height="724" alt="" aria-hidden="true" decoding="async" />
+    <img ref={artRef} className="featured-branch" fetchPriority="high" src={BRANCH_ART} width="2172" height="724" alt="" aria-hidden="true" decoding="async" />
     <NavigationRopes ropes={geometry.ropes} />
     <canvas ref={canvasRef} className="featured-squirrel" width="128" height="128" aria-hidden="true" />
     {entering && <svg className="featured-house-front" width="100%" height="100%" aria-hidden="true">
@@ -142,11 +159,11 @@ export default function BranchNav() {
       <image href={BRANCH_ART} x={art.x} y={art.y} width={art.width} height={art.height} preserveAspectRatio="none" clipPath={`url(#${maskId})`}/>
     </svg>}
     <div className="featured-signs featured-left">{ITEMS.slice(0,3).map(item=>sign(item))}</div>
-    <div className="featured-home"><Link ref={logoRef} to="/" aria-label="Go to Home page" className={`featured-logo${location.pathname==='/'?' featured-active':''}`} onClick={event=>visit(event,ITEMS[0],true)}><Logo /></Link>
+    <div className="featured-home"><Link ref={logoRef} to="/" aria-label="Rainbow Digi School — Excellence begins early — home" className={`featured-logo${location.pathname==='/'?' featured-active':''}`} onClick={event=>visit(event,ITEMS[0],true)}><Logo /></Link>
       <button type="button" className="featured-monkey" aria-label="Send the squirrel home" onClick={()=>startRef.current('house')}><img src="/images/navigation/monkey-featured.webp" width="250" height="465" alt="" decoding="async" /></button>
     </div>
     <div className="featured-signs featured-right">{ITEMS.slice(3).map(item=>sign(item))}</div>
-    <button type="button" className="featured-menu" aria-controls="school-navigation-menu" aria-expanded={open} aria-label={open?'Close navigation menu':'Open navigation menu'} onClick={()=>setOpen(value=>!value)}>☰</button>
-    {open && <div id="school-navigation-menu" className="featured-drawer" onKeyDown={event=>{if(event.key==='Escape')setOpen(false);}}>{ITEMS.map(item=>sign(item,true))}</div>}
+    <button ref={menuRef} type="button" className="featured-menu" aria-controls="school-navigation-menu" aria-expanded={open} aria-label={open?'Close navigation menu':'Open navigation menu'} onClick={()=>setOpen(value=>!value)}>☰</button>
+    {open && <div ref={drawerRef} id="school-navigation-menu" className="featured-drawer">{ITEMS.map(item=>sign(item,true))}<Link to="/about" className="featured-sign" onClick={()=>setOpen(false)}><span>About Rainbow</span></Link></div>}
   </nav></header>;
 }

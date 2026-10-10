@@ -16,6 +16,7 @@
 .featured-monkey img { display:block; width:100%; height:100%; object-fit:contain; }
 .featured-squirrel { position:absolute; z-index:3; top:0; left:0; width:68px; height:68px; pointer-events:none; will-change:transform; }
 .featured-menu,.featured-drawer { display:none; }
+.featured-drawer { max-height:calc(100dvh - 205px); overflow-y:auto; }
 @media (max-width:1250px) {
  .featured-inner { --art-height:190px; --logo-height:70px; height:330px; }
  .featured-signs { display:none; }.featured-home { top:124px; width:210px; }
