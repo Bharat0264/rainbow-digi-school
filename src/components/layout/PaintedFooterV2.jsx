@@ -12,11 +12,11 @@ function PaintedFooterV2() {
       
       {/* Background Liquid Waves */}
       <div className="absolute inset-0 pointer-events-none z-0">
-        <svg className="absolute w-full h-full object-cover" preserveAspectRatio="none">
-          <path d="M-100,600 Q300,100 800,200 T1600,100 L2000,0 L2000,1000 L-100,1000 Z" fill="#BBDEFB" opacity="0.6" />
-          <path d="M0,800 Q500,400 1200,600 T2000,400 L2000,1000 L0,1000 Z" fill="#90CAF9" opacity="0.5" />
-          <path d="M-200,900 Q400,600 1000,800 T2000,700 L2000,1000 L-200,1000 Z" fill="#4CAF50" opacity="0.8" />
-          <path d="M0,1000 Q600,800 1400,950 T2000,850 L2000,1000 L0,1000 Z" fill="#81C784" opacity="0.9" />
+        <svg className="absolute w-full h-full object-cover" preserveAspectRatio="none" viewBox="0 0 2000 1200">
+          <path d="M-100,600 Q300,100 800,200 T1600,100 L2000,0 L2000,1200 L-100,1200 Z" fill="#BBDEFB" opacity="0.6" />
+          <path d="M0,800 Q500,400 1200,600 T2000,400 L2000,1200 L0,1200 Z" fill="#90CAF9" opacity="0.5" />
+          <path d="M-200,900 Q400,600 1000,800 T2000,700 L2000,1200 L-200,1200 Z" fill="#4CAF50" opacity="0.8" />
+          <path d="M0,1000 Q600,800 1400,950 T2000,850 L2000,1200 L0,1200 Z" fill="#81C784" opacity="0.9" />
         </svg>
 
         {/* Playful Floating Elements */}
@@ -46,7 +46,7 @@ function PaintedFooterV2() {
         </motion.div>
       </div>
 
-      <div className="max-w-[1300px] mx-auto relative z-10 flex flex-col items-center">
+      <div className="container relative z-10 flex flex-col items-center">
         
         {/* Main Glass Panel */}
         <div className="relative w-full rounded-[40px] md:rounded-[50px] p-8 md:p-12 lg:p-16 shadow-[0_20px_50px_rgba(0,0,0,0.1)] border-2 border-white/70 bg-white/60 backdrop-blur-xl overflow-hidden flex flex-col md:flex-row gap-12 md:gap-8 mb-6">

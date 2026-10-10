@@ -125,3 +125,7 @@ body {
 }
 
 @import './painted-glass-v2.css';
+
+html, body { width: 100%; max-width: 100%; overflow-x: hidden; margin: 0; }
+
+.container { width: 100%; max-width: 1200px; margin-inline: auto; padding-inline: clamp(16px, 4vw, 48px); }

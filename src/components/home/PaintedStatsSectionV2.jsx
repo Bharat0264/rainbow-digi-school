@@ -10,7 +10,7 @@ function PaintedStatsSectionV2() {
     {
       icon: <GraduationCap className="w-8 h-8 text-white" strokeWidth={2.5} />,
       color: "bg-[#FF5C77]",
-      title: "Nursery–5",
+      title: "Nursery - 5",
       subtitle: "Learning years",
     },
     {
@@ -22,7 +22,7 @@ function PaintedStatsSectionV2() {
     {
       icon: <Star className="w-8 h-8 text-white" strokeWidth={2.5} fill="currentColor" />,
       color: "bg-[#FFCA28]",
-      title: "4.9★",
+      title: "4.9 ★",
       subtitle: "Google rating",
     },
     {
@@ -34,16 +34,16 @@ function PaintedStatsSectionV2() {
   ];
 
   return (
-    <section className="relative w-full py-16 px-4 sm:px-8 lg:px-16 overflow-hidden" style={{ background: '#FFF8EC' }}>
+    <section className="relative w-full py-16 overflow-hidden" style={{ background: '#FFF8EC' }}>
       
       {/* Background Liquid Waves */}
       <div className="absolute inset-0 pointer-events-none z-0">
-        <svg className="absolute w-full h-full object-cover" preserveAspectRatio="none">
+        <svg className="absolute w-full h-full object-cover" preserveAspectRatio="none" viewBox="0 0 2000 1200">
           {/* Top pink wave */}
-          <path d="M0,80 Q250,-20 500,50 T1000,20 T1500,80 L1500,0 L0,0 Z" fill="#FFB3C5" opacity="0.6" />
+          <path d="M0,80 Q250,-20 500,50 T1000,20 T1500,80 L2000,0 L0,0 Z" fill="#FFB3C5" opacity="0.6" />
           {/* Bottom peach/pink wave */}
-          <path d="M-100,1000 Q200,800 600,950 T1200,850 T1800,1000 L1800,1200 L-100,1200 Z" fill="#FFD0AC" opacity="0.8" />
-          <path d="M500,1200 Q900,900 1300,1050 T1800,950 L1800,1200 Z" fill="#FF999F" opacity="0.7" />
+          <path d="M-100,1000 Q200,800 600,950 T1200,850 T1800,1000 L2000,1200 L-100,1200 Z" fill="#FFD0AC" opacity="0.8" />
+          <path d="M500,1200 Q900,900 1300,1050 T1800,950 L2000,1200 Z" fill="#FF999F" opacity="0.7" />
         </svg>
 
         {/* Floating playful elements */}
@@ -63,7 +63,7 @@ function PaintedStatsSectionV2() {
         </motion.div>
       </div>
 
-      <div className="max-w-6xl mx-auto relative z-10">
+      <div className="container relative z-10">
         <Reveal>
           {/* Glass Card */}
           <div className="relative w-full rounded-[40px] md:rounded-[60px] p-8 md:p-12 shadow-[0_20px_50px_rgba(255,153,159,0.2)] border-2 border-white/60 bg-white/40 backdrop-blur-xl overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8 md:gap-4">

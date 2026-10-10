@@ -10,10 +10,10 @@ function PaintedCampusGalleryV2() {
 
   // We use placeholder images or existing images from IMAGES
   const galleryImages = [
-    IMAGES.hero,
-    IMAGES.about,
-    IMAGES.hero, // Replace with actual if available
-    IMAGES.about
+    { src: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1200&auto=format&fit=crop", alt: "Students learning" },
+    { src: "https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=1200&auto=format&fit=crop", alt: "Art classroom" },
+    { src: "https://images.unsplash.com/photo-1587691592099-24045742c181?q=80&w=1200&auto=format&fit=crop", alt: "Science lab" },
+    { src: "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=1200&auto=format&fit=crop", alt: "Library" }
   ];
 
   return (
@@ -21,7 +21,7 @@ function PaintedCampusGalleryV2() {
       
       {/* Background Decor */}
       <div className="absolute inset-0 pointer-events-none z-0">
-        <svg className="absolute w-full h-full object-cover" preserveAspectRatio="none">
+        <svg className="absolute w-full h-full object-cover" preserveAspectRatio="none" viewBox="0 0 2000 1200">
           <path d="M0,200 Q400,0 1000,300 T2000,100 L2000,1200 L0,1200 Z" fill="#FFF0F5" opacity="0.6" />
         </svg>
         <motion.div className="absolute top-[10%] right-[10%] text-[#FFB3C5]" animate={reduced ? {} : { rotate: [-10, 10, -10] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}>
@@ -31,7 +31,7 @@ function PaintedCampusGalleryV2() {
         </motion.div>
       </div>
 
-      <div className="max-w-[1400px] mx-auto relative z-10 flex flex-col items-center">
+      <div className="container relative z-10 flex flex-col items-center">
         
         {/* Badge & Heading */}
         <Reveal className="flex flex-col items-center text-center mb-16">
@@ -45,16 +45,17 @@ function PaintedCampusGalleryV2() {
         </Reveal>
 
         {/* Gallery Grid */}
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-16">
-          {galleryImages.map((src, idx) => (
+        <div className="w-full grid gap-4 md:gap-6 mb-16" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))' }}>
+          {galleryImages.map((img, idx) => (
             <Reveal key={idx} delay={idx * 0.1}>
               <motion.div 
                 whileHover={{ scale: 1.02 }}
-                className="relative w-full aspect-square rounded-[30px] overflow-hidden shadow-md border-4 border-white group"
+                className="relative w-full rounded-[30px] overflow-hidden shadow-md border-4 border-white group"
+                style={{ aspectRatio: '4/3' }}
               >
                 <img 
-                  src={src} 
-                  alt="Campus facility" 
+                  src={img.src} 
+                  alt={img.alt} 
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
                   loading="lazy"
                 />

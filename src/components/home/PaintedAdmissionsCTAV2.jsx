@@ -12,10 +12,10 @@ function PaintedAdmissionsCTAV2() {
       
       {/* Background Organic Waves */}
       <div className="absolute inset-0 pointer-events-none z-0">
-        <svg className="absolute w-full h-full object-cover" preserveAspectRatio="none">
-          <path d="M0,500 Q300,100 800,400 T1600,200 T2000,400 L2000,1000 L0,1000 Z" fill="#FFD0AC" opacity="0.6" />
-          <path d="M-100,600 Q400,200 1000,500 T1800,200 L2000,300 L2000,1000 L-100,1000 Z" fill="#FF999F" opacity="0.9" />
-          <path d="M0,800 Q500,400 1200,700 T2000,600 L2000,1000 L0,1000 Z" fill="#FF5C77" opacity="0.7" />
+        <svg className="absolute w-full h-full object-cover" preserveAspectRatio="none" viewBox="0 0 2000 1200">
+          <path d="M0,500 Q300,100 800,400 T1600,200 T2000,400 L2000,1200 L0,1200 Z" fill="#FFD0AC" opacity="0.6" />
+          <path d="M-100,600 Q400,200 1000,500 T1800,200 L2000,300 L2000,1200 L-100,1200 Z" fill="#FF999F" opacity="0.9" />
+          <path d="M0,800 Q500,400 1200,700 T2000,600 L2000,1200 L0,1200 Z" fill="#FF5C77" opacity="0.7" />
         </svg>
 
         {/* Playful Decorative Elements */}
@@ -49,8 +49,8 @@ function PaintedAdmissionsCTAV2() {
         </motion.div>
       </div>
 
-      <div className="max-w-5xl mx-auto relative z-10">
-        <Reveal>
+      <div className="container relative z-10 flex flex-col items-center">
+        <Reveal className="w-full max-w-5xl">
           {/* Glass Card */}
           <div className="relative w-full rounded-[40px] md:rounded-[60px] p-10 md:p-16 shadow-[0_20px_50px_rgba(255,153,159,0.3)] border-2 border-white/50 bg-white/30 backdrop-blur-xl overflow-hidden flex flex-col items-center text-center">
             
@@ -73,7 +73,7 @@ function PaintedAdmissionsCTAV2() {
 
             {/* Badge */}
             <div className="bg-white/80 backdrop-blur-md px-6 py-2 rounded-full mb-10 shadow-sm border border-white">
-              <span className="font-bold text-[#442613] tracking-wide">Admissions are open for 2026–27</span>
+              <span className="font-bold text-[#442613] tracking-wide">Admissions are open for 2026-27</span>
             </div>
 
             {/* Buttons Row */}

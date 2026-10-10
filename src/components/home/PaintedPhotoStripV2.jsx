@@ -43,16 +43,16 @@ function PaintedPhotoStripV2() {
       
       {/* Background Liquid Waves */}
       <div className="absolute inset-0 pointer-events-none z-0">
-        <svg className="absolute w-full h-full object-cover" preserveAspectRatio="none">
-          <path d="M0,100 Q400,-50 800,100 T1600,150 T2000,50 L2000,1000 L0,1000 Z" fill="#FFD0AC" opacity="0.6" />
-          <path d="M-100,300 Q300,150 700,350 T1400,200 L2000,400 L2000,1000 L-100,1000 Z" fill="#FFD54F" opacity="0.3" />
+        <svg className="absolute w-full h-full object-cover" preserveAspectRatio="none" viewBox="0 0 2000 1200">
+          <path d="M0,100 Q400,-50 800,100 T1600,150 T2000,50 L2000,1200 L0,1200 Z" fill="#FFD0AC" opacity="0.6" />
+          <path d="M-100,300 Q300,150 700,350 T1400,200 L2000,400 L2000,1200 L-100,1200 Z" fill="#FFD54F" opacity="0.3" />
         </svg>
       </div>
 
-      <div className="max-w-[1400px] mx-auto relative z-10">
+      <div className="container relative z-10">
         
         {/* Horizontal Card Grid */}
-        <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="w-full grid gap-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))' }}>
           {cards.map((card, idx) => (
             <Reveal key={idx} delay={idx * 0.1}>
               <div className="relative w-full aspect-square md:aspect-[4/5] rounded-[30px] md:rounded-[40px] shadow-[0_15px_30px_rgba(0,0,0,0.08)] bg-white border border-white/60 overflow-hidden group flex flex-col justify-end">

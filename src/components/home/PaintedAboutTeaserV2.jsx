@@ -10,13 +10,13 @@ function PaintedAboutTeaserV2() {
   return (
     <section className="relative w-full overflow-hidden py-24 px-4 sm:px-8 lg:px-16" style={{ background: '#FFEDD5' }}>
       {/* Organic Wavy Backgrounds */}
-      <svg className="absolute inset-0 w-full h-full object-cover pointer-events-none" preserveAspectRatio="none">
+      <svg className="absolute inset-0 w-full h-full object-cover pointer-events-none" preserveAspectRatio="none" viewBox="0 0 2000 1200">
         {/* Soft peach waves */}
-        <path d="M0,0 Q200,100 400,0 T800,50 T1200,0 T1600,80 L1600,0 L0,0 Z" fill="#FFDDC1" opacity="0.8" />
-        <path d="M-100,200 Q200,350 500,250 T1100,300 T1600,200 L1600,1000 L-100,1000 Z" fill="#FFE4B5" opacity="0.5" />
-        <path d="M-200,600 Q300,500 700,650 T1300,550 T1800,650 L1800,1200 L-200,1200 Z" fill="#FFCBA4" opacity="0.6" />
+        <path d="M0,0 Q200,100 400,0 T800,50 T1200,0 T1600,80 L2000,0 L0,0 Z" fill="#FFDDC1" opacity="0.8" />
+        <path d="M-100,200 Q200,350 500,250 T1100,300 T1600,200 L2000,1000 L-100,1000 Z" fill="#FFE4B5" opacity="0.5" />
+        <path d="M-200,600 Q300,500 700,650 T1300,550 T1800,650 L2000,1200 L-200,1200 Z" fill="#FFCBA4" opacity="0.6" />
         {/* Bottom wave matching design */}
-        <path d="M0,800 Q300,750 600,850 T1200,800 T1600,900 L1600,1200 L0,1200 Z" fill="#FF9E80" opacity="0.4" />
+        <path d="M0,800 Q300,750 600,850 T1200,800 T1600,900 L2000,1200 L0,1200 Z" fill="#FF9E80" opacity="0.4" />
       </svg>
 
       {/* Playful Floating Elements */}
@@ -84,7 +84,7 @@ function PaintedAboutTeaserV2() {
         </div>
       </div>
 
-      <div className="max-w-[1300px] mx-auto flex flex-col lg:flex-row items-stretch gap-8 relative z-10">
+      <div className="container flex flex-col lg:flex-row items-stretch gap-8 relative z-10">
         
         {/* Left Column: Image with thick frame */}
         <Reveal className="w-full lg:w-[45%] flex">

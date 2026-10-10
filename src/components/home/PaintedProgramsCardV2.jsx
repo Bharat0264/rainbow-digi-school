@@ -66,8 +66,8 @@ function PaintedProgramsCardV2() {
       
       {/* Background Decor */}
       <div className="absolute inset-0 pointer-events-none z-0">
-        <svg className="absolute w-full h-full object-cover" preserveAspectRatio="none">
-          <path d="M0,0 Q300,50 600,0 T1200,50 T1800,0 L1800,1200 L0,1200 Z" fill="#BBDEFB" opacity="0.4" />
+        <svg className="absolute w-full h-full object-cover" preserveAspectRatio="none" viewBox="0 0 2000 1200">
+          <path d="M0,0 Q300,50 600,0 T1200,50 T1800,0 L2000,50 L2000,1200 L0,1200 Z" fill="#BBDEFB" opacity="0.4" />
         </svg>
         <div className="absolute top-[10%] left-[5%] text-[#FFD34F]">
           <svg width="80" height="80" viewBox="0 0 100 100">
@@ -84,7 +84,7 @@ function PaintedProgramsCardV2() {
         </motion.div>
       </div>
 
-      <div className="max-w-6xl mx-auto relative z-10 flex flex-col items-center">
+      <div className="container relative z-10 flex flex-col items-center">
         
         {/* Badge & Heading */}
         <Reveal className="flex flex-col items-center text-center mb-16">
@@ -101,7 +101,7 @@ function PaintedProgramsCardV2() {
         </Reveal>
 
         {/* Cards */}
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+        <div className="w-full grid gap-8 mb-16" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
           {programs.map((program, idx) => (
             <Reveal key={idx}>
               <div className="relative w-full rounded-[40px] shadow-[0_20px_40px_rgba(0,0,0,0.08)] bg-white border-2 border-white overflow-hidden group">

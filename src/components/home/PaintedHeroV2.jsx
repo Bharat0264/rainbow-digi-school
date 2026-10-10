@@ -95,7 +95,7 @@ function PaintedHeroV2() {
   return (
     <section className="w-full px-3 py-4 sm:px-6 lg:px-8" aria-labelledby="hero-title">
       <div className="relative mx-auto min-h-[690px] max-w-[1640px] overflow-hidden rounded-[42px] bg-[#fff2b6] px-6 py-12 shadow-[0_24px_60px_rgba(131,76,30,0.13)] sm:rounded-[56px] sm:px-12 lg:min-h-[790px] lg:px-[6.5%] lg:py-[5.4rem]">
-        <svg className="pointer-events-none absolute inset-0 h-full w-full" preserveAspectRatio="none" aria-hidden="true">
+        <svg className="pointer-events-none absolute inset-0 h-full w-full" preserveAspectRatio="none" aria-hidden="true" viewBox="0 0 1600 800">
           <path d="M0 0C154 32 220 2 379 9c173 7 278 18 424-9h797v164c-166-102-253 91-473-41-171-104-279 95-482-1C456 24 264 110 0 155Z" fill="#fff8d7" opacity=".82"/>
           <path d="M1047 0h553v151c-83-82-183-10-300-9-121 1-194-69-253-142Z" fill="#ff9d80" opacity=".78"/>
           <path d="M0 506c152-98 304 30 452-36 130-58 216-123 345-53 179 96 277-17 388 63 106 77 289-17 415 65v215H0Z" fill="#ffb391" opacity=".68"/>
