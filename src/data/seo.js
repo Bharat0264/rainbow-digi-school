@@ -3,7 +3,7 @@ import { SCHOOL } from "./school.js";
 export const SITE_URL = "https://rainbow-digi-school.vercel.app";
 export const SEO_ROUTES = {
   "/": {
-    title: "Rainbow Digi School | Nursery to Grade V in Kandlakoya",
+    title: "Rainbow Digi School, Kandlakoya | Nursery to Grade V",
     description:
       "Discover Rainbow Digi School in Kandlakoya, Hyderabad. Explore Nursery to Grade V learning, our educational approach and the admissions enquiry journey.",
     label: "Home",
