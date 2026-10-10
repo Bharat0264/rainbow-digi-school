@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Logo from '../ui/Logo';
+import NavigationRopes from './NavigationRopes';
 import { NAV } from '../../data/nav';
 import './BranchNav.css';
 
@@ -131,9 +132,7 @@ export default function BranchNav() {
   const art=geometry.art;
   return <header className="bn-header featured-nav"><nav ref={navRef} className="featured-inner" aria-label="Main navigation">
     <img ref={artRef} className="featured-branch" src="/images/navigation/branch-house.webp" width="1536" height="512" alt="" aria-hidden="true" decoding="async" />
-    <svg className="featured-ropes" width="100%" height="100%" aria-hidden="true">
-      {geometry.ropes.map((rope,i)=><g key={i} data-rope="true"><path d={`M${rope.x} ${rope.top} V${rope.bottom}`} stroke="#70421f" strokeWidth="7" strokeLinecap="round"/><path d={`M${rope.x-1} ${rope.top} V${rope.bottom}`} stroke="#d9aa73" strokeWidth="4"/><path d={`M${rope.x} ${rope.top} V${rope.bottom}`} stroke="#9b673d" strokeWidth="5" strokeDasharray="2 4"/><ellipse cx={rope.x} cy={rope.bottom} rx="5" ry="3" fill="#b57c46" stroke="#70421f"/></g>)}
-    </svg>
+    <NavigationRopes ropes={geometry.ropes} />
     <canvas ref={canvasRef} className="featured-squirrel" width="128" height="128" aria-hidden="true" />
     {entering && <svg className="featured-house-front" width="100%" height="100%" aria-hidden="true">
       <defs><clipPath id={maskId}><path clipRule="evenodd" fillRule="evenodd" d={`M${art.x+art.width*.39},${art.y+art.height*.235} h${art.width*.19} v${art.height*.22} h${-art.width*.19} Z M${art.x+art.width*746/1536},${art.y+art.height*164/512} a${art.width*26/1536},${art.height*26/512} 0 1 0 ${-art.width*52/1536},0 a${art.width*26/1536},${art.height*26/512} 0 1 0 ${art.width*52/1536},0 Z`}/></clipPath></defs>
