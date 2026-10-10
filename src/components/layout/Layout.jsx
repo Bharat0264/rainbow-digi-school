@@ -7,7 +7,7 @@ export default function Layout({ children }) {
   return (
     <div className="min-h-screen bg-[#F7F1E6] font-sans text-espresso flex flex-col">
       <Navbar />
-      <main className="flex-grow pt-20">
+      <main className="flex-grow">
         <MotionConfig reducedMotion="user">{children || <Outlet />}</MotionConfig>
       </main>
       <PaintedFooterV2 />
