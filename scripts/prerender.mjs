@@ -71,11 +71,9 @@ try {
   }
   await writeFile(
     resolve("dist/sitemap.xml"),
-    `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${Object.entries(
+    `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${Object.keys(
       SEO_ROUTES,
     )
-      .filter(([, page]) => !page.noindex)
-      .map(([path]) => path)
       .map((path) => `  <url><loc>${SITE_URL}${path}</loc></url>`)
       .join("\n")}\n</urlset>\n`,
   );

@@ -1,6 +1,6 @@
 // One source of truth. Contact details and campus image confirmed by the school owner.
 export const SCHOOL = {
-  name: "Rainbow Digi School",
+  name: "Rainbow DIGI School",
   tagline: "Excellence Begins Early",
   location: "Kandlakoya, Hyderabad",
   classes: "Nursery to Grade V",
@@ -25,7 +25,6 @@ export const SCHOOL = {
     availabilityConfirmed: false,
   },
   social: { instagram: "https://www.instagram.com/rainbowdigischool/" },
-  hours: "Monday to Friday, 8:15 AM to 4:00 PM",
   campusPhoto: {
     src: "/images/about-building-real.jpg",
     width: 765,
@@ -98,7 +97,7 @@ export const VALUES = [
 export const ADMISSION_FAQ = [
   {
     q: "Which classes does Rainbow Digi School offer?",
-    a: "Rainbow Digi School offers Nursery, LKG, UKG and Grades I to V. Ask the admissions team about your child’s prospective class.",
+    a: "The school’s published information covers Nursery, LKG, UKG, and Grades I to V. Ask the admissions team about availability for your child’s prospective class.",
   },
   {
     q: "What curriculum is advertised?",

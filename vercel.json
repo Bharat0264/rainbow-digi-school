@@ -5,12 +5,6 @@
   "framework": "vite",
   "trailingSlash": false,
   "cleanUrls": true,
-  "redirects": [
-    { "source": "/campus", "destination": "/campus-life", "permanent": true },
-    { "source": "/events", "destination": "/campus-life", "permanent": true },
-    { "source": "/apply", "destination": "/admissions", "permanent": true },
-    { "source": "/about", "destination": "/", "permanent": true }
-  ],
   "headers": [{
     "source": "/(.*)",
     "headers": [
