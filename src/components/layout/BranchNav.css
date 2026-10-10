@@ -1,6 +1,6 @@
 .featured-nav { position:relative; z-index:60; background:#f8f3e8; }
 .featured-inner { --art-height:260px; --board-top:177px; --logo-height:100px; position:relative; width:95%; max-width:1600px; height:445px; margin:auto; isolation:isolate; }
-.featured-branch { position:absolute; z-index:0; top:10px; left:0; width:100%; height:var(--art-height); object-fit:fill; pointer-events:none; user-select:none; }
+.featured-branch { position:absolute; z-index:0; top:10px; left:0; width:100%; height:var(--art-height); display:block; image-rendering:auto; pointer-events:none; user-select:none; }
 .featured-ropes,.featured-house-front { position:absolute; inset:0; overflow:visible; pointer-events:none; }
 .featured-ropes { z-index:1; }.featured-house-front { z-index:4; }
 .featured-signs { position:absolute; z-index:5; top:var(--board-top); display:flex; gap:clamp(12px,1.3vw,22px); }

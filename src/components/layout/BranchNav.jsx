@@ -131,12 +131,12 @@ export default function BranchNav() {
     className={`featured-sign${selected===item.id?' featured-active':''}`} onClick={event=>visit(event,item)}><span>{item.label}</span></Link>;
   const art=geometry.art;
   return <header className="bn-header featured-nav"><nav ref={navRef} className="featured-inner" aria-label="Main navigation">
-    <img ref={artRef} className="featured-branch" src="/images/navigation/branch-house.webp" width="1536" height="512" alt="" aria-hidden="true" decoding="async" />
+    <img ref={artRef} className="featured-branch" src="/images/navigation/branch-featured.svg" width="1600" height="260" alt="" aria-hidden="true" decoding="async" />
     <NavigationRopes ropes={geometry.ropes} />
     <canvas ref={canvasRef} className="featured-squirrel" width="128" height="128" aria-hidden="true" />
     {entering && <svg className="featured-house-front" width="100%" height="100%" aria-hidden="true">
       <defs><clipPath id={maskId}><path clipRule="evenodd" fillRule="evenodd" d={`M${art.x+art.width*.39},${art.y+art.height*.235} h${art.width*.19} v${art.height*.22} h${-art.width*.19} Z M${art.x+art.width*746/1536},${art.y+art.height*164/512} a${art.width*26/1536},${art.height*26/512} 0 1 0 ${-art.width*52/1536},0 a${art.width*26/1536},${art.height*26/512} 0 1 0 ${art.width*52/1536},0 Z`}/></clipPath></defs>
-      <image href="/images/navigation/branch-house.webp" x={art.x} y={art.y} width={art.width} height={art.height} preserveAspectRatio="none" clipPath={`url(#${maskId})`}/>
+      <image href="/images/navigation/branch-featured.svg" x={art.x} y={art.y} width={art.width} height={art.height} preserveAspectRatio="none" clipPath={`url(#${maskId})`}/>
     </svg>}
     <div className="featured-signs featured-left">{ITEMS.slice(0,3).map(item=>sign(item))}</div>
     <div className="featured-home"><Link ref={logoRef} to="/" aria-label="Go to Home page" className={`featured-logo${location.pathname==='/'?' featured-active':''}`} onClick={event=>visit(event,ITEMS[0],true)}><Logo /></Link>
