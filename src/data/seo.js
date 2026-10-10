@@ -2,138 +2,45 @@ import { SCHOOL } from "./school.js";
 
 export const SITE_URL = "https://rainbow-digi-school.vercel.app";
 export const SEO_ROUTES = {
-  "/": {
-    title: "Rainbow Digi School, Kandlakoya | Nursery to Grade V",
-    description:
-      "Discover Rainbow Digi School in Kandlakoya, Hyderabad. Explore Nursery to Grade V learning, our educational approach and the admissions enquiry journey.",
-    label: "Home",
-  },
-  "/about": {
-    title: "About Rainbow Digi School | Kandlakoya, Hyderabad",
-    description:
-      "Get to know Rainbow Digi School, our early-years and primary learning philosophy, and the questions to explore when choosing a school in Kandlakoya.",
-    label: "About",
-  },
-  "/academics": {
-    title: "Nursery & Primary Learning | Rainbow Digi School",
-    description:
-      "Explore Nursery, LKG, UKG and Grades I–V at Rainbow Digi School, Kandlakoya. Learn about our advertised curriculum and questions to discuss with the school.",
-    label: "Academics",
-  },
-  "/admissions": {
-    title: "Admissions Enquiries | Rainbow Digi School, Kandlakoya",
-    description:
-      "Explore the admissions enquiry journey for Nursery to Grade V at Rainbow Digi School in Kandlakoya. Ask about availability, fees and a school visit.",
-    label: "Admissions",
-  },
-  "/campus": {
-    title: "Explore the Campus | Rainbow Digi School",
-    description:
-      "Plan what to look for during a Rainbow Digi School campus visit in Kandlakoya. Explore learning spaces and ask the school about current facilities.",
-    label: "Campus",
-  },
-  "/events": {
-    title: "Student Life & Activities | Rainbow Digi School",
-    description:
-      "Explore the activity and celebration themes shared by Rainbow Digi School, Kandlakoya, and discover questions to ask about student life.",
-    label: "Student life",
-  },
-  "/contact": {
-    title: "Contact & Enquiries | Rainbow Digi School, Kandlakoya",
-    description:
-      "Find Rainbow Digi School in Kandlakoya, Hyderabad. Explore contact information and prepare your questions about Nursery to Grade V admissions.",
-    label: "Contact",
-  },
-  "/privacy-policy": {
-    title: "Website Privacy Information | Rainbow Digi School",
-    description:
-      "Read how this Rainbow Digi School website handles enquiries, browser requests and privacy, including information still awaiting school confirmation.",
-    label: "Privacy",
-  },
+  "/": { title: "Best CBSE School in Kandlakoya | Rainbow Digi School", description: "Explore Rainbow Digi School, a CBSE curriculum school in Kandlakoya, Hyderabad for Nursery to Grade V. Enquire about admissions today.", label: "Home" },
+  "/academics": { title: "CBSE Curriculum, Nursery to Grade V | Rainbow Digi School", description: "Explore Nursery to Grade V learning, play and learn, Maths Lab and digital learning at Rainbow Digi School in Kandlakoya. Enquire today.", label: "Academics" },
+  "/campus-life": { title: "Campus & School Life in Kandlakoya | Rainbow Digi School", description: "Explore the campus, school life and family visit information at Rainbow Digi School in Kandlakoya, Hyderabad. Plan your enquiry today.", label: "Campus & Life" },
+  "/contact": { title: "Contact Rainbow Digi School, Kandlakoya | Enquire Today", description: "Contact Rainbow Digi School in Kandlakoya, Hyderabad for Nursery to Grade V admissions, directions and school timings. Get in touch today.", label: "Contact" },
+  "/admissions": { title: "Admissions Enquiry, Nursery to Grade V | Rainbow Digi School", description: "Enquire about Nursery to Grade V admissions at Rainbow Digi School in Kandlakoya, Hyderabad. Ask about fees, eligibility and availability.", label: "Admissions" },
+  "/privacy-policy": { title: "Privacy Information | Rainbow Digi School", description: "Read the Rainbow Digi School website privacy information.", label: "Privacy", noindex: true },
 };
+
 export function pageSeo(pathname) {
   const path = pathname === "/" ? "/" : pathname.replace(/\/+$/, "");
-  return {
-    path,
-    ...(SEO_ROUTES[path] || {
-      title: "Page not found | Rainbow Digi School",
-      description:
-        "This page could not be found. Return to Rainbow Digi School or explore admissions and learning.",
-      label: "Page not found",
-      noindex: true,
-    }),
-  };
+  return { path, ...(SEO_ROUTES[path] || { title: "Page not found | Rainbow Digi School", description: "This page could not be found.", label: "Page not found", noindex: true }) };
 }
+
 export function structuredData(pathname) {
   const page = pageSeo(pathname);
   if (page.noindex) return null;
   const schoolId = `${SITE_URL}/#school`;
-  const graph = [
-    {
-      "@type": "School",
-      "@id": schoolId,
-      name: "Rainbow Digi School",
-      url: `${SITE_URL}/`,
-      slogan: "Excellence Begins Early",
-      description: "Nursery to Grade V school in Kandlakoya, Hyderabad.",
-      address: {
-        "@type": "PostalAddress",
-        addressLocality: "Kandlakoya, Hyderabad",
-        addressRegion: "Telangana",
-        addressCountry: "IN",
-      },
-    },
-    {
-      "@type": "WebSite",
-      "@id": `${SITE_URL}/#website`,
-      url: `${SITE_URL}/`,
-      name: "Rainbow Digi School",
-      publisher: { "@id": schoolId },
-    },
-    {
-      "@type": "WebPage",
-      "@id": `${SITE_URL}${page.path}#webpage`,
-      url: `${SITE_URL}${page.path}`,
-      name: page.title,
-      description: page.description,
-      isPartOf: { "@id": `${SITE_URL}/#website` },
-      about: { "@id": schoolId },
-      inLanguage: "en-IN",
-    },
-  ];
-  graph[0].name = SCHOOL.name;
-  graph[0].slogan = SCHOOL.tagline;
-  if (SCHOOL.contact?.verified) {
-    graph[0].telephone = SCHOOL.contact.phones.map((phone) =>
-      phone.href.replace("tel:", ""),
-    );
-    graph[0].email = SCHOOL.contact.email;
-    graph[0].address.streetAddress = SCHOOL.contact.address;
-    graph[0].address.postalCode = "501401";
-  }
+  const graph = [{
+    "@type": "School", "@id": schoolId, name: SCHOOL.name, url: `${SITE_URL}/`, slogan: SCHOOL.tagline,
+    logo: `${SITE_URL}/logo.svg`, image: `${SITE_URL}${SCHOOL.campusPhoto.src}`,
+    address: { "@type": "PostalAddress", streetAddress: SCHOOL.contact.address, addressLocality: "Hyderabad", addressRegion: "Telangana", postalCode: "501401", addressCountry: "IN" },
+    telephone: SCHOOL.contact.phones.map((phone) => phone.href.replace("tel:", "")), email: SCHOOL.contact.email,
+    openingHoursSpecification: [{ "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], opens: "08:15", closes: "16:00" }],
+    sameAs: [SCHOOL.social.instagram],
+  }, {
+    "@type": "WebSite", "@id": `${SITE_URL}/#website`, url: `${SITE_URL}/`, name: SCHOOL.name, publisher: { "@id": schoolId },
+  }, {
+    "@type": "WebPage", "@id": `${SITE_URL}${page.path}#webpage`, url: `${SITE_URL}${page.path}`, name: page.title, description: page.description, isPartOf: { "@id": `${SITE_URL}/#website` }, about: { "@id": schoolId }, inLanguage: "en-IN",
+  }];
+  if (page.path !== "/") graph.push({ "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` }, { "@type": "ListItem", position: 2, name: page.label, item: `${SITE_URL}${page.path}` }] });
+  if (page.path === "/admissions") graph.push({ "@type": "FAQPage", mainEntity: (awaitlessFaqs()).map(({ q, a }) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })) });
   return { "@context": "https://schema.org", "@graph": graph };
 }
-export function socialMeta(page) {
-  return {
-    type: "website",
-    title: page.title,
-    description: page.description,
-    url: `${SITE_URL}${page.path}`,
-    site_name: "Rainbow Digi School",
-    image: `${SITE_URL}/social-card.png`,
-    "image:width": "1200",
-    "image:height": "630",
-    "image:alt":
-      "Rainbow Digi School — Excellence Begins Early. Nursery to Grade V, Kandlakoya, Hyderabad.",
-    locale: "en_IN",
-  };
+function awaitlessFaqs() {
+  return [
+    { q: "Which classes does Rainbow Digi School offer?", a: "Rainbow Digi School offers Nursery, LKG, UKG and Grades I to V." },
+    { q: "What curriculum is advertised?", a: "The school advertises a CBSE curriculum." },
+    { q: "Where is the school?", a: SCHOOL.contact.address },
+  ];
 }
-export function twitterMeta(page) {
-  return {
-    card: "summary_large_image",
-    title: page.title,
-    description: page.description,
-    image: `${SITE_URL}/social-card.png`,
-    "image:alt": "Rainbow Digi School, Kandlakoya, Hyderabad",
-  };
-}
+export function socialMeta(page) { return { type: "website", title: page.title, description: page.description, url: `${SITE_URL}${page.path}`, site_name: SCHOOL.name, image: `${SITE_URL}/social-card.png`, "image:width": "1200", "image:height": "630", "image:alt": "Rainbow Digi School, Kandlakoya, Hyderabad", locale: "en_IN" }; }
+export function twitterMeta(page) { return { card: "summary_large_image", title: page.title, description: page.description, image: `${SITE_URL}/social-card.png`, "image:alt": "Rainbow Digi School, Kandlakoya, Hyderabad" }; }

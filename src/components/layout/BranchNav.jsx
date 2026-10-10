@@ -5,8 +5,10 @@ import NavigationRopes from './NavigationRopes';
 import { NAV } from '../../data/nav';
 import './BranchNav.css';
 
-const ITEMS = [{ path: '/', label: 'Home', id: 'home' }, ...NAV.left.slice(1), ...NAV.right, NAV.cta]
-  .map(item => ({ ...item, id: item.id || item.label.toLowerCase() }));
+const identify = item => ({ ...item, id: item.id || item.label.toLowerCase().replaceAll(/[^a-z0-9]+/g, '-') });
+const LEFT_ITEMS = NAV.left.map(identify);
+const RIGHT_ITEMS = [...NAV.right, NAV.cta].map(identify);
+const ITEMS = [...LEFT_ITEMS, ...RIGHT_ITEMS];
 // Contact points traced on the original 1536x512 artwork, shared by ropes and feet.
 const BRANCH = [[0,159],[.12,197],[.25,220],[.4,223],[.5,226],[.62,238],[.75,224],[.88,193],[1,156]];
 // Original transparent artwork, retained at its native resolution without re-encoding.
@@ -158,12 +160,12 @@ export default function BranchNav() {
       <defs><clipPath id={maskId}><path clipRule="evenodd" fillRule="evenodd" d={`M${art.x+art.width*.39},${art.y+art.height*.235} h${art.width*.19} v${art.height*.22} h${-art.width*.19} Z M${art.x+art.width*746/1536},${art.y+art.height*164/512} a${art.width*26/1536},${art.height*26/512} 0 1 0 ${-art.width*52/1536},0 a${art.width*26/1536},${art.height*26/512} 0 1 0 ${art.width*52/1536},0 Z`}/></clipPath></defs>
       <image href={BRANCH_ART} x={art.x} y={art.y} width={art.width} height={art.height} preserveAspectRatio="none" clipPath={`url(#${maskId})`}/>
     </svg>}
-    <div className="featured-signs featured-left">{ITEMS.slice(0,3).map(item=>sign(item))}</div>
+    <div className="featured-signs featured-left">{LEFT_ITEMS.map(item=>sign(item))}</div>
     <div className="featured-home"><Link ref={logoRef} to="/" aria-label="Rainbow Digi School — Excellence begins early — home" className={`featured-logo${location.pathname==='/'?' featured-active':''}`} onClick={event=>visit(event,ITEMS[0],true)}><Logo /></Link>
       <button type="button" className="featured-monkey" aria-label="Send the squirrel home" onClick={()=>startRef.current('house')}><img src="/images/navigation/monkey-featured.webp" width="250" height="465" alt="" decoding="async" /></button>
     </div>
-    <div className="featured-signs featured-right">{ITEMS.slice(3).map(item=>sign(item))}</div>
+    <div className="featured-signs featured-right">{RIGHT_ITEMS.map(item=>sign(item))}</div>
     <button ref={menuRef} type="button" className="featured-menu" aria-controls="school-navigation-menu" aria-expanded={open} aria-label={open?'Close navigation menu':'Open navigation menu'} onClick={()=>setOpen(value=>!value)}>☰</button>
-    {open && <div ref={drawerRef} id="school-navigation-menu" className="featured-drawer">{ITEMS.map(item=>sign(item,true))}<Link to="/about" className="featured-sign" onClick={()=>setOpen(false)}><span>About Rainbow</span></Link></div>}
+    {open && <div ref={drawerRef} id="school-navigation-menu" className="featured-drawer">{ITEMS.map(item=>sign(item,true))}</div>}
   </nav></header>;
 }

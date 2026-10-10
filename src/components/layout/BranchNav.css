@@ -7,6 +7,7 @@
 .featured-left { right:calc(50% + 166px); }.featured-right { left:calc(50% + 166px); }
 .featured-sign { position:relative; box-sizing:border-box; display:grid; place-items:center; width:clamp(96px,7.5vw,120px); height:64px; padding:12px 6px 7px; border:3px solid #9a5928; border-radius:11px; background:repeating-linear-gradient(0deg,#c97838 0 6px,#efa862 7px 10px,#b76128 11px 13px); box-shadow:inset 0 2px #fff1c0,0 5px 8px #4a2a1230; color:#4d2c15; font:700 15px Fredoka,sans-serif; text-decoration:none; }
 .featured-sign span { display:block; width:100%; padding:6px 2px; border-radius:6px; background:linear-gradient(#fff5d9,#ffe2a5); text-align:center; white-space:nowrap; }
+.featured-sign[data-nav-id="campus-life"] span { white-space:normal; line-height:1.05; font-size:13px; }
 .featured-sign:hover span { background:#fff4bd; }.featured-active { box-shadow:0 0 0 3px #ffd35d,0 5px 16px #e5a31c88,inset 0 0 0 2px #ffed9b; }.featured-sign.featured-active span { background:linear-gradient(#fff19c,#ffd84f); }
 .featured-sign:focus-visible,.featured-menu:focus-visible,.featured-logo:focus-visible,.featured-monkey:focus-visible { outline:3px solid #8e4c18; outline-offset:4px; }
 .featured-home { position:absolute; z-index:5; top:166px; left:50%; width:280px; transform:translateX(-50%); pointer-events:none; }

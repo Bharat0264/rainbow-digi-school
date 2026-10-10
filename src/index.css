@@ -559,13 +559,15 @@ main:focus {
 .admissions-invite h2 {
   font-size: clamp(30px, 2.7vw, 40px);
   max-width: 650px;
+  color: #fffdf6;
+  text-shadow: 0 1px 1px #12345a66;
 }
 .admissions-invite .eyebrow {
   color: #e7cd98;
   font-size: 10px;
 }
 .admissions-invite p:last-child {
-  color: #d8e1df;
+  color: #f4f8f1;
   margin-top: 20px;
   max-width: 570px;
   font-size: 14px;
@@ -811,6 +813,7 @@ main:focus {
 .contact-details .text-link svg {
   margin: 0;
 }
+.footer-confirmation { max-width: 300px; margin: 16px 0 0; color: #f4e6c7; font-size: 13px; line-height: 1.5; }
 .photo-open {
   padding: 0;
   border: 0;
