@@ -1,48 +1,70 @@
 import { useId } from 'react';
 
-// Back loops are occluded by the bark, front wraps cross its measured thickness,
-// and the mounting knots overlap the boards. No layer intercepts pointer events.
+const LASHINGS = '/images/navigation/rope-lashings.webp';
+const FRONT_LASHINGS = '/images/navigation/rope-crossed-lashings.webp';
+const EYELETS = '/images/navigation/rope-eyelets.webp';
+// Coordinates belong to the two native 1536x1024 sprite sheets, not the page.
+const VARIANTS = [{ left: 0, center: 420, rearCenter:405, eye: 444 }, { left: 768, center: 1120, rearCenter:1128, eye: 1130 }];
+
+function attachment(rope, index) {
+  const variant = VARIANTS[index % VARIANTS.length];
+  // The oval's crown and lower turn enclose the measured bark surfaces.
+  const scale = (rope.under - rope.top + 4) / 600;
+  return { ...rope, ...variant, scale, dropTop: rope.under + 9,
+    thickness: Math.min(7.5, Math.max(5, scale * 95)),
+    rearTransform: `translate(${rope.x-variant.rearCenter*scale} ${rope.top-4}) scale(${scale})`,
+    transform: `translate(${rope.x-variant.center*scale} ${rope.top-4}) scale(${scale})` };
+}
+
 export default function NavigationRopes({ ropes }) {
   const id = useId().replaceAll(':', '');
-  const material = i => `url(#${id}-fiber-${i})`;
+  const attachments = ropes.map(attachment);
+  const fiber = i => `url(#${id}-fiber-${i})`;
   return <>
+    {/* The original transparent branch (z=1) occludes these closed rear turns. */}
     <svg className="featured-ropes featured-ropes-back" width="100%" height="100%" aria-hidden="true">
       <defs>
-        {/* High-resolution fibers repeat for longer drops, never stretch. */}
-        {ropes.map(({x,top},i) => <pattern key={i} id={`${id}-fiber-${i}`} x={x-4} y={top}
-          width="8" height="93.09" patternUnits="userSpaceOnUse" viewBox="446 0 132 1536" preserveAspectRatio="none">
+        <linearGradient id={`${id}-tail-fade`} x1="0" y1="770" x2="0" y2="850" gradientUnits="userSpaceOnUse">
+          <stop stopColor="white"/><stop offset="1" stopColor="black"/>
+        </linearGradient>
+        <mask id={`${id}-tail-join`} x="0" y="0" width="1536" height="1024" maskUnits="userSpaceOnUse">
+          <rect width="1536" height="770" fill="white"/>
+          <rect y="770" width="1536" height="80" fill={`url(#${id}-tail-fade)`}/>
+        </mask>
+        {VARIANTS.map(({left},i) => <g key={i}>
+          <clipPath id={`${id}-rear-${i}`}><rect x={left} y="0" width="768" height="800"/></clipPath>
+          <clipPath id={`${id}-front-${i}`}>
+            <rect x={left} y="0" width="768" height="850"/>
+          </clipPath>
+          <clipPath id={`${id}-eyelet-${i}`}><rect x={left} y="230" width="768" height="610"/></clipPath>
+        </g>)}
+        {attachments.map(({x,dropTop,thickness},i) => <pattern key={i} id={`${id}-fiber-${i}`}
+          x={x-thickness/2} y={dropTop} width={thickness} height={thickness*1536/132}
+          patternUnits="userSpaceOnUse" viewBox="446 0 132 1536" preserveAspectRatio="none">
           <image href="/images/navigation/rope-fibers.png" width="1024" height="1536"/>
         </pattern>)}
       </defs>
-      {ropes.map(({x,top,under},i) => <path key={i}
-        d={`M${x-5},${top-6} C${x-17},${top-3} ${x-14},${under-5} ${x},${under+4}`}
-        fill="none" stroke={material(i)} strokeWidth="8" strokeLinecap="round"/>)}
+      {attachments.map(({rearTransform},i) => <g key={i} data-rope-rear={i} transform={rearTransform}>
+        <image href={LASHINGS} width="1536" height="1024" clipPath={`url(#${id}-rear-${i%2})`}/>
+      </g>)}
     </svg>
     <svg className="featured-ropes" width="100%" height="100%" aria-hidden="true">
-      {ropes.map(({x,top,under,bottom,board},i) => {
-        const spine=`M${x-5},${top-6} C${x+1},${top-13} ${x+10},${top-6} ${x+7},${top+3} C${x+5},${top+(under-top)*.5} ${x},${under-5} ${x},${under+6} L${x},${bottom}`;
-        const hitch=`M${x-4},${under+1} Q${x},${under+8} ${x+4},${under+2} M${x-4},${under+5} Q${x},${under+12} ${x+4},${under+6}`;
-        return <g key={i} data-rope="true" data-board={board} data-top={top} data-under={under} data-bottom={bottom}
-          fill="none" strokeLinecap="round" strokeLinejoin="round">
-          <path d={spine} transform="translate(2 1.5)" stroke="#382010" strokeOpacity=".28" strokeWidth="10"/>
-          <path d={spine} stroke="#875630" strokeWidth="8.5"/>
-          <path d={spine} stroke={material(i)} strokeWidth="8"/>
-          <path d={hitch} transform="translate(1 1)" stroke="#57351d" strokeOpacity=".5" strokeWidth="5"/>
-          <path d={hitch} stroke={material(i)} strokeWidth="4"/>
-        </g>;
-      })}
+      {attachments.map(({x,top,under,bottom,board,dropTop,thickness,transform},i) =>
+        <g key={i} data-rope="true" data-board={board} data-x={x} data-top={top} data-under={under} data-bottom={bottom}>
+          {/* Plumb standing part overlaps the illustrated knot's outgoing tail. */}
+          <path d={`M${x+1},${dropTop} V${bottom}`} fill="none" stroke="#54321e" strokeOpacity=".22" strokeWidth={thickness+1}/>
+          <path d={`M${x},${dropTop} V${bottom}`} fill="none" stroke={fiber(i)} strokeWidth={thickness}/>
+          <g data-rope-front={i} transform={transform}>
+            <image href={FRONT_LASHINGS} width="1536" height="1024" clipPath={`url(#${id}-front-${i%2})`} mask={`url(#${id}-tail-join)`}/>
+          </g>
+        </g>)}
     </svg>
+    {/* Small wooden collars and tied ends overlap only the upper board frame. */}
     <svg className="featured-ropes featured-ropes-fixings" width="100%" height="100%" aria-hidden="true">
-      {ropes.map(({x,bottom},i) => {
-        const fixing=`M${x},${bottom-10} L${x},${bottom-5} C${x-7},${bottom-8} ${x-8},${bottom} ${x-2},${bottom+2} C${x+3},${bottom+4} ${x+7},${bottom-1} ${x+4},${bottom-5} C${x+2},${bottom-8} ${x-3},${bottom-7} ${x-4},${bottom-4}`;
-        return <g key={i} fill="none" strokeLinecap="round" strokeLinejoin="round">
-          <ellipse cx={x} cy={bottom-1} rx="6" ry="4" fill="#513019" stroke="#ebbe75" strokeWidth="1.5"/>
-          <path d={fixing} stroke="#714524" strokeWidth="5.5"/>
-          <path d={fixing} stroke={material(i)} strokeWidth="4.5"/>
-          <path d={`M${x-5},${bottom-2} Q${x},${bottom-6} ${x+5},${bottom-6} M${x-4},${bottom-6} Q${x},${bottom-4} ${x+4},${bottom-1}`} stroke={material(i)} strokeWidth="3"/>
-          <path d={`M${x+2},${bottom+2} Q${x+4},${bottom+5} ${x+2},${bottom+7}`} stroke={material(i)} strokeWidth="3"/>
-        </g>;
-      })}
+      {attachments.map(({x,bottom,eye},i) => <g key={i} data-rope-fixing={i}
+        transform={`translate(${x-eye*.04} ${bottom-480*.04}) scale(.04)`}>
+        <image href={EYELETS} width="1536" height="1024" clipPath={`url(#${id}-eyelet-${i%2})`}/>
+      </g>)}
     </svg>
   </>;
 }

@@ -103,11 +103,14 @@ try {
       };
     });
     assert.equal(geometry.overflow, false, `${width}: horizontal page overflow`);
-    assert.ok(geometry.headerHeight <= 446, `${width}: medium header height`);
+    assert.ok(geometry.headerHeight <= 424, `${width}: medium header height`);
     assert.equal(geometry.artFits, true, `${width}: no horizontal artwork cropping`);
     assert.deepEqual(geometry.broken, [], `${width}: broken header images`);
     assert.ok(Math.abs(geometry.imageAspect - geometry.naturalAspect) < 0.02, `${width}: stretched branch artwork`);
     assert.equal(geometry.ropes.length, mobile ? 2 : 14, `${width}: two ropes for every visible board`);
+    for (const layer of ['rear', 'front', 'fixing']) {
+      assert.equal(await page.locator(`[data-rope-${layer}]`).count(), geometry.ropes.length, `${width}: separate ${layer} artwork for every rope`);
+    }
     for (const board of geometry.boards) {
       const ropes = geometry.ropes.filter(rope => rope.board === board.id);
       assert.equal(ropes.length, 2, `${width}: ${board.id} attachment count`);

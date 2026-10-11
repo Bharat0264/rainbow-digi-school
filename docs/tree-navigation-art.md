@@ -23,8 +23,10 @@ logo, wooden boards, original monkey, and squirrel sprite/animation are reused.
   underside hitches and board fixings. Two ropes per visible board, including
   the central logo. Rear loops, front ropes and board knots use separate layers.
 
-The desktop branch retains its intrinsic 3:1 aspect ratio in a 1060px-wide scene.
-The header is now 446px high (previously about 570px at 1440px and 616px at 2560px).
+The desktop branch retains its intrinsic 3:1 aspect ratio in a 1020px-wide scene.
+The header is now 424px high (previous refinement: 446px; original: about 570px at
+1440px and 616px at 2560px). See [rope attachment refinement](rope-attachments.md)
+for the new rear-loop, crossed-lashing and eyelet artwork and exact prompts.
 At 1100px and below, a native 3:2 companion scene fits without horizontal cropping.
 Its bark and door have their own traced geometry, including squirrel entry masking.
 All text and links remain live HTML, with an accessible narrow-screen menu.
@@ -53,7 +55,7 @@ Final edge refinement (input: generated branch PNG):
   reduced-motion squirrel behavior. No browser runtime or image errors.
 - Visual inspection of desktop, mobile and wide headers plus rope/grip close-ups.
   Screenshots and the automated report are in `artifacts/realistic-navigation/`.
-- Assertions also cover the 446px maximum header height and uncropped artwork.
+- Assertions also cover the 424px maximum header height and uncropped artwork.
 - `npm run test:enquiries`: 14 mocked handler scenarios passed. No live enquiry
   was submitted; backend, database and environment files were not modified.
 

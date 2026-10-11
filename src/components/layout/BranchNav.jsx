@@ -18,6 +18,18 @@ const HOUSE = { x: .474, y: .313, radius: .052, left: .416, top: .23, width: .16
 const COMPACT_ART = '/images/navigation/branch-house-compact.png';
 const COMPACT_BRANCH = [[0,430,500],[.15,430,520],[.3,460,540],[.5,455,550],[.7,450,535],[.85,420,510],[1,425,490]];
 const COMPACT_HOUSE = { x: .47, y: .332, radius: .044, left: .39, top: .255, width: .25, height: .17 };
+// Rope crowns follow the upper bark ridge, not the squirrel's slightly inset
+// walking contact line. Kept separate so attachment work cannot change its gait.
+const ROPE_RIDGE = [[0,205],[.05,210],[.12,235],[.2,264],[.27,288],[.34,298],
+  [.4,275],[.43,290],[.5,295],[.57,278],[.64,307],[.7,320],[.76,306],
+  [.82,272],[.9,248],[.96,210],[1,210]];
+function ropeTop(x, art) {
+  if (art.compact) return branchY(x, art) - art.height * .012;
+  const ratio = Math.max(0, Math.min(1, (x-art.x)/art.width));
+  const index = ROPE_RIDGE.findIndex(point => point[0] >= ratio);
+  const a = ROPE_RIDGE[Math.max(0,index-1)], b = ROPE_RIDGE[Math.max(1,index)];
+  return art.y + (a[1]+(b[1]-a[1])*(ratio-a[0])/(b[0]-a[0]))/724*art.height;
+}
 function branchY(x, art, edge = 1) {
   const ratio = Math.max(0, Math.min(1, (x-art.x)/art.width));
   const trace = art.compact ? COMPACT_BRANCH : BRANCH;
@@ -99,7 +111,7 @@ export default function BranchNav() {
         // The logo's corner fixings sit outside the birdhouse front.
         (isLogo ? [.035,.965] : [.22,.78]).forEach(anchor => {
           const rx=r.x+r.width*anchor;
-          ropes.push({x:rx,top:branchY(rx,art),under:branchY(rx,art,2),bottom:r.y+7,
+          ropes.push({x:rx,top:ropeTop(rx,art),under:branchY(rx,art,2),bottom:r.y+7,
             board:isLogo ? 'logo' : element.dataset.navId});
         });
       });
