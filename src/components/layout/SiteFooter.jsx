@@ -30,10 +30,10 @@ export default function SiteFooter() {
             </div>
           </div>
 
-          <address className="footer-address-block">
+          <div className="footer-address-row">
             <svg
-              width="22"
-              height="22"
+              width="26"
+              height="26"
               viewBox="0 0 24 24"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -46,11 +46,11 @@ export default function SiteFooter() {
               />
               <circle cx="12" cy="9" r="2.5" fill="#FFFFFF" />
             </svg>
-            <div className="footer-address-text">
-              <span>Plot No. 61, Padmashree Enclave,</span>
-              <span>near Sanjana Courtyard, Kandlakoya, Hyderabad – 501401</span>
-            </div>
-          </address>
+            <address className="footer-address">
+              Plot No. 61, Padmashree Enclave, <br className="footer-address-br" />
+              near Sanjana Courtyard, Kandlakoya, Hyderabad – 501401
+            </address>
+          </div>
         </div>
 
         {/* Middle Column: Explore our school */}

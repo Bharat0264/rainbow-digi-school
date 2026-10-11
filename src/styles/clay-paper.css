@@ -752,37 +752,37 @@ details[open] .faq-toggle-icon {
   margin-bottom: 0;
 }
 
+.footer-address-row,
 .footer-address-block {
-  margin-top: 18px;
+  margin-top: 20px;
   display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  font-style: normal;
+  align-items: center;
+  gap: 16px;
   width: 100%;
   max-width: 540px;
 }
 
 .footer-pin-icon {
-  width: 22px;
-  height: 22px;
-  min-width: 22px;
-  min-height: 22px;
+  width: 26px;
+  height: 26px;
+  min-width: 26px;
+  min-height: 26px;
   flex-shrink: 0;
-  margin-top: 2px;
   display: block;
 }
 
-.footer-address-text {
-  display: flex;
-  flex-direction: column;
+.footer-address {
   font-family: var(--font-sans);
-  font-size: 15.5px;
-  line-height: 1.65;
+  font-style: normal;
+  font-size: 16.5px;
+  line-height: 1.7;
   color: #4A3F38;
+  margin: 0;
+  padding: 0;
 }
 
-.footer-address-text span {
-  display: block;
+.footer-address-br {
+  display: inline;
 }
 
 .footer-grid h2 {
@@ -927,13 +927,20 @@ details[open] .faq-toggle-icon {
     margin-top: 4px;
   }
 
+  .footer-address-row,
   .footer-address-block {
-    margin-top: 16px;
+    margin-top: 18px;
+    align-items: center;
+    gap: 16px;
   }
 
-  .footer-address-text {
+  .footer-address {
     font-size: 15px;
     line-height: 1.6;
+  }
+
+  .footer-address-br {
+    display: none;
   }
 
   .footer-contact-link {
@@ -980,7 +987,10 @@ details[open] .faq-toggle-icon {
     margin-top: 4px;
   }
 
+  .footer-address-row,
   .footer-address-block {
-    margin-top: 14px;
+    margin-top: 16px;
+    align-items: center;
+    gap: 14px;
   }
 }
