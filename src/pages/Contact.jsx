@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { MapPin, Phone, Mail, ArrowUpRight } from "lucide-react";
 import { SCHOOL } from "../data/school";
-
 import { PageIntro, SectionHeading } from "../components/ui/PageElements";
+
 export default function Contact() {
   return (
     <>
@@ -15,43 +15,60 @@ export default function Contact() {
           to our Kandlakoya campus.
         </p>
       </PageIntro>
+
+      {/* Contact Bento Grid (Alternating Clay Shapes) */}
       <section className="section site-container contact-grid">
         <div className="contact-details">
-          <div>
-            <Phone aria-hidden="true" />
+          <div className="contact-detail-card clay-tile clay-yellow clay-interactive">
+            <div className="contact-icon-pill clay-tile clay-cream clay-shape-pill" style={{ display: "inline-flex", padding: "10px", marginBottom: "12px" }}>
+              <Phone aria-hidden="true" size={22} color="#342407" />
+            </div>
             <h2>Call admissions</h2>
-            {SCHOOL.contact.phones.map((phone) => (
-              <a key={phone.href} href={phone.href}>
-                {phone.label}
-              </a>
-            ))}
+            <div className="phone-pills" style={{ marginTop: "12px" }}>
+              {SCHOOL.contact.phones.map((phone) => (
+                <a key={phone.href} href={phone.href} className="clay-btn clay-btn-cream contact-pill">
+                  <span>{phone.label}</span>
+                </a>
+              ))}
+            </div>
           </div>
-          <div>
-            <Mail aria-hidden="true" />
+
+          <div className="contact-detail-card clay-tile clay-mint clay-interactive">
+            <div className="contact-icon-pill clay-tile clay-cream clay-shape-pill" style={{ display: "inline-flex", padding: "10px", marginBottom: "12px" }}>
+              <Mail aria-hidden="true" size={22} color="#17322a" />
+            </div>
             <h2>Write to us</h2>
-            <a href={"mailto:" + SCHOOL.contact.email}>
-              {SCHOOL.contact.email}
-            </a>
+            <div style={{ marginTop: "12px" }}>
+              <a href={"mailto:" + SCHOOL.contact.email} className="clay-btn clay-btn-cream contact-pill email-pill">
+                <span>{SCHOOL.contact.email}</span>
+              </a>
+            </div>
           </div>
-          <div>
-            <MapPin aria-hidden="true" />
+
+          <div className="contact-detail-card clay-tile clay-pink clay-interactive">
+            <div className="contact-icon-pill clay-tile clay-cream clay-shape-pill" style={{ display: "inline-flex", padding: "10px", marginBottom: "12px" }}>
+              <MapPin aria-hidden="true" size={22} color="#361f17" />
+            </div>
             <h2>Find our school</h2>
-            <address>{SCHOOL.contact.address}</address>
-            <a
-              className="text-link"
-              href={SCHOOL.contact.mapsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Open directions in Google Maps{" "}
-              <ArrowUpRight size={18} aria-hidden="true" />
-            </a>
-            <p className="section-note">
+            <address style={{ marginTop: "10px" }}>{SCHOOL.contact.address}</address>
+            <div style={{ marginTop: "16px" }}>
+              <a
+                className="button button-secondary clay-btn-cream"
+                href={SCHOOL.contact.mapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span>Open directions in Google Maps</span>
+                <ArrowUpRight size={18} aria-hidden="true" />
+              </a>
+            </div>
+            <p className="section-note" style={{ marginTop: "14px" }}>
               Please call before travelling to confirm a suitable time to visit.
             </p>
           </div>
         </div>
-        <div className="form-surface" style={{ alignSelf: "start" }}>
+
+        <div className="form-surface clay-tile clay-cream" style={{ alignSelf: "start" }}>
           <SectionHeading
             eyebrow="Admissions"
             title="Looking for admissions?"
@@ -59,30 +76,36 @@ export default function Contact() {
           <p style={{ marginBottom: "24px" }}>
             If you have questions about our Nursery to Grade V programmes, fees, availability, or the admissions process, please use our dedicated admissions enquiry form.
           </p>
-          <Link to="/admissions#enquiry" className="button button-primary">
-            Go to Admissions
+          <Link to="/admissions#enquiry" className="button button-primary clay-btn-yellow">
+            <span>Go to Admissions</span>
           </Link>
         </div>
       </section>
-      <section className="community-band">
-        <div className="site-container intro-grid">
-          <SectionHeading
-            eyebrow="Keep in touch"
-            title="A window into school life."
-          />
-          <div className="editorial-copy">
-            <p>
-              Follow the school’s own updates, celebrations, and announcements.
-            </p>
-            <a
-              className="text-link"
-              href={SCHOOL.social.instagram}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Rainbow Digi School on Instagram{" "}
-              <ArrowUpRight size={18} aria-hidden="true" />
-            </a>
+
+      {/* Community Band */}
+      <section className="section site-container community-band-section">
+        <div className="community-band clay-tile clay-cream clay-shape-blob">
+          <div className="intro-grid">
+            <SectionHeading
+              eyebrow="Keep in touch"
+              title="A window into school life."
+            />
+            <div className="editorial-copy">
+              <p>
+                Follow the school’s own updates, celebrations, and announcements.
+              </p>
+              <div style={{ marginTop: "20px" }}>
+                <a
+                  className="button button-secondary clay-btn-mint"
+                  href={SCHOOL.social.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span>Rainbow Digi School on Instagram</span>
+                  <ArrowUpRight size={18} aria-hidden="true" />
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </section>

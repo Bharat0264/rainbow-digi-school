@@ -7,6 +7,7 @@ import {
   SectionHeading,
   CampusPhoto,
 } from "../components/ui/PageElements";
+
 export default function CampusGallery() {
   const dialog = useRef(null);
   return (
@@ -20,8 +21,10 @@ export default function CampusGallery() {
           explore when speaking with the school about a visit.
         </p>
       </PageIntro>
+
+      {/* Campus Photo Story Bento */}
       <section className="section site-container photo-story">
-        <div>
+        <div className="photo-story-image-card clay-tile clay-mint">
           <button
             type="button"
             className="photo-open"
@@ -29,15 +32,17 @@ export default function CampusGallery() {
             aria-label="Enlarge photograph of Rainbow Digi School exterior"
           >
             <CampusPhoto caption={false} />
-            <span>
-              <Expand size={18} aria-hidden="true" /> View full photograph
+            <span className="photo-pill-badge clay-tile clay-cream clay-shape-pill">
+              <Expand size={18} aria-hidden="true" />
+              <span>View full photograph</span>
             </span>
           </button>
           <p className="image-caption">
             Rainbow Digi School exterior · School-approved photograph
           </p>
         </div>
-        <div className="editorial-copy">
+
+        <div className="editorial-copy clay-tile clay-cream">
           <SectionHeading
             eyebrow="Make the visit useful"
             title="Look closer at everyday school life."
@@ -48,31 +53,45 @@ export default function CampusGallery() {
             materials relevant to that age group.
           </p>
           <ul className="check-list">
-            <li>How is the day organised for new learners?</li>
-            <li>What classroom activities can parents learn about?</li>
-            <li>How does the school communicate with families?</li>
             <li>
-              Which facilities and transport arrangements are available for your
-              class?
+              <span className="check-bullet" aria-hidden="true">✓</span>
+              <span>How is the day organised for new learners?</span>
+            </li>
+            <li>
+              <span className="check-bullet" aria-hidden="true">✓</span>
+              <span>What classroom activities can parents learn about?</span>
+            </li>
+            <li>
+              <span className="check-bullet" aria-hidden="true">✓</span>
+              <span>How does the school communicate with families?</span>
+            </li>
+            <li>
+              <span className="check-bullet" aria-hidden="true">✓</span>
+              <span>Which facilities and transport arrangements are available for your class?</span>
             </li>
           </ul>
-          <p>
-            Call ahead to confirm visit arrangements. We do not publish
-            unverified facility or transport claims.
-          </p>
+          <div className="information-note clay-tile clay-yellow" style={{ marginBlock: "22px" }}>
+            <p>
+              Call ahead to confirm visit arrangements. We do not publish
+              unverified facility or transport claims.
+            </p>
+          </div>
           <a
-            className="text-link"
+            className="button button-secondary clay-btn-mint"
             href={SCHOOL.contact.mapsUrl}
             target="_blank"
             rel="noopener noreferrer"
           >
-            Find the campus <ArrowUpRight size={18} aria-hidden="true" />
+            <span>Find the campus</span>
+            <ArrowUpRight size={18} aria-hidden="true" />
           </a>
         </div>
       </section>
+
+      {/* Photo Lightbox */}
       <dialog
         ref={dialog}
-        className="photo-dialog"
+        className="photo-dialog clay-tile clay-cream"
         aria-label="Rainbow Digi School exterior photograph"
         onClick={(event) => {
           if (event.target === event.currentTarget) dialog.current.close();
@@ -80,16 +99,17 @@ export default function CampusGallery() {
       >
         <button
           type="button"
-          className="dialog-close"
+          className="dialog-close clay-tile clay-yellow clay-shape-pill"
           onClick={() => dialog.current.close()}
           aria-label="Close photograph"
           autoFocus
         >
-          <X aria-hidden="true" />
+          <X aria-hidden="true" size={20} />
         </button>
         <img {...SCHOOL.campusPhoto} />
         <p>Rainbow Digi School, Kandlakoya</p>
       </dialog>
+
       <AdmissionsInvite />
     </>
   );
