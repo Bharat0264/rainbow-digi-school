@@ -1,9 +1,7 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { PrismaClient } from "@prisma/client";
 import { randomUUID } from "node:crypto";
 import { z } from "zod";
 
-const prisma = new PrismaClient();
 const programs = [
   "Nursery",
   "LKG",
@@ -14,6 +12,7 @@ const programs = [
   "Grade 4",
   "Grade 5",
 ] as const;
+
 export const enquirySchema = z.object({
   parentName: z
     .string()
@@ -52,7 +51,7 @@ export const enquirySchema = z.object({
   website: z.string().max(0).optional(),
 });
 
-export function isAllowedOrigin(origin: string | undefined) {
+export function isAllowedOrigin(origin: string | undefined): boolean {
   if (!origin) return false;
   const configured =
     process.env.ALLOWED_ORIGINS?.split(",")
@@ -61,49 +60,132 @@ export function isAllowedOrigin(origin: string | undefined) {
   return configured.includes(origin);
 }
 
-type EnquiryInput = z.infer<typeof enquirySchema>;
+export type EnquiryInput = z.infer<typeof enquirySchema>;
 
-async function saveEnquiry(data: EnquiryInput) {
-  return prisma.enquiry.create({
-    data: {
-      enquiryNumber: `RDS-ENQ-${new Date().getUTCFullYear()}-${randomUUID().replaceAll("-", "").slice(0, 10).toUpperCase()}`,
-      parentName: data.parentName,
-      mobile: data.phone,
-      email: data.email || null,
-      // Existing schema requires a child name; public enquiries do not collect it.
-      childName: "",
-      interestedProgram: data.program,
-      message: data.message || null,
-      // Versioned consent to enquiry contact, recorded alongside createdAt.
-      source: "WEBSITE_CONSENT_V1",
-    },
-    select: { enquiryNumber: true },
-  });
+export interface EnquirySubmissionData {
+  reference: string;
+  parentName: string;
+  phone: string;
+  email?: string;
+  program: string;
+  message?: string;
+  consent: boolean;
+  submittedAt: string;
 }
 
-// Dependency injection lets checks verify persistence failures without a real database.
+export interface EnquiryStorageResult {
+  enquiryNumber: string;
+  duplicate?: boolean;
+  emailSent?: boolean;
+}
+
+export type EnquirySender = (
+  data: EnquirySubmissionData,
+) => Promise<EnquiryStorageResult>;
+
+/**
+ * Sends validated enquiry data to the configured Google Apps Script Web App.
+ * Handles redirects and network timeouts safely.
+ */
+export async function saveToGoogleAppsScript(
+  data: EnquirySubmissionData,
+): Promise<EnquiryStorageResult> {
+  const scriptUrl = process.env.GOOGLE_APPS_SCRIPT_URL;
+  const scriptSecret = process.env.GOOGLE_APPS_SCRIPT_SECRET;
+
+  if (!scriptUrl || !scriptSecret) {
+    throw new Error("GOOGLE_APPS_SCRIPT_CONFIG_MISSING");
+  }
+
+  const payload = {
+    secret: scriptSecret,
+    reference: data.reference,
+    submittedAt: data.submittedAt,
+    parentName: data.parentName,
+    phone: data.phone,
+    email: data.email || "",
+    program: data.program,
+    message: data.message || "",
+    consent: data.consent,
+  };
+
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 15000);
+
+  try {
+    const response = await fetch(scriptUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+      redirect: "follow",
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!response.ok && response.status !== 200 && response.status !== 201) {
+      await response.text().catch(() => "");
+      console.error("google_apps_script_http_error: " + response.status);
+      throw new Error(`APPS_SCRIPT_HTTP_${response.status}`);
+    }
+
+    const result = await response.json().catch(() => null);
+
+    if (
+      result &&
+      result.success === true &&
+      typeof result.enquiryNumber === "string" &&
+      result.enquiryNumber === data.reference
+    ) {
+      return {
+        enquiryNumber: result.enquiryNumber,
+        duplicate: Boolean(result.duplicate),
+        emailSent: Boolean(result.emailSent),
+      };
+    }
+
+    console.error("google_apps_script_invalid_response");
+    throw new Error("APPS_SCRIPT_INVALID_RESPONSE");
+  } catch (err: unknown) {
+    clearTimeout(timeoutId);
+    if (err instanceof Error) {
+      if (err.name === "AbortError") {
+        console.error("google_apps_script_timeout");
+        throw new Error("APPS_SCRIPT_TIMEOUT");
+      }
+      throw err;
+    }
+    throw new Error("APPS_SCRIPT_NETWORK_ERROR");
+  }
+}
+
+/**
+ * Factory for creating the Vercel API enquiry handler.
+ * Accepts an optional sender implementation for dependency injection in tests.
+ */
 export function createHandler(
-  save: (
-    data: EnquiryInput,
-  ) => Promise<{ enquiryNumber: string }> = saveEnquiry,
+  sender: EnquirySender = saveToGoogleAppsScript,
 ) {
   return async function handler(
     request: VercelRequest,
     response: VercelResponse,
   ) {
     response.setHeader("Cache-Control", "no-store");
+
     if (request.method !== "POST") {
       response.setHeader("Allow", "POST");
       return response.status(405).json({ error: "Method not allowed" });
     }
+
     if (!isAllowedOrigin(request.headers.origin)) {
-      return response
-        .status(403)
-        .json({
-          error:
-            "Enquiries are unavailable from this address. Please try the school website.",
-        });
+      return response.status(403).json({
+        error:
+          "Enquiries are unavailable from this address. Please try the school website.",
+      });
     }
+
     if (
       !request.headers["content-type"]
         ?.toLowerCase()
@@ -113,45 +195,66 @@ export function createHandler(
         .status(415)
         .json({ error: "Please submit the enquiry form as JSON." });
     }
+
     if (
       Number(request.headers["content-length"] ?? 0) > 12000 ||
       Buffer.byteLength(JSON.stringify(request.body ?? {}), "utf8") > 12000
     ) {
-      return response
-        .status(413)
-        .json({
-          error: "The enquiry is too large. Please shorten your message.",
-        });
+      return response.status(413).json({
+        error: "The enquiry is too large. Please shorten your message.",
+      });
     }
+
     const parsed = enquirySchema.safeParse(request.body);
     if (!parsed.success) {
-      return response
-        .status(422)
-        .json({
-          error: "Please review the form fields.",
-          fields: parsed.error.flatten().fieldErrors,
-        });
+      return response.status(422).json({
+        error: "Please review the form fields.",
+        fields: parsed.error.flatten().fieldErrors,
+      });
     }
-    if (!process.env.DATABASE_URL) {
-      return response
-        .status(503)
-        .json({
-          error:
-            "Online enquiries are temporarily unavailable. Your enquiry has not been saved. Please try again later.",
-        });
+
+    // Ensure environment is configured before generating references
+    if (
+      !process.env.GOOGLE_APPS_SCRIPT_URL ||
+      !process.env.GOOGLE_APPS_SCRIPT_SECRET
+    ) {
+      return response.status(503).json({
+        error:
+          "Online enquiries are temporarily unavailable. Your enquiry has not been saved. Please try again later.",
+      });
     }
+
+    const reference = `RDS-ENQ-${new Date().getUTCFullYear()}-${randomUUID().replaceAll("-", "").slice(0, 10).toUpperCase()}`;
+
+    const submissionData: EnquirySubmissionData = {
+      reference,
+      parentName: parsed.data.parentName,
+      phone: parsed.data.phone,
+      email: parsed.data.email || undefined,
+      program: parsed.data.program,
+      message: parsed.data.message || undefined,
+      consent: true,
+      submittedAt: new Date().toISOString(),
+    };
+
     try {
-      const enquiry = await save(parsed.data);
+      const saved = await sender(submissionData);
       return response
         .status(201)
-        .json({ enquiryNumber: enquiry.enquiryNumber });
-    } catch {
-      console.error("admission_enquiry_create_failed");
-      return response
-        .status(503)
-        .json({
-          error: "We could not save your enquiry. Please try again shortly.",
+        .json({ enquiryNumber: saved.enquiryNumber });
+    } catch (err: unknown) {
+      if (err instanceof Error && err.message === "APPS_SCRIPT_TIMEOUT") {
+        return response.status(504).json({
+          error:
+            "We could not confirm whether your enquiry was saved due to a network timeout. Check your connection or contact the school directly.",
         });
+      }
+
+      console.error("admission_enquiry_storage_failed");
+      return response.status(503).json({
+        error:
+          "We could not save your enquiry. Please try again shortly or contact the admissions desk directly.",
+      });
     }
   };
 }

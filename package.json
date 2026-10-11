@@ -8,7 +8,6 @@
     "server": "node server/server.js",
     "start": "concurrently \"npm run dev\" \"npm run server\"",
     "build": "vite build && node scripts/prerender.mjs",
-    "postinstall": "prisma generate",
     "lint": "oxlint src api",
     "typecheck": "tsc --noEmit",
     "test:enquiries": "node scripts/check-enquiries.mjs",
@@ -18,7 +17,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@prisma/client": "^6.19.3",
     "framer-motion": "^14.0.0",
     "lucide-react": "^1.53.0",
     "react": "^19.2.8",
@@ -39,7 +37,6 @@
     "oxlint": "^1.81.0",
     "playwright": "^1.64.0",
     "postcss": "^8.5.29",
-    "prisma": "^6.16.3",
     "puppeteer": "^25.13.0",
     "tailwindcss": "^4.3.3",
     "typescript": "^5.9.2",

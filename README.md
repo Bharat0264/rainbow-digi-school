@@ -18,6 +18,10 @@ Run npm install, then npm run dev. Run npm run build for production and npm run 
 
 ## Deployment and data
 
-The existing API, Prisma configuration and Vercel configuration are retained. Configure production credentials in the hosting environment; never commit .env files. Generated dist/ files are ignored and should be built by the deployment pipeline.
+Admissions enquiries are processed via the Vercel serverless function (`/api/enquiries`) and stored directly into a secure Google Sheet using Google Apps Script (`integrations/google-sheets/Code.gs`), with instant email notifications sent to the admissions office. PostgreSQL and Prisma have been completely removed.
+
+See `docs/google-sheets-setup.md` for complete setup instructions, spreadsheet column schemas, script property configuration, and deployment steps.
+
+Configure production credentials (`GOOGLE_APPS_SCRIPT_URL`, `GOOGLE_APPS_SCRIPT_SECRET`, `ALLOWED_ORIGINS`) in the Vercel dashboard environment variables; never commit `.env` files. Generated `dist/` files are ignored and built by the deployment pipeline.
 
 School content lives in src/data/school.js. Confirm the plot number with the school before changing the address. Use only approved photographs with parental consent and genuine supplied reviews.
