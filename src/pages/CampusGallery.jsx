@@ -76,7 +76,7 @@ export default function CampusGallery() {
             are practical aspects to look for during a school walkthrough:
           </SectionHeading>
         </div>
-        <div className="clay-tile clay-cream" style={{ padding: "32px" }}>
+        <div className="clay-tile clay-cream" style={{ marginTop: "24px", padding: "32px" }}>
           <ul className="check-list" style={{ marginBottom: "24px" }}>
             {CAMPUS_DETAILS.visitChecklist.map((item) => (
               <li key={item}>

@@ -64,7 +64,7 @@ export default function Admissions() {
           Class allocation is guided by age and developmental readiness. Cutoff
           dates can be confirmed directly during your admissions conversation.
         </SectionHeading>
-        <div className="feature-grid">
+        <div className="feature-grid" style={{ marginTop: "28px" }}>
           {ADMISSION_ELIGIBILITY.map((item, idx) => {
             const colors = ["clay-mint", "clay-pink", "clay-yellow", "clay-cream", "clay-mint"];
             const color = colors[idx % colors.length];
@@ -93,7 +93,7 @@ export default function Admissions() {
           To complete formal enrolment after initial discussions, please have
           these standard verification records ready for the school office.
         </SectionHeading>
-        <div className="feature-grid">
+        <div className="feature-grid" style={{ marginTop: "28px" }}>
           {ADMISSION_DOCUMENTS.map((doc, idx) => {
             const colors = ["clay-cream", "clay-yellow", "clay-pink", "clay-mint", "clay-cream"];
             const color = colors[idx % colors.length];
