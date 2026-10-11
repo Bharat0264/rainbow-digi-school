@@ -16,7 +16,7 @@ const BRANCH = [[0,274,332],[.05,262,340],[.12,277,355],[.2,293,371],
 // The wide asset adds real bark and foliage at both ends; it is not a
 // horizontally stretched version of the former branch.
 const WIDE_BRANCH = BRANCH.map(([x, top, bottom]) => [x, Math.round(top * .79), Math.round(bottom * .79)]);
-const BRANCH_ART = '/images/navigation/branch-house-wide.webp';
+const BRANCH_ART = '/images/navigation/branch-house-medium.webp';
 const RAINBOW_BACKDROP = '/images/navigation/rainbow-cloud-backdrop.webp';
 const HOUSE = { x: .474, y: .313, radius: .052, left: .416, top: .23, width: .166, height: .231 };
 const COMPACT_ART = '/images/navigation/branch-house-compact.png';
@@ -77,7 +77,7 @@ export default function BranchNav() {
     const nav = navRef.current, canvas = canvasRef.current, context = canvas.getContext('2d');
     const sprite = new Image(); sprite.src = '/images/navigation/squirrel-gait-v2.webp';
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-    let raf = 0, disposed = false, lastTime = 0;
+    let raf = 0, autoTimer = 0, disposed = false, lastTime = 0;
     let layout, x, y, target = 'rest', direction = 1, speed = 0, distance = 0;
     let state = 'idle', phaseStart = 0, entryStart = null, rememberedElement = null;
     const setState = next => {
@@ -108,7 +108,7 @@ export default function BranchNav() {
     const measure = () => {
       const art = relative(artRef.current), box = nav.getBoundingClientRect();
       art.compact = artRef.current.currentSrc.includes('branch-house-compact');
-      art.wide = artRef.current.currentSrc.includes('branch-house-wide');
+      art.wide = /branch-house-(wide|medium)/.test(artRef.current.currentSrc);
       layout = {art,house:art.compact ? COMPACT_HOUSE : HOUSE,width:box.width,height:box.height,size:parseFloat(getComputedStyle(canvas).width)};
       const ropes = [];
       [...boardsRef.current.values(),logoRef.current].forEach(element => {
@@ -147,8 +147,10 @@ export default function BranchNav() {
         draw(7);
         if(now-phaseStart>=150) {setState('idle');draw(0);return;}
       } else if(state === 'enteringHouse') {
-        const t=Math.min(1,(now-phaseStart)/520), eased=t*t*(3-2*t);
-        const doorY=layout.art.y+layout.art.height*layout.house.y;
+        const t=Math.min(1,(now-phaseStart)/1050), eased=t*t*(3-2*t);
+        // Canvas sprites are foot-anchored; offset to the circular opening's
+        // visual centre so the front-wall mask hides the body, not the roof.
+        const doorY=layout.art.y+layout.art.height*layout.house.y+layout.size*.42;
         y=entryStart.y+(doorY-entryStart.y)*eased;
         draw([1,2,3,4][Math.floor(t*12)%4],1-.7*eased);
         if(t===1) {setState('inside');draw();return;}
@@ -157,6 +159,7 @@ export default function BranchNav() {
     };
     startRef.current = (id, element) => {
       if(id === 'house' && (target==='house' && ['walking','running','enteringHouse','inside'].includes(state))) return;
+      if(autoTimer) { clearTimeout(autoTimer); autoTimer=0; }
       cancelAnimationFrame(raf);
       if(element) rememberedElement=relative(element);
       if(state==='inside') {x=layout.art.x+layout.art.width*layout.house.x;y=branchY(x,layout.art);}
@@ -165,12 +168,15 @@ export default function BranchNav() {
       setState('walking'); lastTime=performance.now(); raf=requestAnimationFrame(tick);
     };
     measure(); sprite.onload=()=>{if(!disposed) draw();};
+    // Start once only after the responsive artwork has measured. Any user
+    // navigation cancels this timer, so it cannot fight an intentional click.
+    autoTimer=window.setTimeout(()=>startRef.current('house'),650);
     const observer=new ResizeObserver(measure); observer.observe(nav); observer.observe(artRef.current);
     const branchImage=artRef.current;
     branchImage.addEventListener('load',measure);
     const motionChanged=()=>startRef.current(target);
     reduced.addEventListener('change',motionChanged);
-    return ()=>{disposed=true;cancelAnimationFrame(raf);observer.disconnect();branchImage.removeEventListener('load',measure);reduced.removeEventListener('change',motionChanged);startRef.current=()=>{};};
+    return ()=>{disposed=true;clearTimeout(autoTimer);cancelAnimationFrame(raf);observer.disconnect();branchImage.removeEventListener('load',measure);reduced.removeEventListener('change',motionChanged);startRef.current=()=>{};};
   },[]);
 
   const visit = useCallback((event,item,house=false) => {
@@ -188,7 +194,7 @@ export default function BranchNav() {
   const house=geometry.house || HOUSE;
   return <header className="bn-header featured-nav"><nav ref={navRef} className="featured-inner" aria-label="Main navigation">
     <div className="featured-sky" aria-hidden="true"><img src={RAINBOW_BACKDROP} width="1536" height="1024" alt="" decoding="async" /></div>
-    <div className="featured-canopy"><picture><source media="(max-width:1100px)" srcSet={COMPACT_ART} width="1536" height="1024"/><img ref={artRef} className="featured-branch" fetchPriority="high" src={BRANCH_ART} width="2060" height="430" alt="" aria-hidden="true" decoding="async" /></picture></div>
+    <div className="featured-canopy"><picture><source media="(max-width:1100px)" srcSet={COMPACT_ART} width="1536" height="1024"/><img ref={artRef} className="featured-branch" fetchPriority="high" src={BRANCH_ART} width="2172" height="430" alt="" aria-hidden="true" decoding="async" /></picture></div>
     <NavigationRopes ropes={geometry.ropes} />
     <canvas ref={canvasRef} className="featured-squirrel" width="128" height="128" aria-hidden="true" />
     {entering && <svg className="featured-house-front" width="100%" height="100%" aria-hidden="true">
