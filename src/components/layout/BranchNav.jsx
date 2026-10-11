@@ -147,7 +147,7 @@ export default function BranchNav() {
             x: rx,
             top: ropeTop(rx, art),
             under: branchY(rx, art, 2),
-            bottom: r.y + (isLogo ? 7 : 0),
+            bottom: r.y,
             board: isLogo ? 'logo' : element.dataset.navId
           });
         });

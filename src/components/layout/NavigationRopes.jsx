@@ -5,8 +5,8 @@ const FRONT_LASHINGS = '/images/navigation/rope-crossed-lashings.webp';
 const EYELETS = '/images/navigation/rope-eyelets.webp';
 // Coordinates belong to the two native 1536x1024 sprite sheets, not the page.
 const VARIANTS = [
-  { left: 0, frontCenter: 419, rearCenter: 406, eyeCenter: 453, eyeKnotY: 546 },
-  { left: 768, frontCenter: 1119, rearCenter: 1132, eyeCenter: 1127, eyeKnotY: 548 }
+  { left: 0, frontCenter: 419, rearCenter: 406, eyeRopeX: 438, ringBaseY: 575 },
+  { left: 768, frontCenter: 1119, rearCenter: 1132, eyeRopeX: 1122, ringBaseY: 575 }
 ];
 
 function attachment(rope, index) {
@@ -15,8 +15,13 @@ function attachment(rope, index) {
   const barkH = Math.max(20, rope.under - rope.top);
   const scale = barkH / 620;
   const thickness = Math.min(8, Math.max(5.5, scale * 95));
+  // In rope-eyelets, the rope width at y=0..300 is 120px
   const eyeScale = thickness / 120;
   const dropTop = rope.top + 600 * scale;
+  // Position so the ring base (y=575) sits firmly on top of the board frame
+  const spriteTop = rope.bottom - variant.ringBaseY * eyeScale;
+  // Drop rope connects seamlessly into the feathered top of the eyelet sprite
+  const dropBottom = spriteTop + 90 * eyeScale;
 
   return {
     ...rope,
@@ -25,9 +30,11 @@ function attachment(rope, index) {
     thickness,
     eyeScale,
     dropTop,
+    dropBottom,
+    spriteTop,
     rearTransform: `translate(${rope.x - variant.rearCenter * scale} ${rope.top}) scale(${scale})`,
     transform: `translate(${rope.x - variant.frontCenter * scale} ${rope.top}) scale(${scale})`,
-    fixingTransform: `translate(${rope.x - variant.eyeCenter * eyeScale} ${rope.bottom - variant.eyeKnotY * eyeScale}) scale(${eyeScale})`
+    fixingTransform: `translate(${rope.x - variant.eyeRopeX * eyeScale} ${spriteTop}) scale(${eyeScale})`
   };
 }
 
@@ -76,13 +83,13 @@ export default function NavigationRopes({ ropes }) {
           </pattern>
         ))}
       </defs>
-      {attachments.map(({ x, top, under, bottom, board, dropTop, thickness, transform }, i) => (
+      {attachments.map(({ x, top, under, bottom, board, dropTop, dropBottom, thickness, transform }, i) => (
         <g key={i} data-rope="true" data-board={board} data-x={x} data-top={top} data-under={under} data-bottom={bottom}>
           {/* Drop rope shadow */}
-          <path d={`M${x + 0.5},${dropTop} V${bottom}`} fill="none" stroke="#3d2212" strokeOpacity=".3" strokeWidth={thickness + 1} />
+          <path d={`M${x + 0.5},${dropTop} V${dropBottom}`} fill="none" stroke="#3d2212" strokeOpacity=".3" strokeWidth={thickness + 1} />
           {/* Drop rope body */}
-          <path d={`M${x},${dropTop} V${bottom}`} fill="none" stroke="#b98547" strokeWidth={thickness} />
-          <path d={`M${x},${dropTop} V${bottom}`} fill="none" stroke={fiber(i)} strokeWidth={thickness} />
+          <path d={`M${x},${dropTop} V${dropBottom}`} fill="none" stroke="#b98547" strokeWidth={thickness} />
+          <path d={`M${x},${dropTop} V${dropBottom}`} fill="none" stroke={fiber(i)} strokeWidth={thickness} />
           {/* Front crossed loop over bark */}
           <g data-rope-front={i} transform={transform}>
             <image href={FRONT_LASHINGS} width="1536" height="1024" clipPath={`url(#${id}-front-${i % 2})`} mask={`url(#${id}-tail-join)`} />
@@ -91,18 +98,40 @@ export default function NavigationRopes({ ropes }) {
       ))}
     </svg>
 
-    {/* Compact tied knots and attachment loops directly on board frames (z-index 6) */}
+    {/* Small, believable securing ring and knot anchored firmly onto board frame (z-index 6) */}
     <svg className="featured-ropes featured-ropes-fixings" width="100%" height="100%" aria-hidden="true">
       <defs>
+        {/* Soft luminance fade at top of sprite (y=0..100) for seamless drop rope blending */}
+        <linearGradient id={`${id}-eyelet-fade`} x1="0" y1="0" x2="0" y2="100" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stopColor="black" />
+          <stop offset="1" stopColor="white" />
+        </linearGradient>
+        {/* Soft fade at bottom (y=610..640) so knot ends neatly on the wooden frame */}
+        <linearGradient id={`${id}-eyelet-tail`} x1="0" y1="610" x2="0" y2="640" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stopColor="white" />
+          <stop offset="1" stopColor="black" />
+        </linearGradient>
+        {VARIANTS.map(({ left }, i) => (
+          <mask key={i} id={`${id}-eyelet-mask-${i}`} maskUnits="userSpaceOnUse" x={left} y="0" width="768" height="650">
+            <rect x={left} y="0" width="768" height="100" fill={`url(#${id}-eyelet-fade)`} />
+            <rect x={left} y="100" width="768" height="510" fill="white" />
+            <rect x={left} y="610" width="768" height="30" fill={`url(#${id}-eyelet-tail)`} />
+          </mask>
+        ))}
         {VARIANTS.map(({ left }, i) => (
           <clipPath key={i} id={`${id}-eyelet-${i}`}>
-            <rect x={left} y="380" width="768" height="280" />
+            <rect x={left} y="0" width="768" height="640" />
           </clipPath>
         ))}
       </defs>
+      {/* Contact shadows grounding the rings and knots onto the wooden board top frame */}
+      {attachments.map(({ x, bottom }, i) => (
+        <ellipse key={`shadow-${i}`} cx={x} cy={bottom} rx={10} ry={2.5} fill="#2d160a" opacity="0.38" />
+      ))}
+      {/* Fully visible wooden attachment rings with through-rope and compact securing knots */}
       {attachments.map(({ fixingTransform }, i) => (
-        <g key={i} data-rope-fixing={i} transform={fixingTransform}>
-          <image href={EYELETS} width="1536" height="1024" clipPath={`url(#${id}-eyelet-${i % 2})`} />
+        <g key={`fixing-${i}`} data-rope-fixing={i} transform={fixingTransform}>
+          <image href={EYELETS} width="1536" height="1024" clipPath={`url(#${id}-eyelet-${i % 2})`} mask={`url(#${id}-eyelet-mask-${i % 2})`} />
         </g>
       ))}
     </svg>
