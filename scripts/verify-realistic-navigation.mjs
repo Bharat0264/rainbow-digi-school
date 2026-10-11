@@ -66,7 +66,7 @@ async function clippedScreenshot(filename, selectors) {
 }
 
 try {
-  for (const width of [390, 768, 1024, 1440, 2560]) {
+  for (const width of [320, 390, 768, 1024, 1100, 1101, 1440, 2560]) {
     await page.setViewportSize({ width, height: 950 });
     await loadHome();
     const mobile = await page.locator('.featured-menu').isVisible();
@@ -95,12 +95,16 @@ try {
         boards,
         overflow: document.documentElement.scrollWidth > innerWidth,
         headerWidth: header.width,
+        headerHeight: header.height,
+        artFits: art.left >= -1 && art.right <= innerWidth + 1,
         imageAspect: art.width / art.height,
         naturalAspect: image.naturalWidth / image.naturalHeight,
         broken: [...document.querySelectorAll('.featured-nav img')].filter(img => !img.naturalWidth).map(img => img.src),
       };
     });
     assert.equal(geometry.overflow, false, `${width}: horizontal page overflow`);
+    assert.ok(geometry.headerHeight <= 446, `${width}: medium header height`);
+    assert.equal(geometry.artFits, true, `${width}: no horizontal artwork cropping`);
     assert.deepEqual(geometry.broken, [], `${width}: broken header images`);
     assert.ok(Math.abs(geometry.imageAspect - geometry.naturalAspect) < 0.02, `${width}: stretched branch artwork`);
     assert.equal(geometry.ropes.length, mobile ? 2 : 14, `${width}: two ropes for every visible board`);
@@ -224,7 +228,7 @@ try {
   assert.deepEqual(errors, [], 'Browser runtime/console errors');
   assert.deepEqual(imageFailures, [], 'Image request failures');
   await writeFile(`${output}/report.json`, JSON.stringify({ base, reports, frames, errors, imageFailures, screenshots: '2x device density', formSubmission: 'Not tested; header-only checks send no enquiries.' }, null, 2));
-  console.log('PASS: 30 navigation clicks across 390/768/1024/1440/2560px, 2 ropes per visible board, unstretched branch, no overflow, keyboard focus/Enter/Escape, logo home, normal/reduced-motion squirrel behavior, no runtime/image errors. Screenshots: ' + output);
+  console.log('PASS: 48 navigation clicks across 320/390/768/1024/1100/1101/1440/2560px, medium header, uncropped artwork, 2 ropes per visible board, unstretched branch, no overflow, keyboard focus/Enter/Escape, logo home, normal/reduced-motion squirrel behavior, no runtime/image errors. Screenshots: ' + output);
 } finally {
   await browser.close();
 }

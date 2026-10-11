@@ -2,7 +2,6 @@ import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Logo from '../ui/Logo';
 import NavigationRopes from './NavigationRopes';
-import MonkeyHandle from './MonkeyHandle';
 import { NAV } from '../../data/nav';
 import './BranchNav.css';
 
@@ -16,11 +15,15 @@ const BRANCH = [[0,225,299],[.05,218,285],[.12,250,332],[.2,278,368],
   [.9,258,341],[.96,222,303],[1,222,290]];
 const BRANCH_ART = '/images/navigation/branch-house-textured.png';
 const HOUSE = { x: .474, y: .313, radius: .052, left: .416, top: .23, width: .166, height: .231 };
+const COMPACT_ART = '/images/navigation/branch-house-compact.png';
+const COMPACT_BRANCH = [[0,430,500],[.15,430,520],[.3,460,540],[.5,455,550],[.7,450,535],[.85,420,510],[1,425,490]];
+const COMPACT_HOUSE = { x: .47, y: .332, radius: .044, left: .39, top: .255, width: .25, height: .17 };
 function branchY(x, art, edge = 1) {
   const ratio = Math.max(0, Math.min(1, (x-art.x)/art.width));
-  const index = BRANCH.findIndex(point => point[0] >= ratio);
-  const a = BRANCH[Math.max(0,index-1)], b = BRANCH[Math.max(1,index)];
-  return art.y + (a[edge]+(b[edge]-a[edge])*(ratio-a[0])/(b[0]-a[0]))/724*art.height;
+  const trace = art.compact ? COMPACT_BRANCH : BRANCH;
+  const index = trace.findIndex(point => point[0] >= ratio);
+  const a = trace[Math.max(0,index-1)], b = trace[Math.max(1,index)];
+  return art.y + (a[edge]+(b[edge]-a[edge])*(ratio-a[0])/(b[0]-a[0]))/(art.compact ? 1024 : 724)*art.height;
 }
 function ordinaryClick(event) { return event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey; }
 
@@ -67,7 +70,7 @@ export default function BranchNav() {
     canvas.dataset.state = state;
     const relative = element => { const a=element.getBoundingClientRect(), b=nav.getBoundingClientRect(); return {x:a.x-b.x,y:a.y-b.y,width:a.width,height:a.height}; };
     const targetX = () => {
-      if(target === 'house') return layout.art.x + layout.art.width * HOUSE.x;
+      if(target === 'house') return layout.art.x + layout.art.width * layout.house.x;
       if(target === 'rest') return layout.art.x + layout.art.width * .385;
       const element = boardsRef.current.get(target);
       const rect = element?.getClientRects().length ? relative(element) : rememberedElement;
@@ -86,7 +89,8 @@ export default function BranchNav() {
     };
     const measure = () => {
       const art = relative(artRef.current), box = nav.getBoundingClientRect();
-      layout = {art,width:box.width,height:box.height,size:parseFloat(getComputedStyle(canvas).width)};
+      art.compact = artRef.current.currentSrc.includes('branch-house-compact');
+      layout = {art,house:art.compact ? COMPACT_HOUSE : HOUSE,width:box.width,height:box.height,size:parseFloat(getComputedStyle(canvas).width)};
       const ropes = [];
       [...boardsRef.current.values(),logoRef.current].forEach(element => {
         if(!element?.getClientRects().length || element.closest('.featured-drawer')) return;
@@ -125,7 +129,7 @@ export default function BranchNav() {
         if(now-phaseStart>=150) {setState('idle');draw(0);return;}
       } else if(state === 'enteringHouse') {
         const t=Math.min(1,(now-phaseStart)/520), eased=t*t*(3-2*t);
-        const doorY=layout.art.y+layout.art.height*HOUSE.y;
+        const doorY=layout.art.y+layout.art.height*layout.house.y;
         y=entryStart.y+(doorY-entryStart.y)*eased;
         draw([1,2,3,4][Math.floor(t*12)%4],1-.7*eased);
         if(t===1) {setState('inside');draw();return;}
@@ -136,16 +140,18 @@ export default function BranchNav() {
       if(id === 'house' && (target==='house' && ['walking','running','enteringHouse','inside'].includes(state))) return;
       cancelAnimationFrame(raf);
       if(element) rememberedElement=relative(element);
-      if(state==='inside') {x=layout.art.x+layout.art.width*HOUSE.x;y=branchY(x,layout.art);}
+      if(state==='inside') {x=layout.art.x+layout.art.width*layout.house.x;y=branchY(x,layout.art);}
       target=id;
       if(reduced.matches) { x=targetX();y=branchY(x,layout.art);setState(id==='house'?'inside':'idle');draw();return; }
       setState('walking'); lastTime=performance.now(); raf=requestAnimationFrame(tick);
     };
     measure(); sprite.onload=()=>{if(!disposed) draw();};
     const observer=new ResizeObserver(measure); observer.observe(nav); observer.observe(artRef.current);
+    const branchImage=artRef.current;
+    branchImage.addEventListener('load',measure);
     const motionChanged=()=>startRef.current(target);
     reduced.addEventListener('change',motionChanged);
-    return ()=>{disposed=true;cancelAnimationFrame(raf);observer.disconnect();reduced.removeEventListener('change',motionChanged);startRef.current=()=>{};};
+    return ()=>{disposed=true;cancelAnimationFrame(raf);observer.disconnect();branchImage.removeEventListener('load',measure);reduced.removeEventListener('change',motionChanged);startRef.current=()=>{};};
   },[]);
 
   const visit = useCallback((event,item,house=false) => {
@@ -160,18 +166,18 @@ export default function BranchNav() {
     to={item.path} state={{navItem:item.id}} data-nav-id={item.id} aria-current={selected===item.id?'page':undefined}
     className={`featured-sign${selected===item.id?' featured-active':''}`} onClick={event=>visit(event,item)}><span>{item.label}</span></Link>;
   const art=geometry.art;
+  const house=geometry.house || HOUSE;
   return <header className="bn-header featured-nav"><nav ref={navRef} className="featured-inner" aria-label="Main navigation">
-    <div className="featured-canopy"><img ref={artRef} className="featured-branch" fetchPriority="high" src={BRANCH_ART} width="2172" height="724" alt="" aria-hidden="true" decoding="async" /></div>
+    <div className="featured-canopy"><picture><source media="(max-width:1100px)" srcSet={COMPACT_ART} width="1536" height="1024"/><img ref={artRef} className="featured-branch" fetchPriority="high" src={BRANCH_ART} width="2172" height="724" alt="" aria-hidden="true" decoding="async" /></picture></div>
     <NavigationRopes ropes={geometry.ropes} />
     <canvas ref={canvasRef} className="featured-squirrel" width="128" height="128" aria-hidden="true" />
     {entering && <svg className="featured-house-front" width="100%" height="100%" aria-hidden="true">
-      <defs><clipPath id={maskId}><path clipRule="evenodd" fillRule="evenodd" d={`M${art.x+art.width*HOUSE.left},${art.y+art.height*HOUSE.top} h${art.width*HOUSE.width} v${art.height*HOUSE.height} h${-art.width*HOUSE.width} Z M${art.x+art.width*HOUSE.x+art.height*HOUSE.radius},${art.y+art.height*HOUSE.y} a${art.height*HOUSE.radius},${art.height*HOUSE.radius} 0 1 0 ${-art.height*HOUSE.radius*2},0 a${art.height*HOUSE.radius},${art.height*HOUSE.radius} 0 1 0 ${art.height*HOUSE.radius*2},0 Z`}/></clipPath></defs>
-      <image href={BRANCH_ART} x={art.x} y={art.y} width={art.width} height={art.height} clipPath={`url(#${maskId})`}/>
+      <defs><clipPath id={maskId}><path clipRule="evenodd" fillRule="evenodd" d={`M${art.x+art.width*house.left},${art.y+art.height*house.top} h${art.width*house.width} v${art.height*house.height} h${-art.width*house.width} Z M${art.x+art.width*house.x+art.height*house.radius},${art.y+art.height*house.y} a${art.height*house.radius},${art.height*house.radius} 0 1 0 ${-art.height*house.radius*2},0 a${art.height*house.radius},${art.height*house.radius} 0 1 0 ${art.height*house.radius*2},0 Z`}/></clipPath></defs>
+      <image href={art.compact ? COMPACT_ART : BRANCH_ART} x={art.x} y={art.y} width={art.width} height={art.height} clipPath={`url(#${maskId})`}/>
     </svg>}
     <div className="featured-signs featured-left">{ITEMS.slice(0,3).map(item=>sign(item))}</div>
     <div className="featured-home"><Link ref={logoRef} to="/" aria-label="Rainbow Digi School — Excellence begins early — home" className={`featured-logo${location.pathname==='/'?' featured-active':''}`} onClick={event=>visit(event,ITEMS[0],true)}><Logo /></Link>
-      <MonkeyHandle />
-      <button type="button" className="featured-monkey" aria-label="Send the squirrel home" onClick={()=>startRef.current('house')}><img src="/images/navigation/monkey-featured.webp" width="250" height="465" alt="" decoding="async" /></button>
+      <button type="button" className="featured-monkey" aria-label="Send the squirrel home" onClick={()=>startRef.current('house')}><img className="featured-handle" src="/images/navigation/monkey-handle-grip.png" width="1536" height="1024" alt="" decoding="async" /></button>
     </div>
     <div className="featured-signs featured-right">{ITEMS.slice(3).map(item=>sign(item))}</div>
     <button ref={menuRef} type="button" className="featured-menu" aria-controls="school-navigation-menu" aria-expanded={open} aria-label={open?'Close navigation menu':'Open navigation menu'} onClick={()=>setOpen(value=>!value)}>☰</button>
