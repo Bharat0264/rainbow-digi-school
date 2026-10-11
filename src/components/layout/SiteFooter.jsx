@@ -15,8 +15,8 @@ export default function SiteFooter() {
             <img
               src="/images/rainbow-logo-embroidered.webp"
               alt="Rainbow Digi School logo"
-              width={100}
-              height={48}
+              width={116}
+              height={56}
               loading="lazy"
               decoding="async"
               className="footer-logo-img"
@@ -24,7 +24,7 @@ export default function SiteFooter() {
             <span className="footer-school-name">Rainbow Digi School</span>
           </Link>
           <p className="footer-tagline">{SCHOOL.tagline}</p>
-          <address>{SCHOOL.contact.address}</address>
+          <address className="footer-address">{SCHOOL.contact.address}</address>
         </div>
 
         {/* Middle Column: Explore our school */}

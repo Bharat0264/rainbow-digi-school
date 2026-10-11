@@ -643,10 +643,19 @@ details[open] .faq-toggle-btn {
   padding-bottom: 52px;
 }
 
+.footer-brand {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
 .footer-logo-row {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   text-decoration: none;
   color: var(--ink-heading);
   flex-wrap: nowrap;
@@ -657,17 +666,18 @@ details[open] .faq-toggle-btn {
 }
 
 .footer-logo-img {
-  height: 48px;
+  height: 56px;
   width: auto;
-  max-width: 105px;
+  max-width: 120px;
   object-fit: contain;
   display: block;
   flex-shrink: 0;
+  margin-left: -5px;
 }
 
 .footer-school-name {
   font-family: var(--font-serif);
-  font-size: 22px;
+  font-size: 23px;
   font-weight: 600;
   line-height: 1.2;
   color: var(--ink-heading);
@@ -675,19 +685,27 @@ details[open] .faq-toggle-btn {
 }
 
 .footer-tagline {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.4;
   color: var(--ink-muted);
-  font-size: 13.5px;
-  margin-top: 12px;
+  margin-top: 20px;
   margin-bottom: 0;
   font-weight: 500;
+  text-align: left;
 }
 
-.footer-brand address {
+.footer-brand address,
+.footer-address {
+  font-family: var(--font-sans);
   font-style: normal;
   color: var(--ink-muted);
-  font-size: 14px;
-  line-height: 1.7;
-  margin-top: 14px;
+  font-size: 15px;
+  line-height: 1.6;
+  margin-top: 8px;
+  margin-bottom: 0;
+  max-width: 340px;
+  text-align: left;
 }
 
 .footer-grid h2 {
@@ -811,24 +829,36 @@ details[open] .faq-toggle-btn {
 }
 
 @media (max-width: 767px) {
+  .footer-logo-img {
+    height: 48px;
+    margin-left: -4px;
+  }
+  .footer-school-name {
+    font-size: 20px;
+  }
+  .footer-logo-row {
+    gap: 12px;
+    justify-content: flex-start;
+  }
+  .footer-tagline {
+    font-size: 15px;
+    margin-top: 20px;
+  }
+  .footer-brand address,
+  .footer-address {
+    font-size: 15px;
+    max-width: 320px;
+    margin-top: 8px;
+  }
+  .footer-contact-link {
+    min-height: 44px;
+    padding-block: 2px;
+  }
   .footer-garuda-logo {
     height: 24px;
     max-width: 30px;
   }
   .footer-attribution {
     gap: 8px;
-  }
-  .footer-logo-img {
-    height: 44px;
-  }
-  .footer-school-name {
-    font-size: clamp(18px, 4.8vw, 21px);
-  }
-  .footer-logo-row {
-    justify-content: flex-start;
-  }
-  .footer-contact-link {
-    min-height: 44px;
-    padding-block: 2px;
   }
 }
