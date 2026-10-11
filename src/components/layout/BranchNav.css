@@ -1,5 +1,5 @@
 .featured-nav { position:relative; z-index:60; background:#f8f3e8; }
-.featured-inner { --board-top:210px; --logo-top:calc(var(--board-top) - 11px); --logo-height:74px; position:relative; width:95%; max-width:1224px; height:424px; margin:auto; isolation:isolate; }
+.featured-inner { --board-top:214px; --logo-top:calc(var(--board-top) - 11px); --logo-height:74px; position:relative; width:95%; max-width:1224px; height:424px; margin:auto; isolation:isolate; }
 .featured-sky { position:absolute; z-index:0; inset:0; overflow:clip; pointer-events:none; }
 .featured-sky img { position:absolute; top:0; left:50%; width:100%; height:280px; transform:translateX(-50%); display:block; user-select:none; }
 .featured-canopy { position:absolute; z-index:1; inset:0; overflow:clip; pointer-events:none; }
