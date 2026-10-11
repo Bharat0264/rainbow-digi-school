@@ -30,7 +30,7 @@ export default function SiteFooter() {
             </div>
           </div>
 
-          <div className="footer-address-row">
+          <div className="footer-address">
             <svg
               width="26"
               height="26"
@@ -46,7 +46,7 @@ export default function SiteFooter() {
               />
               <circle cx="12" cy="9" r="2.5" fill="#FFFFFF" />
             </svg>
-            <address className="footer-address">
+            <address>
               Plot No. 61, Padmashree Enclave, <br className="footer-address-br" />
               near Sanjana Courtyard, Kandlakoya, Hyderabad – 501401
             </address>

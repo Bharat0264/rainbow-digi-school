@@ -752,33 +752,38 @@ details[open] .faq-toggle-icon {
   margin-bottom: 0;
 }
 
-.footer-address-row,
-.footer-address-block {
-  margin-top: 20px;
+.footer-address {            /* the wrapper holding the pin + address */
   display: flex;
-  align-items: center;
+  align-items: center;       /* pin centred against the two lines */
   gap: 16px;
+  margin: 20px 0 0;
+  padding: 0;
   width: 100%;
   max-width: 540px;
 }
 
-.footer-pin-icon {
-  width: 26px;
-  height: 26px;
-  min-width: 26px;
-  min-height: 26px;
-  flex-shrink: 0;
-  display: block;
+.footer-address address {
+  margin: 0;                 /* removes the default bottom margin that pushes the pin down */
+  padding: 0;
+  font-style: normal;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  color: #4A3F38;
 }
 
-.footer-address {
-  font-family: var(--font-sans);
-  font-style: normal;
-  font-size: 16.5px;
-  line-height: 1.7;
-  color: #4A3F38;
+.footer-address address p,
+.footer-address address span {
   margin: 0;
-  padding: 0;
+}
+
+.footer-address svg {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  align-self: center;        /* remove any margin-top, position or transform on the icon */
+  margin: 0;
+  display: block;            /* removes the inline baseline gap below the SVG */
 }
 
 .footer-address-br {
@@ -927,18 +932,6 @@ details[open] .faq-toggle-icon {
     margin-top: 4px;
   }
 
-  .footer-address-row,
-  .footer-address-block {
-    margin-top: 18px;
-    align-items: center;
-    gap: 16px;
-  }
-
-  .footer-address {
-    font-size: 15px;
-    line-height: 1.6;
-  }
-
   .footer-address-br {
     display: none;
   }
@@ -987,10 +980,8 @@ details[open] .faq-toggle-icon {
     margin-top: 4px;
   }
 
-  .footer-address-row,
-  .footer-address-block {
+  .footer-address {
     margin-top: 16px;
-    align-items: center;
     gap: 14px;
   }
 }
