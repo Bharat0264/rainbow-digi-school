@@ -13,7 +13,10 @@ const BRANCH = [[0,274,332],[.05,262,340],[.12,277,355],[.2,293,371],
   [.27,300,379],[.34,303,384],[.4,306,388],[.43,310,391],[.5,312,392],
   [.57,307,390],[.64,305,395],[.7,300,402],[.76,294,393],[.82,286,382],
   [.9,270,365],[.96,240,340],[1,238,337]];
-const BRANCH_ART = '/images/navigation/branch-house-straight.webp';
+// The wide asset adds real bark and foliage at both ends; it is not a
+// horizontally stretched version of the former branch.
+const WIDE_BRANCH = BRANCH.map(([x, top, bottom]) => [x, Math.round(top * .79), Math.round(bottom * .79)]);
+const BRANCH_ART = '/images/navigation/branch-house-wide.webp';
 const RAINBOW_BACKDROP = '/images/navigation/rainbow-cloud-backdrop.webp';
 const HOUSE = { x: .474, y: .313, radius: .052, left: .416, top: .23, width: .166, height: .231 };
 const COMPACT_ART = '/images/navigation/branch-house-compact.png';
@@ -24,19 +27,21 @@ const COMPACT_HOUSE = { x: .47, y: .332, radius: .044, left: .39, top: .255, wid
 const ROPE_RIDGE = [[0,258],[.05,253],[.12,268],[.2,282],[.27,288],[.34,292],
   [.4,295],[.43,300],[.5,301],[.57,298],[.64,296],[.7,292],[.76,286],
   [.82,278],[.9,262],[.96,233],[1,230]];
+const WIDE_ROPE_RIDGE = ROPE_RIDGE.map(([x, y]) => [x, Math.round(y * .79)]);
 function ropeTop(x, art) {
   if (art.compact) return branchY(x, art) - art.height * .012;
   const ratio = Math.max(0, Math.min(1, (x-art.x)/art.width));
-  const index = ROPE_RIDGE.findIndex(point => point[0] >= ratio);
-  const a = ROPE_RIDGE[Math.max(0,index-1)], b = ROPE_RIDGE[Math.max(1,index)];
-  return art.y + (a[1]+(b[1]-a[1])*(ratio-a[0])/(b[0]-a[0]))/724*art.height;
+  const ridge = art.wide ? WIDE_ROPE_RIDGE : ROPE_RIDGE;
+  const index = ridge.findIndex(point => point[0] >= ratio);
+  const a = ridge[Math.max(0,index-1)], b = ridge[Math.max(1,index)];
+  return art.y + (a[1]+(b[1]-a[1])*(ratio-a[0])/(b[0]-a[0]))/(art.wide ? 430 : 724)*art.height;
 }
 function branchY(x, art, edge = 1) {
   const ratio = Math.max(0, Math.min(1, (x-art.x)/art.width));
-  const trace = art.compact ? COMPACT_BRANCH : BRANCH;
+  const trace = art.compact ? COMPACT_BRANCH : art.wide ? WIDE_BRANCH : BRANCH;
   const index = trace.findIndex(point => point[0] >= ratio);
   const a = trace[Math.max(0,index-1)], b = trace[Math.max(1,index)];
-  return art.y + (a[edge]+(b[edge]-a[edge])*(ratio-a[0])/(b[0]-a[0]))/(art.compact ? 1024 : 724)*art.height;
+  return art.y + (a[edge]+(b[edge]-a[edge])*(ratio-a[0])/(b[0]-a[0]))/(art.compact ? 1024 : art.wide ? 430 : 724)*art.height;
 }
 function ordinaryClick(event) { return event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey; }
 
@@ -103,6 +108,7 @@ export default function BranchNav() {
     const measure = () => {
       const art = relative(artRef.current), box = nav.getBoundingClientRect();
       art.compact = artRef.current.currentSrc.includes('branch-house-compact');
+      art.wide = artRef.current.currentSrc.includes('branch-house-wide');
       layout = {art,house:art.compact ? COMPACT_HOUSE : HOUSE,width:box.width,height:box.height,size:parseFloat(getComputedStyle(canvas).width)};
       const ropes = [];
       [...boardsRef.current.values(),logoRef.current].forEach(element => {
@@ -182,7 +188,7 @@ export default function BranchNav() {
   const house=geometry.house || HOUSE;
   return <header className="bn-header featured-nav"><nav ref={navRef} className="featured-inner" aria-label="Main navigation">
     <div className="featured-sky" aria-hidden="true"><img src={RAINBOW_BACKDROP} width="1536" height="1024" alt="" decoding="async" /></div>
-    <div className="featured-canopy"><picture><source media="(max-width:1100px)" srcSet={COMPACT_ART} width="1536" height="1024"/><img ref={artRef} className="featured-branch" fetchPriority="high" src={BRANCH_ART} width="2172" height="724" alt="" aria-hidden="true" decoding="async" /></picture></div>
+    <div className="featured-canopy"><picture><source media="(max-width:1100px)" srcSet={COMPACT_ART} width="1536" height="1024"/><img ref={artRef} className="featured-branch" fetchPriority="high" src={BRANCH_ART} width="2060" height="430" alt="" aria-hidden="true" decoding="async" /></picture></div>
     <NavigationRopes ropes={geometry.ropes} />
     <canvas ref={canvasRef} className="featured-squirrel" width="128" height="128" aria-hidden="true" />
     {entering && <svg className="featured-house-front" width="100%" height="100%" aria-hidden="true">
