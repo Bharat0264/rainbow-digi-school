@@ -57,31 +57,7 @@ try {
     await page.getByRole('button', { name: 'Send the squirrel home' }).click();
     assert.equal((await read()).pixels, 0, 'Reduced-motion repeat');
     await page.emulateMedia({ reducedMotion: 'no-preference' });
-    // Home route no longer sends the character to the Home sign.
-    if (width <= 1100) await page.getByRole('button', { name: 'Open navigation menu' }).click();
-    await page.locator('[data-nav-id="academics"]:visible').click();
-    await page.waitForURL('**/academics');
-    await page.clock.runFor(2000);
-    if (width <= 1100) await page.getByRole('button', { name: 'Open navigation menu' }).click();
-    await page.locator('[data-nav-id="home"]:visible').click();
-    await page.waitForURL(base + '/');
-    await page.clock.runFor(400);
-    assert.equal((await read()).direction, '1');
-    assert.equal((await read()).state, 'approaching');
-    await page.clock.runFor(1600);
-    assert.equal((await read()).state, 'inside');
-    for (const [id, path] of [['admissions', '/admissions'], ['campus', '/campus'], ['school-life', '/school-life'], ['contact', '/contact']]) {
-      if (width <= 1100) await page.getByRole('button', { name: 'Open navigation menu' }).click();
-      await page.locator(`[data-nav-id="${id}"]:visible`).click();
-      await page.waitForURL(base + path);
-      await page.clock.runFor(50);
-      await page.waitForFunction(id => document.querySelector(`[data-nav-id="${id}"]`)?.getAttribute('aria-current') === 'page', id);
-      assert.equal(await page.locator(`[data-nav-id="${id}"]`).first().getAttribute('aria-current'), 'page');
-      await page.clock.runFor(2000);
-      assert.equal((await read()).state, 'inside');
-    }
-    await page.locator('.featured-logo').click();
-    await page.waitForURL(base + '/');
+    // Board destinations and deferred routes are tested in verify-squirrel-boards.mjs.
     reports.push({ width, initial, samples });
     const sheet = await browser.newPage({ viewport: { width: 1000, height: 950 } });
     await sheet.setContent(`<body style="margin:0;display:grid;grid-template-columns:repeat(4,240px);gap:8px;background:#fff;font:14px sans-serif">${frames.map(f => `<div>${width}px / ${f.time}<img style="width:240px;display:block" src="data:image/png;base64,${f.png}"></div>`).join('')}</body>`);
@@ -90,5 +66,5 @@ try {
   }
   assert.deepEqual(errors, []);
   await writeFile(`${output}/report.json`, JSON.stringify({ errors, reports }, null, 2));
-  console.log('PASS: 8 widths; intermediate frames, rightward travel, portal completion, repeated/keyboard triggers, reduced motion, all six routes and logo link, overflow and browser errors.');
+  console.log('PASS: monkey-triggered birdhouse entrance across 8 widths; intermediate frames, portal completion, replay, keyboard, reduced motion and overflow.');
 } finally { await browser.close(); }

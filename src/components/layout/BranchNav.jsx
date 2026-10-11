@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Logo from '../ui/Logo';
 import NavigationRopes from './NavigationRopes';
 import { createSquirrelAnimation } from './squirrelAnimation';
@@ -46,8 +46,10 @@ function ordinaryClick(event) { return event.button === 0 && !event.metaKey && !
 
 export default function BranchNav() {
   const location = useLocation();
+  const navigate = useNavigate();
   const navRef = useRef(null), artRef = useRef(null), canvasRef = useRef(null), logoRef = useRef(null);
   const boardsRef = useRef(new Map()), startRef = useRef(() => {});
+  const cancelBoardRef = useRef(() => {});
   const [open, setOpen] = useState(false);
   const menuRef = useRef(null), drawerRef = useRef(null);
 
@@ -76,6 +78,7 @@ export default function BranchNav() {
     const nav = navRef.current, canvas = canvasRef.current;
     const animation = createSquirrelAnimation(canvas);
     startRef.current = animation.start;
+    cancelBoardRef.current = animation.cancelBoard;
     const relative = element => {
       const a = element.getBoundingClientRect(), b = nav.getBoundingClientRect();
       return { x: a.x - b.x, y: a.y - b.y, width: a.width, height: a.height };
@@ -108,14 +111,28 @@ export default function BranchNav() {
       observer.disconnect();
       branchImage.removeEventListener('load', measure);
       startRef.current = () => {};
+      cancelBoardRef.current = () => {};
     };
   }, []);
-  const visit = useCallback(event => {
+  useEffect(() => { cancelBoardRef.current(); }, [location.key]);
+  const visit = useCallback((event, item) => {
     if (!ordinaryClick(event)) return;
-    // Routing stays immediate; the mounted header completes the same entrance.
-    startRef.current();
-    setOpen(false);
-  }, []);
+    event.preventDefault();
+    const clicked = event.currentTarget;
+    startRef.current({
+      id: item.id,
+      // Read live bounds, including drawer scrolling and viewport changes.
+      resolve: () => {
+        if (clicked.isConnected && clicked.getClientRects().length) return clicked;
+        const board = boardsRef.current.get(item.id);
+        return board?.getClientRects().length ? board : null;
+      },
+      complete: () => {
+        setOpen(false);
+        navigate(item.path, { state: { navItem: item.id } });
+      },
+    });
+  }, [navigate]);
 
   const sign = (item, drawer = false) => (
     <Link
@@ -131,7 +148,7 @@ export default function BranchNav() {
       data-nav-id={item.id}
       aria-current={selected === item.id ? 'page' : undefined}
       className={`featured-sign${selected === item.id ? ' featured-active' : ''}`}
-      onClick={visit}
+      onClick={event => visit(event, item)}
     >
       <span>{item.label}</span>
     </Link>
