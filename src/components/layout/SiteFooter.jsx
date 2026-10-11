@@ -5,26 +5,52 @@ export default function SiteFooter() {
   return (
     <footer className="site-footer">
       <div className="site-container footer-grid">
-        {/* Left Column: Logo + School Name side by side, Tagline, Address */}
+        {/* Left Column: Brand Block (Row 1: Logo | Divider | Text Stack, Row 2: Map Pin + Address) */}
         <div className="footer-brand">
-          <Link
-            to="/"
-            className="footer-logo-row"
-            aria-label="Rainbow Digi School home"
-          >
-            <img
-              src="/images/rainbow-logo-embroidered.webp"
-              alt="Rainbow Digi School logo"
-              width={116}
-              height={56}
-              loading="lazy"
-              decoding="async"
-              className="footer-logo-img"
-            />
-            <span className="footer-school-name">Rainbow Digi School</span>
-          </Link>
-          <p className="footer-tagline">{SCHOOL.tagline}</p>
-          <address className="footer-address">{SCHOOL.contact.address}</address>
+          <div className="footer-brand-row">
+            <Link
+              to="/"
+              className="footer-logo-link"
+              aria-label="Rainbow Digi School home"
+            >
+              <img
+                src="/images/rainbow-logo-embroidered.webp"
+                alt="Rainbow Digi School logo"
+                width={133}
+                height={64}
+                loading="lazy"
+                decoding="async"
+                className="footer-logo-img"
+              />
+            </Link>
+            <div className="footer-brand-divider" aria-hidden="true" />
+            <div className="footer-text-stack">
+              <span className="footer-school-name">Rainbow Digi School</span>
+              <span className="footer-tagline">Excellence Begins Early</span>
+            </div>
+          </div>
+
+          <address className="footer-address-block">
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              className="footer-pin-icon"
+              aria-hidden="true"
+            >
+              <path
+                d="M12 2C8.134 2 5 5.134 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.866-3.134-7-7-7z"
+                fill="#D92D3A"
+              />
+              <circle cx="12" cy="9" r="2.5" fill="#FFFFFF" />
+            </svg>
+            <div className="footer-address-text">
+              <span>Plot No. 61, Padmashree Enclave,</span>
+              <span>near Sanjana Courtyard, Kandlakoya, Hyderabad – 501401</span>
+            </div>
+          </address>
         </div>
 
         {/* Middle Column: Explore our school */}

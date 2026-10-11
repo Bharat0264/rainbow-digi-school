@@ -72,19 +72,43 @@ export function AdmissionsInvite() {
 export function Faqs({ items = ADMISSION_FAQ }) {
   return (
     <div className="faq-list">
-      {items.map((item, idx) => {
-        const colors = ["clay-cream", "clay-pink", "clay-mint", "clay-yellow"];
-        const color = colors[idx % colors.length];
-        return (
-          <details key={item.q} className={`clay-tile ${color}`}>
-            <summary>
-              <span>{item.q}</span>
-              <span className="faq-toggle-btn" aria-hidden="true">+</span>
-            </summary>
-            <p>{item.a}</p>
-          </details>
-        );
-      })}
+      {items.map((item) => (
+        <details key={item.q} className="clay-tile">
+          <summary>
+            <span>{item.q}</span>
+            <span className="faq-toggle-btn" aria-hidden="true">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 14 14"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="faq-toggle-icon"
+              >
+                <line
+                  x1="1"
+                  y1="7"
+                  x2="13"
+                  y2="7"
+                  stroke="#342407"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
+                <line
+                  x1="7"
+                  y1="1"
+                  x2="7"
+                  y2="13"
+                  stroke="#342407"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </span>
+          </summary>
+          <p>{item.a}</p>
+        </details>
+      ))}
     </div>
   );
 }
