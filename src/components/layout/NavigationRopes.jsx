@@ -5,23 +5,24 @@ const FRONT_LASHINGS = '/images/navigation/rope-crossed-lashings.webp';
 const EYELETS = '/images/navigation/rope-eyelets.webp';
 // Coordinates belong to the two native 1536x1024 sprite sheets, not the page.
 const VARIANTS = [
-  { left: 0, frontCenter: 419, rearCenter: 406, eyeRopeX: 438, ringBaseY: 575 },
-  { left: 768, frontCenter: 1119, rearCenter: 1132, eyeRopeX: 1122, ringBaseY: 575 }
+  { left: 0, frontCenter: 430, rearCenter: 406, eyeRopeX: 438, ringBaseY: 575 },
+  { left: 768, frontCenter: 1116, rearCenter: 1128, eyeRopeX: 1122, ringBaseY: 575 }
 ];
 
 function attachment(rope, index) {
   const variant = VARIANTS[index % VARIANTS.length];
-  // Loop height from crown to knot bottom in sprite is ~620px
+  // Loop height from crown to knot bottom in sprite is ~640px
   const barkH = Math.max(20, rope.under - rope.top);
   const scale = barkH / 620;
   const thickness = Math.min(8, Math.max(5.5, scale * 95));
   // In rope-eyelets, the rope width at y=0..300 is 120px
   const eyeScale = thickness / 120;
-  const dropTop = rope.top + 600 * scale;
+  // Knot tail emerges cleanly at y=760; drop rope starts precisely at tail exit
+  const dropTop = rope.top + 740 * scale;
   // Position so the ring base (y=575) sits firmly on top of the board frame
   const spriteTop = rope.bottom - variant.ringBaseY * eyeScale;
-  // Drop rope connects seamlessly into the feathered top of the eyelet sprite
-  const dropBottom = spriteTop + 90 * eyeScale;
+  // Drop rope connects cleanly into the top collar of the eyelet sprite
+  const dropBottom = spriteTop + 50 * eyeScale;
 
   return {
     ...rope,
@@ -62,17 +63,17 @@ export default function NavigationRopes({ ropes }) {
     {/* Front crossed loops over bark and plumb drop ropes (z-index 2) */}
     <svg className="featured-ropes" width="100%" height="100%" aria-hidden="true">
       <defs>
-        <linearGradient id={`${id}-tail-fade`} x1="0" y1="640" x2="0" y2="720" gradientUnits="userSpaceOnUse">
+        <linearGradient id={`${id}-tail-fade`} x1="0" y1="750" x2="0" y2="800" gradientUnits="userSpaceOnUse">
           <stop stopColor="white" />
           <stop offset="1" stopColor="black" />
         </linearGradient>
         <mask id={`${id}-tail-join`} x="0" y="0" width="1536" height="1024" maskUnits="userSpaceOnUse">
-          <rect width="1536" height="640" fill="white" />
-          <rect y="640" width="1536" height="80" fill={`url(#${id}-tail-fade)`} />
+          <rect width="1536" height="750" fill="white" />
+          <rect y="750" width="1536" height="50" fill={`url(#${id}-tail-fade)`} />
         </mask>
         {VARIANTS.map(({ left }, i) => (
           <clipPath key={i} id={`${id}-front-${i}`}>
-            <rect x={left} y="0" width="768" height="720" />
+            <rect x={left} y="0" width="768" height="800" />
           </clipPath>
         ))}
         {attachments.map(({ x, dropTop, thickness }, i) => (
@@ -101,8 +102,8 @@ export default function NavigationRopes({ ropes }) {
     {/* Small, believable securing ring and knot anchored firmly onto board frame (z-index 6) */}
     <svg className="featured-ropes featured-ropes-fixings" width="100%" height="100%" aria-hidden="true">
       <defs>
-        {/* Soft luminance fade at top of sprite (y=0..100) for seamless drop rope blending */}
-        <linearGradient id={`${id}-eyelet-fade`} x1="0" y1="0" x2="0" y2="100" gradientUnits="userSpaceOnUse">
+        {/* Soft luminance fade at top of sprite (y=0..50) for seamless drop rope blending */}
+        <linearGradient id={`${id}-eyelet-fade`} x1="0" y1="0" x2="0" y2="50" gradientUnits="userSpaceOnUse">
           <stop offset="0" stopColor="black" />
           <stop offset="1" stopColor="white" />
         </linearGradient>
@@ -113,8 +114,8 @@ export default function NavigationRopes({ ropes }) {
         </linearGradient>
         {VARIANTS.map(({ left }, i) => (
           <mask key={i} id={`${id}-eyelet-mask-${i}`} maskUnits="userSpaceOnUse" x={left} y="0" width="768" height="650">
-            <rect x={left} y="0" width="768" height="100" fill={`url(#${id}-eyelet-fade)`} />
-            <rect x={left} y="100" width="768" height="510" fill="white" />
+            <rect x={left} y="0" width="768" height="50" fill={`url(#${id}-eyelet-fade)`} />
+            <rect x={left} y="50" width="768" height="560" fill="white" />
             <rect x={left} y="610" width="768" height="30" fill={`url(#${id}-eyelet-tail)`} />
           </mask>
         ))}
