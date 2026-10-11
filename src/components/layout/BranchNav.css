@@ -26,16 +26,15 @@
  .featured-sign { width:104px; height:60px; }
 }
 @media (max-width:1100px) {
- .featured-inner { --logo-top:clamp(124px,38vw,164px); --board-top:calc(var(--logo-top) + 11px); --logo-height:66px; max-width:420px; height:calc(var(--logo-top) + 216px); }
+ .featured-inner { --logo-top:clamp(124px,38vw,164px); --board-top:calc(var(--logo-top) + 11px); --logo-height:66px; --menu-top:clamp(160px,42vw,184px); max-width:420px; height:calc(var(--logo-top) + 216px); }
  .featured-sky img { top:0; width:112%; height:220px; }
  .featured-signs { display:none; }.featured-home { width:210px; }
  .featured-logo { padding:5px 8px; border-width:3px; }.featured-logo::before { inset:4px; }
  .featured-squirrel { width:46px; height:46px; }
- .featured-menu { position:absolute; z-index:6; top:var(--board-top); right:4px; display:grid; place-items:center; width:48px; height:42px; border:3px solid #9a5928; border-radius:8px; background:#e7a25d; color:#4b2a16; font:700 22px Fredoka,sans-serif; cursor:pointer; }
- .featured-drawer { position:absolute; z-index:7; top:calc(var(--board-top) + 52px); right:4px; display:grid; gap:8px; box-sizing:border-box; width:min(260px,100%); max-height:calc(100dvh - var(--board-top) - 64px); padding:12px; border:3px solid #c78649; border-radius:12px; background:#fff8e9; box-shadow:0 10px 20px #4a2a1240; }
+ .featured-menu { position:absolute; z-index:6; top:var(--menu-top); right:4px; display:grid; place-items:center; width:48px; height:42px; border:3px solid #9a5928; border-radius:8px; background:#e7a25d; color:#4b2a16; font:700 22px Fredoka,sans-serif; cursor:pointer; }
+ .featured-drawer { position:absolute; z-index:7; top:calc(var(--menu-top) + 52px); right:4px; display:grid; gap:8px; box-sizing:border-box; width:min(260px,100%); max-height:calc(100dvh - var(--menu-top) - 64px); padding:12px; border:3px solid #c78649; border-radius:12px; background:#fff8e9; box-shadow:0 10px 20px #4a2a1240; }
  .featured-drawer .featured-sign { width:100%; height:44px; padding:5px; }
 }
 @media (max-width:480px) {
- .featured-menu { top:calc(var(--board-top) + 86px); }
- .featured-drawer { top:calc(var(--board-top) + 136px); max-height:calc(100dvh - var(--board-top) - 148px); }
+ .featured-drawer { max-height:calc(100dvh - var(--menu-top) - 64px); }
 }
