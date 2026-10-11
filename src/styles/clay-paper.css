@@ -448,60 +448,112 @@ h3 {
    FAQ ACCORDION (Clay Rows with Raised Round Buttons)
    ========================================================================== */
 
+.faq-grid {
+  width: 100%;
+  max-width: 900px;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.faq-header-card,
+.faq-grid > .clay-tile:first-child {
+  padding: 28px 32px;
+  border-radius: 22px;
+  box-shadow: 0 4px 14px rgba(140, 115, 95, 0.06),
+              0 1px 3px rgba(140, 115, 95, 0.04),
+              inset 1px 1px 0 rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+.faq-header-card .section-heading h2,
+.faq-grid > .clay-tile:first-child .section-heading h2 {
+  font-size: clamp(32px, 3.2vw, 36px);
+  line-height: 1.25;
+  margin-top: 6px;
+  margin-bottom: 0;
+}
+
 .faq-list {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
 }
 
+.faq-list details.clay-tile,
 .faq-list details {
-  background: var(--clay-cream);
-  border-radius: 24px;
-  box-shadow: var(--shadow-raised);
+  padding: 0;
+  border-radius: 22px;
+  min-height: auto;
+  height: auto;
+  box-shadow: 0 3px 12px rgba(140, 115, 95, 0.06),
+              0 1px 3px rgba(140, 115, 95, 0.04),
+              inset 1px 1px 0 rgba(255, 255, 255, 0.85);
   border: 1px solid rgba(255, 255, 255, 0.7);
   overflow: hidden;
-  transition: transform var(--spring-duration) var(--spring-ease),
-              box-shadow var(--spring-duration) var(--spring-ease);
+  transition: box-shadow 0.25s ease, background-color 0.25s ease;
 }
 
 .faq-list details[open] {
-  background: var(--clay-cream-pure);
-  box-shadow: var(--shadow-hover);
+  box-shadow: 0 6px 18px rgba(140, 115, 95, 0.09),
+              0 2px 5px rgba(140, 115, 95, 0.05),
+              inset 1px 1px 0 rgba(255, 255, 255, 0.9);
 }
 
 .faq-list summary {
-  padding: 22px 28px;
+  padding: 20px 28px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 18px;
   cursor: pointer;
-  font-family: var(--font-sans);
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--ink-dark);
   list-style: none;
   user-select: none;
+  min-height: auto;
+  height: auto;
 }
 
 .faq-list summary::-webkit-details-marker {
   display: none;
 }
 
+.faq-list summary span:first-child {
+  font-family: var(--font-sans);
+  font-size: 17.5px;
+  font-weight: 600;
+  color: var(--ink-dark);
+  line-height: 1.4;
+  flex: 1;
+}
+
 .faq-toggle-btn {
   width: 38px;
   height: 38px;
+  min-width: 38px;
+  min-height: 38px;
   border-radius: 50%;
   display: grid;
   place-items: center;
   flex-shrink: 0;
   background: var(--clay-yellow);
-  box-shadow: var(--shadow-raised-sm);
+  box-shadow: 0 2px 5px rgba(120, 100, 80, 0.12),
+              inset 1px 1px 0 rgba(255, 255, 255, 0.9);
   border: 1px solid rgba(255, 255, 255, 0.85);
   color: #342407;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 500;
-  transition: transform 0.3s var(--spring-ease), background 0.2s ease;
+  line-height: 1;
+  position: relative;
+  transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1),
+              background-color 0.2s ease,
+              color 0.2s ease;
+}
+
+.faq-toggle-btn::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
 }
 
 details[open] .faq-toggle-btn {
@@ -511,11 +563,63 @@ details[open] .faq-toggle-btn {
 }
 
 .faq-list details p {
-  padding: 0 28px 24px 28px;
+  padding: 0 20px 20px 28px;
   margin: 0;
   color: var(--ink-muted);
   font-size: 15px;
-  line-height: 1.75;
+  line-height: 1.7;
+  animation: faqSlideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes faqSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 767px) {
+  .faq-header-card,
+  .faq-grid > .clay-tile:first-child {
+    padding: 22px 20px;
+    border-radius: 20px;
+  }
+
+  .faq-header-card .section-heading h2,
+  .faq-grid > .clay-tile:first-child .section-heading h2 {
+    font-size: clamp(26px, 6vw, 28px);
+  }
+
+  .faq-list details.clay-tile,
+  .faq-list details {
+    border-radius: 20px;
+  }
+
+  .faq-list summary {
+    padding: 16px 20px;
+    min-height: 44px;
+  }
+
+  .faq-list summary span:first-child {
+    font-size: 16px;
+  }
+
+  .faq-toggle-btn {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
+    font-size: 19px;
+  }
+
+  .faq-list details p {
+    padding: 0 20px 16px 20px;
+    font-size: 14.5px;
+  }
 }
 
 /* ==========================================================================

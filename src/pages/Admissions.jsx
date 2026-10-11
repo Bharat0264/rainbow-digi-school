@@ -82,7 +82,7 @@ export default function Admissions() {
 
       {/* FAQ Bento Grid */}
       <section className="section site-container faq-grid">
-        <div className="clay-tile clay-cream">
+        <div className="clay-tile clay-cream faq-header-card">
           <SectionHeading
             eyebrow="Before you apply"
             title="Useful answers for parents."

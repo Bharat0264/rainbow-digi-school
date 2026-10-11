@@ -232,7 +232,7 @@ export default function Home() {
 
       {/* FAQ Bento Grid */}
       <section className="section site-container faq-grid">
-        <div className="clay-tile clay-cream">
+        <div className="clay-tile clay-cream faq-header-card">
           <SectionHeading
             eyebrow="For thoughtful decisions"
             title="Your questions, a clearer starting point."
