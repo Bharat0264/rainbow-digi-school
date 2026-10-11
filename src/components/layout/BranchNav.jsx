@@ -134,6 +134,12 @@ export default function BranchNav() {
     });
   }, [navigate]);
 
+  const visitHouse = useCallback(event => {
+    if (!ordinaryClick(event)) return;
+    event.preventDefault();
+    startRef.current({ kind: 'house', complete: () => { setOpen(false); navigate('/'); } });
+  }, [navigate]);
+
   const sign = (item, drawer = false) => (
     <Link
       key={item.id}
@@ -170,7 +176,7 @@ export default function BranchNav() {
         <canvas ref={canvasRef} className="featured-squirrel" width="128" height="128" aria-hidden="true" />
         <div className="featured-signs featured-left">{ITEMS.slice(0, 3).map(item => sign(item))}</div>
         <div className="featured-home">
-          <Link ref={logoRef} to="/" aria-label="Rainbow Digi School — Excellence begins early — home" className={`featured-logo${location.pathname === '/' ? ' featured-active' : ''}`}>
+          <Link ref={logoRef} to="/" onClick={visitHouse} aria-label="Rainbow Digi School — Excellence begins early — home" className={`featured-logo${location.pathname === '/' ? ' featured-active' : ''}`}>
             <Logo />
           </Link>
           <button type="button" className="featured-monkey" aria-label="Send the squirrel home" onClick={() => startRef.current()}>

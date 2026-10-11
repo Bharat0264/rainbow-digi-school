@@ -50,7 +50,7 @@ async function expectPath(path) {
 }
 
 async function waitBoardArrival() {
-  await page.waitForFunction(() => document.querySelector('.featured-squirrel').dataset.state === 'boardDone');
+  await page.waitForFunction(() => document.querySelector('.featured-squirrel').dataset.state === 'standing');
 }
 
 async function clippedScreenshot(filename, selectors) {
@@ -183,7 +183,7 @@ try {
     await page.locator('.featured-logo').focus();
     await page.keyboard.press('Enter');
     await expectPath('/');
-    assert.equal(await page.locator('.featured-squirrel').getAttribute('data-state'), 'boardDone');
+    assert.equal(await page.locator('.featured-squirrel').getAttribute('data-state'), 'inside');
   }
 
   // Normal motion must still walk through sprite frames and enter the birdhouse.
@@ -220,7 +220,7 @@ try {
   assert.equal(blankCanvas, true, 'Squirrel disappeared into birdhouse');
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.locator('.featured-signs [data-nav-id="home"]').click();
-  assert.equal(await page.locator('.featured-squirrel').getAttribute('data-state'), 'boardDone');
+  assert.equal(await page.locator('.featured-squirrel').getAttribute('data-state'), 'standing');
   await page.locator('.featured-monkey').click();
   assert.equal(await page.locator('.featured-squirrel').getAttribute('data-state'), 'inside');
   assert.deepEqual(errors, [], 'Browser runtime/console errors');

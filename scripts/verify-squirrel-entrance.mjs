@@ -47,10 +47,15 @@ try {
     assert.equal(samples.at(-1).state, 'inside');
     assert.equal(samples.at(-1).pixels, 0, 'No remaining squirrel pixels');
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+    // An already-hidden squirrel stays inside until a navigation action brings it out.
+    if (width <= 1100) await page.locator('.featured-menu').click();
+    await page.locator('[data-nav-id="home"]:visible').click();
+    await page.clock.runFor(2100);
+    assert.equal((await read()).state, 'standing');
     await page.getByRole('button', { name: 'Send the squirrel home' }).focus();
     await page.keyboard.press('Enter');
     await page.clock.runFor(200);
-    assert.equal((await read()).state, 'approaching', 'Keyboard replay from rest');
+    assert.equal((await read()).state, 'approaching', 'Keyboard entry from current branch position');
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.clock.runFor(50);
     assert.equal((await read()).state, 'inside', 'Live reduced-motion preference');
