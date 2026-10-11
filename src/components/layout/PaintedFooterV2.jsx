@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { MapPin, Phone, MessageCircle, Navigation2, Send, GraduationCap, Home, BookOpen, Image as ImageIcon, Star, ArrowRight } from 'lucide-react';
+import { MapPin, Phone, MessageCircle, Navigation2, GraduationCap, Home, BookOpen, Image as ImageIcon, Star, ArrowRight } from 'lucide-react';
 import { IMAGES } from '../../data/images';
 
 function PaintedFooterV2() {
@@ -171,7 +171,7 @@ function PaintedFooterV2() {
             </div>
             <div className="hidden md:block w-[1px] h-4 bg-gray-300" />
             <a href="https://my-work-umber.vercel.app/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 hover:bg-white rounded-full transition-colors group">
-              <Send className="w-4 h-4 text-[#1565C0] group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" />
+              <img src="/images/garuda-emblem.png" alt="Garuda emblem" className="w-6 h-6 object-contain group-hover:-translate-y-0.5 group-hover:scale-105 transition-transform" />
               <span className="font-bold text-[#1565C0]">Crafted by Garuda</span>
               <svg className="w-3 h-3 text-[#1565C0]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
             </a>

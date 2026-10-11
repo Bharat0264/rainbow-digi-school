@@ -643,18 +643,43 @@ details[open] .faq-toggle-btn {
   padding-bottom: 52px;
 }
 
-.footer-brand svg,
-.footer-brand picture,
-.footer-brand img {
-  max-width: 200px;
-  height: auto;
-  display: block;
+.footer-logo-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--ink-heading);
+  flex-wrap: nowrap;
 }
 
-.footer-brand p {
+.footer-logo-row:hover .footer-school-name {
+  color: #1c362e;
+}
+
+.footer-logo-img {
+  height: 48px;
+  width: auto;
+  max-width: 105px;
+  object-fit: contain;
+  display: block;
+  flex-shrink: 0;
+}
+
+.footer-school-name {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--ink-heading);
+  white-space: nowrap;
+}
+
+.footer-tagline {
   color: var(--ink-muted);
-  font-size: 13px;
-  margin-top: 14px;
+  font-size: 13.5px;
+  margin-top: 12px;
+  margin-bottom: 0;
+  font-weight: 500;
 }
 
 .footer-brand address {
@@ -662,7 +687,7 @@ details[open] .faq-toggle-btn {
   color: var(--ink-muted);
   font-size: 14px;
   line-height: 1.7;
-  margin-top: 16px;
+  margin-top: 14px;
 }
 
 .footer-grid h2 {
@@ -681,7 +706,14 @@ details[open] .faq-toggle-btn {
   gap: 12px;
 }
 
-.footer-grid a {
+.footer-contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-grid a,
+.footer-contact-link {
   color: var(--ink-dark);
   font-size: 14px;
   font-weight: 600;
@@ -689,12 +721,28 @@ details[open] .faq-toggle-btn {
   transition: color 0.2s ease, transform 0.2s ease;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
 }
 
-.footer-grid a:hover {
+.footer-grid a:hover,
+.footer-contact-link:hover {
   color: #27453d;
   transform: translateX(3px);
+}
+
+.footer-contact-icon {
+  width: 19px;
+  height: 19px;
+  min-width: 19px;
+  min-height: 19px;
+  color: #3e5e57;
+  flex-shrink: 0;
+  display: block;
+  transition: color 0.2s ease;
+}
+
+.footer-contact-link:hover .footer-contact-icon {
+  color: #27453d;
 }
 
 .footer-bottom {
@@ -709,9 +757,78 @@ details[open] .faq-toggle-btn {
   color: var(--ink-muted);
 }
 
+.footer-bottom a {
+  color: var(--ink-muted);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-bottom a:hover {
+  color: var(--ink-dark);
+}
+
+.footer-attribution {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ink-muted);
+  text-decoration: none;
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 500;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.footer-attribution:hover {
+  color: #1a4f8b;
+}
+
+.footer-attribution:hover .footer-garuda-logo {
+  transform: translateY(-1px) scale(1.05);
+}
+
+.footer-attribution:focus-visible {
+  outline: 2px solid #204982;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.footer-garuda-logo {
+  height: 28px;
+  width: auto;
+  max-width: 36px;
+  object-fit: contain;
+  display: block;
+  flex-shrink: 0;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
 @media (max-width: 900px) {
   .footer-grid {
     grid-template-columns: 1fr;
     gap: 36px;
+  }
+}
+
+@media (max-width: 767px) {
+  .footer-garuda-logo {
+    height: 24px;
+    max-width: 30px;
+  }
+  .footer-attribution {
+    gap: 8px;
+  }
+  .footer-logo-img {
+    height: 44px;
+  }
+  .footer-school-name {
+    font-size: clamp(18px, 4.8vw, 21px);
+  }
+  .footer-logo-row {
+    justify-content: flex-start;
+  }
+  .footer-contact-link {
+    min-height: 44px;
+    padding-block: 2px;
   }
 }

@@ -1,17 +1,33 @@
 import { Link } from "react-router-dom";
 import { SCHOOL } from "../../data/school";
-import Logo from "../ui/Logo";
+
 export default function SiteFooter() {
   return (
     <footer className="site-footer">
       <div className="site-container footer-grid">
+        {/* Left Column: Logo + School Name side by side, Tagline, Address */}
         <div className="footer-brand">
-          <Link to="/" aria-label="Rainbow Digi School home">
-            <Logo />
+          <Link
+            to="/"
+            className="footer-logo-row"
+            aria-label="Rainbow Digi School home"
+          >
+            <img
+              src="/images/rainbow-logo-embroidered.webp"
+              alt="Rainbow Digi School logo"
+              width={100}
+              height={48}
+              loading="lazy"
+              decoding="async"
+              className="footer-logo-img"
+            />
+            <span className="footer-school-name">Rainbow Digi School</span>
           </Link>
-          <p>{SCHOOL.tagline}</p>
+          <p className="footer-tagline">{SCHOOL.tagline}</p>
           <address>{SCHOOL.contact.address}</address>
         </div>
+
+        {/* Middle Column: Explore our school */}
         <div>
           <h2>Explore our school</h2>
           <nav aria-label="Footer navigation">
@@ -28,30 +44,118 @@ export default function SiteFooter() {
             ))}
           </nav>
         </div>
-        <div>
+
+        {/* Right Column: Start a conversation */}
+        <div className="footer-contact-col">
           <h2>Start a conversation</h2>
-          {SCHOOL.contact.phones.map((phone) => (
-            <a key={phone.href} href={phone.href}>
-              {phone.label}
+          <div className="footer-contact-list">
+            <a href="tel:+918008533078" className="footer-contact-link">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.75"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+                className="footer-contact-icon"
+              >
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+              </svg>
+              <span>+91 80085 33078</span>
             </a>
-          ))}
-          <a href={"mailto:" + SCHOOL.contact.email}>{SCHOOL.contact.email}</a>
-          <a
-            href={SCHOOL.contact.mapsUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Directions to the school ↗
-          </a>
-          <a
-            href={SCHOOL.social.instagram}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            School updates on Instagram ↗
-          </a>
+            <a href="tel:+919121059881" className="footer-contact-link">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.75"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+                className="footer-contact-icon"
+              >
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+              </svg>
+              <span>+91 91210 59881</span>
+            </a>
+            <a
+              href={"mailto:" + SCHOOL.contact.email}
+              className="footer-contact-link"
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.75"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+                className="footer-contact-icon"
+              >
+                <rect width="20" height="16" x="2" y="4" rx="2" />
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+              </svg>
+              <span>{SCHOOL.contact.email}</span>
+            </a>
+            <a
+              href={SCHOOL.contact.mapsUrl}
+              target="_blank"
+              rel="noopener"
+              className="footer-contact-link"
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.75"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+                className="footer-contact-icon"
+              >
+                <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+              <span>Directions to the school ↗</span>
+            </a>
+            <a
+              href={SCHOOL.social.instagram}
+              target="_blank"
+              rel="noopener"
+              className="footer-contact-link"
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.75"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+                className="footer-contact-icon"
+              >
+                <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+              </svg>
+              <span>School updates on Instagram ↗</span>
+            </a>
+          </div>
         </div>
       </div>
+
+      {/* Bottom Bar */}
       <div className="site-container footer-bottom">
         <span>© Rainbow DIGI School</span>
         <Link to="/privacy-policy">Privacy information</Link>
@@ -59,8 +163,18 @@ export default function SiteFooter() {
           href="https://my-work-umber.vercel.app/"
           target="_blank"
           rel="noopener noreferrer"
+          className="footer-attribution"
         >
-          Crafted by Garuda ↗
+          <img
+            src="/images/garuda-emblem.png"
+            alt="Garuda emblem"
+            width={32}
+            height={28}
+            className="footer-garuda-logo"
+            loading="lazy"
+            decoding="async"
+          />
+          <span>Crafted by Garuda ↗</span>
         </a>
       </div>
     </footer>
