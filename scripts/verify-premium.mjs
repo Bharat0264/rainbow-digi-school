@@ -158,9 +158,10 @@ assert.ok(
     .evaluate((e) => e.open),
 );
 await page.setViewportSize({ width: 1440, height: 900 });
-await page.locator('[data-nav-id="contact"]').click();
+await page.locator('[data-nav-id="contact"]').first().click();
+await page.locator('[data-nav-id="contact"][aria-current="page"]').first().waitFor();
 assert.equal(
-  await page.locator('[data-nav-id="contact"]').getAttribute("aria-current"),
+  await page.locator('[data-nav-id="contact"]').first().getAttribute("aria-current"),
   "page",
 );
 assert.deepEqual(errors, []);

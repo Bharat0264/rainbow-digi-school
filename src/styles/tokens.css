@@ -1,0 +1,107 @@
+/* ==========================================================================
+   RAINBOW DIGI SCHOOL — APPLE-GRADE LIQUID GLASS DESIGN SYSTEM TOKENS
+   Inspired by:
+   - Ref 1: Liquid glass UI kit (translucent frosted pills, soft toggles, glows)
+   - Ref 2: Vision Pro Bento Grid (curved cards, silk wave, orange gradient)
+   - Ref 3: Glossy gradient pill (specular highlight, double rim, amber glow)
+   ========================================================================== */
+
+:root {
+  /* --- Surfaces & Canvas --- */
+  --canvas: #fbf8f0;
+  --surface: #ffffff;
+  --surface-cream: #fffdf8;
+  
+  /* --- Liquid Glass Surfaces (Ref 1) --- */
+  --glass-bg: rgba(255, 255, 255, 0.62);
+  --glass-bg-subtle: rgba(255, 255, 255, 0.45);
+  --glass-bg-elevated: rgba(255, 255, 255, 0.75);
+  --glass-border: rgba(255, 255, 255, 0.85);
+  --glass-border-outer: rgba(215, 190, 155, 0.3);
+  --glass-blur: blur(24px) saturate(145%);
+  --glass-blur-subtle: blur(16px) saturate(130%);
+  --glass-fallback-bg: rgba(255, 255, 255, 0.94);
+  
+  /* --- Double-Rim Glass Shadows --- */
+  --glass-shadow: 
+    0 14px 34px -4px rgba(105, 75, 35, 0.07),
+    0 4px 12px -2px rgba(105, 75, 35, 0.03),
+    0 0 0 1px var(--glass-border-outer),
+    inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.95);
+
+  --glass-shadow-hover: 
+    0 20px 42px -6px rgba(105, 75, 35, 0.11),
+    0 6px 16px -2px rgba(105, 75, 35, 0.05),
+    0 0 0 1px rgba(255, 175, 60, 0.35),
+    inset 0 1.5px 1px 0 rgba(255, 255, 255, 1);
+
+  --card-matte-bg: rgba(255, 255, 255, 0.92);
+  --card-matte-shadow:
+    0 10px 28px -4px rgba(90, 60, 30, 0.05),
+    0 2px 8px -2px rgba(90, 60, 30, 0.02),
+    0 0 0 1px rgba(230, 215, 190, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+
+  /* --- Ref 2: Bento Hero Gradient Cards --- */
+  /* Warm Orange Gradient Card (Early Years) */
+  --card-orange-bg: linear-gradient(145deg, #fff3e2 0%, #ffdfb8 45%, #ffd096 100%);
+  --card-orange-border: rgba(255, 255, 255, 0.95);
+  --card-orange-shadow: 
+    0 16px 36px -6px rgba(235, 115, 35, 0.16),
+    0 0 0 1px rgba(245, 160, 70, 0.35),
+    inset 0 1.5px 1.5px rgba(255, 255, 255, 0.95);
+
+  /* Deep Green Silk-Wave Card (Primary Years) */
+  --card-green-bg: linear-gradient(150deg, #194635 0%, #123326 55%, #1c4a38 100%);
+  --card-green-border: rgba(255, 255, 255, 0.22);
+  --card-green-shadow: 
+    0 18px 40px -6px rgba(15, 45, 32, 0.28),
+    0 0 0 1px rgba(25, 75, 55, 0.4),
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.35);
+
+  /* --- Ref 3: Glossy Amber-Orange Pill (Primary Button) --- */
+  --btn-amber-start: #ffb438;
+  --btn-amber-mid: #ff9328;
+  --btn-amber-end: #ff6d24;
+  --btn-primary-bg: linear-gradient(135deg, var(--btn-amber-start) 0%, var(--btn-amber-mid) 48%, var(--btn-amber-end) 100%);
+  --btn-primary-glow: 
+    0 10px 24px -2px rgba(245, 115, 35, 0.42),
+    0 3px 8px -1px rgba(245, 115, 35, 0.25),
+    0 0 0 1px rgba(255, 155, 50, 0.4),
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.9);
+  --btn-primary-text: #2c1202; /* 8:1 contrast on amber */
+
+  /* --- Ref 1: Frosted Pastel Glass Button (Secondary) --- */
+  --btn-secondary-bg: rgba(255, 255, 255, 0.7);
+  --btn-secondary-border: rgba(255, 255, 255, 0.9);
+  --btn-secondary-shadow: 
+    0 6px 18px rgba(100, 70, 30, 0.06),
+    0 0 0 1px rgba(215, 195, 170, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.95);
+  --btn-secondary-text: #193848;
+
+  /* --- Text & High-Contrast Typography --- */
+  --ink: #172d3d;          /* Body text >= 7:1 contrast on cream/glass */
+  --ink-heading: #142836;  /* Headings */
+  --muted: #4e606b;        /* Secondary text >= 4.5:1 contrast */
+  --accent-green: #1f5540; /* Eyebrow text >= 5:1 contrast */
+  --accent-orange: #d95e1e;/* Warm accents */
+  --focus-ring: rgba(255, 150, 40, 0.45);
+
+  /* --- Border Radius --- */
+  --radius-card: 30px;
+  --radius-card-sm: 22px;
+  --radius-pill: 9999px;
+  --radius-badge: 999px;
+
+  /* --- Motion & Spring Easing --- */
+  --spring-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --spring-duration: 380ms;
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  :root {
+    --glass-bg: var(--glass-fallback-bg);
+    --glass-bg-subtle: #ffffff;
+  }
+}

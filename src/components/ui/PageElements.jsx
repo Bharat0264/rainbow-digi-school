@@ -5,59 +5,80 @@ import { ADMISSION_FAQ, SCHOOL } from "../../data/school";
 export function ArrowLink({ to, children, className = "" }) {
   return (
     <Link className={"text-link " + className} to={to}>
-      {children}
+      <span>{children}</span>
       <ArrowUpRight size={18} aria-hidden="true" />
     </Link>
   );
 }
+
 export function PageIntro({ eyebrow, title, children }) {
   return (
     <section className="page-intro">
       <div className="site-container">
-        <p className="eyebrow">{eyebrow}</p>
-        <h1>{title}</h1>
-        <div className="page-lead">{children}</div>
+        <div className="page-intro-card glass-card">
+          <span className="glass-specular" aria-hidden="true" />
+          <p className="eyebrow">
+            <span className="eyebrow-dot" /> {eyebrow}
+          </p>
+          <h1>{title}</h1>
+          {children && <div className="page-lead">{children}</div>}
+        </div>
       </div>
     </section>
   );
 }
+
 export function SectionHeading({ eyebrow, title, children }) {
   return (
     <div className="section-heading">
-      <p className="eyebrow">{eyebrow}</p>
+      {eyebrow && (
+        <p className="eyebrow">
+          <span className="eyebrow-dot" /> {eyebrow}
+        </p>
+      )}
       <h2>{title}</h2>
-      {children && <p>{children}</p>}
+      {children && <p className="section-description">{children}</p>}
     </div>
   );
 }
+
 export function AdmissionsInvite() {
   return (
     <section
-      className="admissions-invite site-container"
+      className="admissions-invite-section site-container"
       aria-labelledby="invite-title"
     >
-      <div>
-        <p className="eyebrow">A good beginning starts with a conversation</p>
-        <h2 id="invite-title">Let’s talk about your child’s next chapter.</h2>
-        <p>
-          Ask about classes, the learning approach, and what to consider before
-          applying.
-        </p>
+      <div className="admissions-invite glass-card glass-card--interactive">
+        <span className="glass-specular" aria-hidden="true" />
+        <div className="invite-copy">
+          <p className="eyebrow">
+            <span className="eyebrow-dot" /> A good beginning starts with a conversation
+          </p>
+          <h2 id="invite-title">Let’s talk about your child’s next chapter.</h2>
+          <p>
+            Ask about classes, the learning approach, and what to consider before
+            applying.
+          </p>
+        </div>
+        <div className="invite-action">
+          <Link className="button button-primary" to="/admissions#enquiry">
+            Enquire about admissions <ArrowRight size={18} aria-hidden="true" />
+          </Link>
+        </div>
       </div>
-      <Link className="button button-light" to="/admissions#enquiry">
-        Enquire about admissions <ArrowRight size={18} aria-hidden="true" />
-      </Link>
     </section>
   );
 }
+
 export function Faqs({ items = ADMISSION_FAQ }) {
   return (
     <div className="faq-list">
       {items.map((item) => (
-        <details key={item.q}>
+        <details key={item.q} className="glass-card">
+          <span className="glass-specular" aria-hidden="true" />
           <summary>
-            {item.q}
-            <span aria-hidden="true">+</span>
+            <span>{item.q}</span>
+            <span className="faq-toggle-btn" aria-hidden="true">+</span>
           </summary>
           <p>{item.a}</p>
         </details>
@@ -65,6 +86,7 @@ export function Faqs({ items = ADMISSION_FAQ }) {
     </div>
   );
 }
+
 export function CampusPhoto({
   priority = false,
   className = "",
