@@ -49,8 +49,8 @@ async function expectPath(path) {
   assert.equal(new URL(page.url()).pathname, path);
 }
 
-async function waitIdle() {
-  await page.waitForFunction(() => document.querySelector('.featured-squirrel').dataset.state === 'idle');
+async function waitInside() {
+  await page.waitForFunction(() => document.querySelector('.featured-squirrel').dataset.state === 'inside');
 }
 
 async function clippedScreenshot(filename, selectors) {
@@ -147,7 +147,7 @@ try {
         await page.locator(`.featured-signs [data-nav-id="${id}"]`).click();
       }
       await expectPath(path);
-      await waitIdle();
+      await waitInside();
       if (!mobile) {
         await page.waitForFunction(id => document.querySelector(`.featured-signs [data-nav-id="${id}"]`)?.getAttribute('aria-current') === 'page', id);
         assert.equal(await page.locator(`.featured-signs [data-nav-id="${id}"]`).getAttribute('aria-current'), 'page', `${width}: ${id} active navigation`);
@@ -198,13 +198,8 @@ try {
     }, 20);
   });
   await page.locator('.featured-signs [data-nav-id="contact"]').click();
-  await waitIdle();
-  const landing = await page.evaluate(() => {
-    const squirrel = document.querySelector('.featured-squirrel').getBoundingClientRect();
-    const board = document.querySelector('.featured-signs [data-nav-id="contact"]').getBoundingClientRect();
-    return Math.abs(squirrel.x + squirrel.width / 2 - board.x - board.width / 2);
-  });
-  assert.ok(landing < 2, `Squirrel stopped ${landing}px away from its board`);
+  await waitInside();
+  assert.equal(await page.locator('.featured-squirrel').getAttribute('data-target'), 'house', 'Navigation sends squirrel into birdhouse, never toward a board');
   const beforeMonkey = page.url();
   await page.locator('.featured-monkey').focus();
   await page.keyboard.press('Space');
@@ -216,16 +211,16 @@ try {
     clearInterval(window.navigationGaitSampler);
     return window.navigationGaitSamples;
   });
-  const frames = [...new Set(samples.filter(sample => ['walking', 'running'].includes(sample.state)).map(sample => sample.frame))];
+  const frames = [...new Set(samples.filter(sample => sample.state === 'approaching').map(sample => sample.frame))];
   assert.ok(frames.length >= 4, `Only ${frames.length} gait frames observed`);
-  assert.ok(samples.some(sample => sample.state === 'stopping'), 'Squirrel stopping animation');
+  assert.ok(samples.some(sample => sample.state === 'enteringHouse'), 'Squirrel entrance animation');
   const blankCanvas = await page.locator('.featured-squirrel').evaluate(canvas =>
     !canvas.getContext('2d').getImageData(0, 0, 128, 128).data.some((value, index) => index % 4 === 3 && value),
   );
   assert.equal(blankCanvas, true, 'Squirrel disappeared into birdhouse');
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.locator('.featured-signs [data-nav-id="home"]').click();
-  assert.equal(await page.locator('.featured-squirrel').getAttribute('data-state'), 'idle');
+  assert.equal(await page.locator('.featured-squirrel').getAttribute('data-state'), 'inside');
   await page.locator('.featured-monkey').click();
   assert.equal(await page.locator('.featured-squirrel').getAttribute('data-state'), 'inside');
   assert.deepEqual(errors, [], 'Browser runtime/console errors');
