@@ -8,6 +8,7 @@ export default function Admissions() {
       <PageIntro
         eyebrow="Nursery to Grade V · Admissions enquiries"
         title="The next chapter starts here."
+        image={SCHOOL.campusPhoto}
       >
         <p>
           Tell us which class you’re interested in. Ask about the learning

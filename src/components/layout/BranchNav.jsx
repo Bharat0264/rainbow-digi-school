@@ -9,11 +9,11 @@ const ITEMS = [{ path: '/', label: 'Home', id: 'home' }, ...NAV.left, ...NAV.rig
   .map(item => ({ ...item, id: item.id || item.label.toLowerCase().replace(/\s+/g, '-') }));
 // Traced bark surfaces in the new 2172 × 724 source. Leaves do not define the
 // contact surface: each loop crosses the bark's full visible thickness.
-const BRANCH = [[0,225,299],[.05,218,285],[.12,250,332],[.2,278,368],
-  [.27,300,401],[.34,310,385],[.4,285,381],[.43,297,372],[.5,295,354],
-  [.57,290,354],[.64,319,400],[.7,331,429],[.76,315,405],[.82,281,375],
-  [.9,258,341],[.96,222,303],[1,222,290]];
-const BRANCH_ART = '/images/navigation/branch-house-textured.png';
+const BRANCH = [[0,274,332],[.05,262,340],[.12,277,355],[.2,293,371],
+  [.27,300,379],[.34,303,384],[.4,306,388],[.43,310,391],[.5,312,392],
+  [.57,307,390],[.64,305,395],[.7,300,402],[.76,294,393],[.82,286,382],
+  [.9,270,365],[.96,240,340],[1,238,337]];
+const BRANCH_ART = '/images/navigation/branch-house-straight.webp';
 const RAINBOW_BACKDROP = '/images/navigation/rainbow-cloud-backdrop.webp';
 const HOUSE = { x: .474, y: .313, radius: .052, left: .416, top: .23, width: .166, height: .231 };
 const COMPACT_ART = '/images/navigation/branch-house-compact.png';
@@ -21,9 +21,9 @@ const COMPACT_BRANCH = [[0,430,500],[.15,430,520],[.3,460,540],[.5,455,550],[.7,
 const COMPACT_HOUSE = { x: .47, y: .332, radius: .044, left: .39, top: .255, width: .25, height: .17 };
 // Rope crowns follow the upper bark ridge, not the squirrel's slightly inset
 // walking contact line. Kept separate so attachment work cannot change its gait.
-const ROPE_RIDGE = [[0,205],[.05,210],[.12,235],[.2,264],[.27,288],[.34,298],
-  [.4,275],[.43,290],[.5,295],[.57,278],[.64,307],[.7,320],[.76,306],
-  [.82,272],[.9,248],[.96,210],[1,210]];
+const ROPE_RIDGE = [[0,258],[.05,253],[.12,268],[.2,282],[.27,288],[.34,292],
+  [.4,295],[.43,300],[.5,301],[.57,298],[.64,296],[.7,292],[.76,286],
+  [.82,278],[.9,262],[.96,233],[1,230]];
 function ropeTop(x, art) {
   if (art.compact) return branchY(x, art) - art.height * .012;
   const ratio = Math.max(0, Math.min(1, (x-art.x)/art.width));

@@ -11,10 +11,10 @@ export function ArrowLink({ to, children, className = "" }) {
   );
 }
 
-export function PageIntro({ eyebrow, title, children }) {
+export function PageIntro({ eyebrow, title, children, image }) {
   return (
     <section className="page-intro">
-      <div className="site-container">
+      <div className={"site-container" + (image ? " page-intro-layout" : "")}>
         <div className="page-intro-card clay-tile clay-cream">
           <p className="eyebrow">
             <span className="eyebrow-dot" /> {eyebrow}
@@ -22,6 +22,19 @@ export function PageIntro({ eyebrow, title, children }) {
           <h1>{title}</h1>
           {children && <div className="page-lead">{children}</div>}
         </div>
+        {image && (
+          <figure className="page-intro-photo clay-tile" aria-label={image.alt}>
+            <img
+              src={image.src}
+              width={image.width}
+              height={image.height}
+              alt={image.alt}
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
+            />
+          </figure>
+        )}
       </div>
     </section>
   );
