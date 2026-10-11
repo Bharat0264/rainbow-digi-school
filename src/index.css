@@ -773,6 +773,13 @@ main:focus {
   display: grid;
   grid-template-columns: 0.85fr 1.15fr;
   gap: 80px;
+  align-items: start;
+}
+.contact-grid .form-surface {
+  align-self: start;
+}
+.contact-grid .form-surface > p {
+  margin-bottom: 24px;
 }
 .contact-details > div {
   border-bottom: 1px solid var(--border);

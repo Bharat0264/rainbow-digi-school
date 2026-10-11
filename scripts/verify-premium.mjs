@@ -9,11 +9,10 @@ const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
 page.on("pageerror", (e) => errors.push(e.message));
 const paths = [
   "/",
-  "/about",
   "/academics",
   "/admissions",
   "/campus",
-  "/events",
+  "/school-life",
   "/contact",
   "/privacy-policy",
 ];

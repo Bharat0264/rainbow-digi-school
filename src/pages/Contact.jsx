@@ -51,12 +51,12 @@ export default function Contact() {
             </p>
           </div>
         </div>
-        <div className="form-surface">
+        <div className="form-surface" style={{ alignSelf: "start" }}>
           <SectionHeading
             eyebrow="Admissions"
             title="Looking for admissions?"
           />
-          <p className="mb-6">
+          <p style={{ marginBottom: "24px" }}>
             If you have questions about our Nursery to Grade V programmes, fees, availability, or the admissions process, please use our dedicated admissions enquiry form.
           </p>
           <Link to="/admissions#enquiry" className="button button-primary">
