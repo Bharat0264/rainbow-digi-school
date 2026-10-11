@@ -14,6 +14,7 @@ const BRANCH = [[0,225,299],[.05,218,285],[.12,250,332],[.2,278,368],
   [.57,290,354],[.64,319,400],[.7,331,429],[.76,315,405],[.82,281,375],
   [.9,258,341],[.96,222,303],[1,222,290]];
 const BRANCH_ART = '/images/navigation/branch-house-textured.png';
+const RAINBOW_BACKDROP = '/images/navigation/rainbow-cloud-backdrop.webp';
 const HOUSE = { x: .474, y: .313, radius: .052, left: .416, top: .23, width: .166, height: .231 };
 const COMPACT_ART = '/images/navigation/branch-house-compact.png';
 const COMPACT_BRANCH = [[0,430,500],[.15,430,520],[.3,460,540],[.5,455,550],[.7,450,535],[.85,420,510],[1,425,490]];
@@ -180,6 +181,7 @@ export default function BranchNav() {
   const art=geometry.art;
   const house=geometry.house || HOUSE;
   return <header className="bn-header featured-nav"><nav ref={navRef} className="featured-inner" aria-label="Main navigation">
+    <div className="featured-sky" aria-hidden="true"><img src={RAINBOW_BACKDROP} width="1536" height="1024" alt="" decoding="async" /></div>
     <div className="featured-canopy"><picture><source media="(max-width:1100px)" srcSet={COMPACT_ART} width="1536" height="1024"/><img ref={artRef} className="featured-branch" fetchPriority="high" src={BRANCH_ART} width="2172" height="724" alt="" aria-hidden="true" decoding="async" /></picture></div>
     <NavigationRopes ropes={geometry.ropes} />
     <canvas ref={canvasRef} className="featured-squirrel" width="128" height="128" aria-hidden="true" />

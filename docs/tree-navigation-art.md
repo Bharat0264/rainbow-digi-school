@@ -19,6 +19,10 @@ logo, wooden boards, original monkey, and squirrel sprite/animation are reused.
 - `rope-fibers.png`: 1024 x 1536 transparent hemp texture. Its central strip is
   sampled at consistent proportions inside measured SVG rope paths, replacing
   the smooth gradient/diagonal-stripe texture. No blur or sharpening filters.
+- `rainbow-cloud-backdrop.webp`: 1536 x 1024 transparent 3D-cartoon backdrop
+  with a seven-band rainbow and cloud clusters. It is rendered below the branch
+  and rear rope layer, so it cannot affect rope depth or interactive controls.
+  The source PNG is 1,307,944 bytes and the web-delivery WebP is 130,072 bytes.
 - `NavigationRopes.jsx`: measured bark-top/bark-bottom loops, twisted fibers,
   underside hitches and board fixings. Two ropes per visible board, including
   the central logo. Rear loops, front ropes and board knots use separate layers.
@@ -60,6 +64,10 @@ Final edge refinement (input: generated branch PNG):
   was submitted; backend, database and environment files were not modified.
 
 ## Compact refinement prompts (built-in image tool)
+
+Rainbow and cloud backdrop:
+
+> Use case: stylized-concept. Asset type: transparent decorative backdrop for an existing interactive children's school navigation. Create ONLY a large smooth rainbow arch and soft white cloud clusters, no branch, no birdhouse, no ropes, no signs, no text, no characters. Warm polished 3D cartoon illustration matching a premium woodland school website. Wide composition on a 3:2 transparent canvas: rainbow center at x50%, begins near x13% y60%, arches to y5% at center, ends near x87% y60%. Seven clean, distinct, evenly spaced curved bands in red, orange, yellow, green, cyan, blue and violet; gentle soft edge glow but crisp readable band boundaries. Puffy white clouds with subtle blue-gray undersides at both ends of the arch near x14% and x86%, y52%; modest size, do not hide the rainbow. Keep bottom 35% empty transparent so real HTML content can layer there. Actual transparent RGBA background, no cream rectangle, no branch, no leafy foliage, no logo.
 
 Mascot edit, input `monkey-featured.webp`:
 
