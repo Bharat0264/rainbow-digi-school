@@ -1,19 +1,69 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
-  <!-- Soft Sun / Sparkle -->
-  <circle cx="78" cy="26" r="8" fill="#FFD84D" />
-  
-  <!-- Outer Pastel Lilac Arc -->
-  <path d="M 12 76 A 38 38 0 0 1 88 76" stroke="#E2D4F0" stroke-width="7" stroke-linecap="round" />
-  
-  <!-- Pastel Sky Arc -->
-  <path d="M 20 76 A 30 30 0 0 1 80 76" stroke="#B5D8EB" stroke-width="7" stroke-linecap="round" />
-  
-  <!-- Pastel Mint Arc -->
-  <path d="M 28 76 A 22 22 0 0 1 72 76" stroke="#B5EAD7" stroke-width="7" stroke-linecap="round" />
-  
-  <!-- Pastel Peach Arc -->
-  <path d="M 36 76 A 14 14 0 0 1 64 76" stroke="#FFB7A5" stroke-width="7" stroke-linecap="round" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <filter id="clayShadowMark" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="2" stdDeviation="1.5" flood-color="#4A2A12" flood-opacity="0.18" />
+    </filter>
+    <linearGradient id="rGradMark" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FF3838" />
+      <stop offset="100%" stop-color="#C91818" />
+    </linearGradient>
+    <linearGradient id="bgGradMark" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFDF7" />
+      <stop offset="100%" stop-color="#F5ECE0" />
+    </linearGradient>
+  </defs>
 
-  <!-- Sunshine Center Sparkle -->
-  <circle cx="50" cy="74" r="4.5" fill="#F5B700" />
+  <!-- Leather Patch Tile with Clay Shadow -->
+  <rect x="2" y="2" width="60" height="60" rx="15" fill="url(#bgGradMark)" stroke="#D6BE9F" stroke-width="1.2" filter="url(#clayShadowMark)" />
+
+  <!-- Perimeter Running Stitch -->
+  <rect x="5.5" y="5.5" width="53" height="53" rx="12" fill="none" stroke="#9E7852" stroke-width="1.1" stroke-dasharray="2.8 1.8" />
+
+  <!-- 5 Peacock Rainbow Plume Feathers (Blue, Green, Yellow, Orange, Red) -->
+  <g transform="translate(1, -1)">
+    <!-- Feather 1: Blue -->
+    <path d="M 43 27 C 41 21 40 14 43 9 C 45 14 46 21 44 27 Z" fill="#1D4ED8" stroke="#D6BE9F" stroke-width="0.6" />
+    <path d="M 43 11 C 43.8 14 44 19 43.5 24" stroke="#93C5FD" stroke-width="0.6" fill="none" />
+    
+    <!-- Feather 2: Green -->
+    <path d="M 46 28 C 47 22 48 15 52 11 C 52 16 51 23 48 28 Z" fill="#15803D" stroke="#D6BE9F" stroke-width="0.6" />
+    <path d="M 50 13 C 49.5 16 48.5 21 47.5 25" stroke="#86EFAC" stroke-width="0.6" fill="none" />
+    
+    <!-- Feather 3: Yellow -->
+    <path d="M 48 30 C 51 25 56 19 60 17 C 58 22 55 27 50 31 Z" fill="#EAB308" stroke="#D6BE9F" stroke-width="0.6" />
+    <path d="M 57 19 C 55 23 52.5 27 49.5 29.5" stroke="#FEF08A" stroke-width="0.6" fill="none" />
+
+    <!-- Feather 4: Orange -->
+    <path d="M 49 33 C 54 30 60 27 63 26 C 60 30 55 34 50 35 Z" fill="#EA580C" stroke="#D6BE9F" stroke-width="0.6" />
+    
+    <!-- Feather 5: Red -->
+    <path d="M 48 36 C 53 35 59 34 62 35 C 58 38 53 39 48 38 Z" fill="#DC2626" stroke="#D6BE9F" stroke-width="0.6" />
+  </g>
+
+  <!-- 3D Embroidered Letter "R" -->
+  <g transform="translate(1, 1)">
+    <!-- Dark Under-shadow -->
+    <path d="M 13 47 L 13 19 C 13 14 18 11 25 11 C 33 11 37 15 37 21 C 37 26 33 29 28 30 C 33 32 36 38 38 47 L 31 47 C 29 40 27 34 22 34 L 19 34 L 19 47 Z" fill="#7F1010" />
+    
+    <!-- Main Leather Body -->
+    <path d="M 12 46 L 12 18 C 12 13 17 10 24 10 C 32 10 36 14 36 20 C 36 25 32 28 27 29 C 32 31 35 37 37 46 L 30 46 C 28 39 26 33 21 33 L 18 33 L 18 46 Z" fill="url(#rGradMark)" stroke="#B91C1C" stroke-width="0.8" />
+    
+    <!-- R Counter Hole -->
+    <path d="M 18 16 L 23 16 C 27 16 30 18 30 21 C 30 24 27 26 23 26 L 18 26 Z" fill="#FFFDF7" stroke="#7F1010" stroke-width="0.8" />
+    
+    <!-- Leather Highlight Bevel -->
+    <path d="M 13.5 18 C 13.5 14 17 11.5 23.5 11.5 C 29 11.5 33 13.5 34.5 18" stroke="#FFA4A4" stroke-width="1.1" stroke-linecap="round" fill="none" />
+    
+    <!-- Stitches along R stem and loop -->
+    <path d="M 15 20 L 15 44" stroke="#FEF08A" stroke-width="0.9" stroke-dasharray="2 1.4" fill="none" />
+    <path d="M 16 13.5 C 20 13 26 13 32 17 C 34 20 33 24 29 26.5" stroke="#FEF08A" stroke-width="0.9" stroke-dasharray="2 1.4" fill="none" />
+    <path d="M 23 35 C 27 36 30 40 33 44" stroke="#FEF08A" stroke-width="0.9" stroke-dasharray="2 1.4" fill="none" />
+  </g>
+
+  <!-- Stitched Blue DIGI Ribbon at base -->
+  <g transform="translate(0, 1)">
+    <path d="M 10 49 Q 32 46 54 49 L 52 56 Q 32 53 12 56 Z" fill="#1D4ED8" stroke="#1E3A8A" stroke-width="0.7" />
+    <path d="M 12 51 Q 32 48 52 51" stroke="#FEF08A" stroke-width="0.6" stroke-dasharray="1.8 1.2" fill="none" />
+    <path d="M 13 54.5 Q 32 51.5 51 54.5" stroke="#FEF08A" stroke-width="0.6" stroke-dasharray="1.8 1.2" fill="none" />
+  </g>
 </svg>

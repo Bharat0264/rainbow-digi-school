@@ -539,9 +539,12 @@ details[open] .faq-toggle-btn {
   padding-bottom: 52px;
 }
 
-.footer-brand svg {
-  max-width: 220px;
+.footer-brand svg,
+.footer-brand picture,
+.footer-brand img {
+  max-width: 200px;
   height: auto;
+  display: block;
 }
 
 .footer-brand p {
