@@ -1,63 +1,66 @@
 import { SCHOOL } from "./school.js";
 
 export const SITE_URL = "https://rainbow-digi-school.vercel.app";
+
 export const SEO_ROUTES = {
   "/": {
-    title: "Rainbow Digi School, Kandlakoya | Nursery to Grade V",
+    title: "Rainbow Digi School | Preschool & Primary in Kandlakoya",
     description:
-      "Explore Rainbow Digi School in Kandlakoya, Hyderabad, for early-years and primary education. Discover learning programmes, campus information, and admission enquiries.",
+      "Discover Rainbow Digi School in Kandlakoya, Hyderabad. Welcoming Nursery to Grade V students with a balanced approach to early play, foundational literacy, and conceptual learning.",
     label: "Home",
   },
   "/academics": {
-    title: "Nursery & Primary Learning | Rainbow Digi School",
+    title: "Curriculum & Learning | Rainbow Digi School Kandlakoya",
     description:
-      "Explore Nursery, LKG, UKG and Grades I-V at Rainbow Digi School, Kandlakoya. Learn about our advertised curriculum and questions to discuss with the school.",
+      "Explore the Nursery to Grade V curriculum at Rainbow Digi School. Learn how we teach phonics, early numeracy, language expression, and primary mathematics in Kandlakoya.",
     label: "Academics",
   },
   "/admissions": {
-    title: "Admissions Enquiries | Rainbow Digi School, Kandlakoya",
+    title: "Admissions 2026–2027 | Rainbow Digi School Kandlakoya",
     description:
-      "Explore the admissions enquiry journey for Nursery to Grade V at Rainbow Digi School in Kandlakoya. Ask about availability, fees and a school visit.",
+      "Enrol your child at Rainbow Digi School in Kandlakoya. Review our 5-step admissions process, age criteria, document checklist, and submit your admission enquiry today.",
     label: "Admissions",
   },
   "/campus": {
-    title: "Explore the Campus | Rainbow Digi School",
+    title: "Our Campus & Visit Guide | Rainbow Digi School Kandlakoya",
     description:
-      "Plan what to look for during a Rainbow Digi School campus visit in Kandlakoya. Explore learning spaces and ask the school about current facilities.",
+      "Explore the campus of Rainbow Digi School in Padmashree Enclave, Kandlakoya. Find location directions, classroom features, and guidelines for scheduling a parent visit.",
     label: "Campus",
   },
   "/school-life": {
-    title: "School Life & Activities | Rainbow Digi School",
+    title: "School Life & Activities | Rainbow Digi School Kandlakoya",
     description:
-      "Explore the activity and celebration themes shared by Rainbow Digi School, Kandlakoya, and discover questions to ask about school life.",
+      "Experience student life at Rainbow Digi School. Explore daily routines, national celebrations, festive events, creative arts, and community moments in Kandlakoya.",
     label: "School Life",
   },
   "/contact": {
-    title: "Contact & Enquiries | Rainbow Digi School, Kandlakoya",
+    title: "Contact Admissions & School Desk | Rainbow Digi School",
     description:
-      "Find Rainbow Digi School in Kandlakoya, Hyderabad. Explore contact information and prepare your questions about Nursery to Grade V admissions.",
+      "Connect with Rainbow Digi School in Kandlakoya, Hyderabad. Access verified phone numbers, email, physical address, and directions for admissions and enquiries.",
     label: "Contact",
   },
   "/privacy-policy": {
-    title: "Website Privacy Information | Rainbow Digi School",
+    title: "Privacy Policy & Enquiry Notice | Rainbow Digi School",
     description:
-      "Read how this Rainbow Digi School website handles enquiries, browser requests and privacy, including information still awaiting school confirmation.",
+      "Learn how Rainbow Digi School protects parent and enquiry information, our data handling standards, hosting infrastructure, and privacy commitments.",
     label: "Privacy",
   },
 };
+
 export function pageSeo(pathname) {
   const path = pathname === "/" ? "/" : pathname.replace(/\/+$/, "");
   return {
     path,
     ...(SEO_ROUTES[path] || {
-      title: "Page not found | Rainbow Digi School",
+      title: "Page Not Found | Rainbow Digi School",
       description:
-        "This page could not be found. Return to Rainbow Digi School or explore admissions and learning.",
+        "The requested page could not be found. Return to Rainbow Digi School home or explore our academic programmes and admissions in Kandlakoya.",
       label: "Page not found",
       noindex: true,
     }),
   };
 }
+
 export function structuredData(pathname) {
   const page = pageSeo(pathname);
   if (page.noindex) return null;
@@ -66,16 +69,22 @@ export function structuredData(pathname) {
     {
       "@type": "School",
       "@id": schoolId,
-      name: "Rainbow Digi School",
+      name: SCHOOL.name,
       url: `${SITE_URL}/`,
-      slogan: "Excellence Begins Early",
-      description: "Nursery to Grade V school in Kandlakoya, Hyderabad.",
+      slogan: SCHOOL.tagline,
+      description:
+        "Nursery to Grade V preschool and primary school in Kandlakoya, Hyderabad offering early childhood and primary education.",
+      image: `${SITE_URL}${SCHOOL.campusPhoto.src}`,
+      logo: `${SITE_URL}/images/rainbow-logo-embroidered.webp`,
       address: {
         "@type": "PostalAddress",
+        streetAddress: SCHOOL.contact.address,
         addressLocality: "Kandlakoya, Hyderabad",
         addressRegion: "Telangana",
+        postalCode: "501401",
         addressCountry: "IN",
       },
+      sameAs: [SCHOOL.social.instagram],
     },
     {
       "@type": "WebSite",
@@ -95,18 +104,17 @@ export function structuredData(pathname) {
       inLanguage: "en-IN",
     },
   ];
-  graph[0].name = SCHOOL.name;
-  graph[0].slogan = SCHOOL.tagline;
+
   if (SCHOOL.contact?.verified) {
     graph[0].telephone = SCHOOL.contact.phones.map((phone) =>
       phone.href.replace("tel:", ""),
     );
     graph[0].email = SCHOOL.contact.email;
-    graph[0].address.streetAddress = SCHOOL.contact.address;
-    graph[0].address.postalCode = "501401";
   }
+
   return { "@context": "https://schema.org", "@graph": graph };
 }
+
 export function socialMeta(page) {
   return {
     type: "website",
@@ -122,6 +130,7 @@ export function socialMeta(page) {
     locale: "en_IN",
   };
 }
+
 export function twitterMeta(page) {
   return {
     card: "summary_large_image",

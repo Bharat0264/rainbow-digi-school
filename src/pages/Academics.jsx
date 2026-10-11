@@ -1,147 +1,190 @@
-import { ACADEMICS, FEATURES, SCHOOL } from "../data/school";
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
+import {
+  ACADEMIC_PROGRAMMES,
+  LEARNING_METHODOLOGY,
+  PARENT_CURRICULUM_QUESTIONS,
+  SCHOOL,
+} from "../data/school";
 import {
   PageIntro,
-  AdmissionsInvite,
   SectionHeading,
   ArrowLink,
 } from "../components/ui/PageElements";
-import { LineBook, LineSprout } from "../components/ui/ClayIcons";
 
 export default function Academics() {
+  const { earlyYears, primaryYears } = ACADEMIC_PROGRAMMES;
+
   return (
     <>
       <PageIntro
-        eyebrow="Curriculum & learning"
-        title="Foundations for a curious mind."
+        eyebrow="Curriculum & Learning"
+        title="Foundations for Curious Minds."
       >
         <p>
-          Explore the early-years and primary programme, from Nursery to Grade
-          V, and the questions to bring to your admissions conversation.
+          At Rainbow Digi School, we nurture a lifelong love for learning. Explore
+          our educational approach across the early childhood and primary years,
+          from Nursery through Grade V.
         </p>
       </PageIntro>
 
-      {/* Curriculum Bento Grid */}
+      {/* Curriculum Framework Bento */}
       <section id="curriculum" className="section site-container intro-grid">
         <div className="clay-tile clay-cream">
           <SectionHeading
-            eyebrow="The curriculum"
-            title="Start with a clear understanding."
-          />
+            eyebrow="Curriculum framework"
+            title="A structured, child-centred approach."
+          >
+            A clear understanding of how our classroom learning is planned and
+            delivered.
+          </SectionHeading>
         </div>
         <div className="editorial-copy clay-tile clay-mint">
           <p>
-            Rainbow Digi School advertises a CBSE curriculum for its
-            Nursery-to-Grade-V offering. For the programme followed in each
-            class, textbooks, assessment, and formal affiliation details, ask
-            the school directly.
+            Rainbow Digi School delivers a curriculum aligned with CBSE learning
+            standards, designed to build strong foundations in literacy,
+            mathematics, environmental inquiry, and bilingual communication.
           </p>
-          <div className="information-note clay-tile clay-cream" style={{ marginBlock: "18px" }}>
+          <div
+            className="information-note clay-tile clay-cream"
+            style={{ marginBlock: "18px" }}
+          >
             <p>{SCHOOL.curriculumNote}</p>
           </div>
           <ArrowLink to="/admissions#enquiry">
-            Ask a curriculum question
+            Discuss syllabus details with our team
           </ArrowLink>
         </div>
       </section>
 
-      {/* Stages: Ref 2 Butter-Yellow + Ref 1 Slate-Green */}
-      <section className="section site-container stage-grid academic-stages">
-        {ACADEMICS.map((stage, i) => {
-          const isSlate = stage.id === "primary";
-          return (
-            <article
-              id={stage.id}
-              className={`stage-panel stage-${stage.id} clay-tile ${
-                isSlate ? "clay-slate" : "clay-yellow"
-              } clay-shape-capsule clay-interactive`}
-              key={stage.id}
-            >
-              <div className="stage-top-bar">
-                <span className="stage-number">0{i + 1}</span>
-                {isSlate ? (
-                  <LineBook size={28} color="#FFFFFF" strokeWidth={1.5} />
-                ) : (
-                  <LineSprout size={28} color="#342407" strokeWidth={1.5} />
-                )}
-              </div>
-              <p className="eyebrow">{stage.grades}</p>
-              <h2>{stage.stage}</h2>
-              <p>{stage.description}</p>
-              <h3 className="small-heading">Topics to explore with the school</h3>
-              <ul className="check-list">
-                {stage.highlights.map((item) => (
-                  <li key={item}>
-                    <span className="check-bullet" aria-hidden="true">✓</span>
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-              <div className="stage-action">
-                <ArrowLink to="/admissions#enquiry">
-                  Enquire about this stage
-                </ArrowLink>
-              </div>
-            </article>
-          );
-        })}
-      </section>
-
-      {/* Enrichment Features Bento Grid */}
-      <section id="enrichment" className="section site-container">
-        <SectionHeading
-          eyebrow="Beyond core learning"
-          title="Learn more about the programme."
-        >
-          These themes feature in the school’s promotional information. Ask
-          about availability, activities, and suitability for your child’s age.
-        </SectionHeading>
-        <div className="feature-grid">
-          {FEATURES.map((feature, i) => {
-            const colors = ["clay-pink", "clay-mint", "clay-yellow"];
-            const color = colors[i % colors.length];
+      {/* Stage 1: Early Childhood Education (Nursery, LKG, UKG) */}
+      <section id="early-years" className="section site-container">
+        <div className="section-row">
+          <SectionHeading
+            eyebrow="Stage 1: Early childhood"
+            title="Nursery, LKG & UKG: Joyful Beginnings."
+          >
+            {earlyYears.overview}
+          </SectionHeading>
+        </div>
+        <div className="feature-grid" style={{ marginTop: "24px" }}>
+          {earlyYears.pillars.map((pillar, idx) => {
+            const colors = ["clay-yellow", "clay-pink", "clay-mint", "clay-peach"];
+            const color = colors[idx % colors.length];
             return (
               <article
-                key={feature.title}
+                key={pillar.title}
                 className={`feature-card clay-tile ${color} clay-interactive`}
               >
                 <div className="feature-card-header">
-                  <span className="feature-index">0{i + 1}</span>
-                  <h3>{feature.title}</h3>
+                  <span className="feature-index">0{idx + 1}</span>
+                  <h3>{pillar.title}</h3>
                 </div>
-                <p>{feature.desc}</p>
-                <p className="question-prompt">Ask: {feature.question}</p>
+                <p>{pillar.desc}</p>
               </article>
             );
           })}
         </div>
       </section>
 
-      {/* Technology with Context */}
+      {/* Stage 2: Primary Years Programme (Grades I to V) */}
+      <section id="primary-years" className="section site-container">
+        <div className="section-row">
+          <SectionHeading
+            eyebrow="Stage 2: Primary education"
+            title="Grades I to V: Conceptual Mastery."
+          >
+            {primaryYears.overview}
+          </SectionHeading>
+        </div>
+        <div className="feature-grid" style={{ marginTop: "24px" }}>
+          {primaryYears.pillars.map((pillar, idx) => {
+            const colors = ["clay-slate", "clay-mint", "clay-yellow", "clay-pink"];
+            const color = colors[idx % colors.length];
+            const isSlate = color === "clay-slate";
+            return (
+              <article
+                key={pillar.title}
+                className={`feature-card clay-tile ${color} clay-interactive`}
+              >
+                <div className="feature-card-header">
+                  <span className="feature-index" style={{ color: isSlate ? "#FFFFFF" : undefined }}>
+                    0{idx + 1}
+                  </span>
+                  <h3 style={{ color: isSlate ? "#FFFFFF" : undefined }}>
+                    {pillar.title}
+                  </h3>
+                </div>
+                <p style={{ color: isSlate ? "#E8F0EE" : undefined }}>
+                  {pillar.desc}
+                </p>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* Teaching Methodology Section */}
+      <section className="section site-container">
+        <SectionHeading
+          eyebrow="Classroom pedagogy"
+          title="How learning happens every day."
+        >
+          We replace rote memorisation with active discovery, guided
+          exploration, and meaningful teacher-student discussions.
+        </SectionHeading>
+        <div className="feature-grid" style={{ marginTop: "28px" }}>
+          {LEARNING_METHODOLOGY.map((method, idx) => {
+            const colors = ["clay-pink", "clay-yellow", "clay-mint"];
+            const color = colors[idx % colors.length];
+            return (
+              <article
+                key={method.title}
+                className={`feature-card clay-tile ${color} clay-interactive`}
+              >
+                <div className="feature-card-header">
+                  <span className="feature-index">0{idx + 1}</span>
+                  <h3>{method.title}</h3>
+                </div>
+                <p>{method.desc}</p>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* Parent Curriculum Discussion Guide */}
       <section className="section site-container community-band-section">
         <div className="community-band clay-tile clay-cream clay-shape-blob">
           <div className="intro-grid">
             <SectionHeading
-              eyebrow="Technology with context"
-              title="The right questions about digital learning."
-            />
+              eyebrow="For thoughtful families"
+              title="Helpful questions to ask about our curriculum."
+            >
+              When you speak with our academic team, these practical questions can
+              help you understand how our teaching aligns with your child’s needs.
+            </SectionHeading>
             <div className="editorial-copy">
-              <p>
-                Digital tools are only one part of a child’s education. Before
-                choosing a programme, ask about screen time, teacher involvement,
-                age-appropriate content, and how children’s information is
-                protected.
-              </p>
-              <p>
-                The school can explain how its advertised AI-powered learning is
-                used in practice. We do not publish unconfirmed claims about
-                devices, tools, or independent access for children.
-              </p>
+              <ul className="check-list" style={{ marginBottom: "28px" }}>
+                {PARENT_CURRICULUM_QUESTIONS.map((question) => (
+                  <li key={question}>
+                    <span className="check-bullet" aria-hidden="true">✓</span>
+                    <span>{question}</span>
+                  </li>
+                ))}
+              </ul>
+              <Link
+                to="/admissions#enquiry"
+                className="button button-primary clay-btn-yellow"
+                style={{ display: "inline-flex" }}
+              >
+                <span>Ask about admissions for your child</span>
+                <ArrowRight size={18} aria-hidden="true" />
+              </Link>
             </div>
           </div>
         </div>
       </section>
-
-      <AdmissionsInvite />
     </>
   );
 }

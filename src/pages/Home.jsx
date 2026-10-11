@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, MapPin, MessageCircle } from "lucide-react";
-import { ACADEMICS, FEATURES, SCHOOL } from "../data/school";
+import { HOME_STAGES, HOME_PILLARS, HOME_FAQS, SCHOOL } from "../data/school";
 import {
   AdmissionsInvite,
   ArrowLink,
@@ -28,15 +28,19 @@ export default function Home() {
             <em>Big discoveries.</em>
           </h1>
           <p className="hero-description">
-            A new chapter starts with curiosity. Explore Rainbow Digi School in
-            Kandlakoya, Hyderabad, for your child’s early and primary years.
+            A welcoming preschool and primary school in Kandlakoya, Hyderabad.
+            We nurture young children from Nursery through Grade V with warmth,
+            curiosity, and strong foundational learning.
           </p>
           <div className="button-row">
-            <Link className="button button-primary clay-btn-yellow" to="/admissions#enquiry">
+            <Link
+              className="button button-primary clay-btn-yellow"
+              to="/admissions#enquiry"
+            >
               <span>Enquire about admissions</span>
               <ArrowRight size={18} aria-hidden="true" />
             </Link>
-            <ArrowLink to="/academics">Explore learning</ArrowLink>
+            <ArrowLink to="/academics">Explore our curriculum</ArrowLink>
           </div>
           <div className="hero-footnote">
             <span className="small-rainbow" aria-hidden="true" />{" "}
@@ -58,7 +62,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Highlights Strip: Raised Alternating Pastel Pills (Ref 2) */}
+      {/* Highlights Strip: Raised Alternating Pastel Pills */}
       <div
         className="school-facts site-container"
         aria-label="School at a glance"
@@ -99,38 +103,39 @@ export default function Home() {
             eyebrow="A school, and a starting point"
             title="Room for curiosity. Space to grow."
           >
-            Choosing a school is about more than the next class. It’s about
-            finding the right beginning for your child.
+            Choosing a school is about finding the right first environment. At
+            Rainbow Digi School, we believe that education should spark joy,
+            encourage questions, and build natural confidence.
           </SectionHeading>
         </div>
         <div className="editorial-copy clay-tile clay-yellow">
           <p>
-            Rainbow Digi School’s early-years and primary programme brings
-            together the themes of foundational learning, communication, and
-            exploration.
+            Located inside Padmashree Enclave in Kandlakoya, our campus provides a
+            peaceful, community-centered environment where young learners can focus
+            on building strong foundations.
           </p>
           <p>
-            Start with what matters to your family: the daily rhythm, the
-            learning approach, and the people your child will learn with. We’ve
-            brought the key information and questions together to help.
+            From your child’s very first school day through the primary years, we
+            work alongside families to support emotional comfort, social
+            readiness, and cognitive development.
           </p>
-          <ArrowLink to="/school-life">Get to know school life</ArrowLink>
+          <ArrowLink to="/campus">Discover our campus setting</ArrowLink>
         </div>
       </section>
 
-      {/* Two-Stage Cards: Ref 2 Butter Yellow + Ref 1 Slate Green Embossed Card */}
+      {/* Two-Stage Educational Journey Cards */}
       <section className="section learning-section">
         <div className="site-container">
           <div className="section-row">
             <SectionHeading
-              eyebrow="Two stages. Many possibilities."
-              title="A beginning for every learning stage."
+              eyebrow="Educational programmes"
+              title="A clear path from early play to primary learning."
             />
-            <ArrowLink to="/academics">Curriculum & learning</ArrowLink>
+            <ArrowLink to="/academics">Detailed curriculum</ArrowLink>
           </div>
           <div className="stage-grid">
-            {ACADEMICS.map((stage, i) => {
-              const isSlate = stage.id === "primary";
+            {HOME_STAGES.map((stage) => {
+              const isSlate = stage.id === "primary-years";
               return (
                 <article
                   className={`stage-panel stage-${stage.id} clay-tile ${
@@ -139,7 +144,7 @@ export default function Home() {
                   key={stage.id}
                 >
                   <div className="stage-top-bar">
-                    <span className="stage-number">0{i + 1}</span>
+                    <span className="stage-number">{stage.number}</span>
                     {isSlate ? (
                       <LineBook size={28} color="#FFFFFF" strokeWidth={1.5} />
                     ) : (
@@ -150,8 +155,8 @@ export default function Home() {
                   <h3>{stage.stage}</h3>
                   <p>{stage.description}</p>
                   <div className="stage-action">
-                    <ArrowLink to={"/academics#" + stage.id}>
-                      Explore {stage.stage.toLowerCase()}
+                    <ArrowLink to={stage.link}>
+                      {stage.linkText}
                     </ArrowLink>
                   </div>
                 </article>
@@ -159,40 +164,40 @@ export default function Home() {
             })}
           </div>
           <p className="section-note">
-            CBSE curriculum, as advertised by the school.{" "}
+            Advertised CBSE-aligned curriculum.{" "}
             <Link to="/academics#curriculum">
-              Read about curriculum information.
+              Read our full curriculum overview.
             </Link>
           </p>
         </div>
       </section>
 
-      {/* Questions Worth Exploring Bento Grid (Alternating Pastel Tiles) */}
+      {/* The School Experience Pillars (Distinct from Academics) */}
       <section className="section site-container">
         <SectionHeading
-          eyebrow="Questions worth exploring"
-          title="Beyond the textbook."
+          eyebrow="The Rainbow approach"
+          title="What families value most about our school."
         >
-          Get to know the themes in the school’s programme, then ask how they
-          work for your child’s class.
+          Key principles that guide our daily interactions, classroom
+          atmosphere, and partnership with parents.
         </SectionHeading>
         <div className="feature-grid">
-          {FEATURES.map((feature, i) => {
+          {HOME_PILLARS.map((pillar, i) => {
             const colors = ["clay-mint", "clay-pink", "clay-yellow"];
             const color = colors[i % colors.length];
             return (
               <article
-                key={feature.title}
+                key={pillar.title}
                 className={`feature-card clay-tile ${color} clay-interactive`}
               >
                 <div className="feature-card-header">
                   <span className="feature-index">0{i + 1}</span>
-                  <h3>{feature.title}</h3>
+                  <h3>{pillar.title}</h3>
                 </div>
-                <p>{feature.desc}</p>
+                <p>{pillar.desc}</p>
                 <div className="feature-card-link">
-                  <ArrowLink to="/academics#enrichment">
-                    What to ask the school
+                  <ArrowLink to="/school-life">
+                    See school life in action
                   </ArrowLink>
                 </div>
               </article>
@@ -216,34 +221,44 @@ export default function Home() {
               </h2>
             </div>
             <div className="editorial-copy">
-              <div className="community-icon clay-tile clay-yellow clay-shape-pill" style={{ display: "inline-flex", padding: "12px", marginBottom: "16px" }}>
-                <MessageCircle size={28} strokeWidth={1.5} color="#342407" aria-hidden="true" />
+              <div
+                className="community-icon clay-tile clay-yellow clay-shape-pill"
+                style={{ display: "inline-flex", padding: "12px", marginBottom: "16px" }}
+              >
+                <MessageCircle
+                  size={28}
+                  strokeWidth={1.5}
+                  color="#342407"
+                  aria-hidden="true"
+                />
               </div>
               <p>
-                School celebrations, creative activities, and classroom
-                participation feature in Rainbow’s community updates. Discover the
-                stories shared by the school.
+                From morning assemblies and festive celebrations to sports days
+                and student art displays, discover how our children learn,
+                collaborate, and celebrate together every week.
               </p>
-              <ArrowLink to="/school-life">Explore school life</ArrowLink>
+              <ArrowLink to="/school-life">Explore school life & activities</ArrowLink>
             </div>
           </div>
         </div>
       </section>
 
-      {/* FAQ Bento Grid */}
+      {/* Home-Specific FAQ Bento Grid */}
       <section className="section site-container faq-grid">
         <div className="clay-tile clay-cream faq-header-card">
           <SectionHeading
-            eyebrow="For thoughtful decisions"
-            title="Your questions, a clearer starting point."
-          />
+            eyebrow="School overview"
+            title="Common questions from prospective parents."
+          >
+            Essential answers about our school location, curriculum, and classes.
+          </SectionHeading>
         </div>
         <div>
-          <Faqs />
+          <Faqs items={HOME_FAQS} />
         </div>
       </section>
 
-      {/* Compact Admissions CTA */}
+      {/* Admissions Invite CTA */}
       <AdmissionsInvite />
     </>
   );

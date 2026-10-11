@@ -1,28 +1,30 @@
 import { useRef } from "react";
-import { X, Expand, ArrowUpRight } from "lucide-react";
-import { SCHOOL } from "../data/school";
+import { Link } from "react-router-dom";
+import { X, Expand, ArrowUpRight, ArrowRight } from "lucide-react";
+import { CAMPUS_DETAILS, SCHOOL } from "../data/school";
 import {
   PageIntro,
-  AdmissionsInvite,
   SectionHeading,
   CampusPhoto,
 } from "../components/ui/PageElements";
 
 export default function CampusGallery() {
   const dialog = useRef(null);
+
   return (
     <>
       <PageIntro
-        eyebrow="Our campus · Kandlakoya"
-        title="Come with curiosity. Leave with clarity."
+        eyebrow="Our Campus in Kandlakoya"
+        title="A Thoughtful Setting for Learning."
       >
         <p>
-          A look at our school’s exterior, and a guide to the questions you can
-          explore when speaking with the school about a visit.
+          Located in a quiet residential enclave in Kandlakoya, Hyderabad, our
+          school offers young learners a calm, secure, and inspiring environment
+          away from busy city noise.
         </p>
       </PageIntro>
 
-      {/* Campus Photo Story Bento */}
+      {/* Campus Photo & Environment Bento */}
       <section className="section site-container photo-story">
         <div className="photo-story-image-card clay-tile clay-mint">
           <button
@@ -44,51 +46,104 @@ export default function CampusGallery() {
 
         <div className="editorial-copy clay-tile clay-cream">
           <SectionHeading
-            eyebrow="Make the visit useful"
-            title="Look closer at everyday school life."
+            eyebrow="The physical environment"
+            title="Designed for comfort, security, and focus."
           />
           <p>
-            When you enquire about a visit, tell the school which class
-            interests you. Ask to understand the spaces, routines, and learning
-            materials relevant to that age group.
+            A child’s learning space plays a vital role in their daily comfort and
+            confidence. Our campus is thoughtfully planned to balance focused
+            indoor study with active, creative movement.
           </p>
-          <ul className="check-list">
-            <li>
-              <span className="check-bullet" aria-hidden="true">✓</span>
-              <span>How is the day organised for new learners?</span>
-            </li>
-            <li>
-              <span className="check-bullet" aria-hidden="true">✓</span>
-              <span>What classroom activities can parents learn about?</span>
-            </li>
-            <li>
-              <span className="check-bullet" aria-hidden="true">✓</span>
-              <span>How does the school communicate with families?</span>
-            </li>
-            <li>
-              <span className="check-bullet" aria-hidden="true">✓</span>
-              <span>Which facilities and transport arrangements are available for your class?</span>
-            </li>
-          </ul>
-          <div className="information-note clay-tile clay-yellow" style={{ marginBlock: "22px" }}>
-            <p>
-              Call ahead to confirm visit arrangements. We do not publish
-              unverified facility or transport claims.
-            </p>
+          <div className="feature-grid" style={{ gridTemplateColumns: "1fr", gap: "14px", marginTop: "16px" }}>
+            {CAMPUS_DETAILS.environment.map((item) => (
+              <div key={item.title} className="clay-tile clay-yellow" style={{ padding: "18px 22px" }}>
+                <h3 style={{ fontSize: "17px", marginBottom: "4px" }}>{item.title}</h3>
+                <p style={{ fontSize: "14px", margin: 0, lineHeight: 1.6 }}>{item.desc}</p>
+              </div>
+            ))}
           </div>
-          <a
-            className="button button-secondary clay-btn-mint"
-            href={SCHOOL.contact.mapsUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <span>Find the campus</span>
-            <ArrowUpRight size={18} aria-hidden="true" />
-          </a>
         </div>
       </section>
 
-      {/* Photo Lightbox */}
+      {/* Planning a Visit & Walkthrough Checklist */}
+      <section className="section site-container">
+        <div className="section-row">
+          <SectionHeading
+            eyebrow="Parent walkthrough guide"
+            title="What to observe when visiting our campus."
+          >
+            We invite prospective parents to tour our classrooms in person. Here
+            are practical aspects to look for during a school walkthrough:
+          </SectionHeading>
+        </div>
+        <div className="clay-tile clay-cream" style={{ marginTop: "24px", padding: "32px" }}>
+          <ul className="check-list" style={{ marginBottom: "24px" }}>
+            {CAMPUS_DETAILS.visitChecklist.map((item) => (
+              <li key={item}>
+                <span className="check-bullet" aria-hidden="true">✓</span>
+                <span style={{ fontSize: "15px" }}>{item}</span>
+              </li>
+            ))}
+          </ul>
+          <div className="information-note clay-tile clay-yellow">
+            <p>
+              Please call our office ahead of travelling so we can schedule an
+              educator to greet you and answer your questions without disrupting
+              ongoing classes.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Location, Landmarks & Commute Guide */}
+      <section className="section site-container community-band-section">
+        <div className="community-band clay-tile clay-cream clay-shape-blob">
+          <div className="intro-grid">
+            <div>
+              <p className="eyebrow">
+                <span className="eyebrow-dot" /> Finding the campus
+              </p>
+              <h2>
+                Easy access in
+                <br />
+                <em>Kandlakoya, Hyderabad.</em>
+              </h2>
+              <p style={{ marginTop: "16px", color: "var(--ink-muted)", fontSize: "15px" }}>
+                Plot No. 61, Padmashree Enclave, near Sanjana Courtyard,
+                Kandlakoya, Hyderabad – 501401
+              </p>
+            </div>
+            <div className="editorial-copy">
+              <p>
+                Conveniently located near the Medchal Highway (NH-44) and Kandlakoya
+                ORR Junction, the school is easily accessible for families residing
+                across Kandlakoya, Medchal, Kompally, and surrounding northern
+                Hyderabad residential communities.
+              </p>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "16px", marginTop: "24px" }}>
+                <a
+                  className="button button-secondary clay-btn-mint"
+                  href={SCHOOL.contact.mapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span>Open directions in Google Maps</span>
+                  <ArrowUpRight size={18} aria-hidden="true" />
+                </a>
+                <Link
+                  className="button button-primary clay-btn-yellow"
+                  to="/admissions#enquiry"
+                >
+                  <span>Schedule a campus walkthrough</span>
+                  <ArrowRight size={18} aria-hidden="true" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Lightbox Dialog */}
       <dialog
         ref={dialog}
         className="photo-dialog clay-tile clay-cream"
@@ -107,10 +162,8 @@ export default function CampusGallery() {
           <X aria-hidden="true" size={20} />
         </button>
         <img {...SCHOOL.campusPhoto} />
-        <p>Rainbow Digi School, Kandlakoya</p>
+        <p>Rainbow Digi School, Kandlakoya, Hyderabad</p>
       </dialog>
-
-      <AdmissionsInvite />
     </>
   );
 }
