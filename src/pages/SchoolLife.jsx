@@ -31,7 +31,7 @@ export default function SchoolLife() {
           Our school day blends focused classroom engagement with open social play,
           rhythmic movement, and creative exploration.
         </SectionHeading>
-        <div className="feature-grid" style={{ marginTop: "28px" }}>
+        <div className="feature-grid">
           {dailyRhythm.map((item, idx) => {
             const colors = ["clay-yellow", "clay-pink", "clay-mint", "clay-cream"];
             const color = colors[idx % colors.length];
@@ -60,7 +60,7 @@ export default function SchoolLife() {
           Special days help young children understand diversity, express
           gratitude to community helpers, and celebrate national occasions together.
         </SectionHeading>
-        <div className="feature-grid" style={{ marginTop: "28px" }}>
+        <div className="feature-grid">
           {celebrations.map((item, idx) => {
             const colors = ["clay-mint", "clay-yellow", "clay-pink", "clay-slate"];
             const color = colors[idx % colors.length];

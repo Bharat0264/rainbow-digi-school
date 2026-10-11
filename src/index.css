@@ -21,7 +21,22 @@
   --border: rgba(220, 205, 185, 0.5);
   --focus: #e5b948;
   --error: #b3261e;
+  --section-space: 64px;
+  --cta-space: 40px;
   color-scheme: light;
+}
+
+@media (max-width: 1023px) {
+  :root {
+    --section-space: 48px;
+  }
+}
+
+@media (max-width: 639px) {
+  :root {
+    --section-space: 36px;
+    --cta-space: 32px;
+  }
 }
 
 * {
@@ -139,6 +154,42 @@ main {
   flex-grow: 1;
 }
 
+/* ==========================================================================
+   SHARED SECTION SPACING SYSTEM & INTERIOR CADENCE
+   ========================================================================== */
+
+.section {
+  padding-block: calc(var(--section-space) / 2);
+  margin-top: 0;
+  margin-bottom: 0;
+  min-height: auto;
+  position: relative;
+}
+
+.eyebrow {
+  margin-bottom: 12px;
+}
+
+.section-heading h2,
+.section-heading h1 {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.section-description {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+main > section:last-of-type {
+  padding-bottom: var(--cta-space) !important;
+  margin-bottom: 0 !important;
+}
+
+.site-footer {
+  margin-top: 0 !important;
+}
+
 .skip-link {
   position: fixed;
   z-index: 999;
@@ -169,7 +220,9 @@ main {
   grid-template-columns: 1.15fr 0.85fr;
   gap: 32px;
   align-items: start;
-  padding-block: 20px 40px;
+  padding-top: 20px;
+  padding-bottom: 0;
+  margin-bottom: 0;
 }
 
 .hero-copy {
@@ -181,11 +234,13 @@ main {
 .hero-copy h1 {
   font-size: clamp(40px, 4.3vw, 64px);
   line-height: 1.12;
-  margin-top: 8px;
+  margin-top: 0;
+  margin-bottom: 16px;
 }
 
 .hero-description {
-  margin-top: 24px;
+  margin-top: 0;
+  margin-bottom: 0;
   color: var(--ink-muted);
   max-width: 520px;
   font-size: 17px;
@@ -294,7 +349,8 @@ main {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;
-  margin-block: 16px 48px;
+  margin-top: 16px;
+  margin-bottom: calc(var(--section-space) / 2);
 }
 
 .clay-fact-item {
@@ -363,7 +419,7 @@ main {
   align-items: flex-end;
   justify-content: space-between;
   gap: 32px;
-  margin-bottom: 36px;
+  margin-bottom: 32px;
 }
 
 .stage-grid {
@@ -461,7 +517,7 @@ main {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 24px;
-  margin-top: 36px;
+  margin-top: 32px;
   align-items: start;
 }
 
@@ -509,11 +565,17 @@ main {
    ========================================================================== */
 
 .community-band-section {
-  padding-block: clamp(40px, 5vw, 64px);
+  padding-block: calc(var(--section-space) / 2);
+  margin: 0;
 }
 
 .community-band {
   padding: clamp(32px, 4.5vw, 48px);
+}
+
+.community-band h2 {
+  margin-top: 0;
+  margin-bottom: 16px;
 }
 
 /* ==========================================================================
@@ -521,7 +583,9 @@ main {
    ========================================================================== */
 
 .admissions-invite-section {
-  padding-block: 32px 64px;
+  padding-top: calc(var(--cta-space) - (var(--section-space) / 2));
+  padding-bottom: var(--cta-space);
+  margin: 0;
 }
 
 .admissions-invite {
@@ -534,13 +598,15 @@ main {
 
 .admissions-invite h2 {
   font-size: clamp(24px, 2.4vw, 34px);
-  margin-top: 6px;
+  margin-top: 0;
+  margin-bottom: 16px;
 }
 
 .admissions-invite p {
   color: #4e3025;
   font-size: 15px;
-  margin-top: 10px;
+  margin-top: 0;
+  margin-bottom: 0;
   max-width: 560px;
 }
 
@@ -553,7 +619,9 @@ main {
    ========================================================================== */
 
 .page-intro {
-  padding-block: 24px 36px;
+  padding-top: 24px;
+  padding-bottom: calc(var(--section-space) / 2);
+  margin: 0;
 }
 
 .page-intro-card {
@@ -586,12 +654,14 @@ main {
 }
 
 .page-intro-card h1 {
-  margin-top: 6px;
+  margin-top: 0;
+  margin-bottom: 16px;
 }
 
 .page-lead {
   max-width: 680px;
-  margin-top: 18px;
+  margin-top: 0;
+  margin-bottom: 0;
   color: var(--ink-muted);
   font-size: 17px;
   line-height: 1.7;
@@ -993,7 +1063,7 @@ main {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 24px;
-  margin-top: 36px;
+  margin-top: 32px;
   padding: 0;
   list-style: none;
 }
@@ -1112,9 +1182,6 @@ main {
     right: 16px;
     bottom: 16px;
     padding: 10px 14px;
-  }
-  .section {
-    padding-block: 48px;
   }
   .button-row {
     flex-direction: column;
