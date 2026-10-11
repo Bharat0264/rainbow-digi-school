@@ -693,21 +693,257 @@ main {
    CONTACT BENTO GRID & PILLS
    ========================================================================== */
 
-.contact-grid {
+.contact-bento {
+  max-width: 1100px;
+  margin-inline: auto;
   display: grid;
-  grid-template-columns: 0.85fr 1.15fr;
-  gap: 36px;
-  align-items: start;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 16px;
+  align-items: stretch;
 }
 
-.contact-details {
+.contact-card {
+  padding: 24px 28px !important;
+  border-radius: 24px !important;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  box-sizing: border-box;
 }
 
-.contact-detail-card {
-  padding: 28px 32px;
+.contact-card-call {
+  grid-column: span 6;
+}
+
+.contact-card-write {
+  grid-column: span 6;
+}
+
+.contact-card-find {
+  grid-column: span 7;
+}
+
+.contact-card-admissions {
+  grid-column: span 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+/* 40px Icon circle, 14px gap to heading */
+.contact-card-icon {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 !important;
+  margin: 0 0 14px 0;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-raised-sm);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  background-color: var(--clay-cream-pure);
+}
+
+/* Headings: Playfair 24-26px, line-height 1.2 */
+.contact-card h2 {
+  font-family: var(--font-serif);
+  font-size: 25px;
+  font-weight: 500;
+  line-height: 1.2;
+  margin: 0;
+  color: inherit;
+}
+
+/* Admissions card specific heading, text, and button spacing */
+.contact-admissions-eyebrow {
+  margin: 0 0 8px 0;
+}
+
+.contact-card-admissions h2.contact-admissions-heading {
+  font-size: 32px;
+  line-height: 1.2;
+  margin: 0;
+  color: var(--ink-heading);
+}
+
+.contact-admissions-text {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 12px 0 0 0;
+  color: var(--ink-muted);
+}
+
+.contact-admissions-action {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+}
+
+/* Chips: 14-15px text, 40px high, 8px gap between chips */
+.contact-chips-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+@media (min-width: 1024px) {
+  .contact-card-call .contact-chips-row {
+    flex-wrap: nowrap;
+  }
+}
+
+.contact-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 40px !important;
+  min-height: 40px !important;
+  padding: 0 18px !important;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-size: 14.5px !important;
+  font-weight: 700;
+  color: var(--ink-dark);
+  text-decoration: none;
+  line-height: 1;
+  white-space: nowrap;
+  box-sizing: border-box;
+  box-shadow: var(--shadow-raised-sm);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+  transition: transform var(--spring-duration) var(--spring-ease),
+              box-shadow var(--spring-duration) var(--spring-ease);
+}
+
+.contact-chip:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.contact-chip:active {
+  transform: translateY(1px);
+  box-shadow: var(--shadow-pressed);
+}
+
+/* Find our school card details */
+.contact-text-block {
+  margin-top: 12px;
+}
+
+.contact-address {
+  font-style: normal;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.6;
+  color: inherit;
+  margin: 0;
+}
+
+.contact-visit-note {
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  line-height: 1.5;
+  margin: 6px 0 0 0;
+  opacity: 0.88;
+}
+
+.contact-card-actions {
+  margin-top: auto;
+  padding-top: 12px;
+  display: flex;
+  align-items: center;
+}
+
+/* Responsive: Tablet (<1024px) */
+@media (max-width: 1023px) {
+  .contact-bento {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .contact-card-call {
+    grid-column: 1;
+  }
+
+  .contact-card-write {
+    grid-column: 2;
+  }
+
+  .contact-card-find {
+    grid-column: 1 / -1;
+  }
+
+  .contact-card-admissions {
+    grid-column: 1 / -1;
+  }
+
+  .contact-card-admissions h2.contact-admissions-heading {
+    font-size: 28px;
+  }
+}
+
+/* Responsive: Mobile (<640px) */
+@media (max-width: 640px) {
+  .contact-bento {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .contact-card-call,
+  .contact-card-write,
+  .contact-card-find,
+  .contact-card-admissions {
+    grid-column: 1;
+    padding: 20px !important;
+    border-radius: 20px !important;
+  }
+
+  .contact-card h2 {
+    font-size: 22px;
+  }
+
+  .contact-card-admissions h2.contact-admissions-heading {
+    font-size: 22px;
+  }
+
+  .contact-chips-row {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .contact-chip {
+    min-height: 44px !important;
+    height: 44px !important;
+    width: 100% !important;
+    justify-content: center;
+    padding: 0 16px !important;
+    font-size: 14.5px;
+  }
+
+  .contact-card-actions {
+    width: 100%;
+  }
+
+  .contact-card-actions .contact-chip {
+    width: 100%;
+  }
+
+  .contact-admissions-action {
+    width: 100%;
+  }
+
+  .contact-admissions-action .contact-chip {
+    width: 100%;
+  }
 }
 
 .contact-pill {
