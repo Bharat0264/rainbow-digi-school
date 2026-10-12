@@ -115,6 +115,10 @@ export default function BranchNav() {
     };
   }, []);
   useEffect(() => { cancelBoardRef.current(); }, [location.key]);
+  const navigateToItem = useCallback(item => {
+    setOpen(false);
+    navigate(item.path, { state: { navItem: item.id } });
+  }, [navigate]);
   const visit = useCallback((event, item) => {
     if (!ordinaryClick(event)) return;
     event.preventDefault();
@@ -128,9 +132,12 @@ export default function BranchNav() {
         return board?.getClientRects().length ? board : null;
       },
     });
-    setOpen(false);
-    navigate(item.path, { state: { navItem: item.id } });
-  }, [navigate]);
+    navigateToItem(item);
+  }, [navigateToItem]);
+
+  const visitMonkey = useCallback(() => {
+    startRef.current({ kind: 'house', complete: () => navigateToItem(ITEMS[0]) });
+  }, [navigateToItem]);
 
   const visitHouse = useCallback(event => {
     if (!ordinaryClick(event)) return;
@@ -179,7 +186,7 @@ export default function BranchNav() {
           <Link ref={logoRef} to="/" onClick={visitHouse} aria-label="Rainbow Digi School — Excellence begins early — home" className={`featured-logo${location.pathname === '/' ? ' featured-active' : ''}`}>
             <Logo />
           </Link>
-          <button type="button" className="featured-monkey" aria-label="Send the squirrel home" onClick={() => startRef.current()}>
+          <button type="button" className="featured-monkey" aria-label="Send the squirrel home" onClick={visitMonkey}>
             <img className="featured-handle" src="/images/navigation/monkey-handle-grip.png" width="1536" height="1024" alt="" decoding="async" />
           </button>
         </div>

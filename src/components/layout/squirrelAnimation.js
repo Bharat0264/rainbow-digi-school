@@ -14,8 +14,8 @@ export function createSquirrelAnimation(canvas) {
   const context = canvas.getContext('2d'), sprite = new Image();
   const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let layout, pose, activity, anchor, raf=0, timer=0, disposed=false;
-  let state='idle', target='rest', side=1, entryProgress=0, distance=0;
-  let ambient=true, nextSide=1, visible=true, pausedAt=0, lastFrame=0;
+  let state='inside', target='house', side=1, entryProgress=1, distance=0;
+  let ambient=false, nextSide=1, visible=true, pausedAt=0, lastFrame=0;
   const source = () => ART[layout.art.compact ? 'compact' : 'desktop'];
   const bodySize = () => Math.min(layout.size,layout.art.width/source().width*104);
   const baseScale = () => bodySize()/layout.size;
@@ -223,7 +223,7 @@ export function createSquirrelAnimation(canvas) {
     cancelBoard() {if (activity) activity.request.complete=null;},
     measure(next) {
       layout=next;
-      if (!pose) {const u=source().rest/source().width;pose={u,v:surface(u),scale:1,direction:1};}
+      if (!pose) pose=entrancePose(1);
       if (state==='standing') pose=anchor?{...boardPosition(anchor),direction:pose.direction}:{...pose,v:surface(pose.u)};
       else if (state==='idle') pose.v=surface(pose.u);
       else if (state==='inside') pose=entrancePose(1);

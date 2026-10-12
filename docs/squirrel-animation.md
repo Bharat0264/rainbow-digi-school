@@ -5,10 +5,9 @@ one 128 × 128 canvas. No header image, navigation styling, logo, monkey or othe
 art asset is changed. The supplied Gemini MP4 is a movement reference only; it
 is not downloaded or played by the website.
 
-The squirrel starts on the left branch, approaches the treehouse, climbs onto
-the wooden sill, and enters the round opening. After six seconds inside, another
-approach starts beyond the right edge of the artwork. Subsequent trips alternate
-sides. Only one squirrel is drawn. Native image coordinates describe the bark,
+The squirrel starts hidden inside the birdhouse on every load and refresh.
+Automatic branch travel is disabled. Only one squirrel is drawn after a
+navigation interaction. Native image coordinates describe the bark,
 sill and circular opening separately for the desktop and compact artwork.
 
 The canvas scales with the displayed artwork. Four existing articulated leg/tail
@@ -24,11 +23,11 @@ the document is hidden, and cleans up timers, observers and listeners on unmount
 Reduced-motion users get a static squirrel and immediate state transitions.
 The canvas is decorative, aria-hidden and cannot intercept pointer input.
 
-Existing board, logo and monkey interactions still work. A manual interaction
-stops the automatic cycle and moves from the current pose. Board and logo links
+Existing board, logo and monkey interactions move from the current pose. Board and logo links
 navigate immediately, independently of the animation; modified link clicks keep
-the browser's native behavior. The monkey sends the squirrel into the house
-without navigating. ResizeObserver keeps the canvas aligned to the current
+the browser's native behavior. The monkey sends the squirrel into the house,
+then invokes the same route/highlight action as the Home tab. A subsequent tab
+click cancels that pending Home action. ResizeObserver keeps the canvas aligned to the current
 picture source; mobile drawer targets retain their last measured position.
 
 Validation:
@@ -36,12 +35,11 @@ Validation:
     npm run build
     npm run typecheck
     npm run dev -- --host 127.0.0.1 --port 4231
-    node scripts/verify-squirrel-bidirectional.mjs http://127.0.0.1:4231
+    node scripts/verify-squirrel-home.mjs
 
-The targeted browser check covers both automatic approaches at 360, 768, 1100,
-1101, 1440 and 2560px; articulated gait frames; branch contact; continuity;
-complete disappearance; repeated controls; immediate navigation; resizing across
-the artwork breakpoint; reduced motion; overflow; and browser exceptions.
-It saves entrance filmstrips and a JSON report in
-`artifacts/squirrel-bidirectional/`. Older squirrel scripts describe superseded
-routing delays and controller states; use this check for the current behavior.
+The targeted check covers initial and refreshed hidden states, no automatic
+travel after 30 seconds, Academics/Admissions/Contact branch destinations, monkey
+completion followed by Home content and highlight, unchanged logo navigation,
+superseding navigation, and an already-inside monkey click. It runs at 390px and
+1440px with normal and reduced motion. Older squirrel scripts describe superseded
+automatic trips and routing behavior; use this check for the current behavior.
