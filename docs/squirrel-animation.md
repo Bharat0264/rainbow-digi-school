@@ -1,45 +1,47 @@
-# Navigation squirrel animation
+﻿# Treehouse squirrel animation
 
-The navbar renders a single 128px canvas, displayed at 68px on desktop and 54px
-on smaller screens. It samples one 128px cell from `squirrel-gait-v2.webp`.
-The transparent atlas contains eight distinct poses: idle, four contact/passing
-walk poses, extended run, gathered run, and landing. The character follows the
-existing orange squirrel reference (`squirrel-featured.webp`); the old atlas is
-no longer rendered.
+`BranchNav` renders the existing transparent `squirrel-gait-v2.webp` atlas into
+one 128 × 128 canvas. No header image, navigation styling, logo, monkey or other
+art asset is changed. The supplied Gemini MP4 is a movement reference only; it
+is not downloaded or played by the website.
 
-The built-in image-generation tool created a transparent 4x2 atlas. The prompt
-specified the existing character's orange fur, cream belly, fluffy tail, face,
-consistent scale, right-facing profile, one character per cell, and these eight
-poses. It required changing paw/leg articulation and counter-motion of the tail,
-without labels or scenery. `scripts/prepare-squirrel-cycle.mjs` normalizes those
-cells to a common foot baseline and encodes the production 1024x128 WebP atlas.
+The squirrel starts on the left branch, approaches the treehouse, climbs onto
+the wooden sill, and enters the round opening. After six seconds inside, another
+approach starts beyond the right edge of the artwork. Subsequent trips alternate
+sides. Only one squirrel is drawn. Native image coordinates describe the bark,
+sill and circular opening separately for the desktop and compact artwork.
 
-One requestAnimationFrame controller owns position, velocity, traveled distance,
-facing direction and state: idle → walking/running → stopping → idle, or
-enteringHouse → inside. Gait frames advance with ground distance rather than
-an unrelated CSS timer. An incoming click cancels the scheduled callback and
-continues from current position and velocity. The idle state schedules no frames.
-Reduced motion jumps to the destination with an idle pose, or remains inside.
+The canvas scales with the displayed artwork. Four existing articulated leg/tail
+poses advance with distance traveled, with a small running bounce and a tilt on
+the climb. Entry draws the squirrel through a mask joining the approaching side
+to the actual dark circular opening. The original rim and wall therefore occlude
+the character, and its trailing tail is completely hidden at the end; no whole
+sprite opacity fade or replacement background is used.
 
-Navigation routes come from the existing NAV configuration. Both Apply and
-Admissions retain `/admissions` and distinct navigation IDs. Modified link clicks
-retain the browser's native behavior. Board routes change immediately while the
-shared layout's squirrel finishes the trip. Logo navigation also initiates house
-entry; the monkey initiates house entry without changing the route.
+A single requestAnimationFrame controller owns the active movement. It schedules
+no frames while idle or inside, pauses when the header leaves the viewport or
+the document is hidden, and cleans up timers, observers and listeners on unmount.
+Reduced-motion users get a static squirrel and immediate state transitions.
+The canvas is decorative, aria-hidden and cannot intercept pointer input.
 
-Ropes and foot contacts use the same normalized branch coordinates. Rope ends
-are measured from the actual sign and logo rectangles. A ResizeObserver updates
-the geometry and destination. House entry uses a foreground copy of the original
-house artwork with a cutout corresponding to its real opening; the squirrel
-passes behind this layer, then remains inside. This is not an opacity fade.
+Existing board, logo and monkey interactions still work. A manual interaction
+stops the automatic cycle and moves from the current pose. Board and logo links
+navigate immediately, independently of the animation; modified link clicks keep
+the browser's native behavior. The monkey sends the squirrel into the house
+without navigating. ResizeObserver keeps the canvas aligned to the current
+picture source; mobile drawer targets retain their last measured position.
 
-Run `npm run build`, start Vite preview, and then run:
+Validation:
 
-    node scripts/verify-squirrel-cycle.mjs http://127.0.0.1:4210
+    npm run build
+    npm run typecheck
+    npm run dev -- --host 127.0.0.1 --port 4231
+    node scripts/verify-squirrel-bidirectional.mjs http://127.0.0.1:4231
 
-The browser check covers all seven boards, both directions, multiple gait frames,
-landing, interruption continuity, monkey and logo house entry, repeated entry,
-re-emergence, viewport resizing, mobile menu clicks, and reduced motion. It saves
-screenshots, an actual browser-rendered gait filmstrip and a JSON report under
-`artifacts/squirrel-cycle/`. Console and HTTP errors are reported without hiding
-the separate Events page's API fallback when the backend is unavailable.
+The targeted browser check covers both automatic approaches at 360, 768, 1100,
+1101, 1440 and 2560px; articulated gait frames; branch contact; continuity;
+complete disappearance; repeated controls; immediate navigation; resizing across
+the artwork breakpoint; reduced motion; overflow; and browser exceptions.
+It saves entrance filmstrips and a JSON report in
+`artifacts/squirrel-bidirectional/`. Older squirrel scripts describe superseded
+routing delays and controller states; use this check for the current behavior.

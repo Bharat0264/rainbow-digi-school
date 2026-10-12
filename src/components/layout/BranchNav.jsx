@@ -127,17 +127,17 @@ export default function BranchNav() {
         const board = boardsRef.current.get(item.id);
         return board?.getClientRects().length ? board : null;
       },
-      complete: () => {
-        setOpen(false);
-        navigate(item.path, { state: { navItem: item.id } });
-      },
     });
+    setOpen(false);
+    navigate(item.path, { state: { navItem: item.id } });
   }, [navigate]);
 
   const visitHouse = useCallback(event => {
     if (!ordinaryClick(event)) return;
     event.preventDefault();
-    startRef.current({ kind: 'house', complete: () => { setOpen(false); navigate('/'); } });
+    startRef.current({ kind: 'house' });
+    setOpen(false);
+    navigate('/');
   }, [navigate]);
 
   const sign = (item, drawer = false) => (
