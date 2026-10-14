@@ -11,18 +11,24 @@ const VARIANTS = [
 
 function attachment(rope, index) {
   const variant = VARIANTS[index % VARIANTS.length];
-  // Loop height from crown to knot bottom in sprite is ~640px
-  const barkH = Math.max(20, rope.under - rope.top);
-  const scale = barkH / 620;
-  const thickness = Math.min(8, Math.max(5.5, scale * 95));
-  // In rope-eyelets, the rope width at y=0..300 is 120px
-  const eyeScale = thickness / 120;
-  // Knot tail emerges cleanly at y=760; drop rope starts precisely at tail exit
-  const dropTop = rope.top + 740 * scale;
+  // Native crown y=16, lower hitch y=740. The knot hugs the lower bark
+  // instead of hanging a fixed distance beneath it on small screens.
+  const barkScale = (rope.under - rope.top) / (740 - 16);
+  // In a short hanging span, keep both knots distinct. The front hitch sits
+  // higher on the bark and its standing end runs down the remaining face.
+  // 255 is the eyelet's collar-to-frame distance; 60 leaves half a strand
+  // between the two knots, all measured in the existing sprite coordinates.
+  const spanScale = (rope.bottom - rope.top) / (724 + 255 * 120 / 132 + 60);
+  const scale = Math.min(barkScale, spanScale);
+  const spriteY = rope.top - 16 * scale;
+  const thickness = scale * 120;
+  const eyeScale = thickness / 132;
+  const dropTop = spriteY + 740 * scale;
   // Position so the ring base (y=575) sits firmly on top of the board frame
   const spriteTop = rope.bottom - variant.ringBaseY * eyeScale;
-  // Drop rope connects cleanly into the top collar of the eyelet sprite
-  const dropBottom = spriteTop + 50 * eyeScale;
+  // Reuse only the short straight collar above the ring. The old full-height
+  // stem overlapped the branch knot when the mobile hanging span was short.
+  const dropBottom = spriteTop + 320 * eyeScale;
 
   return {
     ...rope,
@@ -33,8 +39,9 @@ function attachment(rope, index) {
     dropTop,
     dropBottom,
     spriteTop,
-    rearTransform: `translate(${rope.x - variant.rearCenter * scale} ${rope.top}) scale(${scale})`,
-    transform: `translate(${rope.x - variant.frontCenter * scale} ${rope.top}) scale(${scale})`,
+    // Show the rear turn just above the bark; the branch occludes its sides.
+    rearTransform: `translate(${rope.x - variant.rearCenter * scale} ${spriteY - thickness / 2}) scale(${scale})`,
+    transform: `translate(${rope.x - variant.frontCenter * scale} ${spriteY}) scale(${scale})`,
     fixingTransform: `translate(${rope.x - variant.eyeRopeX * eyeScale} ${spriteTop}) scale(${eyeScale})`
   };
 }
@@ -85,7 +92,7 @@ export default function NavigationRopes({ ropes }) {
         ))}
       </defs>
       {attachments.map(({ x, top, under, bottom, board, dropTop, dropBottom, thickness, transform }, i) => (
-        <g key={i} data-rope="true" data-board={board} data-x={x} data-top={top} data-under={under} data-bottom={bottom}>
+        <g key={i} data-rope="true" data-board={board} data-x={x} data-top={top} data-under={under} data-bottom={bottom} data-drop-top={dropTop} data-drop-bottom={dropBottom} data-thickness={thickness}>
           {/* Drop rope shadow */}
           <path d={`M${x + 0.5},${dropTop} V${dropBottom}`} fill="none" stroke="#3d2212" strokeOpacity=".3" strokeWidth={thickness + 1} />
           {/* Drop rope body */}
@@ -102,8 +109,8 @@ export default function NavigationRopes({ ropes }) {
     {/* Small, believable securing ring and knot anchored firmly onto board frame (z-index 6) */}
     <svg className="featured-ropes featured-ropes-fixings" width="100%" height="100%" aria-hidden="true">
       <defs>
-        {/* Soft luminance fade at top of sprite (y=0..50) for seamless drop rope blending */}
-        <linearGradient id={`${id}-eyelet-fade`} x1="0" y1="0" x2="0" y2="50" gradientUnits="userSpaceOnUse">
+        {/* Blend the standing rope into the short collar above the eyelet. */}
+        <linearGradient id={`${id}-eyelet-fade`} x1="0" y1="280" x2="0" y2="320" gradientUnits="userSpaceOnUse">
           <stop offset="0" stopColor="black" />
           <stop offset="1" stopColor="white" />
         </linearGradient>
@@ -114,8 +121,8 @@ export default function NavigationRopes({ ropes }) {
         </linearGradient>
         {VARIANTS.map(({ left }, i) => (
           <mask key={i} id={`${id}-eyelet-mask-${i}`} maskUnits="userSpaceOnUse" x={left} y="0" width="768" height="650">
-            <rect x={left} y="0" width="768" height="50" fill={`url(#${id}-eyelet-fade)`} />
-            <rect x={left} y="50" width="768" height="560" fill="white" />
+            <rect x={left} y="280" width="768" height="40" fill={`url(#${id}-eyelet-fade)`} />
+            <rect x={left} y="320" width="768" height="290" fill="white" />
             <rect x={left} y="610" width="768" height="30" fill={`url(#${id}-eyelet-tail)`} />
           </mask>
         ))}
@@ -126,8 +133,8 @@ export default function NavigationRopes({ ropes }) {
         ))}
       </defs>
       {/* Contact shadows grounding the rings and knots onto the wooden board top frame */}
-      {attachments.map(({ x, bottom }, i) => (
-        <ellipse key={`shadow-${i}`} cx={x} cy={bottom} rx={10} ry={2.5} fill="#2d160a" opacity="0.38" />
+      {attachments.map(({ x, bottom, thickness }, i) => (
+        <ellipse key={`shadow-${i}`} cx={x} cy={bottom} rx={thickness * 1.5} ry={thickness * .35} fill="#2d160a" opacity="0.38" />
       ))}
       {/* Fully visible wooden attachment rings with through-rope and compact securing knots */}
       {attachments.map(({ fixingTransform }, i) => (

@@ -200,13 +200,13 @@ try {
   await page.locator('.featured-signs [data-nav-id="contact"]').click();
   await waitBoardArrival();
   assert.equal(await page.locator('.featured-squirrel').getAttribute('data-target'), 'contact', 'Navigation targets the clicked board');
-  const beforeMonkey = page.url();
   await page.locator('.featured-monkey').focus();
   await page.keyboard.press('Space');
+  await expectPath('/');
   await page.waitForFunction(() => document.querySelector('.featured-squirrel').dataset.state === 'enteringHouse');
   await page.locator('.featured-nav').screenshot({ path: `${output}/entering-house.png` });
   await page.waitForFunction(() => document.querySelector('.featured-squirrel').dataset.state === 'inside');
-  assert.equal(page.url(), beforeMonkey, 'Monkey activation must not navigate');
+  assert.equal(new URL(page.url()).pathname, '/', 'Monkey activation navigates Home independently');
   const samples = await page.evaluate(() => {
     clearInterval(window.navigationGaitSampler);
     return window.navigationGaitSamples;

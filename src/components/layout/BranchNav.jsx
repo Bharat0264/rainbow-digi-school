@@ -3,44 +3,16 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Logo from '../ui/Logo';
 import NavigationRopes from './NavigationRopes';
 import { createSquirrelAnimation } from './squirrelAnimation';
+import { ropeSurface } from './ropeGeometry';
 import { NAV } from '../../data/nav';
 import './BranchNav.css';
 
 const ITEMS = [{ path: '/', label: 'Home', id: 'home' }, ...NAV.left, ...NAV.right]
   .map(item => ({ ...item, id: item.id || item.label.toLowerCase().replace(/\s+/g, '-') }));
 
-// Bark surfaces in native 2172 × 430 image (branch-house-medium.webp).
-// Smooth parabolic arc hugs the physical trunk and bark surfaces.
 const BRANCH_ART = '/images/navigation/branch-house-medium.webp';
 const RAINBOW_BACKDROP = '/images/navigation/rainbow-cloud-backdrop.webp';
 const COMPACT_ART = '/images/navigation/branch-house-compact.png';
-const COMPACT_BRANCH = [[0,430,500],[.15,430,520],[.3,460,540],[.5,455,550],[.7,450,535],[.85,420,510],[1,425,490]];
-
-function ropeTop(x, art) {
-  if (art.compact) return branchY(x, art) - art.height * .012;
-  const ratio = Math.max(0, Math.min(1, (x - art.x) / art.width));
-  const topNative = 215 + 45 * (1.0 - 4.0 * Math.pow(ratio - 0.5, 2));
-  return art.y + (topNative / 430) * art.height;
-}
-
-function branchY(x, art, edge = 1) {
-  if (art.compact) {
-    const ratio = Math.max(0, Math.min(1, (x - art.x) / art.width));
-    const trace = COMPACT_BRANCH;
-    const index = trace.findIndex(point => point[0] >= ratio);
-    const a = trace[Math.max(0, index - 1)], b = trace[Math.max(1, index)];
-    return art.y + (a[edge] + (b[edge] - a[edge]) * (ratio - a[0]) / (b[0] - a[0] || 1)) / 1024 * art.height;
-  }
-  const ratio = Math.max(0, Math.min(1, (x - art.x) / art.width));
-  if (edge === 2) {
-    // Under edge of trunk where loops secure and knots hug
-    const underNative = 345 + 5 * (1.0 - 4.0 * Math.pow(ratio - 0.5, 2));
-    return art.y + (underNative / 430) * art.height;
-  }
-  // Upper bark surface where squirrel paws sit directly on wood
-  const topNative = 218 + 44 * (1.0 - 4.0 * Math.pow(ratio - 0.5, 2));
-  return art.y + (topNative / 430) * art.height;
-}
 
 function ordinaryClick(event) { return event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey; }
 
@@ -49,7 +21,6 @@ export default function BranchNav() {
   const navigate = useNavigate();
   const navRef = useRef(null), artRef = useRef(null), canvasRef = useRef(null), logoRef = useRef(null);
   const boardsRef = useRef(new Map()), startRef = useRef(() => {});
-  const cancelBoardRef = useRef(() => {});
   const [open, setOpen] = useState(false);
   const menuRef = useRef(null), drawerRef = useRef(null);
 
@@ -78,7 +49,6 @@ export default function BranchNav() {
     const nav = navRef.current, canvas = canvasRef.current;
     const animation = createSquirrelAnimation(canvas);
     startRef.current = animation.start;
-    cancelBoardRef.current = animation.cancelBoard;
     const relative = element => {
       const a = element.getBoundingClientRect(), b = nav.getBoundingClientRect();
       return { x: a.x - b.x, y: a.y - b.y, width: a.width, height: a.height };
@@ -93,7 +63,7 @@ export default function BranchNav() {
         const r = relative(element), isLogo = element === logoRef.current;
         (isLogo ? [.035, .965] : [.22, .78]).forEach(anchor => {
           const x = r.x + r.width * anchor;
-          ropes.push({ x, top: ropeTop(x, art), under: branchY(x, art, 2), bottom: r.y,
+          ropes.push({ x, ...ropeSurface(x, art), bottom: r.y,
             board: isLogo ? 'logo' : element.dataset.navId });
         });
       });
@@ -111,10 +81,8 @@ export default function BranchNav() {
       observer.disconnect();
       branchImage.removeEventListener('load', measure);
       startRef.current = () => {};
-      cancelBoardRef.current = () => {};
     };
   }, []);
-  useEffect(() => { cancelBoardRef.current(); }, [location.key]);
   const navigateToItem = useCallback(item => {
     setOpen(false);
     navigate(item.path, { state: { navItem: item.id } });
@@ -136,7 +104,8 @@ export default function BranchNav() {
   }, [navigateToItem]);
 
   const visitMonkey = useCallback(() => {
-    startRef.current({ kind: 'house', complete: () => navigateToItem(ITEMS[0]) });
+    startRef.current({ kind: 'house' });
+    navigateToItem(ITEMS[0]);
   }, [navigateToItem]);
 
   const visitHouse = useCallback(event => {

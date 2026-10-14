@@ -10,14 +10,16 @@ const context = await browser.newContext({ deviceScaleFactor: 2, reducedMotion: 
 const page = await context.newPage();
 const report = [];
 try {
-  for (const width of [320, 768, 1440, 2560]) {
+  for (const width of [320, 390, 430, 768, 1440, 2560]) {
     await page.setViewportSize({ width, height: 950 });
     await page.goto(base, { waitUntil: 'networkidle' });
     await page.locator('.featured-branch').evaluate(image => image.decode());
     const attachments = await page.locator('[data-rope]').evaluateAll(elements => elements.map(element => {
       const nav = element.closest('nav').getBoundingClientRect();
       return { x: Number(element.dataset.x) + nav.x, y: Number(element.dataset.top) + nav.y,
-        bottom: Number(element.dataset.bottom) + nav.y, board: element.dataset.board };
+        bottom: Number(element.dataset.bottom) + nav.y, board: element.dataset.board,
+        dropTop: Number(element.dataset.dropTop), dropBottom: Number(element.dataset.dropBottom),
+        thickness: Number(element.dataset.thickness) };
     }));
     const layers = await page.evaluate(() => ['.featured-ropes-back','.featured-canopy','.featured-ropes:not(.featured-ropes-back):not(.featured-ropes-fixings)','.featured-home','.featured-ropes-fixings'].map(selector => {
       const style = getComputedStyle(document.querySelector(selector));
@@ -27,6 +29,11 @@ try {
     assert.ok(layers.every(layer => layer.pointerEvents === 'none'));
     const tiles = [];
     for (const [i, rope] of attachments.entries()) {
+      assert.ok(rope.dropBottom - rope.dropTop >= rope.thickness * .49, `${width}: ${rope.board} knots remain separate`);
+      const board = rope.board === 'logo' ? page.locator('.featured-logo') : page.locator(`.featured-signs [data-nav-id="${rope.board}"]`);
+      const bounds = await board.boundingBox();
+      assert.ok(Math.abs(rope.bottom - bounds.y) < .5, `${width}: eyelet meets board frame`);
+      assert.ok(rope.x > bounds.x && rope.x < bounds.x + bounds.width, `${width}: attachment remains on board`);
       const clip = { x: Math.max(0, rope.x-24), y: Math.max(0, rope.y-12), width: 48, height: rope.bottom-rope.y+38 };
       const png = await page.screenshot({ path: `${output}/${width}-${i}-${rope.board}.png`, clip });
       tiles.push(`<figure><figcaption>${i+1}: ${rope.board}</figcaption><img src="data:image/png;base64,${png.toString('base64')}"/></figure>`);
@@ -47,5 +54,5 @@ try {
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
   }
   await writeFile(`${output}/report.json`, JSON.stringify({ base, report, responsiveSourceSwitch: 'passed' }, null, 2));
-  console.log('PASS: separate rear/front/board layers, pointer-event safety, live responsive source switching; every rope captured at four widths.');
+  console.log('PASS: rear/front/board layers, nonoverlapping knots, exact board attachments, pointer-event safety, responsive source switching; every rope captured at six widths.');
 } finally { await browser.close(); }

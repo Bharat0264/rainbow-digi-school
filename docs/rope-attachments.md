@@ -3,14 +3,13 @@
 ## Diagnosis and scope
 
 The existing branch is a single RGBA illustration containing bark, birdhouse and
-foliage. It is not a set of independent leaves. Earlier ropes had a detailed
-material but open hook-shaped geometry, with procedural knots. Their upper
-coordinates also reused the squirrel's inset walking line instead of the upper
-bark ridge. A first generated oval wrap still read as a hook after rear occlusion;
-it is now used only as the hidden rear turn, with a tight crossed front lashing.
+foliage. Its compact and wide versions have different bark profiles. The previous
+compact trace put crowns partway down the trunk; the desktop parabola missed
+local ridges. Fixed minimum rope sizes enlarged the mobile knots, while long
+eyelet stems overlapped the branch hitch in short desktop hanging spans.
 
 No branch, birdhouse, foliage, mascot, logo, route, label, page content or backend
-asset was regenerated. Existing unrelated FAQ edits are outside this change.
+asset was regenerated. Header dimensions and board sizes are unchanged.
 
 ## Implementation
 
@@ -18,17 +17,21 @@ asset was regenerated. Existing unrelated FAQ edits are outside this change.
   front crossed wraps and standing ropes (z=2), real HTML boards (z=5), and small
   wooden eyelets/tied ends over the upper board frame (z=6). Decorative layers
   cannot receive pointer events. Two authored variants avoid identical crossings.
-- `BranchNav.jsx`: separately traced rope crown surface; squirrel gait geometry
-  stays unchanged. All attachment dimensions remain in the measured nav coordinate
-  system and are recalculated when the responsive source or layout changes.
-- `BranchNav.css`: desktop scene 1060 -> 1020px, central assembly 240 -> 218px,
-  central board 80 -> 74px, header 446 -> 424px. Small boards and text are unchanged.
-  Board elevation is retained so the tighter composition still has rope clearance.
-  The established compact mobile layout is retained.
+- `ropeGeometry.js`: separate upper/lower bark landmarks traced in the original
+  compact and desktop image coordinates. `BranchNav.jsx` maps them into the same
+  measured nav coordinates as each actual board. ResizeObserver and image load
+  events remeasure after viewport and picture-source changes.
+- `NavigationRopes.jsx`: proportional strand, hitch, eyelet and shadow sizes;
+  a rear turn visible above the bark; a short eyelet collar rather than a long
+  overlapping stem. The front hitch fits the available branch-to-board span,
+  leaving at least half a strand of standing rope between the two knots. When
+  clearance is short, the hitch sits higher on the bark and the standing rope
+  continues down its front face. Existing sprite artwork and texture are reused.
+- `BranchNav.css` and all original image assets remain unchanged.
 - Standing rope texture is reused. A short alpha crossfade joins the illustrated
   tail into the repeating material; no blur, sharpening or global image filters.
 
-## New assets
+## Existing assets reused
 
 All reside in `public/images/navigation/`, retain native 1536 x 1024 dimensions,
 and have actual alpha transparency. Original generated PNGs are retained in the
@@ -48,13 +51,14 @@ Each sprite sheet is fetched once and reused by SVG image references.
 ## Verification
 
 - Production build and TypeScript checks.
-- `verify-realistic-navigation.mjs`: 48 link clicks at 320, 390, 768, 1024, 1100,
-  1101, 1440 and 2560px; keyboard Enter/Escape/focus, active routes, normal and
+- `verify-realistic-navigation.mjs`: 54 link clicks at 320, 390, 768, 1024, 1100,
+  1101, 1366, 1440 and 2560px; keyboard Enter/Escape/focus, active routes, normal and
   reduced-motion squirrel behavior, aspect ratios, no horizontal overflow, maximum
   424px header, two ropes per visible board and all three attachment layers.
-- `verify-rope-details.mjs`: per-rope screenshots at 320, 768, 1440 and 2560px,
-  separate stacking levels, decorative pointer-event safety, and responsive image
-  source changes without page reload. Contact sheets inspected individually.
+- `verify-rope-details.mjs`: per-rope screenshots at 320, 390, 430, 768, 1440 and
+  2560px; nonoverlapping knots and exact frame attachment; separate stacking
+  levels, decorative pointer-event safety, and responsive image source changes
+  without reload. Contact sheets inspected individually.
 - Screenshots: `artifacts/rope-attachments/` and `artifacts/realistic-navigation/`.
 - No live enquiry was submitted; no database or environment changes were made.
 
