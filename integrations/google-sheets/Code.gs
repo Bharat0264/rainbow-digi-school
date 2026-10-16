@@ -238,7 +238,8 @@ function validatePayload(payload) {
       email: email,
       program: program,
       message: message,
-      consent: true
+      consent: true,
+      _skipEmail: payload._skipEmail === true
     }
   };
 }
@@ -336,6 +337,11 @@ function findRowByReference(sheet, reference) {
  * Errors do not fail the overall enquiry storage.
  */
 function sendNotificationEmail(data, properties) {
+  if (data && data._skipEmail === true) {
+    console.info("email_notification_skipped_test_mode");
+    return { success: true, reason: "Test mode: email notification skipped" };
+  }
+
   var recipient = properties.getProperty("NOTIFICATION_EMAIL");
   if (!recipient || recipient.indexOf("@") === -1) {
     console.info("email_notification_skipped_no_recipient");
@@ -419,4 +425,117 @@ function escapeHtml(text) {
 function jsonResponse(data, statusCode) {
   return ContentService.createTextOutput(JSON.stringify(data))
     .setMimeType(ContentService.MimeType.JSON);
+}
+
+/**
+ * Safe diagnostic test function to run directly in Google Apps Script editor.
+ * Tests configuration, spreadsheet access, and executes doPost() with a test payload.
+ * Does not send a real notification email during this test.
+ * Never logs the plain SHARED_SECRET value.
+ */
+function testDoPost() {
+  console.log("=== STARTING RAINBOW DIGI SCHOOL DIAGNOSTIC TEST ===");
+
+  var properties = PropertiesService.getScriptProperties();
+
+  // 1. Diagnostic: Check SHARED_SECRET
+  var secret = properties.getProperty("SHARED_SECRET");
+  if (!secret) {
+    console.error("[DIAGNOSTIC FAIL: SHARED_SECRET] SHARED_SECRET is NOT set in Script Properties.");
+    console.error("Action required: Open Project Settings (gear icon) -> Script Properties -> Add SHARED_SECRET.");
+  } else if (secret.length < 16) {
+    console.error("[DIAGNOSTIC FAIL: SHARED_SECRET] SHARED_SECRET is set but too short (" + secret.length + " chars). Must be at least 16 chars.");
+  } else {
+    console.log("[DIAGNOSTIC PASS: SHARED_SECRET] SHARED_SECRET is configured (" + secret.length + " characters). (Value redacted)");
+  }
+
+  // 2. Diagnostic: Check Spreadsheet Access
+  var sheetId = properties.getProperty("SHEET_ID");
+  var targetSheet = getTargetSheet(properties);
+  if (!targetSheet) {
+    console.error("[DIAGNOSTIC FAIL: SPREADSHEET_ACCESS] Cannot access target spreadsheet.");
+    if (sheetId) {
+      console.error("Target SHEET_ID: '" + sheetId + "' - verify that this ID is correct and that the script account has Editor permissions.");
+    } else {
+      console.error("Script is not bound to a spreadsheet and SHEET_ID property is missing. Add SHEET_ID to Script Properties.");
+    }
+  } else {
+    var parentSpreadsheet = targetSheet.getParent();
+    console.log("[DIAGNOSTIC PASS: SPREADSHEET_ACCESS] Connected to spreadsheet: '" + parentSpreadsheet.getName() + "' (ID: " + parentSpreadsheet.getId() + ")");
+    console.log("[DIAGNOSTIC PASS: SHEET_NAME] Active tab: '" + targetSheet.getName() + "' (Rows: " + targetSheet.getLastRow() + ")");
+  }
+
+  // 3. Diagnostic: Check Email Configuration
+  var emailRecipient = properties.getProperty("NOTIFICATION_EMAIL");
+  if (!emailRecipient) {
+    console.warn("[DIAGNOSTIC WARN: NOTIFICATION_EMAIL] NOTIFICATION_EMAIL is not set in Script Properties. Enquiries will be stored, but no email notifications will be sent.");
+  } else {
+    var remainingQuota = 0;
+    try {
+      remainingQuota = MailApp.getRemainingDailyQuota();
+      console.log("[DIAGNOSTIC PASS: NOTIFICATION_EMAIL] Configured: " + emailRecipient + " (Remaining daily quota: " + remainingQuota + ")");
+    } catch (mailErr) {
+      console.warn("[DIAGNOSTIC WARN: EMAIL_PERMISSION] MailApp check warning: " + mailErr.message);
+    }
+  }
+
+  // 4. Construct test payload matching requirements
+  var testPayload = {
+    reference: "RDS-ENQ-2026-ABCDEF1234",
+    parentName: "Test Parent",
+    phone: "9876543210",
+    email: "rainbowdigischool01@gmail.com",
+    program: "Grade 1",
+    message: "Test enquiry",
+    consent: true,
+    submittedAt: new Date().toISOString(),
+    secret: secret || "MOCK_SECRET_IF_NOT_SET",
+    _skipEmail: true // Skips real email sending during test
+  };
+
+  // 5. Structure event as received by real doPost
+  var mockEvent = {
+    postData: {
+      type: "application/json",
+      contents: JSON.stringify(testPayload)
+    }
+  };
+
+  console.log("Calling doPost() directly with simulated POST event...");
+  var responseOutput = doPost(mockEvent);
+
+  var rawResponse = responseOutput ? responseOutput.getContent() : "null";
+  console.log("doPost() Response Output:");
+  console.log(rawResponse);
+
+  var parsed = null;
+  try {
+    parsed = JSON.parse(rawResponse);
+  } catch (e) {
+    console.error("[DIAGNOSTIC FAIL: RESPONSE_FORMAT] Output is not valid JSON.");
+  }
+
+  console.log("=== DIAGNOSTIC SUMMARY ===");
+  if (parsed && parsed.success === true) {
+    console.log("[RESULT: SUCCESS] doPost() executed successfully inside Apps Script!");
+    console.log("  - Reference: " + parsed.enquiryNumber);
+    console.log("  - Duplicate: " + parsed.duplicate);
+    console.log("  - Email: " + (parsed.emailSent ? "Sent/Mocked" : "Not sent"));
+    console.log("--------------------------------------------------");
+    console.log("WHAT THIS MEANS:");
+    console.log("All internal Apps Script functions (SHARED_SECRET check, payload validation, spreadsheet access, and appendRow) are 100% WORKING.");
+    console.log("If the live website still shows 'We could not save your enquiry', the problem is EXTERNAL to doPost logic:");
+    console.log("1. DEPLOYMENT VERSION: In Apps Script editor, click 'Deploy' -> 'Manage deployments' -> Pencil (Edit) -> Version: 'New version' -> 'Deploy'. (Web App URLs only serve the deployed version, not unsaved/unversioned code).");
+    console.log("2. WEB APP ACCESS PERMISSION: In Deploy settings, 'Who has access' must be set to 'Anyone' (not 'Only myself' or Google accounts only).");
+    console.log("3. VERCEL ENVIRONMENT VARIABLES: Ensure Vercel's GOOGLE_APPS_SCRIPT_URL ends in /exec and GOOGLE_APPS_SCRIPT_SECRET matches SHARED_SECRET exactly.");
+  } else {
+    console.error("[RESULT: FAILED] doPost() failed with error:");
+    console.error("  - Error: " + (parsed ? parsed.error : "Unknown error"));
+    if (parsed && parsed.fields) {
+      console.error("  - Field Validation Errors: " + JSON.stringify(parsed.fields));
+    }
+  }
+
+  console.log("=== END DIAGNOSTIC TEST ===");
+  return rawResponse;
 }
