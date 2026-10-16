@@ -24,6 +24,8 @@ function attachment(rope, index) {
   const thickness = scale * 120;
   const eyeScale = thickness / 132;
   const dropTop = spriteY + 740 * scale;
+  // Position so the ring base (y=575) sits firmly on top of the board frame
+  const spriteTop = rope.bottom - variant.ringBaseY * eyeScale;
   // Position so the drop rope runs continuously from branch underside directly into the board top edge
   const dropBottom = rope.bottom + 8;
 
