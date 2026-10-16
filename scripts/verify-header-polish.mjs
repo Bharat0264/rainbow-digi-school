@@ -28,14 +28,24 @@ try {
         under: +element.dataset.under,
         hole: +element.dataset.hole,
         bottom: +element.dataset.bottom,
+        dropTop: +element.dataset.dropTop,
+        length: +element.dataset.ropeLength,
+        angle: +element.dataset.wrapAngle,
+        cssLength: +getComputedStyle(document.querySelector('.featured-inner')).getPropertyValue(`--rope-len-${element.dataset.boardIndex}`).replace('px', ''),
       }));
       return {
         overflow: document.documentElement.scrollWidth > innerWidth,
         mobile: getComputedStyle(document.querySelector('.featured-menu')).display !== 'none',
         image: document.querySelector('.featured-branch').currentSrc,
         boards,
+        logo: box(document.querySelector('.featured-logo')),
         ropes,
         nav: box(document.querySelector('.featured-inner')),
+        scale: +getComputedStyle(document.querySelector('.featured-inner')).getPropertyValue('--scale'),
+        logoTitle: document.querySelector('.featured-logo').getAttribute('title'),
+        svgTitle: document.querySelector('.featured-logo svg title')?.textContent || null,
+        logoLabel: document.querySelector('.featured-logo').getAttribute('aria-label'),
+        straps: document.querySelector('.featured-straps .strap-rope')?.getAttribute('d').match(/M /g)?.length,
       };
     });
 
@@ -43,6 +53,18 @@ try {
     assert.equal(result.mobile, width < 768, `${width}: correct navigation mode`);
     assert.equal(result.image.includes('compact'), width < 768, `${width}: correct branch artwork`);
     assert.equal(result.ropes.length, width < 768 ? 2 : 14, `${width}: visible attachments`);
+    assert.ok(result.scale > 0 && result.scale <= 1, `${width}: one bounded scene scale`);
+    assert.equal(result.logoTitle, null, `${width}: logo has no browser tooltip`);
+    assert.equal(result.svgTitle, null, `${width}: logo SVG has no browser tooltip`);
+    assert.match(result.logoLabel, /Rainbow Digi School/i);
+    assert.equal(result.straps, 2, `${width}: paired stick straps share the logo wrapper`);
+    for (const board of new Set(result.ropes.map(rope => rope.board))) {
+      const pair = result.ropes.filter(rope => rope.board === board);
+      assert.equal(pair.length, 2, `${width}: ${board} has two supports`);
+      assert.ok(Math.abs(pair[0].length - pair[1].length) < .01, `${width}: ${board} supports are equal length`);
+      assert.ok(pair.every(rope => rope.hole >= rope.dropTop && Number.isFinite(rope.angle)), `${width}: ${board} wrap and drop geometry`);
+      assert.ok(pair.every(rope => Math.abs(rope.cssLength - rope.length) < .02), `${width}: ${board} drop uses CSS rope length`);
+    }
     assert.deepEqual(errors, [], `${width}: no runtime errors`);
 
     if (result.mobile) {
@@ -54,6 +76,7 @@ try {
     } else {
       assert.equal(result.boards.length, 6);
       const nonActive = result.boards.filter(board => !board.active);
+      assert.ok(result.logo.y > nonActive[0].y, `${width}: center board hangs below menu tops`);
       for (const board of result.boards) {
         assert.ok(Math.abs(board.y - nonActive[0].y - (board.active ? 4 * (result.nav.width / 1224) : 0)) < 1, `${width}: board top ${board.id}`);
         assert.ok(Math.abs(board.width - result.boards[0].width) < .1);
@@ -67,6 +90,12 @@ try {
       assert.equal(new URL(page.url()).pathname, '/academics');
       await page.waitForFunction(() => document.querySelector('.featured-signs [data-nav-id="academics"]')?.getAttribute('aria-current') === 'page');
       assert.equal(await page.locator('.featured-signs [data-nav-id="academics"]').getAttribute('aria-current'), 'page');
+      await page.waitForFunction(() => {
+        const board = document.querySelector('.featured-signs [data-nav-id="academics"]');
+        const rope = document.querySelector('[data-rope][data-board="academics"]');
+        const nav = document.querySelector('.featured-inner').getBoundingClientRect();
+        return Math.abs(+rope.dataset.bottom - (board.getBoundingClientRect().top - nav.top)) < .5;
+      });
     }
     await page.close();
   }

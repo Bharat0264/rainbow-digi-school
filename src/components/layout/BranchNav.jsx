@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Logo from '../ui/Logo';
 import NavigationRopes from './NavigationRopes';
@@ -20,7 +20,7 @@ export default function BranchNav() {
   const location = useLocation();
   const navigate = useNavigate();
   const navRef = useRef(null), artRef = useRef(null), canvasRef = useRef(null), logoRef = useRef(null);
-  const boardsRef = useRef(new Map()), startRef = useRef(() => {});
+  const boardsRef = useRef(new Map()), startRef = useRef(() => {}), measureRef = useRef(() => {});
   const [open, setOpen] = useState(false);
   const menuRef = useRef(null), drawerRef = useRef(null);
 
@@ -57,8 +57,8 @@ export default function BranchNav() {
       const box = nav.getBoundingClientRect();
       const compact = window.matchMedia('(max-width: 767px)').matches;
       const scale = Math.min(1, box.width / (compact ? 440 : 1224));
-      if (Math.abs(Number(nav.style.getPropertyValue('--scene-scale')) - scale) > .0001) {
-        nav.style.setProperty('--scene-scale', String(scale));
+      if (Math.abs(Number(nav.style.getPropertyValue('--scale')) - scale) > .0001) {
+        nav.style.setProperty('--scale', String(scale));
       }
       const art = relative(artRef.current);
       art.compact = artRef.current.currentSrc.includes('branch-house-compact');
@@ -67,18 +67,20 @@ export default function BranchNav() {
       [...boardsRef.current.values(), logoRef.current].forEach((element, index) => {
         if (!element?.getClientRects().length || element.closest('.featured-drawer')) return;
         const r = relative(element), isLogo = element === logoRef.current;
-        (isLogo ? [.09, .91] : [.22, .78]).forEach(anchor => {
+        const pair = (isLogo ? [.09, .91] : [.22, .78]).map(anchor => {
           const x = r.x + r.width * anchor;
-          const surface = ropeSurface(x, art);
-          const hole = isLogo ? Math.max(r.y + r.height * .12, surface.under + 2 * scale) : r.y + r.height * .12;
-          ropes.push({ x, ...surface, bottom: r.y, hole,
-            thickness: 5 * scale, tailLength: Math.min(r.height * .085, 8 * scale),
-            board: isLogo ? 'logo' : element.dataset.navId });
+          return { x, ...ropeSurface(x, art) };
         });
-        if (!isLogo) {
-          const left = ropes[ropes.length - 2], right = ropes[ropes.length - 1];
-          nav.style.setProperty(`--rope-len-${index + 1}`, `${Math.max(0, (left.hole - left.under + right.hole - right.under) / 2).toFixed(2)}px`);
-        }
+        const hole = r.y + r.height * .12;
+        const knotY = Math.max(...pair.map(rope => rope.under)) + 3 * scale;
+        const ropeLength = Math.max(0, hole - knotY);
+        const boardIndex = isLogo ? 'logo' : index + 1;
+        nav.style.setProperty(`--rope-len-${boardIndex}`, `${ropeLength.toFixed(2)}px`);
+        pair.forEach(rope => ropes.push({
+          ...rope, bottom: r.y, hole, knotY, ropeLength, boardIndex,
+          thickness: (isLogo ? 5.8 : 4.5) * scale,
+          board: isLogo ? 'logo' : element.dataset.navId,
+        }));
       });
       setGeometry({ ...layout, ropes });
       animation.measure(layout);
@@ -89,6 +91,7 @@ export default function BranchNav() {
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(measure);
     };
+    measureRef.current = scheduleMeasure;
     const observer = new ResizeObserver(scheduleMeasure);
     observer.observe(nav);
     observer.observe(artRef.current);
@@ -100,8 +103,10 @@ export default function BranchNav() {
       observer.disconnect();
       branchImage.removeEventListener('load', scheduleMeasure);
       startRef.current = () => {};
+      measureRef.current = () => {};
     };
   }, []);
+  useLayoutEffect(() => { measureRef.current(); }, [selected]);
   const navigateToItem = useCallback(item => {
     setOpen(false);
     navigate(item.path, { state: { navItem: item.id } });
@@ -148,7 +153,7 @@ export default function BranchNav() {
       state={{ navItem: item.id }}
       data-nav-id={item.id}
       aria-current={selected === item.id ? 'page' : undefined}
-      className={`featured-sign${selected === item.id ? ' featured-active' : ''}`}
+      className={`featured-sign featured-sign-${item.id}${selected === item.id ? ' featured-active' : ''}`}
       onClick={event => visit(event, item)}
     >
       <span>{item.label}</span>
@@ -172,12 +177,12 @@ export default function BranchNav() {
         <div className="featured-signs featured-left">{ITEMS.slice(0, 3).map(item => sign(item))}</div>
         <div className="featured-home">
           <Link ref={logoRef} to="/" onClick={visitHouse} aria-label="Rainbow Digi School — Excellence begins early — home" className={`featured-logo${location.pathname === '/' ? ' featured-active' : ''}`}>
-            <Logo />
+            <Logo alt="Rainbow DIGI School" showTitle={false} />
           </Link>
           <svg className="featured-straps" viewBox="0 0 194 26" preserveAspectRatio="none" aria-hidden="true">
-            <path d="M 16 1 C 13 4 15 8 16 10 M 178 1 C 181 4 179 8 178 10" />
-            <circle cx="16" cy="10" r="3" />
-            <circle cx="178" cy="10" r="3" />
+            <path className="strap-shadow" d="M 16 1 C 13 6 13 13 16 16 Q 18 17 19 15 M 178 1 C 181 6 181 13 178 16 Q 176 17 175 15" />
+            <path className="strap-rope" d="M 16 1 C 13 6 13 13 16 16 Q 18 17 19 15 M 178 1 C 181 6 181 13 178 16 Q 176 17 175 15" />
+            <path className="strap-knot" d="M 14 14 L 17 16 M 180 14 L 177 16" />
           </svg>
           <button type="button" className="featured-monkey" aria-label="Send the squirrel home" onClick={visitMonkey}>
             <img className="featured-handle" src="/images/navigation/monkey-handle-grip.png" width="1536" height="1024" alt="" decoding="async" />

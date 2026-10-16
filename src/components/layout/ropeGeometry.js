@@ -36,5 +36,8 @@ export function ropeSurface(x, art) {
   const b = source.points[Math.max(1, end)];
   const t = (nativeX - a[0]) / (b[0] - a[0]);
   const y = edge => art.y + (a[edge] + (b[edge] - a[edge]) * t) / source.height * art.height;
-  return { top: y(1), under: y(2) };
+  const dx = (b[0] - a[0]) / source.width * art.width;
+  const dy = (b[1] - a[1]) / source.height * art.height;
+  const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+  return { top: y(1), under: y(2), angle };
 }

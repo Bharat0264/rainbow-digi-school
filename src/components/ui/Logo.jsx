@@ -5,7 +5,7 @@ import { useState } from 'react';
  * Renders the embroidered, raised, multicoloured master logo with
  * realistic stitching, dimensional depth, and transparent background.
  */
-export default function Logo({ className = '', iconOnly = false, alt = 'Rainbow Digi School', ...props }) {
+export default function Logo({ className = '', iconOnly = false, alt = 'Rainbow Digi School', showTitle = true, ...props }) {
   const [failed, setFailed] = useState(false);
 
   if (iconOnly) {
@@ -30,7 +30,7 @@ export default function Logo({ className = '', iconOnly = false, alt = 'Rainbow 
       className={`object-contain ${className}`.trim()}
       {...props}
     >
-      <title>{alt}</title>
+      {showTitle && <title>{alt}</title>}
       <image
         href={failed ? '/images/rainbow-logo-embroidered.png' : '/images/rainbow-logo-embroidered.webp'}
         width="1021"

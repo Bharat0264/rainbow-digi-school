@@ -1,64 +1,99 @@
 import { useId } from 'react';
 
-// The branch occludes the rear turn; the front turn and board fixing are
-// separate from both the branch artwork and the plank bitmap.
+// Every attachment uses the same measured bark surface. The three SVG layers
+// sandwich the branch and board images without making either image interactive.
 export default function NavigationRopes({ ropes }) {
   const id = useId().replaceAll(':', '');
-  const wrap = ({ x, top, under, thickness }) => {
-    const start = top + thickness * 3.6;
-    const middle = (top + under) / 2;
-    return [
-      `M ${x - 3} ${start} C ${x + 5} ${start + 5}, ${x + 5} ${middle}, ${x - 1} ${under - 3}`,
-      `M ${x + 3} ${start} C ${x - 5} ${start + 5}, ${x - 5} ${middle}, ${x + 1} ${under + 2}`,
-    ];
+  const fiber = index => `url(#${id}-fiber-${index})`;
+  const coils = ({ x, top, under, thickness }) => {
+    const depth = under - top;
+    return [0, 1].map(turn => {
+      const y = turn === 0 ? top + depth * .23 : under - thickness * 1.5;
+      const reach = thickness * .78;
+      return `M ${x - reach} ${y} C ${x - reach * .35} ${y - thickness * .18}, ${x + reach * .3} ${y + thickness * .38}, ${x + reach} ${y + thickness * .7}`;
+    });
   };
 
   return <>
+    {/* A small rear sliver remains visible below the bark edge. */}
     <svg className="featured-ropes featured-ropes-back" aria-hidden="true">
-      {ropes.map(({ x, top, under, thickness }, i) => (
-        <path key={i} data-rope-rear={i} d={`M ${x - 2} ${top + thickness * 3.6} C ${x - 6} ${(top + under) / 2}, ${x - 5} ${under - 5}, ${x} ${under + 2}`}
-          fill="none" stroke="var(--rope-shadow)" strokeWidth={thickness + 1} strokeLinecap="round" />
+      {ropes.map(({ x, top, under, angle, thickness }, index) => (
+        <g key={index} data-rope-rear={index} transform={`rotate(${angle} ${x} ${(top + under) / 2})`}>
+          <path d={`M ${x - thickness * .38} ${top + thickness} C ${x - thickness * .62} ${(top + under) / 2}, ${x - thickness * .35} ${under - 2}, ${x} ${under + thickness * .4}`}
+            fill="none" stroke="var(--rope-shadow)" strokeWidth={thickness * .8} strokeLinecap="round" />
+          <path d={`M ${x - thickness * .38} ${top + thickness} C ${x - thickness * .62} ${(top + under) / 2}, ${x - thickness * .35} ${under - 2}, ${x} ${under + thickness * .4}`}
+            fill="none" stroke="var(--rope-tan)" strokeWidth={thickness * .48} strokeLinecap="round" />
+        </g>
       ))}
     </svg>
 
     <svg className="featured-ropes featured-ropes-front" aria-hidden="true">
       <defs>
-        {ropes.map(({ x, top, thickness }, i) => <pattern key={i} id={`${id}-fiber-${i}`}
+        <filter id={`${id}-contact`} x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur stdDeviation="2.2" />
+        </filter>
+        {ropes.map(({ x, top, thickness }, index) => <pattern key={index} id={`${id}-fiber-${index}`}
           x={x - thickness / 2} y={top} width={thickness} height={thickness * 1536 / 132}
           patternUnits="userSpaceOnUse" viewBox="446 0 132 1536" preserveAspectRatio="none">
           <image href="/images/navigation/rope-fibers.png" width="1024" height="1536" />
         </pattern>)}
       </defs>
-      {ropes.map((rope, i) => {
-        const { x, top, under, hole, board, bottom, thickness } = rope;
-        const dropTop = under + thickness * .5;
-        const dropBottom = Math.max(hole, dropTop + 1);
-        return <g key={i} data-rope="true" data-rope-front={i} data-board={board} data-x={x} data-top={top}
-          data-under={under} data-bottom={bottom} data-hole={hole} data-drop-top={dropTop}
-          data-drop-bottom={dropBottom} data-thickness={thickness}>
-          {wrap(rope).map((d, strand) => <g key={strand}>
-            <path d={d} fill="none" stroke="var(--rope-shadow)" strokeWidth={thickness + 2} strokeLinecap="round" opacity=".65" />
-            <path d={d} fill="none" stroke={`url(#${id}-fiber-${i})`} strokeWidth={thickness} strokeLinecap="round" />
-          </g>)}
-          <path d={`M ${x} ${under - 1} Q ${x - 4} ${under + 2} ${x} ${under + 5} L ${x} ${dropBottom}`}
-            fill="none" stroke="var(--rope-shadow)" strokeWidth={thickness + 2} strokeLinecap="round" opacity=".55" />
-          <path d={`M ${x} ${under - 1} Q ${x - 4} ${under + 2} ${x} ${under + 5} L ${x} ${dropBottom}`}
-            fill="none" stroke={`url(#${id}-fiber-${i})`} strokeWidth={thickness} strokeLinecap="round" />
-          <path d={`M ${x - thickness * .6} ${under + 1} L ${x + thickness * .5} ${under + 4} M ${x + thickness * .6} ${under + 1} L ${x - thickness * .3} ${under + 5}`}
-            fill="none" stroke="var(--rope-tan)" strokeWidth={thickness * .48} strokeLinecap="round" />
+      {ropes.map((rope, index) => {
+        const { x, top, under, angle, knotY, hole, bottom, thickness, ropeLength, board, boardIndex } = rope;
+        const turns = coils(rope);
+        const lowerTurn = `M ${x + thickness * .78} ${under - thickness * .8} Q ${x + thickness * .45} ${under - 1} ${x} ${knotY}`;
+        const lengthVariable = `var(--rope-len-${boardIndex})`;
+        return <g key={index} data-rope="true" data-rope-front={index} data-board={board} data-board-index={boardIndex} data-x={x}
+          data-top={top} data-under={under} data-bottom={bottom} data-hole={hole}
+          data-drop-top={knotY} data-drop-bottom={hole} data-thickness={thickness}
+          data-rope-length={ropeLength} data-wrap-angle={angle}>
+          <g transform={`rotate(${angle} ${x} ${(top + under) / 2})`}>
+            {turns.map((path, turn) => <g key={turn}>
+              <path d={path} fill="none" stroke="var(--wood-dark)" strokeWidth={thickness + 3}
+                strokeLinecap="round" opacity=".27" filter={`url(#${id}-contact)`} />
+              <path d={path} fill="none" stroke="var(--rope-shadow)" strokeWidth={thickness + .7}
+                strokeLinecap="round" opacity=".45" />
+              <path d={path} fill="none" stroke={fiber(index)} strokeWidth={thickness}
+                strokeLinecap="round" />
+              <path d={path} fill="none" stroke="var(--rope-light)" strokeWidth={thickness * .16}
+                strokeLinecap="round" opacity=".65" transform="translate(-.7 -.8)" />
+            </g>)}
+            <path d={lowerTurn} fill="none" stroke={fiber(index)} strokeWidth={thickness * .85}
+              strokeLinecap="round" />
+          </g>
+          {/* The two twisted strands share one CSS-controlled hanging length. */}
+          <rect x={x - thickness * .62} y={knotY} width={thickness * 1.24} height={ropeLength}
+            style={{ height: lengthVariable }} fill="var(--rope-shadow)" opacity=".25" />
+          <rect x={x - thickness * .55} y={knotY} width={thickness * .52} height={ropeLength}
+            style={{ height: lengthVariable }} fill={fiber(index)} />
+          <rect x={x + thickness * .03} y={knotY} width={thickness * .52} height={ropeLength}
+            style={{ height: lengthVariable }} fill={fiber(index)} />
+          <path d={`M ${x - thickness * .42} ${knotY} V ${hole}`} fill="none"
+            stroke="var(--rope-light)" strokeWidth={thickness * .12} opacity=".45" />
+          <path d={`M ${x - thickness * .2} ${knotY - 1} Q ${x - thickness * .55} ${knotY - 3}, ${x} ${knotY - 1} Q ${x + thickness * .55} ${knotY + 2}, ${x + thickness * .2} ${knotY + 1}`}
+            fill="none" stroke="var(--rope-shadow)" strokeWidth={thickness * .65} strokeLinecap="round" />
+          <path d={`M ${x - thickness * .2} ${knotY - 1} Q ${x - thickness * .55} ${knotY - 3}, ${x} ${knotY - 1} Q ${x + thickness * .55} ${knotY + 2}, ${x + thickness * .2} ${knotY + 1}`}
+            fill="none" stroke={fiber(index)} strokeWidth={thickness * .42} strokeLinecap="round" />
         </g>;
       })}
     </svg>
 
+    {/* Menu ropes disappear into dark drilled holes; logo ropes lash the top bamboo. */}
     <svg className="featured-ropes featured-ropes-fixings" aria-hidden="true">
-      {ropes.map(({ x, hole, board, thickness, tailLength }, i) => <g key={i} data-rope-fixing={board}>
-        {board !== 'logo' && <>
-        <ellipse cx={x} cy={hole} rx={thickness * .9} ry={thickness * .7} fill="var(--wood-dark)" opacity=".9" />
-        <ellipse cx={x} cy={hole + 1} rx={thickness * .5} ry={thickness * .4} fill="#221205" />
-        <path d={`M ${x} ${hole - 2} V ${hole + tailLength - 2}`} fill="none" stroke="var(--rope-tan)"
-          strokeWidth={thickness * .9} strokeLinecap="round" />
-        <ellipse cx={x} cy={hole + tailLength - 2} rx={thickness * .8} ry={thickness * .55}
-          fill="var(--rope-tan)" stroke="var(--rope-shadow)" strokeWidth={thickness * .25} />
+      {ropes.map(({ x, hole, bottom, board, thickness }, index) => <g key={index} data-rope-fixing={board}>
+        {board === 'logo' ? <>
+          <path d={`M ${x} ${bottom - 1} V ${hole + thickness * .25} C ${x - thickness * .8} ${hole - thickness * .1}, ${x - thickness * .8} ${hole + thickness * .8}, ${x} ${hole + thickness}`}
+            fill="none" stroke="var(--rope-shadow)" strokeWidth={thickness + 1} strokeLinecap="round" opacity=".35" />
+          <path d={`M ${x} ${bottom - 1} V ${hole + thickness * .25} C ${x - thickness * .8} ${hole - thickness * .1}, ${x - thickness * .8} ${hole + thickness * .8}, ${x} ${hole + thickness}`}
+            fill="none" stroke={fiber(index)} strokeWidth={thickness * .8} strokeLinecap="round" />
+          <path d={`M ${x - thickness * .45} ${hole + thickness * .4} L ${x + thickness * .45} ${hole + thickness * .8}`}
+            fill="none" stroke="var(--rope-tan)" strokeWidth={thickness * .3} strokeLinecap="round" />
+        </> : <>
+          <circle cx={x} cy={hole} r={thickness * .62} fill="var(--wood-light)" opacity=".7" />
+          <circle cx={x} cy={hole} r={thickness * .48} fill="var(--wood-dark)" />
+          <circle cx={x + thickness * .1} cy={hole + thickness * .1} r={thickness * .29} fill="#201006" />
+          <path d={`M ${x} ${bottom - 1} V ${hole - thickness * .15}`}
+            fill="none" stroke={fiber(index)} strokeWidth={thickness * .85} strokeLinecap="round" />
         </>}
       </g>)}
     </svg>
