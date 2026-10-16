@@ -71,4 +71,12 @@
   /* --- Motion & Timing --- */
   --spring-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
   --spring-duration: 350ms;
+
+  /* --- Unified Vertical Spacing System (Single Source of Truth) --- */
+  --section-space: clamp(64px, 7vw, 100px);
+  --section-padding: calc(var(--section-space) / 2);
+  --section-header-gap: clamp(24px, 2.8vw, 36px);
+  --card-gap: clamp(16px, 2vw, 28px);
+  --heading-eyebrow-gap: 10px;
+  --heading-desc-gap: 14px;
 }

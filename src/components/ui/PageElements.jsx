@@ -13,7 +13,7 @@ export function ArrowLink({ to, children, className = "" }) {
 
 export function PageIntro({ eyebrow, title, children, image }) {
   return (
-    <section className="page-intro">
+    <section className="section page-intro">
       <div className={"site-container" + (image ? " page-intro-layout" : "")}>
         <div className="page-intro-card clay-tile clay-cream">
           <p className="eyebrow">
@@ -57,7 +57,7 @@ export function SectionHeading({ eyebrow, title, children }) {
 export function AdmissionsInvite() {
   return (
     <section
-      className="admissions-invite-section site-container"
+      className="section admissions-invite-section site-container"
       aria-labelledby="invite-title"
     >
       <div className="admissions-invite clay-tile clay-pink clay-shape-capsule clay-interactive">

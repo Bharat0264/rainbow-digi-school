@@ -67,7 +67,7 @@ export default function Academics() {
             {earlyYears.overview}
           </SectionHeading>
         </div>
-        <div className="feature-grid" style={{ marginTop: "24px" }}>
+        <div className="feature-grid">
           {earlyYears.pillars.map((pillar, idx) => {
             const colors = ["clay-yellow", "clay-pink", "clay-mint", "clay-peach"];
             const color = colors[idx % colors.length];
@@ -97,7 +97,7 @@ export default function Academics() {
             {primaryYears.overview}
           </SectionHeading>
         </div>
-        <div className="feature-grid" style={{ marginTop: "24px" }}>
+        <div className="feature-grid">
           {primaryYears.pillars.map((pillar, idx) => {
             const colors = ["clay-slate", "clay-mint", "clay-yellow", "clay-pink"];
             const color = colors[idx % colors.length];
@@ -133,7 +133,7 @@ export default function Academics() {
           We replace rote memorisation with active discovery, guided
           exploration, and meaningful teacher-student discussions.
         </SectionHeading>
-        <div className="feature-grid" style={{ marginTop: "28px" }}>
+        <div className="feature-grid">
           {LEARNING_METHODOLOGY.map((method, idx) => {
             const colors = ["clay-pink", "clay-yellow", "clay-mint"];
             const color = colors[idx % colors.length];

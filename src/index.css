@@ -167,9 +167,10 @@ main {
 .home-hero {
   display: grid;
   grid-template-columns: 1.15fr 0.85fr;
-  gap: 32px;
+  gap: var(--card-gap);
   align-items: start;
-  padding-block: 20px 40px;
+  padding-top: var(--section-padding);
+  padding-bottom: 0;
 }
 
 .hero-copy {
@@ -293,8 +294,9 @@ main {
 .school-facts {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
-  margin-block: 16px 48px;
+  gap: var(--card-gap);
+  margin-top: var(--section-header-gap);
+  margin-bottom: var(--section-padding);
 }
 
 .clay-fact-item {
@@ -336,7 +338,7 @@ main {
 .intro-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 28px;
+  gap: var(--card-gap);
   align-items: start;
 }
 
@@ -362,14 +364,14 @@ main {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 32px;
-  margin-bottom: 36px;
+  gap: var(--card-gap);
+  margin-bottom: var(--section-header-gap);
 }
 
 .stage-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 28px;
+  gap: var(--card-gap);
   align-items: start;
 }
 
@@ -460,8 +462,8 @@ main {
 .feature-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
-  margin-top: 36px;
+  gap: var(--card-gap);
+  margin-top: 0;
   align-items: start;
 }
 
@@ -508,10 +510,6 @@ main {
    COMMUNITY BAND & BENTO
    ========================================================================== */
 
-.community-band-section {
-  padding-block: clamp(40px, 5vw, 64px);
-}
-
 .community-band {
   padding: clamp(32px, 4.5vw, 48px);
 }
@@ -520,14 +518,10 @@ main {
    COMPACT ADMISSIONS CTA (Pill Capsule Banner)
    ========================================================================== */
 
-.admissions-invite-section {
-  padding-block: 32px 64px;
-}
-
 .admissions-invite {
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: 36px;
+  gap: var(--card-gap);
   align-items: center;
   padding: clamp(32px, 4vw, 48px);
 }
@@ -551,10 +545,6 @@ main {
 /* ==========================================================================
    PAGE INTRO BANNER
    ========================================================================== */
-
-.page-intro {
-  padding-block: 24px 36px;
-}
 
 .page-intro-card {
   padding: clamp(32px, 4.4vw, 52px);
@@ -992,8 +982,8 @@ main {
 .steps-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
-  margin-top: 36px;
+  gap: var(--card-gap);
+  margin-top: 0;
   padding: 0;
   list-style: none;
 }
@@ -1112,9 +1102,6 @@ main {
     right: 16px;
     bottom: 16px;
     padding: 10px 14px;
-  }
-  .section {
-    padding-block: 48px;
   }
   .button-row {
     flex-direction: column;
