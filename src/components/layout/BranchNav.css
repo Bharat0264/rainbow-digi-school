@@ -1,40 +1,422 @@
-.featured-nav { position:relative; z-index:60; background:#f8f3e8; }
-.featured-inner { --board-top:214px; --logo-top:calc(var(--board-top) - 11px); --logo-height:74px; position:relative; width:95%; max-width:1224px; height:424px; margin:auto; isolation:isolate; }
-.featured-sky { position:absolute; z-index:0; inset:0; overflow:clip; pointer-events:none; }
-.featured-sky img { position:absolute; top:0; left:50%; width:100%; height:280px; transform:translateX(-50%); display:block; user-select:none; }
-.featured-canopy { position:absolute; z-index:1; inset:0; overflow:clip; pointer-events:none; }
-.featured-branch { position:absolute; top:0; left:50%; transform:translateX(-50%); width:100%; max-width:none; height:auto; display:block; image-rendering:auto; pointer-events:none; user-select:none; }
-.featured-ropes,.featured-house-front { position:absolute; inset:0; overflow:visible; pointer-events:none; }
-.featured-ropes { z-index:2; }.featured-house-front { z-index:4; }
-.featured-ropes-back { z-index:0; }.featured-ropes-fixings { z-index:6; }
-.featured-signs { position:absolute; z-index:5; top:var(--board-top); display:flex; gap:clamp(18px,1.7vw,26px); }
-.featured-left { right:calc(50% + 144px); }.featured-right { left:calc(50% + 144px); }
-.featured-sign { position:relative; box-sizing:border-box; display:grid; place-items:center; width:clamp(96px,7.5vw,120px); height:64px; padding:12px 6px 7px; border:3px solid #9a5928; border-radius:11px; background:repeating-linear-gradient(0deg,#c97838 0 6px,#efa862 7px 10px,#b76128 11px 13px); box-shadow:inset 0 2px #fff1c0,0 5px 8px #4a2a1230; color:#4d2c15; font:700 15px Fredoka,sans-serif; text-decoration:none; }
-.featured-sign span { display:block; width:100%; padding:6px 2px; border-radius:6px; background:linear-gradient(#fff5d9,#ffe2a5); text-align:center; white-space:nowrap; }
-.featured-sign:hover span { background:#fff4bd; }.featured-active { box-shadow:0 0 0 3px #ffd35d,0 5px 16px #e5a31c88,inset 0 0 0 2px #ffed9b; }.featured-sign.featured-active span { background:linear-gradient(#fff19c,#ffd84f); }
-.featured-sign:focus-visible,.featured-menu:focus-visible,.featured-logo:focus-visible,.featured-monkey:focus-visible { outline:3px solid #8e4c18; outline-offset:4px; }
-.featured-home { position:absolute; z-index:5; top:var(--logo-top); left:50%; width:218px; transform:translateX(-50%); pointer-events:none; }
-.featured-logo { position:relative; display:flex; box-sizing:border-box; align-items:center; justify-content:center; width:100%; height:var(--logo-height); padding:8px 14px; border:5px solid #995824; border-radius:12px; background:repeating-linear-gradient(0deg,#cc7c3a 0 6px,#efaa63 7px 10px,#b85e24 11px 13px); pointer-events:auto; }
-.featured-logo::before { content:''; position:absolute; inset:6px; border-radius:7px; background:#fff9e8; }.featured-logo svg { position:relative; width:100%; height:100%; }
-.featured-handle { pointer-events:none; }
-.featured-monkey { position:absolute; top:calc(var(--logo-height) - 4px); left:0; width:100%; aspect-ratio:3 / 2; border:0; padding:0; background:transparent; cursor:pointer; pointer-events:auto; }
-.featured-monkey img { display:block; width:100%; height:100%; object-fit:contain; }
-.featured-squirrel { position:absolute; z-index:3; top:0; left:0; width:68px; height:68px; pointer-events:none; will-change:transform; }
-.featured-menu,.featured-drawer { display:none; }
-.featured-drawer { max-height:calc(100dvh - 205px); overflow-y:auto; }
-@media (min-width:1101px) {
- .featured-sign { width:104px; height:60px; }
+.featured-nav {
+  position: relative;
+  z-index: 60;
+  background: #f8f3e8;
 }
-@media (max-width:1100px) {
- .featured-inner { --logo-top:clamp(124px,38vw,164px); --board-top:calc(var(--logo-top) + 11px); --logo-height:66px; --menu-top:clamp(160px,42vw,184px); max-width:420px; height:calc(var(--logo-top) + 216px); }
- .featured-sky img { top:0; width:112%; height:220px; }
- .featured-signs { display:none; }.featured-home { width:210px; }
- .featured-logo { padding:5px 8px; border-width:3px; }.featured-logo::before { inset:4px; }
- .featured-squirrel { width:46px; height:46px; }
- .featured-menu { position:absolute; z-index:6; top:var(--menu-top); right:4px; display:grid; place-items:center; width:48px; height:42px; border:3px solid #9a5928; border-radius:8px; background:#e7a25d; color:#4b2a16; font:700 22px Fredoka,sans-serif; cursor:pointer; }
- .featured-drawer { position:absolute; z-index:7; top:calc(var(--menu-top) + 52px); right:4px; display:grid; gap:8px; box-sizing:border-box; width:min(260px,100%); max-height:calc(100dvh - var(--menu-top) - 64px); padding:12px; border:3px solid #c78649; border-radius:12px; background:#fff8e9; box-shadow:0 10px 20px #4a2a1240; }
- .featured-drawer .featured-sign { width:100%; height:44px; padding:5px; }
+
+.featured-inner {
+  --sign-width: clamp(96px, 7.8vw, 114px);
+  --sign-height: calc(var(--sign-width) * 566 / 594);
+  --board-top: 178px;
+  --logo-width: clamp(208px, 16.5vw, 240px);
+  --logo-height: calc(var(--logo-width) * 357 / 640);
+  --logo-top: 166px;
+  position: relative;
+  width: 95%;
+  max-width: 1224px;
+  height: 424px;
+  margin: auto;
+  isolation: isolate;
 }
-@media (max-width:480px) {
- .featured-drawer { max-height:calc(100dvh - var(--menu-top) - 64px); }
+
+.featured-sky {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  overflow: clip;
+  pointer-events: none;
+}
+
+.featured-sky img {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 100%;
+  height: 280px;
+  transform: translateX(-50%);
+  display: block;
+  user-select: none;
+}
+
+.featured-canopy {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  overflow: clip;
+  pointer-events: none;
+}
+
+.featured-branch {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: none;
+  height: auto;
+  display: block;
+  image-rendering: auto;
+  pointer-events: none;
+  user-select: none;
+}
+
+.featured-ropes,
+.featured-house-front {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.featured-ropes {
+  z-index: 2;
+}
+
+.featured-house-front {
+  z-index: 4;
+}
+
+.featured-ropes-back {
+  z-index: 0;
+}
+
+/* Hide legacy metal rings/fixings since the new wooden boards feature realistic integrated ropes */
+.featured-ropes-fixings {
+  display: none;
+}
+
+/* --------------------------------------------------------------------------
+   MENU BOARDS (Rustic Hanging Wooden Planks - Image 1)
+   -------------------------------------------------------------------------- */
+
+.featured-signs {
+  position: absolute;
+  z-index: 5;
+  top: var(--board-top);
+  display: flex;
+  gap: clamp(14px, 1.4vw, 22px);
+  align-items: flex-start;
+}
+
+.featured-left {
+  right: calc(50% + var(--logo-width) / 2 + clamp(8px, 1vw, 16px));
+}
+
+.featured-right {
+  left: calc(50% + var(--logo-width) / 2 + clamp(8px, 1vw, 16px));
+}
+
+.featured-sign {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--sign-width);
+  height: var(--sign-height);
+  aspect-ratio: 594 / 566;
+  padding-top: 24%;
+  padding-bottom: 6%;
+  padding-inline: 8px;
+  background-image: url('/assets/nav/board-menu.webp');
+  background-image: image-set(
+    url('/assets/nav/board-menu.webp') 1x,
+    url('/assets/nav/board-menu@2x.webp') 2x
+  );
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center top;
+  text-decoration: none;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  transform-origin: 50% 0;
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.3s ease;
+}
+
+.featured-sign span {
+  display: block;
+  width: 100%;
+  padding: 0;
+  background: transparent;
+  color: #381d0b;
+  font-family: Fredoka, "Baloo 2", Nunito, sans-serif;
+  font-weight: 700;
+  font-size: clamp(12.5px, 1.05vw, 14.5px);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  text-align: center;
+  white-space: nowrap;
+  text-shadow: 0 1px 0 rgba(255, 245, 220, 0.75), 0 0 2px rgba(255, 255, 255, 0.3);
+  pointer-events: none;
+}
+
+/* Active State: Warm Golden Glow & 1.04 Scale (Preserves Wood Texture) */
+.featured-sign.featured-active {
+  transform: scale(1.04);
+  filter: drop-shadow(0 0 8px rgba(255, 205, 60, 0.85)) drop-shadow(0 4px 10px rgba(60, 30, 10, 0.35));
+  z-index: 6;
+}
+
+.featured-sign.featured-active span {
+  color: #2b1406;
+  text-shadow: 0 1px 0 rgba(255, 235, 160, 0.9), 0 0 4px rgba(255, 215, 80, 0.4);
+}
+
+/* Hover & Focus: Gentle Hanging Sign Swing Animation */
+@keyframes sign-swing {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(-2deg); }
+  75% { transform: rotate(2deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@keyframes sign-swing-active {
+  0% { transform: scale(1.04) rotate(0deg); }
+  25% { transform: scale(1.04) rotate(-2deg); }
+  75% { transform: scale(1.04) rotate(2deg); }
+  100% { transform: scale(1.04) rotate(0deg); }
+}
+
+.featured-sign:hover,
+.featured-sign:focus-visible {
+  animation: sign-swing 500ms ease-in-out;
+}
+
+.featured-sign.featured-active:hover,
+.featured-sign.featured-active:focus-visible {
+  animation: sign-swing-active 500ms ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .featured-sign,
+  .featured-sign:hover,
+  .featured-sign:focus-visible,
+  .featured-sign.featured-active:hover,
+  .featured-sign.featured-active:focus-visible {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+.featured-sign:focus-visible,
+.featured-menu:focus-visible,
+.featured-logo:focus-visible,
+.featured-monkey:focus-visible {
+  outline: 3px solid #8e4c18;
+  outline-offset: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   LOGO BOARD (Bamboo Frame & Lush Leaves - Image 2)
+   -------------------------------------------------------------------------- */
+
+.featured-home {
+  position: absolute;
+  z-index: 5;
+  top: var(--logo-top);
+  left: 50%;
+  width: var(--logo-width);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.featured-logo {
+  position: relative;
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: var(--logo-height);
+  aspect-ratio: 640 / 357;
+  padding: 6% 16% 28% 16%;
+  background-image: url('/assets/nav/board-logo.webp');
+  background-image: image-set(
+    url('/assets/nav/board-logo.webp') 1x,
+    url('/assets/nav/board-logo@2x.webp') 2x
+  );
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center top;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  pointer-events: auto;
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.3s ease;
+}
+
+.featured-logo::before {
+  display: none;
+}
+
+.featured-logo svg {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(40, 20, 10, 0.25));
+}
+
+.featured-logo.featured-active {
+  filter: drop-shadow(0 0 10px rgba(255, 215, 80, 0.8)) drop-shadow(0 4px 12px rgba(60, 30, 10, 0.35));
+}
+
+.featured-handle {
+  pointer-events: none;
+}
+
+/* Monkey hanging firmly from the bottom bamboo bar */
+.featured-monkey {
+  position: absolute;
+  top: calc(var(--logo-height) * 0.63);
+  left: 0;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.featured-monkey img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.featured-squirrel {
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  left: 0;
+  width: 68px;
+  height: 68px;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.featured-menu,
+.featured-drawer {
+  display: none;
+}
+
+.featured-drawer {
+  max-height: calc(100dvh - 205px);
+  overflow-y: auto;
+}
+
+/* --------------------------------------------------------------------------
+   RESPONSIVE BREAKPOINTS (Desktop 1440px -> Laptop 1024px -> Tablet 768px -> Mobile 375px)
+   -------------------------------------------------------------------------- */
+
+/* Tablet & Smaller Laptop Proportional Scaling (768px to 1023px): Full Scene Without Overlap */
+@media (max-width: 1023px) and (min-width: 768px) {
+  .featured-inner {
+    --sign-width: clamp(72px, 9.6vw, 92px);
+    --board-top: clamp(144px, 18.5vw, 172px);
+    --logo-width: clamp(164px, 21.5vw, 204px);
+    --logo-top: clamp(134px, 17.5vw, 160px);
+    height: 380px;
+  }
+  .featured-signs {
+    gap: clamp(8px, 1.1vw, 14px);
+  }
+  .featured-left {
+    right: calc(50% + var(--logo-width) / 2 + clamp(6px, 0.9vw, 12px));
+  }
+  .featured-right {
+    left: calc(50% + var(--logo-width) / 2 + clamp(6px, 0.9vw, 12px));
+  }
+  .featured-sign span {
+    font-size: clamp(11px, 1.25vw, 13px);
+  }
+  .featured-squirrel {
+    width: 54px;
+    height: 54px;
+  }
+}
+
+/* Mobile (< 768px): Compact Branch Scene with Hamburger & Stacked Wooden Plank Drawer */
+@media (max-width: 767px) {
+  .featured-inner {
+    --logo-top: clamp(124px, 34vw, 164px);
+    --logo-width: clamp(170px, 48vw, 214px);
+    --logo-height: calc(var(--logo-width) * 357 / 640);
+    --menu-top: clamp(150px, 38vw, 184px);
+    max-width: 440px;
+    height: calc(var(--logo-top) + 220px);
+  }
+  .featured-sky img {
+    top: 0;
+    width: 112%;
+    height: 220px;
+  }
+  .featured-signs {
+    display: none;
+  }
+  .featured-home {
+    width: var(--logo-width);
+  }
+  .featured-squirrel {
+    width: 46px;
+    height: 46px;
+  }
+  .featured-menu {
+    position: absolute;
+    z-index: 6;
+    top: var(--menu-top);
+    right: 8px;
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 44px;
+    border: 3px solid #9a5928;
+    border-radius: 10px;
+    background: #e7a25d;
+    color: #4b2a16;
+    font: 700 24px Fredoka, sans-serif;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(74, 42, 18, 0.25);
+  }
+  .featured-drawer {
+    position: absolute;
+    z-index: 7;
+    top: calc(var(--menu-top) + 54px);
+    right: 8px;
+    display: grid;
+    gap: 10px;
+    box-sizing: border-box;
+    width: min(280px, calc(100vw - 32px));
+    max-height: calc(100dvh - var(--menu-top) - 64px);
+    padding: 14px;
+    border: 3px solid #c78649;
+    border-radius: 14px;
+    background: #fff8e9;
+    box-shadow: 0 10px 24px rgba(74, 42, 18, 0.35);
+  }
+  .featured-drawer .featured-sign {
+    width: 100%;
+    height: 52px;
+    aspect-ratio: auto;
+    padding: 0 16px;
+    background-size: 100% 100%;
+    background-position: center;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .featured-drawer .featured-sign span {
+    font-size: 16px;
+    padding: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .featured-drawer {
+    max-height: calc(100dvh - var(--menu-top) - 64px);
+  }
 }
