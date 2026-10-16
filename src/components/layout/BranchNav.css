@@ -15,6 +15,25 @@
   --rope-light: #e1bd82;
   --text-cream: #fff9ea;
 
+  /* Rainbow Menu Text Palette */
+  --menu-red: #FF6B5E;
+  --menu-red-hover: #FF9187;
+
+  --menu-orange: #FFA94D;
+  --menu-orange-hover: #FFBD76;
+
+  --menu-yellow: #FFE066;
+  --menu-yellow-hover: #FFE88F;
+
+  --menu-green: #86E39A;
+  --menu-green-hover: #A7EBB6;
+
+  --menu-blue: #74B9FF;
+  --menu-blue-hover: #9DCEFF;
+
+  --menu-indigo: #A99DFF;
+  --menu-indigo-hover: #CDC6FF;
+
   --board-shadow: drop-shadow(0 4px 6px rgba(45, 20, 8, .28));
   --board-width: calc(114px * var(--scale));
   --board-height: calc(var(--board-width) * 450 / 594);
@@ -90,6 +109,43 @@
 .featured-left { right: calc(50% + var(--logo-width) / 2 + var(--board-gap)); }
 .featured-right { left: calc(50% + var(--logo-width) / 2 + var(--board-gap)); }
 
+/* Per-item Rainbow Color Modifiers */
+.featured-sign-home,
+[data-nav-id="home"] {
+  --menu-color: var(--menu-red);
+  --menu-color-hover: var(--menu-red-hover);
+}
+
+.featured-sign-academics,
+[data-nav-id="academics"] {
+  --menu-color: var(--menu-orange);
+  --menu-color-hover: var(--menu-orange-hover);
+}
+
+.featured-sign-admissions,
+[data-nav-id="admissions"] {
+  --menu-color: var(--menu-yellow);
+  --menu-color-hover: var(--menu-yellow-hover);
+}
+
+.featured-sign-campus,
+[data-nav-id="campus"] {
+  --menu-color: var(--menu-green);
+  --menu-color-hover: var(--menu-green-hover);
+}
+
+.featured-sign-school-life,
+[data-nav-id="school-life"] {
+  --menu-color: var(--menu-blue);
+  --menu-color-hover: var(--menu-blue-hover);
+}
+
+.featured-sign-contact,
+[data-nav-id="contact"] {
+  --menu-color: var(--menu-indigo);
+  --menu-color-hover: var(--menu-indigo-hover);
+}
+
 .featured-sign {
   position: relative;
   box-sizing: border-box;
@@ -120,7 +176,7 @@
   justify-content: center;
   width: 100%;
   height: 100%;
-  color: var(--text-cream);
+  color: var(--menu-color, var(--text-cream));
   font-family: Fredoka, "Baloo 2", Nunito, sans-serif;
   font-size: clamp(11px, calc(15px * var(--scale)), 15px);
   font-weight: 700;
@@ -128,11 +184,30 @@
   letter-spacing: -.01em;
   text-align: center;
   white-space: nowrap;
-  text-shadow: 0 1px 1px rgba(35, 18, 6, .95), 0 0 2px rgba(35, 18, 6, .65);
+  paint-order: stroke fill;
+  -webkit-text-stroke: clamp(2px, 0.12em, 2.5px) #2B170A;
+  text-shadow:
+    0 1px 0 rgba(43, 23, 10, 0.6),
+    0 2px 3px rgba(0, 0, 0, 0.25),
+    0 0 4px rgba(43, 23, 10, 0.15);
   pointer-events: none;
+  transition: color 0.2s ease, -webkit-text-stroke 0.2s ease;
 }
-.featured-sign.featured-active { transform: translateY(calc(4px * var(--scale))); }
-.featured-sign.featured-active span { font-weight: 800; }
+
+/* Hover: brighten fill by ~8% lightness only (no glow) */
+.featured-sign:hover span,
+.featured-sign:focus-visible span {
+  color: var(--menu-color-hover, var(--menu-color));
+}
+
+/* Active tab: sitting 4px lower, bolder weight, slightly thicker outline (no glow) */
+.featured-sign.featured-active {
+  transform: translateY(calc(4px * var(--scale)));
+}
+.featured-sign.featured-active span {
+  font-weight: 800;
+  -webkit-text-stroke: clamp(2.4px, 0.14em, 3px) #200f05;
+}
 
 .featured-sign:focus-visible,
 .featured-menu:focus-visible,

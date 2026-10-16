@@ -59,7 +59,7 @@ try {
     assert.equal(result.svgTitle, null, `${width}: logo SVG has no browser tooltip`);
     assert.match(result.logoLabel, /Rainbow Digi School/i);
     assert.equal(result.straps, 2, `${width}: paired stick straps share the logo wrapper`);
-    assert.equal(result.menuTextColor, 'rgb(255, 249, 234)', `${width}: menu text remains cream`);
+    assert.equal(result.menuTextColor, 'rgb(255, 107, 94)', `${width}: menu text uses rainbow red for home`);
     for (const board of new Set(result.ropes.map(rope => rope.board))) {
       const pair = result.ropes.filter(rope => rope.board === board);
       assert.equal(pair.length, 2, `${width}: ${board} has two supports`);

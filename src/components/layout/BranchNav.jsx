@@ -156,7 +156,7 @@ export default function BranchNav() {
       state={{ navItem: item.id }}
       data-nav-id={item.id}
       aria-current={selected === item.id ? 'page' : undefined}
-      className={`featured-sign${selected === item.id ? ' featured-active' : ''}`}
+      className={`featured-sign featured-sign-${item.id}${selected === item.id ? ' featured-active' : ''}`}
       onClick={event => visit(event, item)}
     >
       <span>{item.label}</span>
