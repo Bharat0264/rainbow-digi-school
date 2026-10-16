@@ -50,7 +50,7 @@ try {
   assert.equal(await squirrel.evaluate(c=>getComputedStyle(c).pointerEvents),'none');
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
   // Manual navigation remains immediate, even while emerging from the house.
-  if(width<=1100)await page.locator('.featured-menu').click();
+  if(width<768)await page.locator('.featured-menu').click();
   await page.locator('[data-nav-id="contact"]:visible').click();
   assert.equal(new URL(page.url()).pathname,'/contact');
   await page.clock.runFor(2200);
@@ -63,10 +63,10 @@ try {
   await page.clock.runFor(4500);
   assert.equal((await read()).state,'inside');
   // Resize between distinct desktop/mobile artwork during a trip.
-  if(width<=1100)await page.locator('.featured-menu').click();
+  if(width<768)await page.locator('.featured-menu').click();
   await page.locator('[data-nav-id="home"]:visible').click();
   await page.clock.runFor(300);
-  await page.setViewportSize({width:width<=1100?1440:390,height:950});
+  await page.setViewportSize({width:width<768?1440:390,height:950});
   await page.clock.runFor(2300);
   assert.equal((await read()).state,'standing');
   assert.ok(Number.isFinite(+(await read()).x));

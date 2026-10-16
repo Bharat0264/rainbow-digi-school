@@ -39,7 +39,7 @@ try {
   }
   const targets=[];
   for(const [id,path] of [['home','/'],['academics','/academics'],['admissions','/admissions'],['campus','/campus'],['school-life','/school-life'],['contact','/contact']])targets.push(await tab(id,path));
-  if(width>1100)assert.equal(new Set(targets.map(p=>Math.round(+p.x))).size,6,'Each desktop tab has its own destination');
+  if(width>=768)assert.equal(new Set(targets.map(p=>Math.round(+p.x))).size,6,'Each desktop tab has its own destination');
   const historyBefore=await page.evaluate(()=>history.state.idx);
   await page.locator('.featured-monkey').click();
   // No animation-clock advancement: route, active tab and content must update now.

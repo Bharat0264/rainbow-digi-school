@@ -17,7 +17,7 @@ try {
     const attachments = await page.locator('[data-rope]').evaluateAll(elements => elements.map(element => {
       const nav = element.closest('nav').getBoundingClientRect();
       return { x: Number(element.dataset.x) + nav.x, y: Number(element.dataset.top) + nav.y,
-        bottom: Number(element.dataset.bottom) + nav.y, board: element.dataset.board,
+        bottom: Number(element.dataset.bottom) + nav.y, hole: Number(element.dataset.hole) + nav.y, board: element.dataset.board,
         dropTop: Number(element.dataset.dropTop), dropBottom: Number(element.dataset.dropBottom),
         thickness: Number(element.dataset.thickness) };
     }));
@@ -29,10 +29,10 @@ try {
     assert.ok(layers.every(layer => layer.pointerEvents === 'none'));
     const tiles = [];
     for (const [i, rope] of attachments.entries()) {
-      assert.ok(rope.dropBottom - rope.dropTop >= rope.thickness * .49, `${width}: ${rope.board} knots remain separate`);
+      assert.ok(rope.hole >= rope.y && rope.dropBottom >= rope.dropTop, `${width}: ${rope.board} rope reaches its fixing`);
       const board = rope.board === 'logo' ? page.locator('.featured-logo') : page.locator(`.featured-signs [data-nav-id="${rope.board}"]`);
       const bounds = await board.boundingBox();
-      assert.ok(Math.abs(rope.bottom - bounds.y) < .5, `${width}: eyelet meets board frame`);
+      assert.ok(Math.abs(rope.bottom - bounds.y) < .5, `${width}: attachment meets board frame`);
       assert.ok(rope.x > bounds.x && rope.x < bounds.x + bounds.width, `${width}: attachment remains on board`);
       const clip = { x: Math.max(0, rope.x-24), y: Math.max(0, rope.y-12), width: 48, height: rope.bottom-rope.y+38 };
       const png = await page.screenshot({ path: `${output}/${width}-${i}-${rope.board}.png`, clip });
@@ -48,11 +48,11 @@ try {
   // Switching source images without reloading must also re-measure attachments.
   for (const width of [1100, 1101, 390, 1440]) {
     await page.setViewportSize({ width, height: 950 });
-    await page.waitForFunction(expected => document.querySelectorAll('[data-rope]').length === expected, width <= 1100 ? 2 : 14);
+    await page.waitForFunction(expected => document.querySelectorAll('[data-rope]').length === expected, width <= 767 ? 2 : 14);
     await page.locator('.featured-branch').evaluate(image => image.decode());
-    await page.waitForFunction(compact => document.querySelector('.featured-branch').currentSrc.includes('compact') === compact, width <= 1100);
+    await page.waitForFunction(compact => document.querySelector('.featured-branch').currentSrc.includes('compact') === compact, width <= 767);
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
   }
   await writeFile(`${output}/report.json`, JSON.stringify({ base, report, responsiveSourceSwitch: 'passed' }, null, 2));
-  console.log('PASS: rear/front/board layers, nonoverlapping knots, exact board attachments, pointer-event safety, responsive source switching; every rope captured at six widths.');
+  console.log('PASS: rear/front/board layers, drilled-hole attachments, pointer-event safety, responsive source switching; every rope captured at six widths.');
 } finally { await browser.close(); }

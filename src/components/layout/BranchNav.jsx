@@ -54,32 +54,51 @@ export default function BranchNav() {
       return { x: a.x - b.x, y: a.y - b.y, width: a.width, height: a.height };
     };
     const measure = () => {
-      const art = relative(artRef.current), box = nav.getBoundingClientRect();
+      const box = nav.getBoundingClientRect();
+      const compact = window.matchMedia('(max-width: 767px)').matches;
+      const scale = Math.min(1, box.width / (compact ? 440 : 1224));
+      if (Math.abs(Number(nav.style.getPropertyValue('--scene-scale')) - scale) > .0001) {
+        nav.style.setProperty('--scene-scale', String(scale));
+      }
+      const art = relative(artRef.current);
       art.compact = artRef.current.currentSrc.includes('branch-house-compact');
       const layout = { art, width: box.width, height: box.height, size: parseFloat(getComputedStyle(canvas).width) };
       const ropes = [];
-      [...boardsRef.current.values(), logoRef.current].forEach(element => {
+      [...boardsRef.current.values(), logoRef.current].forEach((element, index) => {
         if (!element?.getClientRects().length || element.closest('.featured-drawer')) return;
         const r = relative(element), isLogo = element === logoRef.current;
         (isLogo ? [.09, .91] : [.22, .78]).forEach(anchor => {
           const x = r.x + r.width * anchor;
-          ropes.push({ x, ...ropeSurface(x, art), bottom: r.y,
+          const surface = ropeSurface(x, art);
+          const hole = isLogo ? Math.max(r.y + r.height * .12, surface.under + 2 * scale) : r.y + r.height * .12;
+          ropes.push({ x, ...surface, bottom: r.y, hole,
+            thickness: 5 * scale, tailLength: Math.min(r.height * .085, 8 * scale),
             board: isLogo ? 'logo' : element.dataset.navId });
         });
+        if (!isLogo) {
+          const left = ropes[ropes.length - 2], right = ropes[ropes.length - 1];
+          nav.style.setProperty(`--rope-len-${index + 1}`, `${Math.max(0, (left.hole - left.under + right.hole - right.under) / 2).toFixed(2)}px`);
+        }
       });
       setGeometry({ ...layout, ropes });
       animation.measure(layout);
     };
     measure();
-    const observer = new ResizeObserver(measure);
+    let frame;
+    const scheduleMeasure = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(measure);
+    };
+    const observer = new ResizeObserver(scheduleMeasure);
     observer.observe(nav);
     observer.observe(artRef.current);
     const branchImage = artRef.current;
-    branchImage.addEventListener('load', measure);
+    branchImage.addEventListener('load', scheduleMeasure);
     return () => {
+      cancelAnimationFrame(frame);
       animation.dispose();
       observer.disconnect();
-      branchImage.removeEventListener('load', measure);
+      branchImage.removeEventListener('load', scheduleMeasure);
       startRef.current = () => {};
     };
   }, []);
@@ -144,7 +163,7 @@ export default function BranchNav() {
         </div>
         <div className="featured-canopy">
           <picture>
-            <source media="(max-width:1100px)" srcSet={COMPACT_ART} width="1536" height="1024" />
+            <source media="(max-width:767px)" srcSet={COMPACT_ART} width="1536" height="1024" />
             <img ref={artRef} className="featured-branch" fetchPriority="high" src={BRANCH_ART} width="2172" height="430" alt="" aria-hidden="true" decoding="async" />
           </picture>
         </div>
@@ -155,6 +174,11 @@ export default function BranchNav() {
           <Link ref={logoRef} to="/" onClick={visitHouse} aria-label="Rainbow Digi School — Excellence begins early — home" className={`featured-logo${location.pathname === '/' ? ' featured-active' : ''}`}>
             <Logo />
           </Link>
+          <svg className="featured-straps" viewBox="0 0 194 26" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M 16 1 C 13 4 15 8 16 10 M 178 1 C 181 4 179 8 178 10" />
+            <circle cx="16" cy="10" r="3" />
+            <circle cx="178" cy="10" r="3" />
+          </svg>
           <button type="button" className="featured-monkey" aria-label="Send the squirrel home" onClick={visitMonkey}>
             <img className="featured-handle" src="/images/navigation/monkey-handle-grip.png" width="1536" height="1024" alt="" decoding="async" />
           </button>

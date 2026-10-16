@@ -82,6 +82,7 @@ try {
         top: Number(group.dataset.top),
         under: Number(group.dataset.under),
         bottom: Number(group.dataset.bottom),
+        hole: Number(group.dataset.hole),
       }));
       const boards = [...document.querySelectorAll('.featured-signs .featured-sign, .featured-logo')]
         .filter(element => element.getClientRects().length)
@@ -115,8 +116,8 @@ try {
       const ropes = geometry.ropes.filter(rope => rope.board === board.id);
       assert.equal(ropes.length, 2, `${width}: ${board.id} attachment count`);
       for (const rope of ropes) {
-        assert.ok([rope.top, rope.under, rope.bottom].every(Number.isFinite), `${width}: finite rope geometry`);
-        assert.ok(rope.top < rope.under && rope.under < rope.bottom, `${width}: ${board.id} branch wrap and hanging length`);
+        assert.ok([rope.top, rope.under, rope.bottom, rope.hole].every(Number.isFinite), `${width}: finite rope geometry`);
+        assert.ok(rope.top < rope.under && rope.under < rope.hole, `${width}: ${board.id} branch wrap and hanging length`);
         assert.ok(Math.abs(rope.bottom - board.top) <= 16, `${width}: ${board.id} rope/board connection`);
       }
       assert.ok(board.left >= 0 && board.right <= width, `${width}: ${board.id} board outside viewport`);

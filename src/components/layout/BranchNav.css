@@ -5,114 +5,89 @@
 }
 
 .featured-inner {
-  /* Warm wood and scene palette matching the branch */
+  /* One scale drives the artwork, boards, type, ropes, and monkey together. */
+  --scene-scale: 1;
   --wood-dark: #3a1d08;
   --wood-mid: #854d20;
   --wood-light: #d8964e;
-  --wood-warm-bg: #e6a75f;
-  --rope-tan: #c4965c;
+  --rope-shadow: #62401f;
+  --rope-tan: #bd8d55;
+  --rope-light: #e1bd82;
   --text-cream: #fff9ea;
-
-  --sign-width: clamp(96px, 7.8vw, 114px);
-  --sign-height: calc(var(--sign-width) * 450 / 594);
-  --board-top: 202px;
-  --logo-width: clamp(208px, 16.5vw, 240px);
+  --board-shadow: drop-shadow(0 4px 6px rgba(45, 20, 8, .28));
+  --board-width: calc(114px * var(--scene-scale));
+  --board-height: calc(var(--board-width) * 450 / 594);
+  --board-gap: calc(20px * var(--scene-scale));
+  --board-top: calc(218px * var(--scene-scale));
+  --logo-width: calc(194px * var(--scene-scale));
   --logo-height: calc(var(--logo-width) * 357 / 640);
-  --logo-top: 166px;
+  --logo-top: calc(180px * var(--scene-scale));
   position: relative;
   width: 95%;
   max-width: 1224px;
-  height: 424px;
+  height: calc(424px * var(--scene-scale));
   margin: auto;
   isolation: isolate;
 }
 
-.featured-sky {
+.featured-sky,
+.featured-canopy {
   position: absolute;
-  z-index: 0;
   inset: 0;
   overflow: clip;
   pointer-events: none;
 }
+
+.featured-sky { z-index: 0; }
+.featured-canopy { z-index: 1; }
 
 .featured-sky img {
   position: absolute;
   top: 0;
   left: 50%;
-  width: 100%;
-  height: 280px;
-  transform: translateX(-50%);
   display: block;
+  width: 100%;
+  height: calc(280px * var(--scene-scale));
+  transform: translateX(-50%);
   user-select: none;
-}
-
-.featured-canopy {
-  position: absolute;
-  z-index: 1;
-  inset: 0;
-  overflow: clip;
-  pointer-events: none;
 }
 
 .featured-branch {
   position: absolute;
   top: 0;
   left: 50%;
-  transform: translateX(-50%);
+  display: block;
   width: 100%;
   max-width: none;
   height: auto;
-  display: block;
-  image-rendering: auto;
+  transform: translateX(-50%);
   pointer-events: none;
   user-select: none;
 }
 
-.featured-ropes,
-.featured-house-front {
+.featured-ropes {
   position: absolute;
   inset: 0;
+  width: 100%;
+  height: 100%;
   overflow: visible;
   pointer-events: none;
-}
-
-.featured-ropes {
   z-index: 2;
 }
+.featured-ropes-back { z-index: 0; }
+.featured-ropes-fixings { z-index: 6; }
 
-.featured-house-front {
-  z-index: 4;
-}
-
-.featured-ropes-back {
-  z-index: 0;
-}
-
-/* Hide legacy metal rings/fixings */
-.featured-ropes-fixings {
-  display: none;
-}
-
-/* --------------------------------------------------------------------------
-   MENU BOARDS (Rustic Hanging Wooden Planks)
-   -------------------------------------------------------------------------- */
-
+/* The groups share one top and one gap; bark curvature only changes rope length. */
 .featured-signs {
   position: absolute;
   z-index: 5;
   top: var(--board-top);
   display: flex;
-  gap: clamp(14px, 1.4vw, 22px);
   align-items: flex-start;
+  gap: var(--board-gap);
 }
-
-.featured-left {
-  right: calc(50% + var(--logo-width) / 2 + clamp(8px, 1vw, 16px));
-}
-
-.featured-right {
-  left: calc(50% + var(--logo-width) / 2 + clamp(8px, 1vw, 16px));
-}
+.featured-left { right: calc(50% + var(--logo-width) / 2 + var(--board-gap)); }
+.featured-right { left: calc(50% + var(--logo-width) / 2 + var(--board-gap)); }
 
 .featured-sign {
   position: relative;
@@ -120,114 +95,51 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: var(--sign-width);
-  height: var(--sign-height);
-  aspect-ratio: 594 / 450;
-  padding-top: 6%;
-  padding-bottom: 6%;
-  padding-inline: 10px;
-  background-image: url('/assets/nav/board-menu.webp');
+  flex: none;
+  width: var(--board-width);
+  height: var(--board-height);
+  padding: calc(8px * var(--scene-scale));
+  background-image: url('/assets/nav/board-menu-clean.png');
   background-image: image-set(
-    url('/assets/nav/board-menu.webp') 1x,
-    url('/assets/nav/board-menu@2x.webp') 2x
+    url('/assets/nav/board-menu-clean.webp') 1x,
+    url('/assets/nav/board-menu-clean@2x.webp') 2x
   );
   background-size: contain;
   background-repeat: no-repeat;
-  background-position: center top;
+  background-position: center;
+  border: 0;
+  color: var(--text-cream);
   text-decoration: none;
-  border: none;
-  border-radius: 0;
-  box-shadow: none;
-  filter: drop-shadow(0 4px 6px rgba(45, 20, 8, 0.28));
+  filter: var(--board-shadow);
   -webkit-tap-highlight-color: transparent;
-  transform-origin: 50% 0;
-  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.3s ease;
 }
-
 .featured-sign span {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  padding: 0;
-  background: transparent;
+  height: 100%;
   color: var(--text-cream);
   font-family: Fredoka, "Baloo 2", Nunito, sans-serif;
+  font-size: clamp(11px, calc(15px * var(--scene-scale)), 15px);
   font-weight: 700;
-  font-size: clamp(13px, 1.1vw, 15px);
   line-height: 1.2;
-  letter-spacing: -0.01em;
+  letter-spacing: -.01em;
   text-align: center;
   white-space: nowrap;
-  text-shadow: 0 1px 2px rgba(45, 20, 8, 0.95), 0 0 1px rgba(30, 10, 5, 0.8);
+  text-shadow: 0 1px 1px rgba(35, 18, 6, .95), 0 0 2px rgba(35, 18, 6, .65);
   pointer-events: none;
 }
-
-/* Subtle Active State (No Halo, No Glow, 4px lower, slightly deeper tone) */
-.featured-sign.featured-active {
-  transform: translateY(4px);
-  filter: drop-shadow(0 3px 5px rgba(45, 20, 8, 0.35)) brightness(0.96) contrast(1.05);
-  z-index: 6;
-}
-
-.featured-sign.featured-active span {
-  font-weight: 800;
-  color: #ffffff;
-  text-shadow: 0 1px 2px rgba(30, 10, 5, 0.98);
-}
-
-/* Hover & Focus: Gentle Hanging Sign Swing Animation */
-@keyframes sign-swing {
-  0% { transform: rotate(0deg); }
-  25% { transform: rotate(-2deg); }
-  75% { transform: rotate(2deg); }
-  100% { transform: rotate(0deg); }
-}
-
-@keyframes sign-swing-active {
-  0% { transform: translateY(4px) rotate(0deg); }
-  25% { transform: translateY(4px) rotate(-2deg); }
-  75% { transform: translateY(4px) rotate(2deg); }
-  100% { transform: translateY(4px) rotate(0deg); }
-}
-
-.featured-sign:hover,
-.featured-sign:focus-visible {
-  animation: sign-swing 500ms ease-in-out;
-}
-
-.featured-sign.featured-active:hover,
-.featured-sign.featured-active:focus-visible {
-  animation: sign-swing-active 500ms ease-in-out;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .featured-sign,
-  .featured-sign:hover,
-  .featured-sign:focus-visible,
-  .featured-sign.featured-active:hover,
-  .featured-sign.featured-active:focus-visible {
-    animation: none !important;
-    transition: none !important;
-  }
-}
+.featured-sign.featured-active { transform: translateY(calc(4px * var(--scene-scale))); }
+.featured-sign.featured-active span { font-weight: 800; }
 
 .featured-sign:focus-visible,
 .featured-menu:focus-visible,
 .featured-logo:focus-visible,
 .featured-monkey:focus-visible {
-  outline: 2px solid #3d200e;
+  outline: 2px solid var(--wood-dark);
   outline-offset: 3px;
 }
-
-.featured-sign:focus:not(:focus-visible),
-.featured-menu:focus:not(:focus-visible),
-.featured-logo:focus:not(:focus-visible),
-.featured-monkey:focus:not(:focus-visible) {
-  outline: none;
-}
-
-/* --------------------------------------------------------------------------
-   LOGO BOARD (Bamboo Frame & Lush Leaves - Image 2)
-   -------------------------------------------------------------------------- */
 
 .featured-home {
   position: absolute;
@@ -238,58 +150,61 @@
   transform: translateX(-50%);
   pointer-events: none;
 }
-
 .featured-logo {
   position: relative;
-  display: flex;
   box-sizing: border-box;
+  display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   height: var(--logo-height);
-  aspect-ratio: 640 / 357;
-  padding: 6% 16% 28% 16%;
-  background-image: url('/assets/nav/board-logo.webp');
+  padding: 6% 16% 28%;
+  background-image: url('/assets/nav/board-logo.png');
   background-image: image-set(
     url('/assets/nav/board-logo.webp') 1x,
     url('/assets/nav/board-logo@2x.webp') 2x
   );
   background-size: contain;
   background-repeat: no-repeat;
-  background-position: center top;
-  border: none;
-  border-radius: 0;
-  box-shadow: none;
-  filter: drop-shadow(0 4px 6px rgba(45, 20, 8, 0.28));
+  background-position: center;
+  filter: var(--board-shadow);
   pointer-events: auto;
   -webkit-tap-highlight-color: transparent;
-  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.3s ease;
 }
-
-.featured-logo::before {
-  display: none;
-}
-
 .featured-logo svg {
   position: relative;
   width: 100%;
   height: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 2px 4px rgba(40, 20, 10, 0.25));
 }
 
-.featured-logo.featured-active {
-  filter: drop-shadow(0 4px 8px rgba(45, 20, 8, 0.38)) brightness(0.97);
-}
-
-.featured-handle {
+/* Twine straps sit behind the existing stick artwork and the monkey's hands. */
+.featured-straps {
+  position: absolute;
+  z-index: 3;
+  top: calc(var(--logo-height) * .6);
+  left: 0;
+  width: 100%;
+  height: calc(26px * var(--scene-scale));
+  overflow: visible;
   pointer-events: none;
+  filter: drop-shadow(0 1px 1px rgba(45, 20, 8, .4));
 }
-
-/* Monkey hanging firmly from the bottom bamboo bar with overlapping straps */
+.featured-straps path {
+  fill: none;
+  stroke: var(--rope-tan);
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+.featured-straps circle {
+  fill: var(--rope-tan);
+  stroke: var(--rope-shadow);
+  stroke-width: 1.2;
+}
 .featured-monkey {
   position: absolute;
-  top: calc(var(--logo-height) * 0.495);
+  z-index: 2;
+  top: calc(var(--logo-height) * .55);
   left: 0;
   width: 100%;
   aspect-ratio: 3 / 2;
@@ -299,14 +214,28 @@
   cursor: pointer;
   pointer-events: auto;
   -webkit-tap-highlight-color: transparent;
-  z-index: 2;
 }
-
+/* Adds depth below the baked stick while preserving the monkey's exact pose. */
+.featured-monkey::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: 9%;
+  left: 4%;
+  width: 92%;
+  height: calc(17px * var(--scene-scale));
+  border-radius: 999px;
+  background: linear-gradient(to bottom, var(--wood-light), var(--wood-mid) 55%, var(--wood-dark));
+  box-shadow: 0 2px 3px rgba(45, 20, 8, .35);
+}
 .featured-monkey img {
+  position: relative;
+  z-index: 1;
   display: block;
   width: 100%;
   height: 100%;
   object-fit: contain;
+  pointer-events: none;
 }
 
 .featured-squirrel {
@@ -314,133 +243,70 @@
   z-index: 3;
   top: 0;
   left: 0;
-  width: 68px;
-  height: 68px;
+  width: calc(68px * var(--scene-scale));
+  height: calc(68px * var(--scene-scale));
   pointer-events: none;
   will-change: transform;
 }
-
 .featured-menu,
-.featured-drawer {
-  display: none;
-}
+.featured-drawer { display: none; }
 
-.featured-drawer {
-  max-height: calc(100dvh - 205px);
-  overflow-y: auto;
-}
-
-/* --------------------------------------------------------------------------
-   RESPONSIVE BREAKPOINTS (Desktop 1440px -> Laptop 1024px -> Tablet 768px -> Mobile 375px)
-   -------------------------------------------------------------------------- */
-
-/* Tablet & Smaller Laptop Proportional Scaling (768px to 1023px): Full Scene Without Overlap */
-@media (max-width: 1023px) and (min-width: 768px) {
-  .featured-inner {
-    --sign-width: clamp(72px, 9.6vw, 92px);
-    --sign-height: calc(var(--sign-width) * 450 / 594);
-    --board-top: clamp(164px, 20.5vw, 196px);
-    --logo-width: clamp(164px, 21.5vw, 204px);
-    --logo-height: calc(var(--logo-width) * 357 / 640);
-    --logo-top: clamp(134px, 17.5vw, 160px);
-    height: 380px;
-  }
-  .featured-signs {
-    gap: clamp(8px, 1.1vw, 14px);
-  }
-  .featured-left {
-    right: calc(50% + var(--logo-width) / 2 + clamp(6px, 0.9vw, 12px));
-  }
-  .featured-right {
-    left: calc(50% + var(--logo-width) / 2 + clamp(6px, 0.9vw, 12px));
-  }
-  .featured-sign span {
-    font-size: clamp(11.5px, 1.25vw, 13.5px);
-  }
-  .featured-squirrel {
-    width: 54px;
-    height: 54px;
-  }
-}
-
-/* Mobile (< 768px): Compact Branch Scene with Hamburger & Stacked Wooden Plank Drawer */
 @media (max-width: 767px) {
   .featured-inner {
-    --logo-top: clamp(124px, 34vw, 164px);
-    --logo-width: clamp(170px, 48vw, 214px);
-    --logo-height: calc(var(--logo-width) * 357 / 640);
-    --menu-top: clamp(150px, 38vw, 184px);
+    --logo-width: calc(218px * var(--scene-scale));
+    --logo-top: calc(170px * var(--scene-scale));
+    --menu-top: calc(176px * var(--scene-scale));
     max-width: 440px;
-    height: calc(var(--logo-top) + 220px);
+    height: calc(440px * var(--scene-scale));
   }
   .featured-sky img {
-    top: 0;
     width: 112%;
-    height: 220px;
+    height: calc(220px * var(--scene-scale));
   }
-  .featured-signs {
-    display: none;
-  }
-  .featured-home {
-    width: var(--logo-width);
-  }
+  .featured-signs { display: none; }
   .featured-squirrel {
-    width: 46px;
-    height: 46px;
+    width: calc(46px * var(--scene-scale));
+    height: calc(46px * var(--scene-scale));
   }
   .featured-menu {
     position: absolute;
     z-index: 6;
     top: var(--menu-top);
-    right: 8px;
+    right: calc(8px * var(--scene-scale));
     display: grid;
     place-items: center;
-    width: 48px;
-    height: 44px;
-    border: 3px solid #9a5928;
+    width: calc(48px * var(--scene-scale));
+    height: calc(44px * var(--scene-scale));
+    border: 3px solid var(--wood-mid);
     border-radius: 10px;
-    background: #e7a25d;
-    color: #4b2a16;
+    background: var(--wood-light);
+    color: var(--wood-dark);
     font: 700 24px Fredoka, sans-serif;
     cursor: pointer;
-    box-shadow: 0 4px 8px rgba(74, 42, 18, 0.25);
+    box-shadow: 0 4px 8px rgba(74, 42, 18, .25);
   }
   .featured-drawer {
     position: absolute;
     z-index: 7;
-    top: calc(var(--menu-top) + 54px);
-    right: 8px;
+    top: calc(var(--menu-top) + 54px * var(--scene-scale));
+    right: calc(8px * var(--scene-scale));
     display: grid;
     gap: 10px;
     box-sizing: border-box;
     width: min(280px, calc(100vw - 32px));
     max-height: calc(100dvh - var(--menu-top) - 64px);
+    overflow-y: auto;
     padding: 14px;
-    border: 3px solid #c78649;
+    border: 3px solid var(--wood-light);
     border-radius: 14px;
     background: #fff8e9;
-    box-shadow: 0 10px 24px rgba(74, 42, 18, 0.35);
+    box-shadow: 0 10px 24px rgba(74, 42, 18, .35);
   }
   .featured-drawer .featured-sign {
     width: 100%;
     height: 52px;
-    aspect-ratio: auto;
     padding: 0 16px;
     background-size: 100% 100%;
-    background-position: center;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
-  .featured-drawer .featured-sign span {
-    font-size: 16px;
-    padding: 0;
-  }
-}
-
-@media (max-width: 480px) {
-  .featured-drawer {
-    max-height: calc(100dvh - var(--menu-top) - 64px);
-  }
+  .featured-drawer .featured-sign span { font-size: 16px; }
 }

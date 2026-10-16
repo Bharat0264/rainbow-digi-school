@@ -48,7 +48,7 @@ try {
     assert.equal(samples.at(-1).pixels, 0, 'No remaining squirrel pixels');
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
     // An already-hidden squirrel stays inside until a navigation action brings it out.
-    if (width <= 1100) await page.locator('.featured-menu').click();
+    if (width < 768) await page.locator('.featured-menu').click();
     await page.locator('[data-nav-id="home"]:visible').click();
     await page.clock.runFor(2100);
     assert.equal((await read()).state, 'standing');

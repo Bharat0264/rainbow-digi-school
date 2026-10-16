@@ -49,7 +49,7 @@ try {
         if ([360,1440].includes(width) && reducedMotion==='no-preference') await page.locator('.featured-nav').screenshot({path:`${output}/${width}-${id}.png`});
         reports.push({width,reducedMotion,id,path,resting});
       }
-      if (width>1100) assert.equal(new Set(destinations).size,6,'Six separately measured desktop destinations');
+      if (width>=768) assert.equal(new Set(destinations).size,6,'Six separately measured desktop destinations');
       if (reducedMotion==='no-preference') {
         await click('home'); await page.clock.runFor(250);
         await page.setViewportSize({width:width+10,height:950}); await page.clock.runFor(100);
@@ -67,7 +67,7 @@ try {
       // Responsive resting anchor tracks live board or cached drawer projection.
       await page.setViewportSize({width:width+20,height:950}); await page.clock.runFor(100);
       let resized=await read(); assert.equal(resized.state,'standing'); assert.ok(Math.abs(+resized.y-resized.surfaceY)<.01);
-      if (width>1100) {
+      if (width>=768) {
         const expected=await page.locator('[data-nav-id="academics"]:visible').evaluate(el=>{const r=el.getBoundingClientRect(),n=el.closest('nav').getBoundingClientRect();return r.left-n.left+r.width/2;});
         assert.ok(Math.abs(+resized.x-expected)<.5);
       }
