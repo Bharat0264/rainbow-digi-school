@@ -54,15 +54,17 @@ function doPost(e) {
   }
 
   try {
-    if (!e || !e.postData || !e.postData.contents) {
-      return jsonResponse({ success: false, error: "Empty request payload." }, 400);
-    }
-
     var payload;
-    try {
-      payload = JSON.parse(e.postData.contents);
-    } catch (parseErr) {
-      return jsonResponse({ success: false, error: "Invalid JSON payload." }, 400);
+    if (e && e.postData && e.postData.contents) {
+      try {
+        payload = JSON.parse(e.postData.contents);
+      } catch (parseErr) {
+        return jsonResponse({ success: false, error: "Invalid JSON payload." }, 400);
+      }
+    } else if (e && e.parameter && (e.parameter.reference || e.parameter.parentName)) {
+      payload = e.parameter;
+    } else {
+      return jsonResponse({ success: false, error: "Empty request payload." }, 400);
     }
 
     var properties = PropertiesService.getScriptProperties();
@@ -161,8 +163,18 @@ function doPost(e) {
 
 /**
  * Handle incoming GET requests for endpoint health check.
+ * If enquiry parameters are detected on GET (e.g. from an unintended client redirect),
+ * explicitly returns 405 Method Not Allowed instead of the health response.
  */
 function doGet(e) {
+  if (e && e.parameter && (e.parameter.reference || e.parameter.secret || e.parameter.parentName)) {
+    return jsonResponse({
+      success: false,
+      error: "Method not allowed. Enquiry submissions must use POST with JSON payload.",
+      receivedVia: "doGet"
+    }, 405);
+  }
+
   return jsonResponse({
     status: "ok",
     service: "Rainbow Digi School Admissions Webhook",

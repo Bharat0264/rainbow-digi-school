@@ -84,8 +84,90 @@ export type EnquirySender = (
 ) => Promise<EnquiryStorageResult>;
 
 /**
+ * Normalizes the configured Google Apps Script Web App URL.
+ * Cleans whitespace, strips trailing slashes, and ensures the /exec endpoint is targeted.
+ */
+export function normalizeGoogleAppsScriptUrl(rawUrl: string): string {
+  const trimmed = rawUrl.trim();
+  try {
+    const parsed = new URL(trimmed);
+    parsed.pathname = parsed.pathname.replace(/\/+$/, "");
+    if (!parsed.pathname.endsWith("/exec")) {
+      parsed.pathname = `${parsed.pathname}/exec`;
+    }
+    return parsed.toString();
+  } catch {
+    const cleaned = trimmed.replace(/\/+$/, "");
+    return cleaned.endsWith("/exec") ? cleaned : `${cleaned}/exec`;
+  }
+}
+
+/**
+ * Sanitizes URLs for diagnostic logs to prevent leaking secrets or session keys.
+ */
+function sanitizeUrlForDiagnostic(rawUrl: string): string {
+  try {
+    const url = new URL(rawUrl);
+    url.searchParams.delete("secret");
+    url.searchParams.delete("sharedSecret");
+    url.searchParams.delete("key");
+    if (url.searchParams.has("user_content_key")) {
+      url.searchParams.set("user_content_key", "[REDACTED]");
+    }
+    return url.toString();
+  } catch {
+    return "[invalid-url]";
+  }
+}
+
+/**
+ * Extracts non-sensitive status and structural fields for diagnostic logging.
+ * Never logs parent enquiry information or secrets.
+ */
+function extractSafeDiagnosticBody(
+  result: Record<string, unknown> | null,
+): Record<string, unknown> | null {
+  if (!result || typeof result !== "object") return null;
+  return {
+    success: typeof result.success === "boolean" ? result.success : undefined,
+    status: typeof result.status === "string" ? result.status : undefined,
+    service: typeof result.service === "string" ? result.service : undefined,
+    hasEnquiryNumber: typeof result.enquiryNumber === "string",
+    duplicate:
+      typeof result.duplicate === "boolean" ? result.duplicate : undefined,
+    emailSent:
+      typeof result.emailSent === "boolean" ? result.emailSent : undefined,
+    error: typeof result.error === "string" ? result.error : undefined,
+    message: typeof result.message === "string" ? result.message : undefined,
+  };
+}
+
+/**
+ * Emits safe diagnostic logs for the Apps Script HTTP response.
+ */
+function logAppsScriptDiagnostic(params: {
+  status: number;
+  finalUrl: string;
+  contentType: string | null;
+  result: Record<string, unknown> | null;
+}) {
+  const safeLog = {
+    httpStatus: params.status,
+    finalUrl: sanitizeUrlForDiagnostic(params.finalUrl),
+    contentType: params.contentType ?? "unknown",
+    body: extractSafeDiagnosticBody(params.result),
+  };
+  console.info("apps_script_diagnostic:", JSON.stringify(safeLog));
+}
+
+/**
  * Sends validated enquiry data to the configured Google Apps Script Web App.
- * Handles redirects and network timeouts safely.
+ * Robustly handles Google Apps Script 302/307 redirects:
+ * - When redirected to script.googleusercontent.com (Google's echo server),
+ *   fetches the doPost result via GET as required by Google ContentService.
+ * - When redirected within script.google.com (canonical redirects),
+ *   maintains POST with the JSON body so doPost receives the payload
+ *   instead of falling through to doGet.
  */
 export async function saveToGoogleAppsScript(
   data: EnquirySubmissionData,
@@ -113,25 +195,106 @@ export async function saveToGoogleAppsScript(
   const timeoutId = setTimeout(() => controller.abort(), 15000);
 
   try {
-    const response = await fetch(scriptUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-      redirect: "follow",
-      signal: controller.signal,
-    });
+    const targetUrl = normalizeGoogleAppsScriptUrl(scriptUrl);
+    let currentUrl = targetUrl;
+    let method = "POST";
+    let body: string | undefined = JSON.stringify(payload);
+    let headers: Record<string, string> = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    };
+
+    let response: Response | null = null;
+    const maxRedirects = 5;
+    let redirectCount = 0;
+
+    while (redirectCount <= maxRedirects) {
+      response = await fetch(currentUrl, {
+        method,
+        headers,
+        body,
+        redirect: "manual",
+        signal: controller.signal,
+      });
+
+      // Handle HTTP redirects (301, 302, 303, 307, 308)
+      if (
+        [301, 302, 303, 307, 308].includes(response.status) &&
+        response.headers.has("location")
+      ) {
+        const locationHeader = response.headers.get("location")!;
+        const nextUrl = new URL(locationHeader, currentUrl).toString();
+        redirectCount++;
+
+        // If redirect points to Google's echo server (script.googleusercontent.com),
+        // doPost has already completed and Google serves the output via GET.
+        if (
+          nextUrl.includes("script.googleusercontent.com") ||
+          nextUrl.includes("googleusercontent.com") ||
+          nextUrl.includes("/echo")
+        ) {
+          method = "GET";
+          body = undefined;
+          headers = {
+            Accept: "application/json",
+          };
+        } else {
+          // If redirecting within script.google.com (e.g. protocol or path canonicalization),
+          // preserve POST and JSON payload so doPost actually executes instead of falling through to doGet.
+          method = "POST";
+          body = JSON.stringify(payload);
+          headers = {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          };
+        }
+
+        currentUrl = nextUrl;
+        continue;
+      }
+
+      break;
+    }
 
     clearTimeout(timeoutId);
 
+    if (!response) {
+      throw new Error("APPS_SCRIPT_NO_RESPONSE");
+    }
+
+    const contentType = response.headers.get("content-type");
+    const rawText = await response.text().catch(() => "");
+    let result: Record<string, unknown> | null = null;
+    try {
+      result = rawText ? JSON.parse(rawText) : null;
+    } catch {
+      result = null;
+    }
+
+    // Safe diagnostic logging (NEVER logs secrets or parent info)
+    logAppsScriptDiagnostic({
+      status: response.status,
+      finalUrl: currentUrl,
+      contentType,
+      result,
+    });
+
     if (!response.ok && response.status !== 200 && response.status !== 201) {
-      await response.text().catch(() => "");
       console.error("google_apps_script_http_error: " + response.status);
       throw new Error(`APPS_SCRIPT_HTTP_${response.status}`);
     }
 
-    const result = await response.json().catch(() => null);
+    // Explicitly detect if the response was from doGet instead of doPost execution
+    if (
+      result &&
+      result.status === "ok" &&
+      result.service === "Rainbow Digi School Admissions Webhook"
+    ) {
+      console.error(
+        "google_apps_script_received_doget_response: doPost did not execute; health response received.",
+      );
+      throw new Error("APPS_SCRIPT_RECEIVED_DOGET_RESPONSE");
+    }
 
     if (
       result &&
