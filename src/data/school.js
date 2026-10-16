@@ -243,10 +243,6 @@ export const ADMISSION_DOCUMENTS = [
 
 export const ADMISSION_FAQS = [
   {
-    q: "When are admissions open for the 2026–2027 academic year?",
-    a: "Admissions enquiries for the upcoming 2026–2027 session are currently being accepted for Nursery through Grade V. Parents are encouraged to enquire early to confirm seat availability for their preferred class.",
-  },
-  {
     q: "What is the age cutoff for Nursery and primary admissions?",
     a: "As a general guideline, children entering Nursery should be 3+ years old by the start of the academic term, LKG 4+ years, UKG 5+ years, and Grade I 6+ years. Exact cutoff dates can be confirmed directly with the admissions team.",
   },
