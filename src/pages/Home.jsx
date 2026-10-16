@@ -181,7 +181,7 @@ export default function Home() {
           Key principles that guide our daily interactions, classroom
           atmosphere, and partnership with parents.
         </SectionHeading>
-        <div className="feature-grid">
+        <div className="feature-grid card-grid-3">
           {HOME_PILLARS.map((pillar, i) => {
             const colors = ["clay-mint", "clay-pink", "clay-yellow"];
             const color = colors[i % colors.length];
