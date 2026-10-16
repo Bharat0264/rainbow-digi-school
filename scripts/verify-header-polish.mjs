@@ -46,6 +46,7 @@ try {
         svgTitle: document.querySelector('.featured-logo svg title')?.textContent || null,
         logoLabel: document.querySelector('.featured-logo').getAttribute('aria-label'),
         straps: document.querySelector('.featured-straps .strap-rope')?.getAttribute('d').match(/M /g)?.length,
+        menuTextColor: getComputedStyle(document.querySelector('.featured-signs .featured-sign span')).color,
       };
     });
 
@@ -58,6 +59,7 @@ try {
     assert.equal(result.svgTitle, null, `${width}: logo SVG has no browser tooltip`);
     assert.match(result.logoLabel, /Rainbow Digi School/i);
     assert.equal(result.straps, 2, `${width}: paired stick straps share the logo wrapper`);
+    assert.equal(result.menuTextColor, 'rgb(255, 249, 234)', `${width}: menu text remains cream`);
     for (const board of new Set(result.ropes.map(rope => rope.board))) {
       const pair = result.ropes.filter(rope => rope.board === board);
       assert.equal(pair.length, 2, `${width}: ${board} has two supports`);
@@ -95,7 +97,7 @@ try {
         const rope = document.querySelector('[data-rope][data-board="academics"]');
         const nav = document.querySelector('.featured-inner').getBoundingClientRect();
         return Math.abs(+rope.dataset.bottom - (board.getBoundingClientRect().top - nav.top)) < .5;
-      });
+      }, null, { timeout: 5000 });
     }
     await page.close();
   }

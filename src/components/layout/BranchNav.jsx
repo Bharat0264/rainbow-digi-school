@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Logo from '../ui/Logo';
 import NavigationRopes from './NavigationRopes';
@@ -20,7 +20,7 @@ export default function BranchNav() {
   const location = useLocation();
   const navigate = useNavigate();
   const navRef = useRef(null), artRef = useRef(null), canvasRef = useRef(null), logoRef = useRef(null);
-  const boardsRef = useRef(new Map()), startRef = useRef(() => {}), measureRef = useRef(() => {});
+  const boardsRef = useRef(new Map()), startRef = useRef(() => {});
   const [open, setOpen] = useState(false);
   const menuRef = useRef(null), drawerRef = useRef(null);
 
@@ -67,6 +67,9 @@ export default function BranchNav() {
       [...boardsRef.current.values(), logoRef.current].forEach((element, index) => {
         if (!element?.getClientRects().length || element.closest('.featured-drawer')) return;
         const r = relative(element), isLogo = element === logoRef.current;
+        // Use the untransformed row plus its selected offset; a newly changed
+        // class can be measured before the browser paints its transform.
+        if (!isLogo) r.y = relative(element.parentElement).y + (element.classList.contains('featured-active') ? 4 * scale : 0);
         const pair = (isLogo ? [.09, .91] : [.22, .78]).map(anchor => {
           const x = r.x + r.width * anchor;
           return { x, ...ropeSurface(x, art) };
@@ -91,22 +94,22 @@ export default function BranchNav() {
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(measure);
     };
-    measureRef.current = scheduleMeasure;
     const observer = new ResizeObserver(scheduleMeasure);
     observer.observe(nav);
     observer.observe(artRef.current);
+    const classObserver = new MutationObserver(scheduleMeasure);
+    classObserver.observe(nav, { subtree: true, attributes: true, attributeFilter: ['class'] });
     const branchImage = artRef.current;
     branchImage.addEventListener('load', scheduleMeasure);
     return () => {
       cancelAnimationFrame(frame);
       animation.dispose();
       observer.disconnect();
+      classObserver.disconnect();
       branchImage.removeEventListener('load', scheduleMeasure);
       startRef.current = () => {};
-      measureRef.current = () => {};
     };
   }, []);
-  useLayoutEffect(() => { measureRef.current(); }, [selected]);
   const navigateToItem = useCallback(item => {
     setOpen(false);
     navigate(item.path, { state: { navItem: item.id } });
@@ -153,7 +156,7 @@ export default function BranchNav() {
       state={{ navItem: item.id }}
       data-nav-id={item.id}
       aria-current={selected === item.id ? 'page' : undefined}
-      className={`featured-sign featured-sign-${item.id}${selected === item.id ? ' featured-active' : ''}`}
+      className={`featured-sign${selected === item.id ? ' featured-active' : ''}`}
       onClick={event => visit(event, item)}
     >
       <span>{item.label}</span>
