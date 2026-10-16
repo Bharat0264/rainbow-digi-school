@@ -5,9 +5,17 @@
 }
 
 .featured-inner {
+  /* Warm wood and scene palette matching the branch */
+  --wood-dark: #3a1d08;
+  --wood-mid: #854d20;
+  --wood-light: #d8964e;
+  --wood-warm-bg: #e6a75f;
+  --rope-tan: #c4965c;
+  --text-cream: #fff9ea;
+
   --sign-width: clamp(96px, 7.8vw, 114px);
-  --sign-height: calc(var(--sign-width) * 566 / 594);
-  --board-top: 178px;
+  --sign-height: calc(var(--sign-width) * 450 / 594);
+  --board-top: 202px;
   --logo-width: clamp(208px, 16.5vw, 240px);
   --logo-height: calc(var(--logo-width) * 357 / 640);
   --logo-top: 166px;
@@ -80,13 +88,13 @@
   z-index: 0;
 }
 
-/* Hide legacy metal rings/fixings since the new wooden boards feature realistic integrated ropes */
+/* Hide legacy metal rings/fixings */
 .featured-ropes-fixings {
   display: none;
 }
 
 /* --------------------------------------------------------------------------
-   MENU BOARDS (Rustic Hanging Wooden Planks - Image 1)
+   MENU BOARDS (Rustic Hanging Wooden Planks)
    -------------------------------------------------------------------------- */
 
 .featured-signs {
@@ -114,10 +122,10 @@
   justify-content: center;
   width: var(--sign-width);
   height: var(--sign-height);
-  aspect-ratio: 594 / 566;
-  padding-top: 24%;
+  aspect-ratio: 594 / 450;
+  padding-top: 6%;
   padding-bottom: 6%;
-  padding-inline: 8px;
+  padding-inline: 10px;
   background-image: url('/assets/nav/board-menu.webp');
   background-image: image-set(
     url('/assets/nav/board-menu.webp') 1x,
@@ -130,6 +138,8 @@
   border: none;
   border-radius: 0;
   box-shadow: none;
+  filter: drop-shadow(0 4px 6px rgba(45, 20, 8, 0.28));
+  -webkit-tap-highlight-color: transparent;
   transform-origin: 50% 0;
   transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.3s ease;
 }
@@ -139,28 +149,29 @@
   width: 100%;
   padding: 0;
   background: transparent;
-  color: #381d0b;
+  color: var(--text-cream);
   font-family: Fredoka, "Baloo 2", Nunito, sans-serif;
   font-weight: 700;
-  font-size: clamp(12.5px, 1.05vw, 14.5px);
+  font-size: clamp(13px, 1.1vw, 15px);
   line-height: 1.2;
   letter-spacing: -0.01em;
   text-align: center;
   white-space: nowrap;
-  text-shadow: 0 1px 0 rgba(255, 245, 220, 0.75), 0 0 2px rgba(255, 255, 255, 0.3);
+  text-shadow: 0 1px 2px rgba(45, 20, 8, 0.95), 0 0 1px rgba(30, 10, 5, 0.8);
   pointer-events: none;
 }
 
-/* Active State: Warm Golden Glow & 1.04 Scale (Preserves Wood Texture) */
+/* Subtle Active State (No Halo, No Glow, 4px lower, slightly deeper tone) */
 .featured-sign.featured-active {
-  transform: scale(1.04);
-  filter: drop-shadow(0 0 8px rgba(255, 205, 60, 0.85)) drop-shadow(0 4px 10px rgba(60, 30, 10, 0.35));
+  transform: translateY(4px);
+  filter: drop-shadow(0 3px 5px rgba(45, 20, 8, 0.35)) brightness(0.96) contrast(1.05);
   z-index: 6;
 }
 
 .featured-sign.featured-active span {
-  color: #2b1406;
-  text-shadow: 0 1px 0 rgba(255, 235, 160, 0.9), 0 0 4px rgba(255, 215, 80, 0.4);
+  font-weight: 800;
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(30, 10, 5, 0.98);
 }
 
 /* Hover & Focus: Gentle Hanging Sign Swing Animation */
@@ -172,10 +183,10 @@
 }
 
 @keyframes sign-swing-active {
-  0% { transform: scale(1.04) rotate(0deg); }
-  25% { transform: scale(1.04) rotate(-2deg); }
-  75% { transform: scale(1.04) rotate(2deg); }
-  100% { transform: scale(1.04) rotate(0deg); }
+  0% { transform: translateY(4px) rotate(0deg); }
+  25% { transform: translateY(4px) rotate(-2deg); }
+  75% { transform: translateY(4px) rotate(2deg); }
+  100% { transform: translateY(4px) rotate(0deg); }
 }
 
 .featured-sign:hover,
@@ -203,8 +214,15 @@
 .featured-menu:focus-visible,
 .featured-logo:focus-visible,
 .featured-monkey:focus-visible {
-  outline: 3px solid #8e4c18;
-  outline-offset: 4px;
+  outline: 2px solid #3d200e;
+  outline-offset: 3px;
+}
+
+.featured-sign:focus:not(:focus-visible),
+.featured-menu:focus:not(:focus-visible),
+.featured-logo:focus:not(:focus-visible),
+.featured-monkey:focus:not(:focus-visible) {
+  outline: none;
 }
 
 /* --------------------------------------------------------------------------
@@ -242,7 +260,9 @@
   border: none;
   border-radius: 0;
   box-shadow: none;
+  filter: drop-shadow(0 4px 6px rgba(45, 20, 8, 0.28));
   pointer-events: auto;
+  -webkit-tap-highlight-color: transparent;
   transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.3s ease;
 }
 
@@ -259,17 +279,17 @@
 }
 
 .featured-logo.featured-active {
-  filter: drop-shadow(0 0 10px rgba(255, 215, 80, 0.8)) drop-shadow(0 4px 12px rgba(60, 30, 10, 0.35));
+  filter: drop-shadow(0 4px 8px rgba(45, 20, 8, 0.38)) brightness(0.97);
 }
 
 .featured-handle {
   pointer-events: none;
 }
 
-/* Monkey hanging firmly from the bottom bamboo bar */
+/* Monkey hanging firmly from the bottom bamboo bar with overlapping straps */
 .featured-monkey {
   position: absolute;
-  top: calc(var(--logo-height) * 0.63);
+  top: calc(var(--logo-height) * 0.495);
   left: 0;
   width: 100%;
   aspect-ratio: 3 / 2;
@@ -278,6 +298,8 @@
   background: transparent;
   cursor: pointer;
   pointer-events: auto;
+  -webkit-tap-highlight-color: transparent;
+  z-index: 2;
 }
 
 .featured-monkey img {
@@ -316,8 +338,10 @@
 @media (max-width: 1023px) and (min-width: 768px) {
   .featured-inner {
     --sign-width: clamp(72px, 9.6vw, 92px);
-    --board-top: clamp(144px, 18.5vw, 172px);
+    --sign-height: calc(var(--sign-width) * 450 / 594);
+    --board-top: clamp(164px, 20.5vw, 196px);
     --logo-width: clamp(164px, 21.5vw, 204px);
+    --logo-height: calc(var(--logo-width) * 357 / 640);
     --logo-top: clamp(134px, 17.5vw, 160px);
     height: 380px;
   }
@@ -331,7 +355,7 @@
     left: calc(50% + var(--logo-width) / 2 + clamp(6px, 0.9vw, 12px));
   }
   .featured-sign span {
-    font-size: clamp(11px, 1.25vw, 13px);
+    font-size: clamp(11.5px, 1.25vw, 13.5px);
   }
   .featured-squirrel {
     width: 54px;

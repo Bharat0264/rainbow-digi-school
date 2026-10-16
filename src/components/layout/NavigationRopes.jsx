@@ -24,11 +24,8 @@ function attachment(rope, index) {
   const thickness = scale * 120;
   const eyeScale = thickness / 132;
   const dropTop = spriteY + 740 * scale;
-  // Position so the ring base (y=575) sits firmly on top of the board frame
-  const spriteTop = rope.bottom - variant.ringBaseY * eyeScale;
-  // Reuse only the short straight collar above the ring. The old full-height
-  // stem overlapped the branch knot when the mobile hanging span was short.
-  const dropBottom = spriteTop + 320 * eyeScale;
+  // Position so the drop rope runs continuously from branch underside directly into the board top edge
+  const dropBottom = rope.bottom + 8;
 
   return {
     ...rope,
@@ -96,7 +93,7 @@ export default function NavigationRopes({ ropes }) {
           {/* Drop rope shadow */}
           <path d={`M${x + 0.5},${dropTop} V${dropBottom}`} fill="none" stroke="#3d2212" strokeOpacity=".3" strokeWidth={thickness + 1} />
           {/* Drop rope body */}
-          <path d={`M${x},${dropTop} V${dropBottom}`} fill="none" stroke="#b98547" strokeWidth={thickness} />
+          <path d={`M${x},${dropTop} V${dropBottom}`} fill="none" stroke="#c4965c" strokeWidth={thickness} />
           <path d={`M${x},${dropTop} V${dropBottom}`} fill="none" stroke={fiber(i)} strokeWidth={thickness} />
           {/* Front crossed loop over bark */}
           <g data-rope-front={i} transform={transform}>

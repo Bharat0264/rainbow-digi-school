@@ -61,7 +61,7 @@ export default function BranchNav() {
       [...boardsRef.current.values(), logoRef.current].forEach(element => {
         if (!element?.getClientRects().length || element.closest('.featured-drawer')) return;
         const r = relative(element), isLogo = element === logoRef.current;
-        (isLogo ? [.09, .91] : [.24, .82]).forEach(anchor => {
+        (isLogo ? [.09, .91] : [.22, .78]).forEach(anchor => {
           const x = r.x + r.width * anchor;
           ropes.push({ x, ...ropeSurface(x, art), bottom: r.y,
             board: isLogo ? 'logo' : element.dataset.navId });
