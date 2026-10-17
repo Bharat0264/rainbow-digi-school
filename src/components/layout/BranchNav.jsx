@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Logo from '../ui/Logo';
 import NavigationRopes from './NavigationRopes';
@@ -45,7 +45,7 @@ export default function BranchNav() {
   const selected = ITEMS.find(item => item.id === location.state?.navItem && item.path === location.pathname)?.id
     || ITEMS.find(item => item.path === location.pathname)?.id;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const nav = navRef.current, canvas = canvasRef.current;
     const animation = createSquirrelAnimation(canvas);
     startRef.current = animation.start;
@@ -56,7 +56,7 @@ export default function BranchNav() {
     const measure = () => {
       const box = nav.getBoundingClientRect();
       const compact = window.matchMedia('(max-width: 767px)').matches;
-      const scale = Math.min(1, box.width / (compact ? 440 : 1224));
+      const scale = box.width / (compact ? 440 : 1224);
       if (Math.abs(Number(nav.style.getPropertyValue('--scale')) - scale) > .0001) {
         nav.style.setProperty('--scale', String(scale));
       }
@@ -72,16 +72,20 @@ export default function BranchNav() {
         if (!isLogo) r.y = relative(element.parentElement).y + (element.classList.contains('featured-active') ? 4 * scale : 0);
         const pair = (isLogo ? [.09, .91] : [.22, .78]).map(anchor => {
           const x = r.x + r.width * anchor;
-          return { x, ...ropeSurface(x, art) };
+          const surface = ropeSurface(x, art);
+          const wrapTop = surface.top - 2 * scale;
+          const wrapHeight = (surface.under - wrapTop) * 1024 / 800;
+          return { x, ...surface, wrapTop, wrapHeight, wrapWidth: wrapHeight * 334 / 1024 };
         });
-        const hole = r.y + r.height * .12;
-        const knotY = Math.max(...pair.map(rope => rope.under)) + 3 * scale;
+        // Menu holes are baked into the original 594 × 450 plank at y=57.
+        const hole = r.y + r.height * (isLogo ? .12 : 57 / 450);
+        const knotY = Math.max(...pair.map(rope => rope.wrapTop + rope.wrapHeight));
         const ropeLength = Math.max(0, hole - knotY);
         const boardIndex = isLogo ? 'logo' : index + 1;
         nav.style.setProperty(`--rope-len-${boardIndex}`, `${ropeLength.toFixed(2)}px`);
         pair.forEach(rope => ropes.push({
           ...rope, bottom: r.y, hole, knotY, ropeLength, boardIndex,
-          thickness: (isLogo ? 5.8 : 4.5) * scale,
+          thickness: (isLogo ? 6 : 5.5) * scale,
           board: isLogo ? 'logo' : element.dataset.navId,
         }));
       });
@@ -97,6 +101,10 @@ export default function BranchNav() {
     const observer = new ResizeObserver(scheduleMeasure);
     observer.observe(nav);
     observer.observe(artRef.current);
+    // Board dimensions settle after the shared scale is applied. Observing them
+    // keeps the fittings attached even when the outer scene size is unchanged.
+    for (const board of boardsRef.current.values()) observer.observe(board);
+    observer.observe(logoRef.current);
     const classObserver = new MutationObserver(scheduleMeasure);
     classObserver.observe(nav, { subtree: true, attributes: true, attributeFilter: ['class'] });
     const branchImage = artRef.current;
@@ -182,13 +190,11 @@ export default function BranchNav() {
           <Link ref={logoRef} to="/" onClick={visitHouse} aria-label="Rainbow Digi School — Excellence begins early — home" className={`featured-logo${location.pathname === '/' ? ' featured-active' : ''}`}>
             <Logo alt="Rainbow DIGI School" showTitle={false} />
           </Link>
-          <svg className="featured-straps" viewBox="0 0 194 26" preserveAspectRatio="none" aria-hidden="true">
-            <path className="strap-shadow" d="M 16 1 C 13 6 13 13 16 16 Q 18 17 19 15 M 178 1 C 181 6 181 13 178 16 Q 176 17 175 15" />
-            <path className="strap-rope" d="M 16 1 C 13 6 13 13 16 16 Q 18 17 19 15 M 178 1 C 181 6 181 13 178 16 Q 176 17 175 15" />
-            <path className="strap-knot" d="M 14 14 L 17 16 M 180 14 L 177 16" />
-          </svg>
           <button type="button" className="featured-monkey" aria-label="Send the squirrel home" onClick={visitMonkey}>
-            <img className="featured-handle" src="/images/navigation/monkey-handle-grip.png" width="1536" height="1024" alt="" decoding="async" />
+            <picture>
+              <source srcSet="/images/navigation/monkey-handle-grip.webp" type="image/webp" />
+              <img className="featured-handle" src="/images/navigation/monkey-handle-grip.png" width="1536" height="1024" alt="" decoding="async" />
+            </picture>
           </button>
         </div>
         <div className="featured-signs featured-right">{ITEMS.slice(3).map(item => sign(item))}</div>

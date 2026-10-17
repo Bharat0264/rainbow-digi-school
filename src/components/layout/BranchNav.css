@@ -35,17 +35,18 @@
   --menu-indigo-hover: #CDC6FF;
 
   --board-shadow: drop-shadow(0 4px 6px rgba(45, 20, 8, .28));
-  --board-width: calc(114px * var(--scale));
+  --board-width: calc(136px * var(--scale));
   --board-height: calc(var(--board-width) * 450 / 594);
-  --board-gap: calc(20px * var(--scale));
-  --board-top: calc(218px * var(--scale));
-  --logo-width: calc(194px * var(--scale));
-  --logo-height: calc(var(--logo-width) * 357 / 640);
-  --logo-top: calc(222px * var(--scale));
+  --board-gap: calc(14px * var(--scale));
+  --board-top: calc(220px * var(--scale));
+  --logo-width: calc(220px * var(--scale));
+  --logo-height: calc(160px * var(--scale));
+  --logo-top: calc(192px * var(--scale));
+  --handle-top: calc(var(--logo-height) * .56);
   position: relative;
   width: 95%;
-  max-width: 1224px;
-  height: calc(424px * var(--scale));
+  max-width: 1800px;
+  aspect-ratio: 1224 / 440;
   margin: auto;
   isolation: isolate;
 }
@@ -171,6 +172,8 @@
   -webkit-tap-highlight-color: transparent;
 }
 .featured-sign span {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -178,7 +181,7 @@
   height: 100%;
   color: var(--menu-color, var(--text-cream));
   font-family: Fredoka, "Baloo 2", Nunito, sans-serif;
-  font-size: clamp(11px, calc(15px * var(--scale)), 15px);
+  font-size: clamp(11px, calc(17px * var(--scale)), 25px);
   font-weight: 700;
   line-height: 1.2;
   letter-spacing: -.01em;
@@ -192,6 +195,30 @@
     0 0 4px rgba(43, 23, 10, 0.15);
   pointer-events: none;
   transition: color 0.2s ease, -webkit-text-stroke 0.2s ease;
+}
+
+/* Reuse the existing frame's leafy edges, keeping the wood and real labels. */
+.featured-signs .featured-sign::before,
+.featured-signs .featured-sign::after {
+  content: "";
+  position: absolute;
+  top: -8%;
+  width: 14%;
+  height: 123%;
+  background-image: url('/assets/nav/board-logo@2x.webp');
+  background-repeat: no-repeat;
+  background-size: auto 100%;
+  pointer-events: none;
+}
+.featured-signs .featured-sign::before {
+  left: -3%;
+  background-position: left top;
+  mask-image: linear-gradient(to right, #000 75%, transparent);
+}
+.featured-signs .featured-sign::after {
+  right: -3%;
+  background-position: right top;
+  mask-image: linear-gradient(to left, #000 75%, transparent);
 }
 
 /* Hover: brighten fill by ~8% lightness only (no glow) */
@@ -235,58 +262,32 @@
   justify-content: center;
   width: 100%;
   height: var(--logo-height);
-  padding: 6% 16% 28%;
+  padding: 0;
   background-image: url('/assets/nav/board-logo.png');
   background-image: image-set(
     url('/assets/nav/board-logo.webp') 1x,
     url('/assets/nav/board-logo@2x.webp') 2x
   );
-  background-size: contain;
+  background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: center;
   pointer-events: auto;
   -webkit-tap-highlight-color: transparent;
 }
 .featured-logo svg {
-  position: relative;
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  top: 15%;
+  left: 15%;
+  width: 70%;
+  height: 45%;
   object-fit: contain;
 }
 
-/* Short twine straps cross the stick ends without covering the monkey's hands. */
-.featured-straps {
-  position: absolute;
-  z-index: 3;
-  top: calc(var(--logo-height) * .6);
-  left: 0;
-  width: 100%;
-  height: calc(26px * var(--scale));
-  overflow: visible;
-  pointer-events: none;
-  filter: drop-shadow(0 1px 1px rgba(45, 20, 8, .4));
-}
-.featured-straps path {
-  fill: none;
-  stroke-linecap: round;
-}
-.featured-straps .strap-shadow {
-  stroke: var(--rope-shadow);
-  stroke-width: 4.5;
-  opacity: .4;
-}
-.featured-straps .strap-rope {
-  stroke: var(--rope-tan);
-  stroke-width: 3;
-}
-.featured-straps .strap-knot {
-  stroke: var(--rope-light);
-  stroke-width: 1.5;
-}
+/* Straps, bar and fingers remain in their original aligned raster. */
 .featured-monkey {
   position: absolute;
   z-index: 2;
-  top: calc(var(--logo-height) * .55);
+  top: var(--handle-top);
   left: 0;
   width: 100%;
   aspect-ratio: 3 / 2;
@@ -297,18 +298,10 @@
   pointer-events: auto;
   -webkit-tap-highlight-color: transparent;
 }
-/* Adds depth below the baked stick while preserving the monkey's exact pose. */
-.featured-monkey::before {
-  content: "";
-  position: absolute;
-  z-index: 0;
-  top: 9%;
-  left: 4%;
-  width: 92%;
-  height: calc(17px * var(--scale));
-  border-radius: 999px;
-  background: linear-gradient(to bottom, var(--wood-light), var(--wood-mid) 55%, var(--wood-dark));
-  box-shadow: 0 2px 3px rgba(45, 20, 8, .35);
+.featured-monkey picture {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 .featured-monkey img {
   position: relative;
@@ -336,10 +329,12 @@
 @media (max-width: 767px) {
   .featured-inner {
     --logo-width: calc(218px * var(--scale));
+    --logo-height: calc(var(--logo-width) * 357 / 640);
+    --handle-top: calc(var(--logo-height) * .55);
     --logo-top: calc(170px * var(--scale));
     --menu-top: calc(176px * var(--scale));
     max-width: 440px;
-    height: calc(440px * var(--scale));
+    aspect-ratio: 1;
   }
   .featured-sky img {
     width: 112%;

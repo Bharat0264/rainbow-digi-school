@@ -104,7 +104,7 @@ try {
       };
     });
     assert.equal(geometry.overflow, false, `${width}: horizontal page overflow`);
-    assert.ok(geometry.headerHeight <= 424, `${width}: medium header height`);
+    assert.ok(geometry.headerHeight <= width * (width < 768 ? 1 : 440 / 1224) + 1, `${width}: proportionally reserved header height`);
     assert.equal(geometry.artFits, true, `${width}: no horizontal artwork cropping`);
     assert.deepEqual(geometry.broken, [], `${width}: broken header images`);
     assert.ok(Math.abs(geometry.imageAspect - geometry.naturalAspect) < 0.02, `${width}: stretched branch artwork`);
