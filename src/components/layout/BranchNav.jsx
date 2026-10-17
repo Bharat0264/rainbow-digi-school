@@ -2,6 +2,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Logo from '../ui/Logo';
 import NavigationRopes from './NavigationRopes';
+import NavbarMonkey from './NavbarMonkey';
 import { createSquirrelAnimation } from './squirrelAnimation';
 import { ropeSurface } from './ropeGeometry';
 import { NAV } from '../../data/nav';
@@ -26,6 +27,8 @@ export default function BranchNav() {
 
   useEffect(() => {
     if (!open) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
     drawerRef.current?.querySelector('a')?.focus();
     const dismiss = event => {
       if (event.key === 'Escape') { setOpen(false); menuRef.current?.focus(); }
@@ -36,6 +39,7 @@ export default function BranchNav() {
     document.addEventListener('keydown', dismiss);
     document.addEventListener('pointerdown', outside);
     return () => {
+      document.body.style.overflow = previousOverflow;
       document.removeEventListener('keydown', dismiss);
       document.removeEventListener('pointerdown', outside);
     };
@@ -55,6 +59,7 @@ export default function BranchNav() {
     };
     const measure = () => {
       const box = nav.getBoundingClientRect();
+      nav.style.setProperty('--navbar-bottom', `${Math.max(0, box.bottom)}px`);
       const compact = window.matchMedia('(max-width: 767px)').matches;
       const scale = box.width / (compact ? 440 : 1224);
       if (Math.abs(Number(nav.style.getPropertyValue('--scale')) - scale) > .0001) {
@@ -69,7 +74,7 @@ export default function BranchNav() {
         const r = relative(element), isLogo = element === logoRef.current;
         // Use the untransformed row plus its selected offset; a newly changed
         // class can be measured before the browser paints its transform.
-        if (!isLogo) r.y = relative(element.parentElement).y + (element.classList.contains('featured-active') ? 4 * scale : 0);
+        if (!isLogo) r.y = relative(element.parentElement).y;
         const pair = (isLogo ? [.09, .91] : [.22, .78]).map(anchor => {
           const x = r.x + r.width * anchor;
           const surface = ropeSurface(x, art);
@@ -85,7 +90,7 @@ export default function BranchNav() {
         nav.style.setProperty(`--rope-len-${boardIndex}`, `${ropeLength.toFixed(2)}px`);
         pair.forEach(rope => ropes.push({
           ...rope, bottom: r.y, hole, knotY, ropeLength, boardIndex,
-          thickness: (isLogo ? 6 : 5.5) * scale,
+          thickness: compact ? 4.5 : 6,
           board: isLogo ? 'logo' : element.dataset.navId,
         }));
       });
@@ -187,10 +192,11 @@ export default function BranchNav() {
         <canvas ref={canvasRef} className="featured-squirrel" width="128" height="128" aria-hidden="true" />
         <div className="featured-signs featured-left">{ITEMS.slice(0, 3).map(item => sign(item))}</div>
         <div className="featured-home">
+          <NavbarMonkey />
           <Link ref={logoRef} to="/" onClick={visitHouse} aria-label="Rainbow Digi School — Excellence begins early — home" className={`featured-logo${location.pathname === '/' ? ' featured-active' : ''}`}>
             <Logo alt="Rainbow DIGI School" showTitle={false} />
           </Link>
-          <button type="button" className="featured-monkey" aria-label="Send the squirrel home" onClick={visitMonkey}>
+          <button type="button" hidden className="featured-monkey" aria-label="Send the squirrel home" onClick={visitMonkey}>
             <picture>
               <source srcSet="/images/navigation/monkey-handle-grip.webp" type="image/webp" />
               <img className="featured-handle" src="/images/navigation/monkey-handle-grip.png" width="1536" height="1024" alt="" decoding="async" />
@@ -199,13 +205,15 @@ export default function BranchNav() {
         </div>
         <div className="featured-signs featured-right">{ITEMS.slice(3).map(item => sign(item))}</div>
         <button ref={menuRef} type="button" className="featured-menu" aria-controls="school-navigation-menu" aria-expanded={open} aria-label={open ? 'Close navigation menu' : 'Open navigation menu'} onClick={() => setOpen(value => !value)}>
-          ☰
+          Menu
         </button>
-        {open && (
+        <Link className="featured-apply" to="/admissions" onClick={() => setOpen(false)}>Apply</Link>
+        {open && (<>
+          <button className="featured-backdrop" aria-label="Close navigation menu" onClick={() => setOpen(false)}/>
           <div ref={drawerRef} id="school-navigation-menu" className="featured-drawer">
             {ITEMS.map(item => sign(item, true))}
           </div>
-        )}
+        </>)}
       </nav>
     </header>
   );

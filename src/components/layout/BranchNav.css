@@ -4,6 +4,30 @@
   background: #f8f3e8;
 }
 
+/* Navbar repair: stable board geometry and independently adjustable mascot. */
+.featured-nav .featured-inner { --monkey-width: 55%; --monkey-x: 22.5%; --monkey-y: 72%; --monkey-scale: 1; --logo-top: calc(220px * var(--scale)); padding-bottom: calc(65px * var(--scale)); box-sizing: content-box; }
+.featured-nav .navbar-monkey-layer { position:absolute; z-index:0; width:var(--monkey-width); height:auto; left:var(--monkey-x); top:var(--monkey-y); transform:scale(var(--monkey-scale)); transform-origin:top center; pointer-events:none; }
+.featured-nav .featured-logo { z-index:1; }
+.featured-nav .featured-monkey { display:none; }
+.featured-nav .featured-ropes-fixings { z-index:6; }
+.featured-nav .featured-sign.featured-active { transform:none; }
+.featured-nav .featured-sign span { color:#3B2412; font-size:clamp(20px,1.45vw,25px); -webkit-text-stroke:0; text-shadow:0 1px #ffe5b5; white-space:normal; }
+.featured-nav .featured-sign:hover span,.featured-nav .featured-sign:focus-visible span { color:#3B2412; }
+.featured-nav .featured-sign.featured-active span { -webkit-text-stroke:0; }
+.featured-nav .featured-sign:is(:hover,.featured-active)::after { content:''; position:absolute; width:20px; height:3px; bottom:20%; background:var(--menu-color); border-radius:3px; }
+.featured-apply { display:none; }
+.featured-backdrop { position:fixed; inset:0; top:var(--navbar-bottom,300px); background:#24180db3; z-index:8; border:0; }
+@media(max-width:767px) {
+ .featured-nav .featured-inner { --logo-width:calc(194px * var(--scale)); --logo-top:calc(170px * var(--scale)); padding-bottom:20px; }
+ .featured-nav .featured-sky { display:none; }
+ .featured-nav .featured-menu,.featured-nav .featured-apply { position:absolute; top:var(--logo-top); display:grid; place-items:center; width:23%; height:55px; min-height:44px; border:0; border-radius:0; background:url('/assets/nav/board-menu-clean.webp') center/100% 100% no-repeat; color:#3B2412; font:700 16px Fredoka,sans-serif; text-decoration:none; box-shadow:none; z-index:7; }
+ .featured-nav .featured-menu { left:0; right:auto; }
+ .featured-nav .featured-apply { right:0; }
+ .featured-nav .featured-drawer { position:fixed; top:var(--navbar-bottom,300px); left:16px; right:16px; width:auto; max-height:calc(100dvh - var(--navbar-bottom,300px) - 16px); z-index:9; padding:16px 30px; gap:14px; }
+ .featured-nav .featured-drawer .featured-sign span { font-size:18px; }
+ .featured-nav .featured-drawer .featured-sign:not(:first-child)::before { content:''; position:absolute; top:-15px; left:22%; width:4px; height:20px; background:repeating-linear-gradient(35deg,#C8A878 0 3px,#8B6B3E 3px 5px,#E8D3A8 5px 6px); box-shadow:calc((100vw - 96px) * .56) 0 #C8A878; }
+}
+
 .featured-inner {
   /* One scale drives the artwork, boards, type, ropes, and monkey together. */
   --scale: 1;
