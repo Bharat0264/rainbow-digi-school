@@ -1,1 +1,1 @@
-Always commit and push to origin = https://github.com/RangaMokshagna/rainbow-digi-school (my account). Never push to old-origin.
+Always commit and push to origin = https://github.com/Bharat0264/rainbow-digi-school. Never push to old-origin.
