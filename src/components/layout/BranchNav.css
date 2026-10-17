@@ -5,8 +5,11 @@
 }
 
 /* Navbar repair: stable board geometry and independently adjustable mascot. */
-.featured-nav .featured-inner { --monkey-width: 55%; --monkey-x: 22.5%; --monkey-y: 72%; --monkey-scale: 1; --logo-top: calc(220px * var(--scale)); padding-bottom: calc(65px * var(--scale)); box-sizing: content-box; }
-.featured-nav .navbar-monkey-layer { position:absolute; z-index:0; width:var(--monkey-width); height:auto; left:var(--monkey-x); top:var(--monkey-y); transform:scale(var(--monkey-scale)); transform-origin:top center; pointer-events:none; }
+.featured-nav .featured-inner { --monkey-width: 62%; --monkey-x: 19%; --monkey-y: 50%; --monkey-scale: 1; --monkey-hands-clip: inset(0 0 78% 0); --logo-top: calc(220px * var(--scale)); padding-bottom: calc(82px * var(--scale)); box-sizing: content-box; }
+.featured-nav .navbar-monkey { position:absolute; z-index:0; width:var(--monkey-width); aspect-ratio:250 / 450; left:var(--monkey-x); top:var(--monkey-y); transform:scale(var(--monkey-scale)); transform-origin:top center; pointer-events:none; }
+.featured-nav .navbar-monkey :is(.navbar-monkey-body,.navbar-monkey-fists) { position:absolute; inset:0; display:block; width:100%; height:100%; object-fit:contain; }
+.featured-nav .navbar-monkey-body { z-index:0; }
+.featured-nav .navbar-monkey-fists { z-index:2; clip-path:var(--monkey-hands-clip); filter:drop-shadow(0 2px 1px #3b241275); }
 .featured-nav .featured-logo { z-index:1; }
 .featured-nav .featured-monkey { display:none; }
 .featured-nav .featured-ropes-fixings { z-index:6; }
@@ -18,7 +21,7 @@
 .featured-apply { display:none; }
 .featured-backdrop { position:fixed; inset:0; top:var(--navbar-bottom,300px); background:#24180db3; z-index:8; border:0; }
 @media(max-width:767px) {
- .featured-nav .featured-inner { --logo-width:calc(194px * var(--scale)); --logo-top:calc(170px * var(--scale)); padding-bottom:20px; }
+ .featured-nav .featured-inner { --logo-width:calc(194px * var(--scale)); --logo-top:calc(170px * var(--scale)); --monkey-width:62%; --monkey-y:50%; padding-bottom:35px; }
  .featured-nav .featured-sky { display:none; }
  .featured-nav .featured-menu,.featured-nav .featured-apply { position:absolute; top:var(--logo-top); display:grid; place-items:center; width:23%; height:55px; min-height:44px; border:0; border-radius:0; background:url('/assets/nav/board-menu-clean.webp') center/100% 100% no-repeat; color:#3B2412; font:700 16px Fredoka,sans-serif; text-decoration:none; box-shadow:none; z-index:7; }
  .featured-nav .featured-menu { left:0; right:auto; }

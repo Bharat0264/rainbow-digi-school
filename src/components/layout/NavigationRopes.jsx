@@ -1,5 +1,23 @@
 import { useId } from 'react';
+
+function RopeStroke({ rope, pattern, foreground = false }) {
+  const { x, top, hole, thickness, board } = rope;
+  const wrapWidth = thickness + 8;
+  const knotY = hole + thickness * .9;
+  if (!foreground) return <g data-rope-body={board}>
+    <line x1={x} y1={top - 5} x2={x} y2={hole} stroke="#6B4A22" strokeWidth={thickness + 1.4} strokeLinecap="round" />
+    <line x1={x} y1={top - 5} x2={x} y2={hole} stroke="#B8935F" strokeWidth={thickness} strokeLinecap="round" />
+    <line x1={x - thickness * .18} y1={top - 4} x2={x - thickness * .18} y2={hole - 1} stroke={`url(#${pattern})`} strokeWidth="1.15" strokeLinecap="round" />
+  </g>;
+  return <g data-rope-detail={board}>
+    {[0, 3, 6].map(offset => <path key={offset} d={`M ${x - wrapWidth / 2} ${top + offset} Q ${x} ${top + offset + 1} ${x + wrapWidth / 2} ${top + offset}`} fill="none" stroke="#6B4A22" strokeWidth={thickness + 1.2} strokeLinecap="round" />)}
+    {[0, 3, 6].map(offset => <path key={offset} d={`M ${x - wrapWidth / 2} ${top + offset} Q ${x} ${top + offset + 1} ${x + wrapWidth / 2} ${top + offset}`} fill="none" stroke="#B8935F" strokeWidth={thickness * .72} strokeLinecap="round" />)}
+    <circle cx={x} cy={knotY} r={thickness * .82} fill="#6B4A22" /><circle cx={x} cy={knotY} r={thickness * .62} fill="#B8935F" />
+    <path d={`M ${x - thickness * .4} ${knotY - thickness * .3} L ${x + thickness * .45} ${knotY + thickness * .35}`} stroke="#E8D3A8" strokeWidth="1" strokeLinecap="round" />
+  </g>;
+}
+
 export default function NavigationRopes({ ropes }) {
- const id=useId().replaceAll(':','');
- return <svg className="featured-ropes featured-ropes-fixings" aria-hidden="true"><defs><pattern id={id} width="6" height="8" patternUnits="userSpaceOnUse"><rect width="6" height="8" fill="#C8A878"/><path d="M-2 1L8 7M-2 -7L8 -1M-2 9L8 15" stroke="#8B6B3E" strokeWidth="2"/><path d="M-2 3L8 9M-2 -5L8 1" stroke="#E8D3A8"/></pattern></defs>{ropes.map(({x,top,hole,thickness,board},i)=><g key={i} data-rope={board}><path d={`M${x-5} ${top+7} Q${x-6} ${top-5} ${x} ${top-3} Q${x+5} ${top-2} ${x+4} ${top+8} L${x} ${hole}`} fill="none" stroke="#62401f" strokeWidth={thickness+1.5} strokeLinecap="round"/><path d={`M${x-5} ${top+7} Q${x-6} ${top-5} ${x} ${top-3} Q${x+5} ${top-2} ${x+4} ${top+8} L${x} ${hole}`} fill="none" stroke={`url(#${id})`} strokeWidth={thickness} strokeLinecap="round"/><ellipse cx={x} cy={hole} rx={thickness*.85} ry={thickness*.65} fill="#2b180c"/><path d={`M${x} ${hole-8} V${hole+8} m-3 -5 q6 -5 6 2 q-6 5 -6 -2`} fill="none" stroke={`url(#${id})`} strokeWidth={thickness} strokeLinecap="round"/></g>)}</svg>;
+  const id = useId().replaceAll(':', '');
+  return <><svg className="featured-ropes featured-ropes-back" aria-hidden="true"><defs><pattern id={id} width="5" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(-26)"><path d="M 0 0 L 0 3" stroke="#E8D3A8" strokeWidth="1.2" /></pattern></defs>{ropes.map((rope, index) => <RopeStroke key={index} rope={rope} pattern={id} />)}</svg><svg className="featured-ropes featured-ropes-fixings" aria-hidden="true">{ropes.map((rope, index) => <RopeStroke key={index} rope={rope} foreground />)}</svg></>;
 }
