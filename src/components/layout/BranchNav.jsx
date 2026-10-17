@@ -75,7 +75,7 @@ export default function BranchNav() {
           const surface = ropeSurface(x, art);
           const wrapTop = surface.top - 2 * scale;
           const wrapHeight = (surface.under - wrapTop) * 1024 / 800;
-          return { x, ...surface, wrapTop, wrapHeight, wrapWidth: wrapHeight * 334 / 1024 };
+          return { x, ...surface, wrapTop, wrapHeight, wrapWidth: wrapHeight * 290 / 480 };
         });
         // Menu holes are baked into the original 594 × 450 plank at y=57.
         const hole = r.y + r.height * (isLogo ? .12 : 57 / 450);

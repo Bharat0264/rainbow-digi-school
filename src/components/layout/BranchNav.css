@@ -35,14 +35,14 @@
   --menu-indigo-hover: #CDC6FF;
 
   --board-shadow: drop-shadow(0 4px 6px rgba(45, 20, 8, .28));
-  --board-width: calc(136px * var(--scale));
+  --board-width: calc(120px * var(--scale));
   --board-height: calc(var(--board-width) * 450 / 594);
-  --board-gap: calc(14px * var(--scale));
+  --board-gap: calc(18px * var(--scale));
   --board-top: calc(220px * var(--scale));
-  --logo-width: calc(220px * var(--scale));
-  --logo-height: calc(160px * var(--scale));
-  --logo-top: calc(192px * var(--scale));
-  --handle-top: calc(var(--logo-height) * .56);
+  --logo-width: calc(214px * var(--scale));
+  --logo-height: calc(var(--logo-width) * 178 / 320);
+  --logo-top: calc(202px * var(--scale));
+  --handle-top: calc(var(--logo-height) * .62);
   position: relative;
   width: 95%;
   max-width: 1800px;
@@ -96,7 +96,7 @@
   z-index: 2;
 }
 .featured-ropes-back { z-index: 0; }
-.featured-ropes-fixings { z-index: 6; }
+.featured-ropes-fixings { z-index: 4; }
 
 /* The groups share one top and one gap; bark curvature only changes rope length. */
 .featured-signs {
@@ -197,29 +197,7 @@
   transition: color 0.2s ease, -webkit-text-stroke 0.2s ease;
 }
 
-/* Reuse the existing frame's leafy edges, keeping the wood and real labels. */
-.featured-signs .featured-sign::before,
-.featured-signs .featured-sign::after {
-  content: "";
-  position: absolute;
-  top: -8%;
-  width: 14%;
-  height: 123%;
-  background-image: url('/assets/nav/board-logo@2x.webp');
-  background-repeat: no-repeat;
-  background-size: auto 100%;
-  pointer-events: none;
-}
-.featured-signs .featured-sign::before {
-  left: -3%;
-  background-position: left top;
-  mask-image: linear-gradient(to right, #000 75%, transparent);
-}
-.featured-signs .featured-sign::after {
-  right: -3%;
-  background-position: right top;
-  mask-image: linear-gradient(to left, #000 75%, transparent);
-}
+
 
 /* Hover: brighten fill by ~8% lightness only (no glow) */
 .featured-sign:hover span,
@@ -276,10 +254,10 @@
 }
 .featured-logo svg {
   position: absolute;
-  top: 15%;
-  left: 15%;
-  width: 70%;
-  height: 45%;
+  top: 10%;
+  left: 10%;
+  width: 80%;
+  height: 68%;
   object-fit: contain;
 }
 
