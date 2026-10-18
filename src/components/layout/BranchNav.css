@@ -15,24 +15,24 @@
   --rope-light: #e1bd82;
   --text-cream: #fff9ea;
 
-  /* Rainbow Menu Text Palette */
-  --menu-red: #FF6B5E;
-  --menu-red-hover: #FF9187;
+  /* Rainbow Menu Text Palette (desaturated 10-15%, ~8% darker for absorbed paint look, with -6% L for active) */
+  --menu-red: #F25C4F;
+  --menu-red-active: #E34A3C;
 
-  --menu-orange: #FFA94D;
-  --menu-orange-hover: #FFBD76;
+  --menu-orange: #F19C41;
+  --menu-orange-active: #DF892D;
 
-  --menu-yellow: #FFE066;
-  --menu-yellow-hover: #FFE88F;
+  --menu-yellow: #E8C845;
+  --menu-yellow-active: #D5B430;
 
-  --menu-green: #86E39A;
-  --menu-green-hover: #A7EBB6;
+  --menu-green: #6ECE84;
+  --menu-green-active: #57BD6F;
 
-  --menu-blue: #74B9FF;
-  --menu-blue-hover: #9DCEFF;
+  --menu-blue: #5BAAF5;
+  --menu-blue-active: #3F97EB;
 
-  --menu-indigo: #A99DFF;
-  --menu-indigo-hover: #CDC6FF;
+  --menu-indigo: #8D7EF7;
+  --menu-indigo-active: #7664F3;
 
   --board-shadow: drop-shadow(0 4px 6px rgba(45, 20, 8, .28));
   --board-width: calc(120px * var(--scale));
@@ -115,37 +115,37 @@
 .featured-sign-home,
 [data-nav-id="home"] {
   --menu-color: var(--menu-red);
-  --menu-color-hover: var(--menu-red-hover);
+  --menu-color-active: var(--menu-red-active);
 }
 
 .featured-sign-academics,
 [data-nav-id="academics"] {
   --menu-color: var(--menu-orange);
-  --menu-color-hover: var(--menu-orange-hover);
+  --menu-color-active: var(--menu-orange-active);
 }
 
 .featured-sign-admissions,
 [data-nav-id="admissions"] {
   --menu-color: var(--menu-yellow);
-  --menu-color-hover: var(--menu-yellow-hover);
+  --menu-color-active: var(--menu-yellow-active);
 }
 
 .featured-sign-campus,
 [data-nav-id="campus"] {
   --menu-color: var(--menu-green);
-  --menu-color-hover: var(--menu-green-hover);
+  --menu-color-active: var(--menu-green-active);
 }
 
 .featured-sign-school-life,
 [data-nav-id="school-life"] {
   --menu-color: var(--menu-blue);
-  --menu-color-hover: var(--menu-blue-hover);
+  --menu-color-active: var(--menu-blue-active);
 }
 
 .featured-sign-contact,
 [data-nav-id="contact"] {
   --menu-color: var(--menu-indigo);
-  --menu-color-hover: var(--menu-indigo-hover);
+  --menu-color-active: var(--menu-indigo-active);
 }
 
 .featured-sign {
@@ -171,7 +171,26 @@
   text-decoration: none;
   filter: var(--board-shadow);
   -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-touch-callout: none;
+  transform-origin: center top;
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
   overflow: visible;
+}
+
+.featured-sign:active {
+  transform: scale(0.97);
+  transition: transform 0.08s ease;
+}
+
+.featured-sign.featured-active {
+  --menu-color: var(--menu-color-active);
+  transform: scale(1.04);
+}
+
+.featured-sign.featured-active:active {
+  transform: scale(0.97);
+  transition: transform 0.08s ease;
 }
 
 .featured-board-content {
@@ -194,7 +213,7 @@
   pointer-events: none;
 }
 
-/* ── MOSS TEXT (Thick letters made of lush green moss with fuzzy edges) ── */
+/* ── PAINTED & CARVED TEXT (absorbs into wood, with wood-grain multiply overlay) ── */
 .featured-label {
   position: relative;
   z-index: 2;
@@ -210,19 +229,53 @@
   line-height: 1.05;
   text-align: center;
   white-space: nowrap;
-  color: #3E8E2F; /* Solid fallback */
-  background-image: url('/textures/moss.webp');
-  background-size: 110px;
-  background-repeat: repeat;
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--menu-color);
+  opacity: 0.92;
   paint-order: stroke fill;
-  -webkit-text-stroke: clamp(1px, calc(1.2px * var(--scale)), 1.5px) #14380D;
-  filter: url(#moss-fuzzy) drop-shadow(0 2px 0 rgba(20, 50, 10, 0.6)) drop-shadow(0 -1px 0 rgba(255, 255, 255, 0.4));
-  transition: background-position 0.25s ease, -webkit-text-stroke 0.2s ease;
+  -webkit-text-stroke: 0.6px rgba(60, 25, 0, 0.5);
+  text-shadow: 0 -1px 1px rgba(50, 22, 0, 0.55), 0 1px 0 rgba(255, 232, 185, 0.35);
+  filter: url(#wood-paint-edge);
   user-select: none;
   pointer-events: none;
+}
+
+/* Wood-grain overlay clipped to letters (aria-hidden duplicate via ::after) */
+.featured-label[data-text]::after,
+.featured-word[data-text]::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  font-size: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  line-height: inherit;
+  text-align: inherit;
+  white-space: inherit;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  background-image: url('/assets/nav/board-menu-clean.png');
+  background-image: image-set(
+    url('/assets/nav/board-menu-clean.webp') 1x,
+    url('/assets/nav/board-menu-clean@2x.webp') 2x
+  );
+  background-size: var(--board-width) var(--board-height);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-clip: text;
+  -webkit-background-clip: text;
+  mix-blend-mode: multiply;
+  opacity: 0.55;
+  -webkit-text-stroke: 0;
+  text-shadow: none;
+  filter: none;
+  pointer-events: none;
+  z-index: 1;
 }
 
 /* Per-word scaling so Academics, Admissions and Contact never touch edges and read prominently */
@@ -243,94 +296,31 @@
   line-height: 0.95;
 }
 .featured-sign-school-life .featured-word {
+  position: relative;
   display: block;
+}
+.featured-sign-school-life .featured-word:first-child::after {
+  background-position: center calc(50% + 0.475em);
+}
+.featured-sign-school-life .featured-word:last-child::after {
+  background-position: center calc(50% - 0.475em);
 }
 .featured-sign-contact .featured-label {
   font-size: clamp(16px, calc(22.5px * var(--scale)), 30px);
 }
 
-/* Hover: flowers bloom with spring, moss shifts 2px */
-.featured-sign:hover .featured-label,
-.featured-sign:focus-visible .featured-label {
-  background-position: 2px 2px;
-}
-
-/* Active tab: sitting 4px lower */
-.featured-sign.featured-active {
-  transform: translateY(calc(4px * var(--scale)));
-}
-.featured-sign.featured-active .featured-label {
-  -webkit-text-stroke: clamp(1.6px, calc(2px * var(--scale)), 2.5px) #11330A;
-}
-.featured-sign.featured-active .flora-item {
-  --base-scale: 1.08;
-}
-
-/* ── DECORATIVE FLORA & FLOWERS LAYER ── */
-.featured-flora {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 3;
-}
-
-.flora-item {
-  position: absolute;
-  pointer-events: none;
-  transform-origin: center center;
-  animation: flowerSway 4s ease-in-out infinite;
-  animation-delay: var(--sway-delay, 0s);
-  filter: drop-shadow(0 1.5px 2px rgba(15, 35, 10, 0.45));
-  will-change: transform;
-}
-
-/* Hover / Focus: Spring bloom with 40ms stagger */
-.featured-sign:hover .flora-item,
-.featured-sign:focus-visible .flora-item {
-  animation: flowerBloom 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-  animation-delay: var(--bloom-delay, 0s);
-}
-
-@keyframes flowerSway {
-  0%, 100% {
-    transform: translate(-50%, -50%) rotate(calc(var(--base-rot, 0deg) - 3deg)) scale(var(--base-scale, 1));
-  }
-  50% {
-    transform: translate(-50%, -50%) rotate(calc(var(--base-rot, 0deg) + 3deg)) scale(var(--base-scale, 1));
-  }
-}
-
-@keyframes flowerBloom {
-  0% {
-    transform: translate(-50%, -50%) rotate(var(--base-rot, 0deg)) scale(var(--base-scale, 1));
-  }
-  25% {
-    transform: translate(-50%, -50%) rotate(calc(var(--base-rot, 0deg) - 4deg)) scale(calc(var(--base-scale, 1) * 0.9));
-  }
-  65% {
-    transform: translate(-50%, -50%) rotate(calc(var(--base-rot, 0deg) + 5deg)) scale(calc(var(--base-scale, 1) * 1.15));
-  }
-  85% {
-    transform: translate(-50%, -50%) rotate(calc(var(--base-rot, 0deg) - 1deg)) scale(calc(var(--base-scale, 1) * 0.98));
-  }
-  100% {
-    transform: translate(-50%, -50%) rotate(var(--base-rot, 0deg)) scale(var(--base-scale, 1));
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .flora-item {
-    animation: none !important;
-  }
+.featured-sign:focus,
+.featured-menu:focus,
+.featured-logo:focus,
+.featured-monkey:focus {
+  outline: none;
 }
 
 .featured-sign:focus-visible,
 .featured-menu:focus-visible,
 .featured-logo:focus-visible,
 .featured-monkey:focus-visible {
-  outline: 2px solid #FFD45A;
+  outline: 2px solid #8A5A12;
   outline-offset: 4px;
 }
 
@@ -364,7 +354,15 @@
   background-position: center;
   pointer-events: auto;
   -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-touch-callout: none;
+  transform-origin: center top;
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
   overflow: visible;
+}
+.featured-logo:active {
+  transform: scale(0.97);
+  transition: transform 0.08s ease;
 }
 .featured-logo svg {
   display: none;
@@ -470,11 +468,24 @@
     box-shadow: 0 10px 24px rgba(74, 42, 18, .35);
   }
   .featured-drawer .featured-sign {
+    --board-width: 100%;
+    --board-height: 52px;
     width: 100%;
     height: 52px;
     padding: 0 16px;
     background-size: 100% 100%;
     font-size: 20px;
+    transform-origin: center center;
+    transform: none;
+  }
+  .featured-drawer .featured-sign:active {
+    transform: scale(0.97);
+  }
+  .featured-drawer .featured-sign.featured-active {
+    transform: scale(1.02);
+  }
+  .featured-drawer .featured-sign.featured-active:active {
+    transform: scale(0.97);
   }
   .featured-drawer .featured-label {
     font-size: 18px;
