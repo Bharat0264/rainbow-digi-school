@@ -4,6 +4,7 @@ import Logo from '../ui/Logo';
 import NavigationRopes from './NavigationRopes';
 import { createSquirrelAnimation } from './squirrelAnimation';
 import { ropeSurface } from './ropeGeometry';
+import { FLORA_CONFIG } from './navFloraConfig';
 import { NAV } from '../../data/nav';
 import './BranchNav.css';
 
@@ -13,14 +14,6 @@ const ITEMS = [{ path: '/', label: 'Home', id: 'home' }, ...NAV.left, ...NAV.rig
 const BRANCH_ART = '/images/navigation/branch-house-medium.webp';
 const RAINBOW_BACKDROP = '/images/navigation/rainbow-cloud-backdrop.webp';
 const COMPACT_ART = '/images/navigation/branch-house-compact.png';
-const WORD_IMAGES = {
-  home: { src: '/nav-words/home.webp', width: 1200, height: 390 },
-  academics: { src: '/nav-words/academics.webp', width: 1200, height: 269 },
-  admissions: { src: '/nav-words/admissions.webp', width: 1200, height: 318 },
-  campus: { src: '/nav-words/campus.webp', width: 1200, height: 367 },
-  'school-life': { src: '/nav-words/school-life.webp', width: 1200, height: 848 },
-  contact: { src: '/nav-words/contact.webp', width: 1200, height: 355 },
-};
 
 function ordinaryClick(event) { return event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey; }
 
@@ -160,7 +153,8 @@ export default function BranchNav() {
   }, [navigate]);
 
   const sign = (item, drawer = false) => {
-    const word = WORD_IMAGES[item.id];
+    const flora = FLORA_CONFIG[item.id] || [];
+    const isSchoolLife = item.id === 'school-life';
     return (
       <Link
         key={item.id}
@@ -178,18 +172,38 @@ export default function BranchNav() {
         onClick={event => visit(event, item)}
       >
         <span className="featured-board-content">
-          <img
-            className="featured-word-image"
-            src={word.src}
-            width={word.width}
-            height={word.height}
-            alt=""
-            decoding="async"
-            loading="eager"
-            onError={event => event.currentTarget.classList.add('is-missing')}
-          />
-          <span className="featured-word-fallback" aria-hidden="true">{item.label}</span>
-          <span className="sr-only">{item.label}</span>
+          <span className="featured-word-wrap">
+            <span className="featured-label">
+              {isSchoolLife ? (
+                <>
+                  <span className="featured-word">School</span>{' '}
+                  <span className="featured-word">Life</span>
+                </>
+              ) : (
+                item.label
+              )}
+            </span>
+            <span className="featured-flora" aria-hidden="true">
+              {flora.map((f, index) => (
+                <svg
+                  key={index}
+                  className={`flora-item flora-${f.type}`}
+                  style={{
+                    left: f.x,
+                    top: f.y,
+                    width: f.size,
+                    height: f.size,
+                    transform: `translate(-50%, -50%) rotate(${f.rotate})`,
+                    '--base-rot': f.rotate,
+                    '--sway-delay': f.delay,
+                    '--bloom-delay': `${index * 40}ms`,
+                  }}
+                >
+                  <use href={`/sprites/flowers.svg${f.symbol}`} />
+                </svg>
+              ))}
+            </span>
+          </span>
         </span>
       </Link>
     );
@@ -198,6 +212,14 @@ export default function BranchNav() {
   return (
     <header className="bn-header featured-nav">
       <nav ref={navRef} className="featured-inner" aria-label="Main navigation">
+        <svg className="featured-svg-defs" aria-hidden="true" style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden' }}>
+          <defs>
+            <filter id="moss-fuzzy" x="-20%" y="-20%" width="140%" height="140%">
+              <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" result="noise" />
+              <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.5" xChannelSelector="R" yChannelSelector="G" />
+            </filter>
+          </defs>
+        </svg>
         <div className="featured-sky" aria-hidden="true">
           <img src={RAINBOW_BACKDROP} width="1536" height="1024" alt="" decoding="async" />
         </div>
