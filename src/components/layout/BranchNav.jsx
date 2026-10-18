@@ -70,7 +70,7 @@ export default function BranchNav() {
         // Use the untransformed row plus its selected offset; a newly changed
         // class can be measured before the browser paints its transform.
         if (!isLogo) r.y = relative(element.parentElement).y + (element.classList.contains('featured-active') ? 4 * scale : 0);
-        const pair = (isLogo ? [.09, .91] : [.22, .78]).map(anchor => {
+        const pair = (isLogo ? [.18, .82] : [.22, .78]).map(anchor => {
           const x = r.x + r.width * anchor;
           const surface = ropeSurface(x, art);
           const wrapTop = surface.top - 2 * scale;
@@ -78,7 +78,7 @@ export default function BranchNav() {
           return { x, ...surface, wrapTop, wrapHeight, wrapWidth: wrapHeight * 290 / 480 };
         });
         // Menu holes are baked into the original 594 × 450 plank at y=57.
-        const hole = r.y + r.height * (isLogo ? .12 : 57 / 450);
+        const hole = r.y + r.height * (isLogo ? .13 : 57 / 450);
         const knotY = Math.max(...pair.map(rope => rope.wrapTop + rope.wrapHeight));
         const ropeLength = Math.max(0, hole - knotY);
         const boardIndex = isLogo ? 'logo' : index + 1;

@@ -39,10 +39,10 @@
   --board-height: calc(var(--board-width) * 450 / 594);
   --board-gap: calc(18px * var(--scale));
   --board-top: calc(220px * var(--scale));
-  --logo-width: calc(214px * var(--scale));
-  --logo-height: calc(var(--logo-width) * 178 / 320);
-  --logo-top: calc(202px * var(--scale));
-  --handle-top: calc(var(--logo-height) * .62);
+  --logo-width: calc(210px * var(--scale));
+  --logo-height: calc(var(--logo-width) * 295 / 682);
+  --logo-top: calc(203px * var(--scale));
+  --handle-top: calc(var(--logo-height) - 4px * var(--scale));
   position: relative;
   width: 95%;
   max-width: 1800px;
@@ -253,12 +253,7 @@
   -webkit-tap-highlight-color: transparent;
 }
 .featured-logo svg {
-  position: absolute;
-  top: 10%;
-  left: 10%;
-  width: 80%;
-  height: 68%;
-  object-fit: contain;
+  display: none;
 }
 
 /* Straps, bar and fingers remain in their original aligned raster. */
@@ -268,7 +263,7 @@
   top: var(--handle-top);
   left: 0;
   width: 100%;
-  aspect-ratio: 3 / 2;
+  aspect-ratio: 682 / 480;
   border: 0;
   padding: 0;
   background: transparent;
@@ -306,9 +301,9 @@
 
 @media (max-width: 767px) {
   .featured-inner {
-    --logo-width: calc(218px * var(--scale));
-    --logo-height: calc(var(--logo-width) * 357 / 640);
-    --handle-top: calc(var(--logo-height) * .55);
+    --logo-width: calc(200px * var(--scale));
+    --logo-height: calc(var(--logo-width) * 295 / 682);
+    --handle-top: calc(var(--logo-height) - 4px * var(--scale));
     --logo-top: calc(170px * var(--scale));
     --menu-top: calc(176px * var(--scale));
     max-width: 440px;
