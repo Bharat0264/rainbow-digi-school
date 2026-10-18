@@ -14,6 +14,14 @@ const ITEMS = [{ path: '/', label: 'Home', id: 'home' }, ...NAV.left, ...NAV.rig
 const BRANCH_ART = '/images/navigation/branch-house-medium.webp';
 const RAINBOW_BACKDROP = '/images/navigation/rainbow-cloud-backdrop.webp';
 const COMPACT_ART = '/images/navigation/branch-house-compact.png';
+const WORD_IMAGES = {
+  home: { src: '/nav-words/home.webp', width: 1200, height: 390 },
+  academics: { src: '/nav-words/academics.webp', width: 1200, height: 269 },
+  admissions: { src: '/nav-words/admissions.webp', width: 1200, height: 318 },
+  campus: { src: '/nav-words/campus.webp', width: 1200, height: 367 },
+  'school-life': { src: '/nav-words/school-life.webp', width: 1200, height: 848 },
+  contact: { src: '/nav-words/contact.webp', width: 1200, height: 355 },
+};
 
 function ordinaryClick(event) { return event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey; }
 
@@ -156,25 +164,41 @@ export default function BranchNav() {
     navigate('/');
   }, [navigate]);
 
-  const sign = (item, drawer = false) => (
-    <Link
-      key={item.id}
-      ref={element => {
-        if (!drawer) {
-          if (element) boardsRef.current.set(item.id, element);
-          else boardsRef.current.delete(item.id);
-        }
-      }}
-      to={item.path}
-      state={{ navItem: item.id }}
-      data-nav-id={item.id}
-      aria-current={selected === item.id ? 'page' : undefined}
-      className={`featured-sign featured-sign-${item.id}${selected === item.id ? ' featured-active' : ''}`}
-      onClick={event => visit(event, item)}
-    >
-      <span>{item.label}</span>
-    </Link>
-  );
+  const sign = (item, drawer = false) => {
+    const word = WORD_IMAGES[item.id];
+    return (
+      <Link
+        key={item.id}
+        ref={element => {
+          if (!drawer) {
+            if (element) boardsRef.current.set(item.id, element);
+            else boardsRef.current.delete(item.id);
+          }
+        }}
+        to={item.path}
+        state={{ navItem: item.id }}
+        data-nav-id={item.id}
+        aria-current={selected === item.id ? 'page' : undefined}
+        className={`featured-sign featured-sign-${item.id}${selected === item.id ? ' featured-active' : ''}`}
+        onClick={event => visit(event, item)}
+      >
+        <span className="featured-board-content">
+          <img
+            className="featured-word-image"
+            src={word.src}
+            width={word.width}
+            height={word.height}
+            alt=""
+            decoding="async"
+            loading="eager"
+            onError={event => event.currentTarget.classList.add('is-missing')}
+          />
+          <span className="featured-word-fallback" aria-hidden="true">{item.label}</span>
+          <span className="sr-only">{item.label}</span>
+        </span>
+      </Link>
+    );
+  };
 
   return (
     <header className="bn-header featured-nav">
