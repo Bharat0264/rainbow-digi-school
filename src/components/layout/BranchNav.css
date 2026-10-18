@@ -183,148 +183,78 @@
   pointer-events: none;
 }
 
-.featured-word-wrap {
-  position: relative;
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  max-width: 84%;
+.featured-word-image,
+.featured-word-fallback {
+  --word-height: 44%;
+  --word-tilt: 1.5deg;
+  position: absolute;
+  top: 56%;
+  left: 50%;
+  width: 86%;
+  height: var(--word-height);
+  object-fit: contain;
+  transform: translate(-50%, -50%);
+  transform-origin: center;
+}
+
+.featured-word-image {
+  display: block;
+  filter: drop-shadow(0 3px 3px rgba(40, 20, 0, .45));
+  transition: transform .35s cubic-bezier(.34, 1.56, .64, 1);
+  will-change: transform;
+}
+
+.featured-sign-home .featured-word-image,
+.featured-sign-school-life .featured-word-image { --word-tilt: -1.5deg; }
+.featured-sign-school-life .featured-word-image,
+.featured-sign-school-life .featured-word-fallback { --word-height: 62%; }
+
+.featured-word-fallback {
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  padding: 0 4%;
+  color: #f4d38a;
+  font: 800 clamp(12px, calc(20px * var(--scale)), 28px) / 1 Fredoka, "Baloo 2", sans-serif;
+  text-align: center;
+  -webkit-text-stroke: 2px #3b2010;
+  paint-order: stroke fill;
+  opacity: 0;
   pointer-events: none;
+}
+
+.featured-word-image.is-missing { display: none; }
+.featured-word-image.is-missing + .featured-word-fallback { opacity: 1; }
+
+.featured-sign:hover .featured-word-image,
+.featured-sign:focus-visible .featured-word-image {
+  transform: translate(-50%, -50%) scale(1.06) rotate(var(--word-tilt));
+}
+
+.featured-sign.featured-active .featured-word-image {
+  transform: translate(-50%, -50%) scale(1.08);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* ── MOSS TEXT (Thick letters made of lush green moss with fuzzy edges) ── */
-.featured-label {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  font-family: "Baloo 2", "Lilita One", Fredoka, sans-serif;
-  font-weight: 800;
-  letter-spacing: 0.02em;
-  text-transform: none;
-  line-height: 1.05;
-  text-align: center;
-  white-space: nowrap;
-  color: #3E8E2F; /* Solid fallback */
-  background-image: url('/textures/moss.webp');
-  background-size: 110px;
-  background-repeat: repeat;
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  paint-order: stroke fill;
-  -webkit-text-stroke: clamp(1px, calc(1.2px * var(--scale)), 1.5px) #14380D;
-  filter: url(#moss-fuzzy) drop-shadow(0 2px 0 rgba(20, 50, 10, 0.6)) drop-shadow(0 -1px 0 rgba(255, 255, 255, 0.4));
-  transition: background-position 0.25s ease, -webkit-text-stroke 0.2s ease;
-  user-select: none;
-  pointer-events: none;
-}
-
 /* Per-word scaling so Academics, Admissions and Contact never touch edges and read prominently */
-.featured-sign-home .featured-label {
-  font-size: clamp(20px, calc(29px * var(--scale)), 38px);
-}
-.featured-sign-academics .featured-label {
-  font-size: clamp(14px, calc(19.5px * var(--scale)), 26px);
-}
-.featured-sign-admissions .featured-label {
-  font-size: clamp(13.5px, calc(18.5px * var(--scale)), 25px);
-}
-.featured-sign-campus .featured-label {
-  font-size: clamp(17px, calc(24.5px * var(--scale)), 33px);
-}
-.featured-sign-school-life .featured-label {
-  font-size: clamp(15px, calc(21.5px * var(--scale)), 28px);
-  line-height: 0.95;
-}
-.featured-sign-school-life .featured-word {
-  display: block;
-}
-.featured-sign-contact .featured-label {
-  font-size: clamp(16px, calc(22.5px * var(--scale)), 30px);
-}
-
-/* Hover: flowers bloom with spring, moss shifts 2px */
-.featured-sign:hover .featured-label,
-.featured-sign:focus-visible .featured-label {
-  background-position: 2px 2px;
-}
-
 /* Active tab: sitting 4px lower */
 .featured-sign.featured-active {
   transform: translateY(calc(4px * var(--scale)));
 }
-.featured-sign.featured-active .featured-label {
-  -webkit-text-stroke: clamp(1.6px, calc(2px * var(--scale)), 2.5px) #11330A;
-}
-.featured-sign.featured-active .flora-item {
-  --base-scale: 1.08;
-}
-
 /* ── DECORATIVE FLORA & FLOWERS LAYER ── */
-.featured-flora {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 3;
-}
-
-.flora-item {
-  position: absolute;
-  pointer-events: none;
-  transform-origin: center center;
-  animation: flowerSway 4s ease-in-out infinite;
-  animation-delay: var(--sway-delay, 0s);
-  filter: drop-shadow(0 1.5px 2px rgba(15, 35, 10, 0.45));
-  will-change: transform;
-}
-
 /* Hover / Focus: Spring bloom with 40ms stagger */
-.featured-sign:hover .flora-item,
-.featured-sign:focus-visible .flora-item {
-  animation: flowerBloom 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-  animation-delay: var(--bloom-delay, 0s);
-}
-
-@keyframes flowerSway {
-  0%, 100% {
-    transform: translate(-50%, -50%) rotate(calc(var(--base-rot, 0deg) - 3deg)) scale(var(--base-scale, 1));
-  }
-  50% {
-    transform: translate(-50%, -50%) rotate(calc(var(--base-rot, 0deg) + 3deg)) scale(var(--base-scale, 1));
-  }
-}
-
-@keyframes flowerBloom {
-  0% {
-    transform: translate(-50%, -50%) rotate(var(--base-rot, 0deg)) scale(var(--base-scale, 1));
-  }
-  25% {
-    transform: translate(-50%, -50%) rotate(calc(var(--base-rot, 0deg) - 4deg)) scale(calc(var(--base-scale, 1) * 0.9));
-  }
-  65% {
-    transform: translate(-50%, -50%) rotate(calc(var(--base-rot, 0deg) + 5deg)) scale(calc(var(--base-scale, 1) * 1.15));
-  }
-  85% {
-    transform: translate(-50%, -50%) rotate(calc(var(--base-rot, 0deg) - 1deg)) scale(calc(var(--base-scale, 1) * 0.98));
-  }
-  100% {
-    transform: translate(-50%, -50%) rotate(var(--base-rot, 0deg)) scale(var(--base-scale, 1));
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .flora-item {
-    animation: none !important;
-  }
-}
-
 .featured-sign:focus-visible,
 .featured-menu:focus-visible,
 .featured-logo:focus-visible,
@@ -470,12 +400,20 @@
     background-size: 100% 100%;
     font-size: 20px;
   }
-  .featured-drawer .featured-label {
-    font-size: 18px;
-    line-height: 1.1;
+  .featured-drawer .featured-word-image,
+  .featured-drawer .featured-word-fallback {
+    width: 94.6%;
+    height: 48.4%;
   }
-  .featured-drawer .featured-sign-school-life .featured-label {
-    font-size: 14px;
-    line-height: 0.95;
+  .featured-drawer .featured-sign-school-life .featured-word-image,
+  .featured-drawer .featured-sign-school-life .featured-word-fallback {
+    height: 68.2%;
   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .featured-word-image { transition: none; }
+  .featured-sign:hover .featured-word-image,
+  .featured-sign:focus-visible .featured-word-image,
+  .featured-sign.featured-active .featured-word-image { transform: translate(-50%, -50%); }
 }
