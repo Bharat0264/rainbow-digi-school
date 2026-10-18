@@ -1,93 +1,22 @@
 import { useId } from 'react';
 
-function RopeCoil({ x, top, angle, thickness, id }) {
-  const width = thickness * 2.2;
-  const height = width * 55 / 40;
-  // Bottom of lowest ring is at y=47.5 in the 40x55 viewBox.
-  // Align bottom ring with the top bark surface.
-  const y = top - height * (47.5 / 55);
-  return (
-    <g transform={`rotate(${angle * 0.35} ${x} ${top})`} filter={`url(#${id}-contact)`}>
-      <svg
-        x={x - width / 2}
-        y={y}
-        width={width}
-        height={height}
-        viewBox="0 0 40 55"
-        overflow="visible"
-        aria-hidden="true"
-      >
-        {/* Top peg */}
-        <path
-          d="M 14 26 V 14 A 6 6 0 0 1 26 14 V 26 Z"
-          fill={`url(#${id}-coil-grad)`}
-          stroke="#38200f"
-          strokeWidth="2.2"
-          strokeLinejoin="round"
-        />
-        <ellipse cx="20" cy="14" rx="3.5" ry="3.5" fill="#edd2a4" opacity="0.6" />
-
-        {/* Ring 1 (top) */}
-        <rect
-          x="5"
-          y="17"
-          width="30"
-          height="11"
-          rx="5.5"
-          fill={`url(#${id}-coil-grad)`}
-          stroke="#38200f"
-          strokeWidth="2.2"
-        />
-        <rect x="8" y="18.5" width="24" height="3" rx="1.5" fill={`url(#${id}-coil-hl)`} />
-
-        {/* Ring 2 (middle) */}
-        <rect
-          x="4"
-          y="27"
-          width="32"
-          height="11"
-          rx="5.5"
-          fill={`url(#${id}-coil-grad)`}
-          stroke="#38200f"
-          strokeWidth="2.2"
-        />
-        <rect x="7" y="28.5" width="26" height="3" rx="1.5" fill={`url(#${id}-coil-hl)`} />
-
-        {/* Ring 3 (bottom) */}
-        <rect
-          x="5"
-          y="37"
-          width="30"
-          height="11"
-          rx="5.5"
-          fill={`url(#${id}-coil-grad)`}
-          stroke="#38200f"
-          strokeWidth="2.2"
-        />
-        <rect x="8" y="38.5" width="24" height="3" rx="1.5" fill={`url(#${id}-coil-hl)`} />
-      </svg>
-    </g>
-  );
-}
-
 export default function NavigationRopes({ ropes }) {
   const id = useId().replaceAll(':', '');
   return (
     <>
       <svg className="featured-ropes featured-ropes-back" aria-hidden="true">
         <defs>
-          <filter id={`${id}-contact`} x="-50%" y="-30%" width="200%" height="160%">
-            <feDropShadow dx=".6" dy="1.2" stdDeviation="1" floodColor="#321a08" floodOpacity=".32" />
+          <radialGradient id={`${id}-bark-contact`} cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="rgba(30,15,0,0.38)" />
+            <stop offset="65%" stopColor="rgba(30,15,0,0.18)" />
+            <stop offset="100%" stopColor="rgba(30,15,0,0)" />
+          </radialGradient>
+          <filter id={`${id}-wrap-shadow`} x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="1.2" dy="2.2" stdDeviation="1.8" floodColor="rgba(30,15,0,0.35)" />
           </filter>
-          <linearGradient id={`${id}-coil-grad`} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#c49a65" />
-            <stop offset="35%" stopColor="#a27546" />
-            <stop offset="100%" stopColor="#704824" />
-          </linearGradient>
-          <linearGradient id={`${id}-coil-hl`} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#fffae8" stopOpacity="0.75" />
-            <stop offset="100%" stopColor="#fffae8" stopOpacity="0" />
-          </linearGradient>
+          <filter id={`${id}-rope-shadow`} x="-30%" y="-10%" width="160%" height="120%">
+            <feDropShadow dx="1" dy="2" stdDeviation="1.5" floodColor="rgba(30,15,0,0.28)" />
+          </filter>
           {ropes.map(({ x, thickness }, index) => (
             <pattern
               key={index}
@@ -117,7 +46,27 @@ export default function NavigationRopes({ ropes }) {
       </svg>
       <svg className="featured-ropes featured-ropes-front" aria-hidden="true">
         {ropes.map((rope, index) => {
-          const { x, top, under, angle, bottom, hole, knotY, thickness, ropeLength, board, boardIndex } = rope;
+          const {
+            x,
+            top,
+            under,
+            angle,
+            bottom,
+            hole,
+            knotY,
+            thickness,
+            ropeLength,
+            board,
+            boardIndex,
+            wrapTop,
+            wrapHeight,
+            wrapWidth,
+          } = rope;
+
+          const wWidth = wrapWidth || (under - top) * 1.10 * 1.15;
+          const wHeight = wrapHeight || (under - top) * 1.10;
+          const wTop = wrapTop !== undefined ? wrapTop : top - (under - top) * 0.05;
+
           return (
             <g
               key={index}
@@ -136,15 +85,43 @@ export default function NavigationRopes({ ropes }) {
               data-rope-length={ropeLength}
               data-wrap-angle={angle}
             >
-              {/* Straight vertical rope drop from underside of branch straight down to hole */}
-              <path
-                d={`M ${x} ${under} V ${hole}`}
-                fill="none"
-                stroke={`url(#${id}-fiber-${index})`}
-                strokeWidth={thickness}
+              {/* Soft contact shadows on bark above and below each wrap */}
+              <ellipse
+                cx={x}
+                cy={top}
+                rx={wWidth * 0.42}
+                ry={Math.max(2.5, wHeight * 0.08)}
+                fill={`url(#${id}-bark-contact)`}
               />
-              {/* Compact 3-ring coil sitting on top of the branch */}
-              <RopeCoil x={x} top={top} angle={angle} thickness={thickness} id={id} />
+              <ellipse
+                cx={x}
+                cy={under}
+                rx={wWidth * 0.42}
+                ry={Math.max(2.5, wHeight * 0.08)}
+                fill={`url(#${id}-bark-contact)`}
+              />
+
+              {/* Hanging rope tucked 10px under lowest coil turn, swings around wrap bottom center (x, under) */}
+              <g transform={angle ? `rotate(${angle} ${x} ${under})` : undefined}>
+                <path
+                  d={`M ${x} ${under - 10} V ${hole}`}
+                  fill="none"
+                  stroke={`url(#${id}-fiber-${index})`}
+                  strokeWidth={thickness}
+                  filter={`url(#${id}-rope-shadow)`}
+                />
+              </g>
+
+              {/* Realistic rope wrap fixed in place on the branch, in front of leaves and bark */}
+              <image
+                href="/rope/wrap.webp"
+                x={x - wWidth / 2}
+                y={wTop}
+                width={wWidth}
+                height={wHeight}
+                preserveAspectRatio="none"
+                filter={`url(#${id}-wrap-shadow)`}
+              />
             </g>
           );
         })}
@@ -167,3 +144,4 @@ export default function NavigationRopes({ ropes }) {
     </>
   );
 }
+

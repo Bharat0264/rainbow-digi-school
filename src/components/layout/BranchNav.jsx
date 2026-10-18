@@ -74,9 +74,13 @@ export default function BranchNav() {
         const pair = (isLogo ? [.18, .82] : [.22, .78]).map(anchor => {
           const x = r.x + r.width * anchor;
           const surface = ropeSurface(x, art);
-          const wrapTop = surface.top - 2 * scale;
-          const wrapHeight = (surface.under - wrapTop) * 1024 / 800;
-          return { x, ...surface, wrapTop, wrapHeight, wrapWidth: wrapHeight * 290 / 480 };
+          const branchThickness = surface.under - surface.top;
+          const wrapHeight = branchThickness * (isLogo ? 1.10 * 1.45 : 1.10);
+          const wrapTop = isLogo
+            ? (surface.top + surface.under) / 2 - wrapHeight / 2
+            : surface.top - branchThickness * 0.05;
+          const wrapWidth = wrapHeight * (isLogo ? 1.25 : 1.15);
+          return { x, ...surface, wrapTop, wrapHeight, wrapWidth, isLogo };
         });
         // Menu holes are baked into the original 594 × 450 plank at y=57.
         const hole = r.y + r.height * (isLogo ? .13 : 57 / 450);

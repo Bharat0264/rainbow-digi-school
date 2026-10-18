@@ -96,7 +96,8 @@
   z-index: 2;
 }
 .featured-ropes-back { z-index: 0; }
-.featured-ropes-fixings { z-index: 4; }
+.featured-ropes-front { z-index: 3; }
+.featured-ropes-fixings { z-index: 6; }
 
 /* The groups share one top and one gap; bark curvature only changes rope length. */
 .featured-signs {
@@ -342,6 +343,7 @@
   transform: translateX(-50%);
   pointer-events: none;
   filter: var(--board-shadow);
+  overflow: visible;
 }
 .featured-logo {
   position: relative;
@@ -362,6 +364,7 @@
   background-position: center;
   pointer-events: auto;
   -webkit-tap-highlight-color: transparent;
+  overflow: visible;
 }
 .featured-logo svg {
   display: none;
@@ -381,11 +384,13 @@
   cursor: pointer;
   pointer-events: auto;
   -webkit-tap-highlight-color: transparent;
+  overflow: visible;
 }
 .featured-monkey picture {
   display: block;
   width: 100%;
   height: 100%;
+  overflow: visible;
 }
 .featured-monkey img {
   position: relative;
@@ -395,6 +400,7 @@
   height: 100%;
   object-fit: contain;
   pointer-events: none;
+  overflow: visible;
 }
 
 .featured-squirrel {
