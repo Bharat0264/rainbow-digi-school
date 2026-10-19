@@ -100,11 +100,11 @@ export default function BranchNav() {
           board: isLogo ? 'logo' : element.dataset.navId,
         }));
       });
-      const nativeWidth=art.compact?1536:2172, nativeHeight=art.compact?1024:430;
-      const railFasteners=(art.compact?[[624,418],[944,418]]:[[972,291],[1212,291]]).map(([x,y])=>({
-        x:art.x+x/nativeWidth*art.width,
-        y:art.y+y/nativeHeight*art.height,
-        size:18/nativeWidth*art.width,
+      // Align to the mounting nut's inner bushing, not the old painted rivets.
+      const railFasteners=ropes.filter(rope=>rope.isLogo).map(({x,under,thickness})=>({
+        x:x+thickness*.022,
+        y:under-thickness*1.095,
+        size:thickness*1.1,
       }));
       setGeometry({ ...layout, ropes, railFasteners });
       animation.measure(layout);
