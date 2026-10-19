@@ -47,6 +47,14 @@ export default function NavigationRopes({ ropes }) {
           <filter id={`${id}-rope-shadow`} x="-30%" y="-10%" width="160%" height="120%">
             <feDropShadow dx="1" dy="2" stdDeviation="1.5" floodColor="rgba(30,15,0,0.28)" />
           </filter>
+          {/* Match the hanging fiber texture to the upper coil's warm brown palette. */}
+          <filter id={`${id}-fiber-color`} x="0%" y="0%" width="100%" height="100%" colorInterpolationFilters="sRGB">
+            <feComponentTransfer>
+              <feFuncR type="linear" slope="0.7975" />
+              <feFuncG type="linear" slope="0.7343" />
+              <feFuncB type="linear" slope="0.7458" />
+            </feComponentTransfer>
+          </filter>
           {ropes.map(({ x, thickness }, index) => (
             <pattern
               key={index}
@@ -58,7 +66,7 @@ export default function NavigationRopes({ ropes }) {
               viewBox="0 0 109 77"
               preserveAspectRatio="none"
             >
-              <image href="/images/navigation/rope-straight-tile.png" width="109" height="77" />
+              <image href="/images/navigation/rope-straight-tile.png" width="109" height="77" filter={`url(#${id}-fiber-color)`} />
             </pattern>
           ))}
         </defs>
