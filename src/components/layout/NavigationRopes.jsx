@@ -2,8 +2,8 @@ import { useId } from 'react';
 
 function RopeCoil({ x, top, angle, thickness, id }) {
   // Image is 694 x 740. The 3 horizontal turns occupy ~555px height (185px per turn).
-  // For each turn height to match rope thickness, coilWidth = thickness * (694 / 185) ≈ thickness * 3.75.
-  const width = thickness * 3.75;
+  // Keep branch knots compact while preserving their proportions and bark anchor.
+  const width = thickness * 3;
   const height = width * (740 / 694);
   // Bottom of coil rests on top bark of branch with a slight overlap to bed in naturally.
   const y = top - height + thickness * 0.18;
