@@ -208,7 +208,7 @@
   width: 94%;
   height: 54%;
   object-fit: contain;
-  transform: translateY(calc(var(--board-height) * 0.06));
+  transform: none;
   pointer-events: none;
 }
 .featured-sign-home .featured-label-art { width: 65%; }
