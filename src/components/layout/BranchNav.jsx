@@ -72,23 +72,21 @@ export default function BranchNav() {
         const pair = (isLogo ? [.18, .82] : [.22, .78]).map(anchor => {
           const x = r.x + r.width * anchor;
           const surface = ropeSurface(x, art);
-          const branchThickness = surface.under - surface.top;
-          const wrapHeight = branchThickness * (isLogo ? 1.10 * 1.45 : 1.10);
-          const wrapTop = isLogo
-            ? (surface.top + surface.under) / 2 - wrapHeight / 2
-            : surface.top - branchThickness * 0.05;
-          const wrapWidth = wrapHeight * (isLogo ? 1.25 : 1.15);
-          return { x, ...surface, wrapTop, wrapHeight, wrapWidth, isLogo };
+          const branchThickness = surface.thickness;
+          const wrapHeight = branchThickness * 1.10;
+          const wrapTop = surface.centerY - wrapHeight / 2;
+          const wrapBottom = surface.centerY + wrapHeight / 2;
+          return { x, ...surface, wrapTop, wrapBottom, wrapHeight, isLogo };
         });
         // Menu holes are baked into the original 594 × 450 plank at y=57.
         const hole = r.y + r.height * (isLogo ? .13 : 57 / 450);
-        const knotY = Math.max(...pair.map(rope => rope.wrapTop + rope.wrapHeight));
+        const knotY = Math.max(...pair.map(rope => rope.wrapBottom));
         const ropeLength = Math.max(0, hole - knotY);
         const boardIndex = isLogo ? 'logo' : index + 1;
         nav.style.setProperty(`--rope-len-${boardIndex}`, `${ropeLength.toFixed(2)}px`);
         pair.forEach(rope => ropes.push({
           ...rope, bottom: r.y, hole, knotY, ropeLength, boardIndex,
-          thickness: (isLogo ? 6 : 5.5) * scale,
+          thickness: (isLogo ? 5.5 * 1.4 : 5.5) * scale,
           board: isLogo ? 'logo' : element.dataset.navId,
         }));
       });

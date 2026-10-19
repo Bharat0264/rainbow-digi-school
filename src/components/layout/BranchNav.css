@@ -15,24 +15,24 @@
   --rope-light: #e1bd82;
   --text-cream: #fff9ea;
 
-  /* Rainbow Menu Text Palette (desaturated 10-15%, ~8% darker for absorbed paint look, with -6% L for active) */
-  --menu-red: #F25C4F;
-  --menu-red-active: #E34A3C;
+  /* Rainbow Menu Text Palette (lighter, richer paint colors) */
+  --menu-red: #FF9C8C;
+  --menu-red-active: #F28675;
 
-  --menu-orange: #F19C41;
-  --menu-orange-active: #DF892D;
+  --menu-orange: #FFC46B;
+  --menu-orange-active: #F2B352;
 
-  --menu-yellow: #E8C845;
-  --menu-yellow-active: #D5B430;
+  --menu-yellow: #FFF08A;
+  --menu-yellow-active: #F0DE6E;
 
-  --menu-green: #6ECE84;
-  --menu-green-active: #57BD6F;
+  --menu-green: #B7F29B;
+  --menu-green-active: #A1E582;
 
-  --menu-blue: #5BAAF5;
-  --menu-blue-active: #3F97EB;
+  --menu-blue: #A8D8FF;
+  --menu-blue-active: #8EC6F5;
 
-  --menu-indigo: #8D7EF7;
-  --menu-indigo-active: #7664F3;
+  --menu-indigo: #D9C5FF;
+  --menu-indigo-active: #C4ACF5;
 
   --board-shadow: drop-shadow(0 4px 6px rgba(45, 20, 8, .28));
   --board-width: calc(120px * var(--scale));
@@ -210,10 +210,15 @@
   align-items: center;
   justify-content: center;
   max-width: 84%;
+  /* Center label face at 56% of board height */
+  transform: translateY(calc(var(--board-height) * 0.06));
+  /* Soft radial burn behind letters for > 3:1 contrast against wood */
+  background: radial-gradient(ellipse 90% 80% at center, rgba(60, 30, 5, 0.25) 0%, rgba(60, 30, 5, 0) 75%);
+  border-radius: 8px;
   pointer-events: none;
 }
 
-/* ── PAINTED & CARVED TEXT (absorbs into wood, with wood-grain multiply overlay) ── */
+/* ── PAINTED & CARVED TEXT (clear, readable, carved into wood) ── */
 .featured-label {
   position: relative;
   z-index: 2;
@@ -222,24 +227,26 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  font-family: "Baloo 2", "Lilita One", Fredoka, sans-serif;
+  font-family: "Baloo 2", Fredoka, sans-serif;
   font-weight: 800;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.03em;
   text-transform: none;
   line-height: 1.05;
   text-align: center;
   white-space: nowrap;
   color: var(--menu-color);
-  opacity: 0.92;
+  opacity: 1;
   paint-order: stroke fill;
-  -webkit-text-stroke: 0.6px rgba(60, 25, 0, 0.5);
-  text-shadow: 0 -1px 1px rgba(50, 22, 0, 0.55), 0 1px 0 rgba(255, 232, 185, 0.35);
+  -webkit-text-stroke: 1px #5A3410;
+  text-shadow: 1px 2px 0 #3A1C05, 0 -1px 0 rgba(255, 236, 190, 0.35);
   filter: url(#wood-paint-edge);
   user-select: none;
   pointer-events: none;
+  /* Equal letter height across all words, fitting longest word to 84% board width */
+  font-size: clamp(14px, calc(15.2px * var(--scale)), 22px);
 }
 
-/* Wood-grain overlay clipped to letters (aria-hidden duplicate via ::after) */
+/* Wood-grain overlay clipped inside letters (grain visible at 0.2 opacity without washing color out) */
 .featured-label[data-text]::after,
 .featured-word[data-text]::after {
   content: attr(data-text);
@@ -270,7 +277,7 @@
   background-clip: text;
   -webkit-background-clip: text;
   mix-blend-mode: multiply;
-  opacity: 0.55;
+  opacity: 0.20;
   -webkit-text-stroke: 0;
   text-shadow: none;
   filter: none;
@@ -278,21 +285,7 @@
   z-index: 1;
 }
 
-/* Per-word scaling so Academics, Admissions and Contact never touch edges and read prominently */
-.featured-sign-home .featured-label {
-  font-size: clamp(20px, calc(29px * var(--scale)), 38px);
-}
-.featured-sign-academics .featured-label {
-  font-size: clamp(14px, calc(19.5px * var(--scale)), 26px);
-}
-.featured-sign-admissions .featured-label {
-  font-size: clamp(13.5px, calc(18.5px * var(--scale)), 25px);
-}
-.featured-sign-campus .featured-label {
-  font-size: clamp(17px, calc(24.5px * var(--scale)), 33px);
-}
 .featured-sign-school-life .featured-label {
-  font-size: clamp(15px, calc(21.5px * var(--scale)), 28px);
   line-height: 0.95;
 }
 .featured-sign-school-life .featured-word {
@@ -304,9 +297,6 @@
 }
 .featured-sign-school-life .featured-word:last-child::after {
   background-position: center calc(50% - 0.475em);
-}
-.featured-sign-contact .featured-label {
-  font-size: clamp(16px, calc(22.5px * var(--scale)), 30px);
 }
 
 .featured-sign:focus,
@@ -486,6 +476,10 @@
   }
   .featured-drawer .featured-sign.featured-active:active {
     transform: scale(0.97);
+  }
+  .featured-drawer .featured-word-wrap {
+    transform: none;
+    max-width: 90%;
   }
   .featured-drawer .featured-label {
     font-size: 18px;
