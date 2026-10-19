@@ -13,7 +13,7 @@ const clamp = t => Math.max(0,Math.min(1,t));
 // Place the paw baseline, not the padded image rectangle, on the bark/sill.
 
 /** One small transparent canvas and one RAF; no video or artwork replacement. */
-export function createSquirrelAnimation(canvas) {
+export function createSquirrelAnimation(canvas, initialRequest) {
   const context = canvas.getContext('2d'), sprite = new Image(), portalSprite = new Image();
   const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let layout, pose, activity, anchor, raf=0, disposed=false;
@@ -48,10 +48,10 @@ export function createSquirrelAnimation(canvas) {
       const nav=canvas.parentElement.getBoundingClientRect();
       request.u=(board.left-nav.left+board.width/2-layout.art.x)/layout.art.width;
     }
-    // Keep trips on the exposed bark beside the house, before the leaf clusters.
-    const art=source(), minimum=art.edges[0]/art.width, maximum=art.edges[1]/art.width;
-    const u=Math.max(minimum,Math.min(maximum,request.u??pose.u));
-    return {u,v:surface(u),scale:1,direction:pose.direction};
+    // Follow the actual tab center; only constrain the sprite at the art edges.
+    const margin=bodySize()/2/layout.art.width;
+    const u=Math.max(margin,Math.min(1-margin,request.u??pose?.u??.5));
+    return {u,v:surface(u),scale:1,direction:pose?.direction??1};
   }
   function entrancePose(progress) {
     const door=doorway(), start=contact();
@@ -283,6 +283,10 @@ export function createSquirrelAnimation(canvas) {
         // a partial climb in house-local art coordinates, not desktop pixels.
         activity.from.u=(source().hole[0]+activity.from.u*previous.width-previous.hole[0])/source().width;
         activity.from.v=(source().sill+activity.from.v*previous.height-previous.sill)/source().height;
+      }
+      if ((!pose || previous===ART.compact) && initialRequest) {
+        state='standing';target=initialRequest.id;anchor={...initialRequest};
+        pose=boardPosition(anchor);
       }
       if (!pose) pose=entrancePose(1);
       if (state==='standing') pose=anchor?{...boardPosition(anchor),direction:pose.direction}:{...pose,v:surface(pose.u)};

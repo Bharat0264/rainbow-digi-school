@@ -27,6 +27,24 @@ try {
       }
       return {...d,visible,outside,tailDrift:count?Math.hypot(sumX/count,sumY/count)/Number(d.doorRadius):0};
     });
+    const aligned=async route=>{
+      const d=await read();assert.equal(d.state,'standing');assert.ok(d.visible);
+      const delta=await page.locator(`.featured-signs a[href="${route}"]`).evaluate(e=>{
+        const board=e.getBoundingClientRect(),nav=e.closest('.featured-inner').getBoundingClientRect();
+        return Math.abs(Number(e.closest('.featured-inner').querySelector('.featured-squirrel').dataset.x)-(board.x-nav.x+board.width/2));
+      });
+      assert.ok(delta<1,'Squirrel stops directly above selected tab');
+      assert.ok(Math.abs(+d.y-Number(d.surfaceY))<1,'Paws stay on branch surface');
+    };
+    if(width>=768) {
+      await aligned('/');
+      for(const route of ['/academics','/admissions','/campus','/school-life','/contact','/']) {
+        await page.locator(`.featured-signs a[href="${route}"]`).click();
+        await page.clock.runFor(1300);await aligned(route);
+      }
+      // The central house link still exercises the separately retained portal trip.
+      await page.locator('.featured-logo').click();await page.clock.runFor(7500);
+    }
     let initial=await read();assert.equal(initial.state,'inside');assert.equal(initial.peeking,'true');assert.ok(initial.visible);assert.equal(initial.outside,false);
     for(let i=0;i<20;i++) {
       await page.clock.runFor(50);const d=await read();
@@ -51,9 +69,9 @@ try {
         if(['descending','boardMoving','standing'].includes(d.state))assert.ok(d.visible,'Outside squirrel stays visible in front of the scenery');
       }
       assert.ok(sawExit);assert.equal((await read()).state,'standing');
-      const bounds=await page.locator('.featured-squirrel').evaluate(e=>({z:+getComputedStyle(e).zIndex,x:+e.dataset.x,doorX:+e.dataset.doorX,r:+e.dataset.doorRadius}));
+      const bounds=await page.locator('.featured-squirrel').evaluate(e=>({z:+getComputedStyle(e).zIndex}));
       assert.ok(bounds.z>6,'Squirrel is above wall and branch fittings');
-      assert.ok(Math.abs(bounds.x-bounds.doorX)<bounds.r*7,'Turnaround stays beside house rather than disappearing at distant signs');
+      await aligned(route);
       await page.locator('.featured-logo').click();
       let tail=false,entry=false,pause=false,peekRise=false,last=0;
       for(let i=0;i<230;i++) {
