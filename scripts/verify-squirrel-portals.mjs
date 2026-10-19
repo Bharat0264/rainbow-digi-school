@@ -30,6 +30,16 @@ try {
     for(const route of ['/academics','/campus']) {
       if(width<768)await page.locator('.featured-menu').click();
       await page.locator(`${width<768?'.featured-drawer':'.featured-signs'} a[href="${route}"]`).click();
+      if(width<768) {
+        await page.clock.runFor(5000);
+        const indoor=await read();
+        assert.equal(indoor.state,'inside','Mobile navigation keeps squirrel indoors');
+        assert.equal(indoor.peeking,'true');assert.ok(indoor.visible);assert.equal(indoor.outside,false);
+        await page.locator('.featured-logo').click();
+        await page.clock.runFor(1000);
+        assert.equal((await read()).state,'inside');
+        continue;
+      }
       let sawExit=false;
       for(let i=0;i<85;i++) {await page.clock.runFor(1000/30);const d=await read();if(d.state==='exitingHouse'){sawExit=true;assert.equal(d.outside,false,'Exit follows the actual opening');}}
       assert.ok(sawExit);assert.equal((await read()).state,'standing');
@@ -45,7 +55,14 @@ try {
       assert.ok(entry&&tail&&pause,'Entry includes trailing tail and fully hidden pause');
       const home=await read();assert.equal(home.state,'inside');assert.equal(home.peeking,'true');assert.ok(home.visible);assert.equal(home.outside,false);
     }
-    console.log(width,'initial indoor peek, both exits, both entries, tail, mask and pause passed');
+    if(width>=768) {
+      await page.locator('.featured-signs a[href="/academics"]').click();
+      await page.clock.runFor(300);
+      await page.setViewportSize({width:390,height:900});
+      await page.clock.runFor(300);
+      assert.equal((await read()).state,'inside','Switching to mobile stops an active trip');
+    }
+    console.log(width,width<768?'mobile stays inside after navigation':'desktop portal animation and mobile resize passed');
     await page.close();
   }
 } finally {await browser.close();await server.close();}

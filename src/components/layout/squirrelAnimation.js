@@ -205,6 +205,12 @@ export function createSquirrelAnimation(canvas) {
   }
   function launch(request) {
     if (!layout || disposed) return;
+    if (layout.art.compact) {
+      cancelAnimationFrame(raf);raf=0;activity=null;anchor=null;
+      state='inside';target='house';entryProgress=1;peekAt=0;
+      pose=entrancePose(1);draw(0);
+      return;
+    }
     // A drawer link disappears after immediate navigation; keep its measured
     // destination when finishing a portal passage before the next trip.
     if (request.kind!=='house' && !request.resolve?.() && !Number.isFinite(request.u)) return;
@@ -274,6 +280,12 @@ export function createSquirrelAnimation(canvas) {
     measure(next) {
       const previous=layout&&source();
       layout=next;
+      if (layout.art.compact) {
+        cancelAnimationFrame(raf);raf=0;activity=null;anchor=null;
+        state='inside';target='house';entryProgress=1;peekAt=0;
+        pose=entrancePose(1);draw(0);
+        return;
+      }
       if (previous && previous!==source() && activity && ['climbing','descending'].includes(activity.kind)) {
         // Picture-source changes also change the native house position. Rebase
         // a partial climb in house-local art coordinates, not desktop pixels.
