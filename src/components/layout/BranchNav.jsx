@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { House, GraduationCap, UsersRound, School, BookOpen, Phone } from 'lucide-react';
-import Logo from '../ui/Logo';
 import NavigationRopes from './NavigationRopes';
 import { createSquirrelAnimation } from './squirrelAnimation';
 import { ropeSurface } from './ropeGeometry';
@@ -67,39 +66,28 @@ export default function BranchNav() {
       art.compact = artRef.current.currentSrc.includes('branch-house-compact');
       const layout = { art, width: box.width, height: box.height, size: parseFloat(getComputedStyle(canvas).width) };
       const ropes = [];
-      [...boardsRef.current.values(), logoRef.current].forEach((element, index) => {
+      [...boardsRef.current.values()].forEach((element, index) => {
         if (!element?.getClientRects().length || element.closest('.featured-drawer')) return;
-        const r = relative(element), isLogo = element === logoRef.current;
-        // Board uses center top transform origin for active scale; its top edge y matches parent row.
-        if (!isLogo) r.y = relative(element.parentElement).y;
-        // Logo ropes meet the two knots already painted into its upper rail.
-        const pair = (isLogo ? [.23, .77] : [.22, .78]).map(anchor => {
+        const r = relative(element);
+        r.y = relative(element.parentElement).y;
+        const pair = [.22, .78].map(anchor => {
           const x = r.x + r.width * anchor;
           const surface = ropeSurface(x, art);
-          // The central ropes start at the house rail, above the branch underside.
-          if (isLogo) surface.under = art.y + art.height * (art.compact ? 440 / 1024 : 306 / 430);
-          if (isLogo && art.compact) {
-            // Attach mobile knots to the house rail, not the sloping bark behind it.
-            // The coil's lower edge overlaps the hanging rope to avoid a visible seam.
-            surface.top = surface.under;
-            surface.angle = 0;
-          }
           const branchThickness = surface.thickness;
           const wrapHeight = branchThickness * 1.10;
           const wrapTop = surface.centerY - wrapHeight / 2;
           const wrapBottom = surface.centerY + wrapHeight / 2;
-          return { x, ...surface, wrapTop, wrapBottom, wrapHeight, isLogo };
+          return { x, ...surface, wrapTop, wrapBottom, wrapHeight };
         });
-        // Menu holes are baked into the original 594 × 450 plank at y=57.
-        const hole = r.y + r.height * (isLogo ? .13 : 57 / 450);
+        const hole = r.y + r.height * (57 / 450);
         const knotY = Math.max(...pair.map(rope => Math.max(rope.wrapBottom, rope.under + 2 * scale)));
         const ropeLength = Math.max(0, hole - knotY);
-        const boardIndex = isLogo ? 'logo' : index + 1;
+        const boardIndex = index + 1;
         nav.style.setProperty(`--rope-len-${boardIndex}`, `${ropeLength.toFixed(2)}px`);
         pair.forEach(rope => ropes.push({
           ...rope, bottom: r.y, hole, knotY, ropeLength, boardIndex,
-          thickness: (isLogo ? 5.5 * (compact ? 1.1 : 1.4) : 5.5) * scale,
-          board: isLogo ? 'logo' : element.dataset.navId,
+          thickness: 5.5 * scale,
+          board: element.dataset.navId,
         }));
       });
       setGeometry({ ...layout, ropes });
@@ -117,7 +105,6 @@ export default function BranchNav() {
     // Board dimensions settle after the shared scale is applied. Observing them
     // keeps the fittings attached even when the outer scene size is unchanged.
     for (const board of boardsRef.current.values()) observer.observe(board);
-    observer.observe(logoRef.current);
     const classObserver = new MutationObserver(scheduleMeasure);
     classObserver.observe(nav, { subtree: true, attributes: true, attributeFilter: ['class'] });
     const branchImage = artRef.current;
@@ -149,11 +136,6 @@ export default function BranchNav() {
       },
     });
     navigateToItem(item);
-  }, [navigateToItem]);
-
-  const visitMonkey = useCallback(() => {
-    startRef.current({ kind: 'house' });
-    navigateToItem(ITEMS[0]);
   }, [navigateToItem]);
 
   const visitHouse = useCallback(event => {
@@ -220,15 +202,32 @@ export default function BranchNav() {
         <canvas ref={canvasRef} className="featured-squirrel" width="128" height="128" aria-hidden="true" />
         <div className="featured-signs featured-left">{ITEMS.slice(0, 3).map(item => sign(item))}</div>
         <div className="featured-home">
-          <Link ref={logoRef} to="/" onClick={visitHouse} aria-label="Rainbow Digi School — Excellence begins early — home" className={`featured-logo${location.pathname === '/' ? ' featured-active' : ''}`}>
-            <Logo alt="Rainbow DIGI School" showTitle={false} />
-          </Link>
-          <button type="button" className="featured-monkey" aria-label="Send the squirrel home" onClick={visitMonkey}>
+          <Link
+            ref={logoRef}
+            to="/"
+            onClick={visitHouse}
+            aria-label="Rainbow DIGI School home"
+            className={`featured-logo${location.pathname === '/' ? ' featured-active' : ''}`}
+          >
             <picture>
-              <source srcSet="/images/navigation/monkey-handle-grip.webp" type="image/webp" />
-              <img className="featured-handle" src="/images/navigation/monkey-handle-grip.png" width="1536" height="1024" alt="" decoding="async" />
+              <source srcSet="/nav/logo-board.webp" type="image/webp" />
+              <img
+                className="featured-logo-image"
+                src="/nav/logo-board.png"
+                width="1400"
+                height="2000"
+                alt="Rainbow DIGI School logo. Excellence Begins Early"
+                decoding="async"
+                draggable={false}
+              />
             </picture>
-          </button>
+          </Link>
+        </div>
+        <div className="featured-branch-overlay" aria-hidden="true">
+          <picture>
+            <source media="(max-width:767px)" srcSet={COMPACT_ART} width="1536" height="1024" />
+            <img className="featured-branch" src={BRANCH_HD_ART} srcSet={`${BRANCH_ART} 2172w, ${BRANCH_HD_ART} 4344w`} sizes="(min-width: 1895px) 1800px, 95vw" width="2172" height="430" alt="" decoding="async" />
+          </picture>
         </div>
         <div className="featured-signs featured-right">{ITEMS.slice(3).map(item => sign(item))}</div>
         <button ref={menuRef} type="button" className="featured-menu" aria-controls="school-navigation-menu" aria-expanded={open} aria-label={open ? 'Close navigation menu' : 'Open navigation menu'} onClick={() => setOpen(value => !value)}>

@@ -116,18 +116,8 @@ export default function NavigationRopes({ ropes }) {
               data-rope-length={ropeLength}
               data-wrap-angle={angle}
             >
-              {/* Straight vertical rope drop from underside of branch straight down to hole */}
-              {rope.isLogo && (
-                <path
-                  d={`M ${x} ${under} V ${hole}`}
-                  fill="none"
-                  stroke="#936033"
-                  strokeWidth={thickness}
-                  strokeLinecap="butt"
-                />
-              )}
               <path
-                d={`M ${x} ${rope.isLogo ? under : under - 2} V ${hole}`}
+                d={`M ${x} ${under - 2} V ${hole}`}
                 fill="none"
                 stroke={`url(#${id}-fiber-${index})`}
                 strokeWidth={thickness}
@@ -140,18 +130,18 @@ export default function NavigationRopes({ ropes }) {
         })}
       </svg>
       <svg className="featured-ropes featured-ropes-fixings" aria-hidden="true">
-        {ropes.map(({ x, hole, bottom, under, isLogo, board, thickness }, index) => (
+        {ropes.map(({ x, hole, bottom, thickness, board }, index) => (
           <g key={index} data-rope-fixing={board}>
             {/* Eyelet hole rim and cavity */}
             <ellipse cx={x} cy={hole} rx={thickness * 0.85} ry={thickness * 0.65} fill="#c28b49" />
             <ellipse cx={x} cy={hole - thickness * 0.08} rx={thickness * 0.6} ry={thickness * 0.48} fill="#241409" />
             {/* Rope passing through eyelet */}
             <path
-              d={`M ${x} ${isLogo ? under : bottom - thickness} V ${hole}`}
+              d={`M ${x} ${bottom - thickness} V ${hole}`}
               fill="none"
               stroke={`url(#${id}-fiber-${index})`}
               strokeWidth={thickness}
-              strokeLinecap={isLogo ? 'butt' : 'round'}
+              strokeLinecap="round"
             />
             {/* Tiny knot at eyelet */}
             <ellipse cx={x} cy={hole + thickness * 0.15} rx={thickness * 0.62} ry={thickness * 0.48} fill={`url(#${id}-fiber-${index})`} />
