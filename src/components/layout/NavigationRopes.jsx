@@ -145,6 +145,16 @@ export default function NavigationRopes({ ropes }) {
             {/* Eyelet hole rim and cavity */}
             <ellipse cx={x} cy={hole} rx={thickness * 0.85} ry={thickness * 0.65} fill="#c28b49" />
             <ellipse cx={x} cy={hole - thickness * 0.08} rx={thickness * 0.6} ry={thickness * 0.48} fill="#241409" />
+            <image
+              data-board-nut={board}
+              href="/assets/nav/board-rope-hex-nut.webp"
+              x={x - thickness * 1.8}
+              y={hole - thickness * 3.6 * .43}
+              width={thickness * 3.6}
+              height={thickness * 3.6}
+              preserveAspectRatio="xMidYMid meet"
+              filter={`url(#${id}-coil-shadow)`}
+            />
             {/* Rope passing through eyelet */}
             <path
               d={`M ${x} ${isLogo ? under : bottom - thickness} V ${hole}`}
