@@ -11,18 +11,17 @@ const clamp = t => Math.max(0,Math.min(1,t));
 // Measured alpha bounds of gait frames 1–4 in the existing 128px cells:
 // x=14..113, paws end at y=119; the head centre is approximately (94,70).
 // Place the paw baseline, not the padded image rectangle, on the bark/sill.
-const SPRITE = { cell:128, centre:64, feet:120, headY:70, extent:50, insideScale:.9 };
+const SPRITE = { cell:128, centre:64, feet:120, headY:70, extent:50, insideScale:.65 };
 
 /** One small transparent canvas and one RAF; no video or artwork replacement. */
 export function createSquirrelAnimation(canvas) {
-  const context = canvas.getContext('2d'), sprite = new Image(), entrySprite = new Image();
+  const context = canvas.getContext('2d'), sprite = new Image();
   const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let layout, pose, activity, anchor, raf=0, disposed=false;
   let state='inside', target='house', side=1, entryProgress=1, distance=0;
   let visible=true, pausedAt=0, lastFrame=0;
-  let story=true, storyEpoch=null, storyProgress=0, entryCell=-1, returnAt=0;
   const source = () => ART[layout.art.compact ? 'compact' : 'desktop'];
-  const bodySize = () => Math.min(layout.size,layout.art.width/source().width*88);
+  const bodySize = () => Math.min(layout.size,layout.art.width/source().width*104);
   const baseScale = () => bodySize()/layout.size;
   function surface(u) {
     const art=source(), x=clamp(u)*art.width;
@@ -71,77 +70,38 @@ export function createSquirrelAnimation(canvas) {
     const x=art.x+pose.u*art.width, y=art.y+pose.v*art.height;
     const left=x-size/2, top=y-size*120/128;
     context.clearRect(0,0,128,128);
-    if (!motion.matches && state!=='inside' && sprite.complete && sprite.naturalWidth) {
+    if (state!=='inside' && sprite.complete && sprite.naturalWidth) {
       context.save();
       // Clip only the squirrel. The untouched window rim/wall stays in front.
       // The outside half-plane joins the actual dark circular opening.
-      if (state==='enteringHouse' || state==='exitingHouse' || state==='peeking') {
+      if (state==='enteringHouse' || state==='exitingHouse') {
         const cx=(art.x+door.u*art.width-left)*unit;
         const cy=(art.y+door.v*art.height-top)*unit, r=door.r*unit;
         context.beginPath();
-        if (state!=='peeking') {
-          if (side===1) context.rect(-512,-512,cx-r+512,1536);
-          else context.rect(cx+r,-512,1536,1536);
-        }
+        if (side===1) context.rect(-512,-512,cx-r+512,1536);
+        else context.rect(cx+r,-512,1536,1536);
         context.moveTo(cx+r,cy); context.arc(cx,cy,r,0,Math.PI*2); context.clip();
       }
       // Appear from outside the branch image; never pop into its middle.
       context.beginPath();
       context.rect((art.x-left)*unit,-512,art.width*unit,1536); context.clip();
-      context.translate(64,120);
+      const moving=state==='approaching'||state==='boardMoving';
+      const bounce=moving ? Math.sin(distance/18*Math.PI)**2*1.5 : 0;
+      context.translate(64,120-bounce);
       const scale=pose.scale*baseScale();
       context.scale(pose.direction*scale,scale);
       // Tilt into the opening while the head leads and the tail follows.
       if (state==='climbing' || state==='descending') {
-        context.rotate(Math.sin((activity?.progress??storyProgress)*Math.PI)*(state==='climbing'?-.16:.12));
+        context.rotate(Math.sin(activity.progress*Math.PI)*(state==='climbing'?-.16:.12));
       }
-      if (entryCell>=0 && entrySprite.complete && entrySprite.naturalWidth) {
-        const cell=entrySprite.naturalWidth/4;
-        context.drawImage(entrySprite,entryCell*cell,0,cell,entrySprite.naturalHeight,-64,-120,128,128);
-      } else context.drawImage(sprite,frame*128,0,128,128,-64,-120,128,128);
+      context.drawImage(sprite,frame*128,0,128,128,-64,-120,128,128);
       context.restore();
     }
     canvas.style.transform=`translate3d(${left}px,${top}px,0)`;
     Object.assign(canvas.dataset,{state,target,direction:String(pose.direction),frame:String(frame),
       x:String(x),y:String(y),scale:String(pose.scale),surfaceY:String(art.y+surface(pose.u)*art.height),
       doorX:String(art.x+door.u*art.width),doorY:String(art.y+door.v*art.height),doorRadius:String(door.r),
-      progress:String(activity?.progress??storyProgress),entryProgress:String(entryProgress),story:String(story)});
-  }
-  function storyStep(now) {
-    if (!layout || !sprite.naturalWidth) return;
-    storyEpoch??=now;
-    const time=(now-storyEpoch)%6000, art=source(), rest=art.rest/art.width;
-    side=1;entryCell=-1;entryProgress=0;storyProgress=0;
-    const edge=branchEnd(), sill=contact();
-    const onBranch=(u,direction=1) => ({u,v:surface(u),scale:1,direction});
-    const gait=t=>1+Math.floor(t/75)%4;
-    let frame=0;
-    if (time<650 || time>=5650) {
-      state='idle';pose=onBranch(rest);
-    } else if (time<1600) {
-      const t=(time-650)/950;
-      state='approaching';pose=onBranch(lerp(rest,edge.u,smooth(t)));frame=gait(time);
-    } else if (time<2100) {
-      const t=(time-1600)/500;storyProgress=t;state='climbing';
-      pose={u:lerp(edge.u,sill.u,smooth(t)),v:lerp(edge.v,sill.v,smooth(t))-Math.sin(t*Math.PI)*22/art.height,scale:1,direction:1};
-      frame=t<.2?6:(t<.8?5:6);
-    } else if (time<2900) {
-      entryProgress=smooth((time-2100)/800);state='enteringHouse';pose=entrancePose(entryProgress);
-      frame=gait(time);entryCell=entryProgress>.64?2:(entryProgress>.16?1:0);
-    } else if (time<3250) {
-      state='inside';entryProgress=1;pose=entrancePose(1);
-    } else if (time<3750) {
-      const door=doorway();state='peeking';entryProgress=1;
-      pose={u:door.u,v:door.v+door.r*.95/layout.art.height,scale:1,direction:1};entryCell=3;
-    } else if (time<4500) {
-      state='exitingHouse';entryProgress=1-smooth((time-3750)/750);pose=entrancePose(entryProgress);frame=gait(time);
-    } else if (time<4900) {
-      const t=(time-4500)/400;storyProgress=t;state='descending';
-      pose={u:lerp(sill.u,edge.u,smooth(t)),v:lerp(sill.v,edge.v,smooth(t))-Math.sin(t*Math.PI)*15/art.height,scale:1,direction:-1};frame=5;
-    } else {
-      state='approaching';pose=onBranch(lerp(edge.u,rest,smooth((time-4900)/750)),-1);frame=gait(time);
-    }
-    draw(frame);
+      progress:String(activity?.progress??1),entryProgress:String(entryProgress)});
   }
   function begin(kind,request,now=performance.now(),duration=1000) {
     activity={kind,request,from:{...pose},started:now,duration:Math.max(1,duration),entryFrom:entryProgress,progress:0};
@@ -194,17 +154,8 @@ export function createSquirrelAnimation(canvas) {
     draw([1,2,3,4][Math.floor(distance/18)%4]);
   }
   function tick(now) {
-    raf=0;
-    if (motion.matches) {context.clearRect(0,0,128,128);return;}
-    if (story) storyStep(now);
-    else {
-      advance(now);
-      if (!activity && state==='standing') {
-        returnAt||=now+700;
-        if (now>=returnAt) {returnAt=0;launch({kind:'house'});}
-      } else if (!activity && state==='inside') {story=true;storyEpoch=now-2900;storyStep(now);}
-    }
-    if (!raf && !disposed && visible && !document.hidden) raf=requestAnimationFrame(tick);
+    raf=0; advance(now);
+    if (activity && !raf && !disposed && visible && !document.hidden) raf=requestAnimationFrame(tick);
   }
   function settle() {
     cancelAnimationFrame(raf); raf=0;
@@ -216,18 +167,11 @@ export function createSquirrelAnimation(canvas) {
   }
   function launch(request) {
     if (!layout || disposed) return;
-    const wasStory=story;story=false;entryCell=-1;returnAt=0;
     // A drawer link disappears after immediate navigation; keep its measured
     // destination when finishing a portal passage before the next trip.
     if (request.kind!=='house' && !request.resolve?.() && !Number.isFinite(request.u)) return;
     target=request.kind==='house' ? 'house' : request.id;
     if (request.kind!=='house') {anchor=request;boardPosition(request);}
-    if (wasStory && state==='enteringHouse') {
-      begin('enteringHouse',request,performance.now(),Math.max(1,800*(1-entryProgress)));
-      if (motion.matches) settle();
-      else if (!raf && visible && !document.hidden) raf=requestAnimationFrame(tick);
-      return;
-    }
     // Supersede the intent without mirroring a half-occluded animal or
     // restarting a loop. The current portal passage ends before it turns.
     if (activity && (state==='enteringHouse' || state==='exitingHouse'
@@ -265,8 +209,7 @@ export function createSquirrelAnimation(canvas) {
     launch(input?{...input}:{kind:'house'});
   }
   function motionChanged() {
-    if (motion.matches) {cancelAnimationFrame(raf);raf=0;context.clearRect(0,0,128,128);}
-    else if (!raf && visible && !document.hidden) {story=true;storyEpoch=null;raf=requestAnimationFrame(tick);}
+    if (motion.matches) settle();
   }
   function visibilityChanged() {
     const paused=!visible||document.hidden;
@@ -274,9 +217,8 @@ export function createSquirrelAnimation(canvas) {
       pausedAt=performance.now(); cancelAnimationFrame(raf);raf=0;
     } else if (!paused && pausedAt) {
       if (activity) activity.started+=performance.now()-pausedAt;
-      if (storyEpoch!==null) storyEpoch+=performance.now()-pausedAt;
       pausedAt=0;
-      if (!motion.matches && !raf) raf=requestAnimationFrame(tick);
+      if (activity) raf=requestAnimationFrame(tick);
     }
   }
   const observer=new IntersectionObserver(entries=>{
@@ -285,9 +227,8 @@ export function createSquirrelAnimation(canvas) {
   observer.observe(canvas.parentElement);
   document.addEventListener('visibilitychange',visibilityChanged);
   motion.addEventListener('change',motionChanged);
-  sprite.onload=()=>{if (!disposed && layout && !motion.matches && !raf) raf=requestAnimationFrame(tick);};
+  sprite.onload=()=>{if (!disposed) draw(0);};
   sprite.src='/images/navigation/squirrel-gait-v2.webp';
-  entrySprite.src='/images/navigation/squirrel-entry-poses.webp';
   return {
     start,
     measure(next) {
@@ -307,9 +248,7 @@ export function createSquirrelAnimation(canvas) {
         if (['boardMoving','approaching'].includes(activity.kind)) activity.from.v=surface(activity.from.u);
         advance(pausedAt||performance.now());
       }
-      if (story && sprite.naturalWidth && !motion.matches) storyStep(pausedAt||performance.now());
-      else draw();
-      if (sprite.naturalWidth && !motion.matches && !raf && visible && !document.hidden) raf=requestAnimationFrame(tick);
+      draw();
     },
     dispose() {
       disposed=true;activity=null;cancelAnimationFrame(raf);
