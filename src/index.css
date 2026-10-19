@@ -169,7 +169,7 @@ main {
   grid-template-columns: 1.15fr 0.85fr;
   gap: var(--card-gap);
   align-items: start;
-  padding-top: var(--section-padding);
+  padding-top: clamp(20px, 3vw, 36px);
   padding-bottom: 0;
 }
 

@@ -433,7 +433,7 @@
     --logo-top: calc(160px * var(--scale));
     --menu-top: calc(176px * var(--scale));
     max-width: 440px;
-    aspect-ratio: 1;
+    aspect-ratio: 440 / 410;
   }
   .featured-sky img {
     width: 112%;
