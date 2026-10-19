@@ -54,6 +54,19 @@ export function createSquirrelAnimation(canvas) {
     return {u,v:surface(u),scale:1,direction:pose.direction};
   }
   function entrancePose(progress) {
+    if (state==='enteringHouse') {
+      const door=doorway(), start=contact();
+      const travel=smooth(clamp(progress/.82));
+      const depth=smooth(clamp((progress-.82)/.18));
+      const scale=lerp(1,SPRITE.insideScale,travel)*(1-depth);
+      // The trailing tail ends at the opening center, never at its far rim.
+      // Its final depth motion is anchored there while the hidden head stays hidden.
+      const tailOffset=bodySize()*.24*scale/layout.art.width;
+      const tailHeight=bodySize()*65/128*scale/layout.art.height;
+      return {u:lerp(start.u,door.u+side*tailOffset,travel),
+        v:lerp(start.v,door.v+tailHeight,smooth(clamp((travel-.55)/.45))),
+        scale,direction:side};
+    }
     const door=doorway(), start=contact(), scale=lerp(1,SPRITE.insideScale,progress);
     const paddedExtent=bodySize()*SPRITE.extent/SPRITE.cell*SPRITE.insideScale;
     // Both the muzzle on exit and trailing tail on entry finish beyond the
@@ -112,8 +125,12 @@ export function createSquirrelAnimation(canvas) {
         context.rotate(Math.sin(activity.progress*Math.PI)*(state==='climbing'?-.16:.12));
       }
       if (portalSprite.naturalWidth && (peeking||state==='enteringHouse')) {
-        const cell=peeking?3:(entryProgress>.67?2:(entryProgress>.2?1:0));
-        context.drawImage(portalSprite,cell*256,0,256,256,-64,-120,128,128);
+        const cell=peeking?3:(entryProgress>.45?1:0);
+        if (!peeking && entryProgress>=.82) {
+          // Only the trailing tail remains at this point. Do not shrink the
+          // head back into view after it has passed behind the wooden rim.
+          context.drawImage(portalSprite,256,0,140,210,-64,-120,70,105);
+        } else context.drawImage(portalSprite,cell*256,0,256,256,-64,-120,128,128);
       } else context.drawImage(sprite,frame*128,0,128,128,-64,-120,128,128);
       context.restore();
     }

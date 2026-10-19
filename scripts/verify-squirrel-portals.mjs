@@ -13,16 +13,17 @@ try {
     const read=()=>page.locator('.featured-squirrel').evaluate(e=>{
       const d={...e.dataset},r=e.getBoundingClientRect(),n=e.parentElement.getBoundingClientRect();
       const pixels=e.getContext('2d').getImageData(0,0,128,128).data;
-      let visible=false,outside=false;
+      let visible=false,outside=false,sumX=0,sumY=0,count=0;
       for(let y=0;y<128;y++)for(let x=0;x<128;x++)if(pixels[(y*128+x)*4+3]>70){
         visible=true;
         const wx=r.x-n.x+(x+.5)*r.width/128,wy=r.y-n.y+(y+.5)*r.height/128;
         const radius=+d.doorRadius,dx=wx-Number(d.doorX),dy=wy-Number(d.doorY);
+        sumX+=dx;sumY+=dy;count++;
         const side=d.state==='exitingHouse'?-Number(d.direction):Number(d.direction);
         const exterior=d.peeking!=='true'&&(side===1?dx<-radius+1:dx>radius-1);
         if(!exterior&&Math.hypot(dx,dy)>radius+1)outside=true;
       }
-      return {...d,visible,outside};
+      return {...d,visible,outside,tailDrift:count?Math.hypot(sumX/count,sumY/count)/Number(d.doorRadius):0};
     });
     let initial=await read();assert.equal(initial.state,'inside');assert.equal(initial.peeking,'true');assert.ok(initial.visible);assert.equal(initial.outside,false);
     await page.clock.runFor(1000);assert.equal((await read()).state,'inside','No new automatic loop');
@@ -36,7 +37,9 @@ try {
       let tail=false,entry=false,pause=false,last=0;
       for(let i=0;i<230;i++) {
         await page.clock.runFor(1000/30);const d=await read();
-        if(d.state==='enteringHouse') {entry=true;assert.equal(d.outside,false,'Entry stays off wall');assert.ok(+d.entryProgress>=last);last=+d.entryProgress;if(last>.7&&d.visible)tail=true;}
+        if(d.state==='enteringHouse') {entry=true;assert.equal(d.outside,false,'Entry stays off wall');assert.ok(+d.entryProgress>=last);last=+d.entryProgress;if(last>.7&&d.visible)tail=true;
+          if(last>.9&&d.visible) assert.ok(d.tailDrift<.5,'Last tail pixels recede at center, not opposite rim');
+        }
         if(d.state==='inside'&&d.peeking==='false'){pause=true;assert.equal(d.visible,false);}
       }
       assert.ok(entry&&tail&&pause,'Entry includes trailing tail and fully hidden pause');
