@@ -46,7 +46,7 @@
   position: relative;
   width: 95%;
   max-width: 1800px;
-  aspect-ratio: 1224 / 485;
+  aspect-ratio: 1224 / 515;
   margin: auto;
   isolation: isolate;
 }
@@ -334,7 +334,7 @@
   position: absolute;
   z-index: 5;
   top: var(--logo-top);
-  left: 50%;
+  left: var(--logo-center, 50%);
   width: var(--logo-width);
   transform: translateX(-50%);
   pointer-events: none;
@@ -430,7 +430,7 @@
     --logo-width: calc(174px * var(--scale));
     --logo-height: calc(var(--logo-width) * 0.55);
     --handle-top: calc(var(--logo-height) - 10px * var(--scale));
-    --logo-top: calc(160px * var(--scale));
+    --logo-top: calc(178px * var(--scale));
     --menu-top: calc(176px * var(--scale));
     max-width: 440px;
     aspect-ratio: 440 / 410;
@@ -440,7 +440,7 @@
     height: calc(220px * var(--scale));
   }
   .featured-signs { display: none; }
-  .featured-home { left: calc(50% + 4.2px * var(--scale)); }
+  .featured-home { left: var(--logo-center, calc(50% + 4.2px * var(--scale))); }
   .featured-squirrel {
     width: calc(46px * var(--scale));
     height: calc(46px * var(--scale));

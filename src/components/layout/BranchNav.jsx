@@ -64,6 +64,15 @@ export default function BranchNav() {
       }
       const art = relative(artRef.current);
       art.compact = artRef.current.currentSrc.includes('branch-house-compact');
+      // Match the board's baked rope stubs to the house mounts, so the drop is
+      // vertical instead of crossing a second, angled strand at either knot.
+      const nativeWidth=art.compact?1536:2172;
+      const mountingXs=art.compact?[624,944]:[972,1212];
+      const centralThickness=5.5*(compact?1.1:1.4)*scale;
+      const logoWidth=(mountingXs[1]-mountingXs[0])/nativeWidth*art.width/(.788-.215);
+      const logoCenter=art.x+mountingXs[0]/nativeWidth*art.width-centralThickness*.022+(.5-.215)*logoWidth;
+      nav.style.setProperty('--logo-width',`${logoWidth}px`);
+      nav.style.setProperty('--logo-center',`${logoCenter}px`);
       const layout = { art, width: box.width, height: box.height, size: parseFloat(getComputedStyle(canvas).width) };
       const ropes = [];
       [...boardsRef.current.values(), logoRef.current].forEach((element, index) => {
