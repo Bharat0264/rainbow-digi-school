@@ -20,13 +20,19 @@ try {
         const radius=+d.doorRadius,dx=wx-Number(d.doorX),dy=wy-Number(d.doorY);
         sumX+=dx;sumY+=dy;count++;
         const side=d.state==='exitingHouse'?-Number(d.direction):Number(d.direction);
-        const exterior=d.peeking!=='true'&&(side===1?dx<-radius+1:dx>radius-1);
+        const t=Math.max(0,Math.min(1,(Number(d.entryProgress)-.18)/.64));
+        const insertion=t*t*(3-2*t),boundary=side*(Number(d.bodySize)*.8*(1-insertion)-radius*insertion);
+        const exterior=d.peeking!=='true'&&(side===1?dx<boundary+1:dx>boundary-1);
         if(!exterior&&Math.hypot(dx,dy)>radius+1)outside=true;
       }
       return {...d,visible,outside,tailDrift:count?Math.hypot(sumX/count,sumY/count)/Number(d.doorRadius):0};
     });
     let initial=await read();assert.equal(initial.state,'inside');assert.equal(initial.peeking,'true');assert.ok(initial.visible);assert.equal(initial.outside,false);
-    await page.clock.runFor(1000);assert.equal((await read()).state,'inside','No new automatic loop');
+    for(let i=0;i<20;i++) {
+      await page.clock.runFor(50);const d=await read();
+      assert.equal(d.state,'inside','Startup stays inside without a side-leaf flash');
+      assert.equal(d.outside,false);
+    }
     for(const route of ['/academics','/campus']) {
       if(width<768)await page.locator('.featured-menu').click();
       await page.locator(`${width<768?'.featured-drawer':'.featured-signs'} a[href="${route}"]`).click();
@@ -41,18 +47,24 @@ try {
         continue;
       }
       let sawExit=false;
-      for(let i=0;i<85;i++) {await page.clock.runFor(1000/30);const d=await read();if(d.state==='exitingHouse'){sawExit=true;assert.equal(d.outside,false,'Exit follows the actual opening');}}
+      for(let i=0;i<85;i++) {await page.clock.runFor(1000/30);const d=await read();if(d.state==='exitingHouse'){sawExit=true;assert.equal(d.outside,false,'Exit follows the actual opening');}
+        if(['descending','boardMoving','standing'].includes(d.state))assert.ok(d.visible,'Outside squirrel stays visible in front of the scenery');
+      }
       assert.ok(sawExit);assert.equal((await read()).state,'standing');
+      const bounds=await page.locator('.featured-squirrel').evaluate(e=>({z:+getComputedStyle(e).zIndex,x:+e.dataset.x,doorX:+e.dataset.doorX,r:+e.dataset.doorRadius}));
+      assert.ok(bounds.z>6,'Squirrel is above wall and branch fittings');
+      assert.ok(Math.abs(bounds.x-bounds.doorX)<bounds.r*7,'Turnaround stays beside house rather than disappearing at distant signs');
       await page.locator('.featured-logo').click();
-      let tail=false,entry=false,pause=false,last=0;
+      let tail=false,entry=false,pause=false,peekRise=false,last=0;
       for(let i=0;i<230;i++) {
         await page.clock.runFor(1000/30);const d=await read();
-        if(d.state==='enteringHouse') {entry=true;assert.equal(d.outside,false,'Entry stays off wall');assert.ok(+d.entryProgress>=last);last=+d.entryProgress;if(last>.7&&d.visible)tail=true;
+        if(d.state==='enteringHouse') {entry=true;assert.equal(d.outside,false,'Portal masking follows insertion');assert.equal(+d.direction,route==='/academics'?1:-1,'Entry mirrors the side of approach');assert.ok(+d.entryProgress>=last);last=+d.entryProgress;if(last>.7&&d.visible)tail=true;
           if(last>.9&&d.visible) assert.ok(d.tailDrift<.5,'Last tail pixels recede at center, not opposite rim');
         }
         if(d.state==='inside'&&d.peeking==='false'){pause=true;assert.equal(d.visible,false);}
+        if(d.state==='inside'&&d.peeking==='true'&&+d.peekProgress>0&&+d.peekProgress<1)peekRise=true;
       }
-      assert.ok(entry&&tail&&pause,'Entry includes trailing tail and fully hidden pause');
+      assert.ok(entry&&tail&&pause&&peekRise,'Entry includes trailing tail, hidden pause and animated peek');
       const home=await read();assert.equal(home.state,'inside');assert.equal(home.peeking,'true');assert.ok(home.visible);assert.equal(home.outside,false);
     }
     if(width>=768) {
@@ -66,3 +78,4 @@ try {
     await page.close();
   }
 } finally {await browser.close();await server.close();}
+process.exit(0);

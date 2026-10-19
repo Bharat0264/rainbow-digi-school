@@ -11,7 +11,6 @@ const clamp = t => Math.max(0,Math.min(1,t));
 // Measured alpha bounds of gait frames 1–4 in the existing 128px cells:
 // x=14..113, paws end at y=119; the head centre is approximately (94,70).
 // Place the paw baseline, not the padded image rectangle, on the bark/sill.
-const SPRITE = { cell:128, centre:64, feet:120, headY:70, extent:50, insideScale:.92 };
 
 /** One small transparent canvas and one RAF; no video or artwork replacement. */
 export function createSquirrelAnimation(canvas) {
@@ -36,11 +35,11 @@ export function createSquirrelAnimation(canvas) {
   }
   function contact() {
     const door=doorway();
-    return {u:door.u-side*(door.r+bodySize()*SPRITE.extent/SPRITE.cell)/layout.art.width,
+    return {u:door.u-side*bodySize()*.30/layout.art.width,
       v:source().sill/source().height,scale:1,direction:side};
   }
   function branchEnd() {
-    const art=source(), u=(art.edges[side===1?0:1]-side*40)/art.width;
+    const art=source(), u=art.edges[side===1?0:1]/art.width;
     return {u,v:surface(u),scale:1,direction:side};
   }
   function boardPosition(request) {
@@ -49,66 +48,57 @@ export function createSquirrelAnimation(canvas) {
       const nav=canvas.parentElement.getBoundingClientRect();
       request.u=(board.left-nav.left+board.width/2-layout.art.x)/layout.art.width;
     }
-    const margin=bodySize()/2/layout.art.width;
-    const u=Math.max(margin,Math.min(1-margin,request.u??pose.u));
+    // Keep trips on the exposed bark beside the house, before the leaf clusters.
+    const art=source(), minimum=art.edges[0]/art.width, maximum=art.edges[1]/art.width;
+    const u=Math.max(minimum,Math.min(maximum,request.u??pose.u));
     return {u,v:surface(u),scale:1,direction:pose.direction};
   }
   function entrancePose(progress) {
-    if (state==='enteringHouse') {
-      const door=doorway(), start=contact();
-      const travel=smooth(clamp(progress/.82));
-      const depth=smooth(clamp((progress-.82)/.18));
-      const scale=lerp(1,SPRITE.insideScale,travel)*(1-depth);
-      // The trailing tail ends at the opening center, never at its far rim.
-      // Its final depth motion is anchored there while the hidden head stays hidden.
-      const tailOffset=bodySize()*.24*scale/layout.art.width;
-      const tailHeight=bodySize()*65/128*scale/layout.art.height;
-      return {u:lerp(start.u,door.u+side*tailOffset,travel),
-        v:lerp(start.v,door.v+tailHeight,smooth(clamp((travel-.55)/.45))),
-        scale,direction:side};
-    }
-    const door=doorway(), start=contact(), scale=lerp(1,SPRITE.insideScale,progress);
-    const paddedExtent=bodySize()*SPRITE.extent/SPRITE.cell*SPRITE.insideScale;
-    // Both the muzzle on exit and trailing tail on entry finish beyond the
-    // opening's far rim, with a one-native-pixel antialiasing allowance.
-    const inside=door.u+side*(door.r+paddedExtent+layout.art.width/source().width)/layout.art.width;
-    const headHeight=bodySize()*(SPRITE.feet-SPRITE.headY)/SPRITE.cell*scale;
-    return {u:lerp(start.u,inside,progress),
-      v:lerp(start.v,door.v+headHeight/layout.art.height,smooth(Math.min(1,progress*3))),
+    const door=doorway(), start=contact();
+    const travel=smooth(clamp(progress/.82));
+    const depth=state==='enteringHouse'?smooth(clamp((progress-.82)/.18)):0;
+    const scale=lerp(1,.58,travel)*(1-depth);
+    // Mirror the whole passage, including the tail's anchor, for left/right entry.
+    // The trailing tail recedes at the opening center rather than its far rim.
+    const tailOffset=bodySize()*.24*scale/layout.art.width;
+    const tailHeight=bodySize()*65/128*scale/layout.art.height;
+    return {u:lerp(start.u,door.u+side*tailOffset,travel),
+      v:lerp(start.v,door.v+tailHeight,smooth(clamp((travel-.55)/.45))),
       scale,direction:state==='exitingHouse'?-side:side};
-  }
-  function exitStartProgress() {
-    // Place the emerging head where the initial peek is, without a hidden jump.
-    const door=doorway(), body=bodySize(), extent=body*SPRITE.extent/128;
-    const outside=door.r+extent, inside=door.r+extent*SPRITE.insideScale+layout.art.width/source().width;
-    const head=body*30/128;
-    return clamp((outside+head)/(outside+inside+head*(1-SPRITE.insideScale)));
   }
   function showInsidePeek(now=performance.now()) {
     peekAt=now+220;
     clearTimeout(peekTimer);
-    peekTimer=setTimeout(()=>{if(!disposed && state==='inside')draw(0);},225);
+    const animatePeek=()=>{
+      if(disposed || state!=='inside')return;
+      draw(0);
+      if(performance.now()<peekAt+360)peekTimer=setTimeout(animatePeek,16);
+    };
+    peekTimer=setTimeout(animatePeek,220);
   }
   function draw(frame=lastFrame) {
     if (!layout || !pose) return;
     lastFrame=frame;
     const {art,size}=layout, door=doorway(), unit=128/size;
     const peeking=state==='inside' && performance.now()>=peekAt;
-    const renderPose=peeking?{u:door.u,v:door.v+door.r*.95/art.height,scale:.9,direction:1}:pose;
+    const peekProgress=peekAt?smooth(clamp((performance.now()-peekAt)/360)):1;
+    const renderPose=peeking?{u:door.u,v:door.v+(door.r*.95+door.r*1.5*(1-peekProgress))/art.height,scale:.9,direction:1}:pose;
     const x=art.x+renderPose.u*art.width, y=art.y+renderPose.v*art.height;
     const left=x-size/2, top=y-size*120/128;
     context.clearRect(0,0,128,128);
     if ((state!=='inside'||peeking) && sprite.complete && sprite.naturalWidth) {
       context.save();
-      // Clip only the squirrel. The untouched window rim/wall stays in front.
-      // The outside half-plane joins the actual dark circular opening.
+      // Ledge movement stays wholly in front of the wall. Only the head-first
+      // portal passage progressively recedes behind the circular opening.
       if (state==='enteringHouse' || state==='exitingHouse' || peeking) {
         const cx=(art.x+door.u*art.width-left)*unit;
         const cy=(art.y+door.v*art.height-top)*unit, r=door.r*unit;
         context.beginPath();
         if (!peeking) {
-          if (side===1) context.rect(-512,-512,cx-r+512,1536);
-          else context.rect(cx+r,-512,1536,1536);
+          const insertion=smooth(clamp((entryProgress-.18)/.64));
+          const boundary=cx+side*lerp(bodySize()*.8*unit,-r,insertion);
+          if (side===1) context.rect(-512,-512,boundary+512,1536);
+          else context.rect(boundary,-512,1536,1536);
         }
         context.moveTo(cx+r,cy); context.arc(cx,cy,r,0,Math.PI*2); context.clip();
       }
@@ -125,11 +115,11 @@ export function createSquirrelAnimation(canvas) {
         context.rotate(Math.sin(activity.progress*Math.PI)*(state==='climbing'?-.16:.12));
       }
       if (portalSprite.naturalWidth && (peeking||state==='enteringHouse')) {
-        const cell=peeking?3:(entryProgress>.45?1:0);
+        const cell=peeking?3:(entryProgress>.62?2:entryProgress>.35?1:0);
         if (!peeking && entryProgress>=.82) {
           // Only the trailing tail remains at this point. Do not shrink the
           // head back into view after it has passed behind the wooden rim.
-          context.drawImage(portalSprite,256,0,140,210,-64,-120,70,105);
+          context.drawImage(portalSprite,512,0,140,210,-64,-120,70,105);
         } else context.drawImage(portalSprite,cell*256,0,256,256,-64,-120,128,128);
       } else context.drawImage(sprite,frame*128,0,128,128,-64,-120,128,128);
       context.restore();
@@ -137,8 +127,8 @@ export function createSquirrelAnimation(canvas) {
     canvas.style.transform=`translate3d(${left}px,${top}px,0)`;
     Object.assign(canvas.dataset,{state,target,direction:String(pose.direction),frame:String(frame),
       x:String(x),y:String(y),scale:String(pose.scale),surfaceY:String(art.y+surface(pose.u)*art.height),
-      doorX:String(art.x+door.u*art.width),doorY:String(art.y+door.v*art.height),doorRadius:String(door.r),
-      progress:String(activity?.progress??1),entryProgress:String(entryProgress),peeking:String(peeking)});
+      doorX:String(art.x+door.u*art.width),doorY:String(art.y+door.v*art.height),doorRadius:String(door.r),bodySize:String(bodySize()),
+      progress:String(activity?.progress??1),entryProgress:String(entryProgress),peeking:String(peeking),peekProgress:String(peekProgress)});
   }
   function begin(kind,request,now=performance.now(),duration=1000) {
     activity={kind,request,from:{...pose},started:now,duration:Math.max(1,duration),entryFrom:entryProgress,progress:0};
@@ -207,6 +197,7 @@ export function createSquirrelAnimation(canvas) {
     if (!layout || disposed) return;
     if (layout.art.compact) {
       cancelAnimationFrame(raf);raf=0;activity=null;anchor=null;
+      clearTimeout(peekTimer);
       state='inside';target='house';entryProgress=1;peekAt=0;
       pose=entrancePose(1);draw(0);
       return;
@@ -240,7 +231,7 @@ export function createSquirrelAnimation(canvas) {
       }
     } else {
       if (wasInside) {
-        side=boardPosition(request).u>doorway().u?-1:1;entryProgress=exitStartProgress();
+        side=boardPosition(request).u>doorway().u?-1:1;entryProgress=1;
         begin('exitingHouse',request,performance.now(),900);
         pose=entrancePose(entryProgress);
       } else if (wasClimbing) begin('descending',request,performance.now(),500);
@@ -282,6 +273,7 @@ export function createSquirrelAnimation(canvas) {
       layout=next;
       if (layout.art.compact) {
         cancelAnimationFrame(raf);raf=0;activity=null;anchor=null;
+        clearTimeout(peekTimer);
         state='inside';target='house';entryProgress=1;peekAt=0;
         pose=entrancePose(1);draw(0);
         return;
