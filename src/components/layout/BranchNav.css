@@ -42,7 +42,7 @@
   --logo-width: calc(210px * var(--scale));
   --logo-height: calc(var(--logo-width) * 295 / 682);
   --logo-top: calc(215px * var(--scale));
-  --handle-top: calc(var(--logo-height) - 4px * var(--scale));
+  --handle-top: calc(var(--logo-height) - 10px * var(--scale));
   position: relative;
   width: 95%;
   max-width: 1800px;
@@ -379,8 +379,8 @@
   position: absolute;
   z-index: 2;
   top: var(--handle-top);
-  left: 0;
-  width: 100%;
+  left: -9%;
+  width: 118%;
   aspect-ratio: 682 / 480;
   border: 0;
   padding: 0;
@@ -424,7 +424,7 @@
   .featured-inner {
     --logo-width: calc(182px * var(--scale));
     --logo-height: calc(var(--logo-width) * 295 / 682);
-    --handle-top: calc(var(--logo-height) - 4px * var(--scale));
+    --handle-top: calc(var(--logo-height) - 10px * var(--scale));
     --logo-top: calc(182px * var(--scale));
     --menu-top: calc(176px * var(--scale));
     max-width: 440px;
