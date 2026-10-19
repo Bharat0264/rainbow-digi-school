@@ -423,11 +423,12 @@
 }
 .featured-menu,
 .featured-drawer { display: none; }
+.featured-mobile-monkey { display: none; }
 
 @media (max-width: 767px) {
   .featured-inner {
-    --logo-width: calc(140px * var(--scale));
-    --logo-top: calc(82px * var(--scale));
+    --logo-width: calc(184px * var(--scale));
+    --logo-top: calc(182px * var(--scale));
     --bark-clip-y: calc(131px * var(--scale));
     --menu-top: calc(176px * var(--scale));
     max-width: 440px;
@@ -439,6 +440,24 @@
     height: calc(220px * var(--scale));
   }
   .featured-signs { display: none; }
+  .featured-home {
+    left: calc(50% + 4.4px * var(--scale));
+    aspect-ratio: 682 / 295;
+  }
+  .featured-logo,
+  .featured-logo:hover,
+  .featured-logo:focus-visible,
+  .featured-logo:active { animation: none; transform: none; }
+  .featured-branch-overlay { display: none; }
+  .featured-mobile-monkey {
+    display: block;
+    position: absolute;
+    top: calc(100% - 4px * var(--scale));
+    left: 0;
+    width: 100%;
+    height: auto;
+    pointer-events: none;
+  }
   .featured-squirrel {
     width: calc(46px * var(--scale));
     height: calc(46px * var(--scale));

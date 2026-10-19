@@ -1,0 +1,13 @@
+# Mobile connected rope artwork
+
+Generated with the built-in imagegen tool, using the original compact canopy as the edit target. Final asset: `public/images/navigation/branch-house-compact-connected.png` (1536 × 1024, transparent RGBA). Mobile uses integrated rope attachments instead of separate SVG logo ropes. Desktop keeps its existing assets and geometry.
+
+Mobile logo width and horizontal offset align its attachment points to the generated rope centers at native x610 and x957.
+
+## Initial prompt
+
+Edit target: transparent mobile birdhouse and branch asset. Match the user's close-up reference for rope attachment: TWO natural warm golden-brown hemp lashings wrapped tightly around the LEFT and RIGHT ends of the birdhouse's dark horizontal porch rail. Each is three rounded coils hugging the rail, hanging twisted rope emerges smoothly from underneath the bottom coil, not a separate floating knot. Coils positioned at x=37.7% and x=62.3% of the full image width, rail y=40% to43%. Hanging ropes straight vertical, centers exactly x37.7% and62.3%, width1.1% of canvas. End BOTH hanging ropes at y=66% of canvas. Preserve EXACT original birdhouse, roof, foliage, branch silhouette, scale and all positions and colors; same 1536x1024 transparent canvas, NO reframing or extra padding. Only add the two connected rope attachments, all source pixels otherwise unchanged. The reference user's closeup shows intended realistic unified coils and rope fibers: replicate that connection, same colors throughout the rope. Keep all background genuine transparent, including between ropes. NO board below, no text, no rainbow, no monkey, no additional objects. Crisp premium 3D cartoon rendering, no blur, no seams, modest compact coils.
+
+## Refinement prompt
+
+Correct this edit. Preserve house branch foliage pixel positions exactly. Remove ALL background glow, green gradient and dark backdrop: genuine transparent alpha EVERYWHERE except actual leaves, house, branch and ropes, including empty lower region and gaps. No cast shadow or glow on empty pixels. Change the two knots to THREE HORIZONTAL STACKED TURNS each (like three short horizontal rounded rope cylinders stacked top-to-bottom), wrapping around the ends of the dark house rail, as the user's reference. NOT three vertical loops. Each knot width about55px, height65px at native1536 width, center x=579 and957; top y370 bottom435. Natural connected vertical twisted ropes below knots at exactly x579 and957, 17px wide, extending to y665. Keep rope color warm golden brown matching user reference. Keep exact 1536x1024 framing and all existing art positions. Background extraction is mandatory: true transparent PNG without glow, no background. No text, extra objects or added board.
