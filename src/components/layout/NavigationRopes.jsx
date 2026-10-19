@@ -5,10 +5,11 @@ function RopeCoil({ x, top, angle, thickness, id, isLogo }) {
   // Keep branch knots compact while preserving their proportions and bark anchor.
   const width = thickness * 3;
   if (isLogo) {
-    const height = width * 65 / 77;
+    const connectorWidth = thickness * 2.8;
+    const height = connectorWidth * 1040 / 390;
     return (
-      <svg x={x - width / 2} y={top - height + thickness * .18} width={width} height={height} viewBox="200 70 77 65" style={{ overflow: 'hidden' }} filter={`url(#${id}-coil-shadow)`}>
-        <image href="/assets/nav/connected-logo-mascot.webp" width="1106" height="1422" clipPath={`url(#${id}-logo-knot-clip)`} />
+      <svg x={x - connectorWidth / 2} y={top - thickness * 2.1} width={connectorWidth} height={height} viewBox="245 40 390 1040" style={{ overflow: 'hidden' }} filter={`url(#${id}-coil-shadow)`}>
+        <image href="/assets/nav/brass-rope-connector.webp" width="887" height="1774" clipPath={`url(#${id}-logo-knot-clip)`} />
       </svg>
     );
   }
@@ -44,8 +45,8 @@ export default function NavigationRopes({ ropes }) {
     <>
       <svg className="featured-ropes featured-ropes-back" aria-hidden="true">
         <defs>
-          <clipPath id={`${id}-logo-knot-clip`}><rect x="200" y="70" width="77" height="65" /></clipPath>
-          <clipPath id={`${id}-logo-stem-clip`}><rect x="216" y="0" width="42" height="64" /></clipPath>
+          <clipPath id={`${id}-logo-knot-clip`}><rect x="245" y="40" width="390" height="1040" /></clipPath>
+          <clipPath id={`${id}-logo-stem-clip`}><rect x="348" y="1100" width="180" height="380" /></clipPath>
           <radialGradient id={`${id}-bark-contact`} cx="50%" cy="50%" r="50%">
             <stop offset="0%" stopColor="rgba(30,15,0,0.45)" />
             <stop offset="65%" stopColor="rgba(30,15,0,0.20)" />
@@ -71,14 +72,14 @@ export default function NavigationRopes({ ropes }) {
               id={`${id}-fiber-${index}`}
               x={x - thickness / 2}
               width={thickness}
-              height={thickness * (isLogo ? 64 / 42 : 77 / 109)}
+              height={thickness * (isLogo ? 380 / 180 : 77 / 109)}
               patternUnits="userSpaceOnUse"
-              viewBox={isLogo ? '216 0 42 64' : '0 0 109 77'}
+              viewBox={isLogo ? '348 1100 180 380' : '0 0 109 77'}
               preserveAspectRatio="none"
               style={{ overflow: 'hidden' }}
             >
               {isLogo ? (
-                <image href="/assets/nav/connected-logo-mascot.webp" width="1106" height="1422" clipPath={`url(#${id}-logo-stem-clip)`} />
+                <image href="/assets/nav/brass-rope-connector.webp" width="887" height="1774" clipPath={`url(#${id}-logo-stem-clip)`} />
               ) : (
                 <image href="/images/navigation/rope-straight-tile.png" width="109" height="77" filter={`url(#${id}-fiber-color)`} />
               )}
@@ -134,7 +135,7 @@ export default function NavigationRopes({ ropes }) {
               {/* Straight vertical rope drop from underside of branch straight down to hole */}
               {rope.isLogo && (
                 <path
-                  d={`M ${x} ${under} V ${hole}`}
+                  d={`M ${x} ${under + thickness * 5} V ${hole}`}
                   fill="none"
                   stroke="#936033"
                   strokeWidth={thickness}
@@ -142,7 +143,7 @@ export default function NavigationRopes({ ropes }) {
                 />
               )}
               <path
-                d={`M ${x} ${rope.isLogo ? under : under - 2} V ${hole}`}
+                d={`M ${x} ${rope.isLogo ? under + thickness * 5 : under - 2} V ${hole}`}
                 fill="none"
                 stroke={`url(#${id}-fiber-${index})`}
                 strokeWidth={thickness}

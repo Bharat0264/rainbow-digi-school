@@ -41,12 +41,12 @@
   --board-top: calc(220px * var(--scale));
   --logo-width: calc(210px * var(--scale));
   --logo-height: calc(var(--logo-width) * 0.55);
-  --logo-top: calc(193px * var(--scale));
+  --logo-top: calc(205px * var(--scale));
   --handle-top: calc(var(--logo-height) - 10px * var(--scale));
   position: relative;
   width: 95%;
   max-width: 1800px;
-  aspect-ratio: 1224 / 470;
+  aspect-ratio: 1224 / 485;
   margin: auto;
   isolation: isolate;
 }
