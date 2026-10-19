@@ -80,7 +80,7 @@ export default function BranchNav() {
         });
         // Menu holes are baked into the original 594 × 450 plank at y=57.
         const hole = r.y + r.height * (isLogo ? .13 : 57 / 450);
-        const knotY = Math.max(...pair.map(rope => rope.wrapBottom));
+        const knotY = Math.max(...pair.map(rope => Math.max(rope.wrapBottom, rope.under + 2 * scale)));
         const ropeLength = Math.max(0, hole - knotY);
         const boardIndex = isLogo ? 'logo' : index + 1;
         nav.style.setProperty(`--rope-len-${boardIndex}`, `${ropeLength.toFixed(2)}px`);
