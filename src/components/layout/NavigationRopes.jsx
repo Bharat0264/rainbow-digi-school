@@ -21,7 +21,7 @@ function RopeCoil({ x, top, under, thickness, id, isLogo }) {
   );
 }
 
-export default function NavigationRopes({ ropes }) {
+export default function NavigationRopes({ ropes, railFasteners = [] }) {
   const id = useId().replaceAll(':', '');
   return (
     <>
@@ -83,6 +83,9 @@ export default function NavigationRopes({ ropes }) {
         ))}
       </svg>
       <svg className="featured-ropes featured-ropes-front" aria-hidden="true">
+        {railFasteners.map(({x,y,size},index)=>(
+          <image key={`screw-${index}`} data-house-screw={index} href="/assets/nav/gold-rail-screw.webp" x={x-size/2} y={y-size/2} width={size} height={size} preserveAspectRatio="xMidYMid meet" />
+        ))}
         {ropes.map((rope, index) => {
           const {
             x,
@@ -142,6 +145,11 @@ export default function NavigationRopes({ ropes }) {
       <svg className="featured-ropes featured-ropes-fixings" aria-hidden="true">
         {ropes.map(({ x, hole, bottom, under, isLogo, board, thickness }, index) => isLogo ? null : (
           <g key={index} data-rope-fixing={board}>
+            <defs>
+              <clipPath id={`${id}-nut-lip-${index}`}>
+                <rect x={x-thickness*1.8} y={hole+thickness*.2} width={thickness*3.6} height={thickness*2} />
+              </clipPath>
+            </defs>
             {/* Eyelet hole rim and cavity */}
             <ellipse cx={x} cy={hole} rx={thickness * 0.85} ry={thickness * 0.65} fill="#c28b49" />
             <ellipse cx={x} cy={hole - thickness * 0.08} rx={thickness * 0.6} ry={thickness * 0.48} fill="#241409" />
@@ -157,12 +165,14 @@ export default function NavigationRopes({ ropes }) {
             />
             {/* Rope passing through eyelet */}
             <path
-              d={`M ${x} ${isLogo ? under : bottom - thickness} V ${hole}`}
+              d={`M ${x} ${bottom - thickness} V ${hole + thickness * .15}`}
               fill="none"
               stroke={`url(#${id}-fiber-${index})`}
               strokeWidth={thickness}
               strokeLinecap={isLogo ? 'butt' : 'round'}
             />
+            {/* The front washer occludes the rope tip as it passes into the hole. */}
+            <image href="/assets/nav/board-rope-hex-nut.webp" x={x-thickness*1.8} y={hole-thickness*3.6*.43} width={thickness*3.6} height={thickness*3.6} clipPath={`url(#${id}-nut-lip-${index})`} />
           </g>
         ))}
       </svg>

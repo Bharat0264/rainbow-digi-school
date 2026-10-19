@@ -100,7 +100,13 @@ export default function BranchNav() {
           board: isLogo ? 'logo' : element.dataset.navId,
         }));
       });
-      setGeometry({ ...layout, ropes });
+      const nativeWidth=art.compact?1536:2172, nativeHeight=art.compact?1024:430;
+      const railFasteners=(art.compact?[[624,418],[944,418]]:[[972,291],[1212,291]]).map(([x,y])=>({
+        x:art.x+x/nativeWidth*art.width,
+        y:art.y+y/nativeHeight*art.height,
+        size:18/nativeWidth*art.width,
+      }));
+      setGeometry({ ...layout, ropes, railFasteners });
       animation.measure(layout);
     };
     measure();
@@ -214,7 +220,7 @@ export default function BranchNav() {
             <img ref={artRef} className="featured-branch" fetchPriority="high" src={BRANCH_HD_ART} srcSet={`${BRANCH_ART} 2172w, ${BRANCH_HD_ART} 4344w`} sizes="(min-width: 1895px) 1800px, 95vw" width="2172" height="430" alt="" aria-hidden="true" decoding="async" />
           </picture>
         </div>
-        <NavigationRopes ropes={geometry.ropes} />
+        <NavigationRopes ropes={geometry.ropes} railFasteners={geometry.railFasteners} />
         <canvas ref={canvasRef} className="featured-squirrel" width="128" height="128" aria-hidden="true" />
         <div className="featured-signs featured-left">{ITEMS.slice(0, 3).map(item => sign(item))}</div>
         <div className="featured-home">
