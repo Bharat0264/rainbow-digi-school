@@ -69,9 +69,12 @@ export default function BranchNav() {
         const r = relative(element), isLogo = element === logoRef.current;
         // Board uses center top transform origin for active scale; its top edge y matches parent row.
         if (!isLogo) r.y = relative(element.parentElement).y;
-        const pair = (isLogo ? [.18, .82] : [.22, .78]).map(anchor => {
+        // Logo ropes meet the two knots already painted into its upper rail.
+        const pair = (isLogo ? [.23, .77] : [.22, .78]).map(anchor => {
           const x = r.x + r.width * anchor;
           const surface = ropeSurface(x, art);
+          // The central ropes start at the house rail, above the branch underside.
+          if (isLogo) surface.under = art.y + art.height * (art.compact ? 440 / 1024 : 306 / 430);
           const branchThickness = surface.thickness;
           const wrapHeight = branchThickness * 1.10;
           const wrapTop = surface.centerY - wrapHeight / 2;
