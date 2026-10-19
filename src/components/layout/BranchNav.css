@@ -41,7 +41,7 @@
   --board-top: calc(220px * var(--scale));
   --logo-width: calc(210px * var(--scale));
   --logo-height: calc(var(--logo-width) * 295 / 682);
-  --logo-top: calc(209px * var(--scale));
+  --logo-top: calc(215px * var(--scale));
   --handle-top: calc(var(--logo-height) - 4px * var(--scale));
   position: relative;
   width: 95%;
@@ -425,7 +425,7 @@
     --logo-width: calc(200px * var(--scale));
     --logo-height: calc(var(--logo-width) * 295 / 682);
     --handle-top: calc(var(--logo-height) - 4px * var(--scale));
-    --logo-top: calc(176px * var(--scale));
+    --logo-top: calc(182px * var(--scale));
     --menu-top: calc(176px * var(--scale));
     max-width: 440px;
     aspect-ratio: 1;
