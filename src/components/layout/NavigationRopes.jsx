@@ -1,9 +1,7 @@
 import { useId } from 'react';
 
-function RopeCoil({ x, top, angle, thickness, id, isLogo }) {
-  // Image is 694 x 740. The 3 horizontal turns occupy ~555px height (185px per turn).
-  // Keep branch knots compact while preserving their proportions and bark anchor.
-  const width = thickness * 3;
+function RopeCoil({ x, top, under, thickness, id, isLogo }) {
+  // House connectors and branch wraps share the same measured rope anchors.
   if (isLogo) {
     const connectorWidth = thickness * 2.8;
     const height = connectorWidth * 1040 / 390;
@@ -13,29 +11,13 @@ function RopeCoil({ x, top, angle, thickness, id, isLogo }) {
       </svg>
     );
   }
-  const height = width * (740 / 694);
-  // Bottom of coil rests on top bark of branch with a slight overlap to bed in naturally.
-  const y = top - height + thickness * 0.18;
+  // The two wraps span the actual bark depth, with one connected tail below.
+  const wrapWidth = thickness * 4;
+  const height = (under - top + thickness * 1.2) * 1460 / 920;
   return (
-    <g transform={angle ? `rotate(${angle * 0.35} ${x} ${top})` : undefined}>
-      {/* Soft contact shadow on bark */}
-      <ellipse
-        cx={x}
-        cy={top}
-        rx={width * 0.44}
-        ry={Math.max(2, thickness * 0.32)}
-        fill={`url(#${id}-bark-contact)`}
-      />
-      <image
-        href="/rope/rope-coil.webp"
-        x={x - width / 2}
-        y={y}
-        width={width}
-        height={height}
-        preserveAspectRatio="xMidYMid meet"
-        filter={`url(#${id}-coil-shadow)`}
-      />
-    </g>
+    <svg data-branch-wrap="double" x={x - wrapWidth / 2} y={top - thickness * .6} width={wrapWidth} height={height} viewBox="160 60 720 1460" preserveAspectRatio="none" style={{ overflow: 'hidden' }} filter={`url(#${id}-coil-shadow)`}>
+      <image href="/assets/nav/branch-double-wrap.webp" width="1024" height="1536" clipPath={`url(#${id}-branch-wrap-clip)`} />
+    </svg>
   );
 }
 
@@ -45,6 +27,8 @@ export default function NavigationRopes({ ropes }) {
     <>
       <svg className="featured-ropes featured-ropes-back" aria-hidden="true">
         <defs>
+          <clipPath id={`${id}-branch-wrap-clip`}><rect x="160" y="60" width="720" height="1460" /></clipPath>
+          <clipPath id={`${id}-branch-stem-clip`}><rect x="410" y="1040" width="220" height="300" /></clipPath>
           <clipPath id={`${id}-logo-knot-clip`}><rect x="245" y="40" width="390" height="1040" /></clipPath>
           <clipPath id={`${id}-logo-stem-clip`}><rect x="348" y="1100" width="180" height="380" /></clipPath>
           <radialGradient id={`${id}-bark-contact`} cx="50%" cy="50%" r="50%">
@@ -72,16 +56,16 @@ export default function NavigationRopes({ ropes }) {
               id={`${id}-fiber-${index}`}
               x={x - thickness / 2}
               width={thickness}
-              height={thickness * (isLogo ? 380 / 180 : 77 / 109)}
+              height={thickness * (isLogo ? 380 / 180 : 300 / 220)}
               patternUnits="userSpaceOnUse"
-              viewBox={isLogo ? '348 1100 180 380' : '0 0 109 77'}
+              viewBox={isLogo ? '348 1100 180 380' : '410 1040 220 300'}
               preserveAspectRatio="none"
               style={{ overflow: 'hidden' }}
             >
               {isLogo ? (
                 <image href="/assets/nav/brass-rope-connector.webp" width="887" height="1774" clipPath={`url(#${id}-logo-stem-clip)`} />
               ) : (
-                <image href="/images/navigation/rope-straight-tile.png" width="109" height="77" filter={`url(#${id}-fiber-color)`} />
+                <image href="/assets/nav/branch-double-wrap.webp" width="1024" height="1536" clipPath={`url(#${id}-branch-stem-clip)`} />
               )}
             </pattern>
           ))}
@@ -150,7 +134,7 @@ export default function NavigationRopes({ ropes }) {
                 strokeLinecap="butt"
               />
               {/* Photorealistic 3D rope coil sitting on top of the branch */}
-              <RopeCoil x={x} top={top} angle={angle} thickness={thickness} id={id} isLogo={rope.isLogo} />
+              <RopeCoil x={x} top={top} under={under} thickness={thickness} id={id} isLogo={rope.isLogo} />
             </g>
           );
         })}
@@ -169,9 +153,6 @@ export default function NavigationRopes({ ropes }) {
               strokeWidth={thickness}
               strokeLinecap={isLogo ? 'butt' : 'round'}
             />
-            {/* Tiny knot at eyelet */}
-            <ellipse cx={x} cy={hole + thickness * 0.15} rx={thickness * 0.62} ry={thickness * 0.48} fill={`url(#${id}-fiber-${index})`} />
-            <ellipse cx={x} cy={hole + thickness * 0.15} rx={thickness * 0.62} ry={thickness * 0.48} fill="rgba(30,15,0,0.28)" />
           </g>
         ))}
       </svg>
