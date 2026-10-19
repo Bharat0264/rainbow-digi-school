@@ -55,7 +55,14 @@ export default function NavigationRopes({ ropes }) {
               <feFuncB type="linear" slope="0.7458" />
             </feComponentTransfer>
           </filter>
-          {ropes.map(({ x, thickness }, index) => (
+          <filter id={`${id}-gold-fiber`} x="0%" y="0%" width="100%" height="100%" colorInterpolationFilters="sRGB">
+            <feComponentTransfer>
+              <feFuncR type="linear" slope="1.05" />
+              <feFuncG type="linear" slope="0.85" />
+              <feFuncB type="linear" slope="0.65" />
+            </feComponentTransfer>
+          </filter>
+          {ropes.map(({ x, thickness, isLogo }, index) => (
             <pattern
               key={index}
               id={`${id}-fiber-${index}`}
@@ -66,7 +73,7 @@ export default function NavigationRopes({ ropes }) {
               viewBox="0 0 109 77"
               preserveAspectRatio="none"
             >
-              <image href="/images/navigation/rope-straight-tile.png" width="109" height="77" filter={`url(#${id}-fiber-color)`} />
+              <image href="/images/navigation/rope-straight-tile.png" width="109" height="77" filter={`url(#${id}-${isLogo ? 'gold-fiber' : 'fiber-color'})`} />
             </pattern>
           ))}
         </defs>
@@ -140,7 +147,7 @@ export default function NavigationRopes({ ropes }) {
         })}
       </svg>
       <svg className="featured-ropes featured-ropes-fixings" aria-hidden="true">
-        {ropes.map(({ x, hole, bottom, under, isLogo, board, thickness }, index) => (
+        {ropes.map(({ x, hole, bottom, under, isLogo, board, thickness }, index) => isLogo ? null : (
           <g key={index} data-rope-fixing={board}>
             {/* Eyelet hole rim and cavity */}
             <ellipse cx={x} cy={hole} rx={thickness * 0.85} ry={thickness * 0.65} fill="#c28b49" />

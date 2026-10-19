@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { House, GraduationCap, UsersRound, School, BookOpen, Phone } from 'lucide-react';
-import Logo from '../ui/Logo';
 import NavigationRopes from './NavigationRopes';
 import { createSquirrelAnimation } from './squirrelAnimation';
 import { ropeSurface } from './ropeGeometry';
@@ -75,7 +74,7 @@ export default function BranchNav() {
         // Board uses center top transform origin for active scale; its top edge y matches parent row.
         if (!isLogo) r.y = relative(element.parentElement).y;
         // Logo ropes meet the two knots already painted into its upper rail.
-        const pair = (isLogo ? [.23, .77] : [.22, .78]).map(anchor => {
+        const pair = (isLogo ? [.215, .788] : [.22, .78]).map(anchor => {
           const x = r.x + r.width * anchor;
           const surface = ropeSurface(x, art);
           // The central ropes start at the house rail, above the branch underside.
@@ -93,7 +92,7 @@ export default function BranchNav() {
           return { x, ...surface, wrapTop, wrapBottom, wrapHeight, isLogo };
         });
         // Menu holes are baked into the original 594 × 450 plank at y=57.
-        const hole = r.y + r.height * (isLogo ? .13 : 57 / 450);
+        const hole = r.y + r.height * (isLogo ? .20 : 57 / 450);
         const knotY = Math.max(...pair.map(rope => Math.max(rope.wrapBottom, rope.under + 2 * scale)));
         const ropeLength = Math.max(0, hole - knotY);
         const boardIndex = isLogo ? 'logo' : index + 1;
@@ -223,13 +222,9 @@ export default function BranchNav() {
         <div className="featured-signs featured-left">{ITEMS.slice(0, 3).map(item => sign(item))}</div>
         <div className="featured-home">
           <Link ref={logoRef} to="/" onClick={visitHouse} aria-label="Rainbow Digi School — Excellence begins early — home" className={`featured-logo${location.pathname === '/' ? ' featured-active' : ''}`}>
-            <Logo alt="Rainbow DIGI School" showTitle={false} />
+            <img className="featured-assembly" src="/assets/nav/connected-logo-mascot.webp" width="1106" height="1422" alt="Rainbow DIGI School — Excellence Begins Early" decoding="async" draggable={false} />
           </Link>
           <button type="button" className="featured-monkey" aria-label="Send the squirrel home" onClick={visitMonkey}>
-            <picture>
-              <source srcSet="/images/navigation/monkey-handle-grip.webp" type="image/webp" />
-              <img className="featured-handle" src="/images/navigation/monkey-handle-grip.png" width="1536" height="1024" alt="" decoding="async" />
-            </picture>
           </button>
         </div>
         <div className="featured-signs featured-right">{ITEMS.slice(3).map(item => sign(item))}</div>
