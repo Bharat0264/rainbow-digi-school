@@ -7,7 +7,7 @@ function RopeCoil({ x, top, under, thickness, id, isLogo }) {
     const height = connectorWidth * 1040 / 390;
     return (
       <svg x={x - connectorWidth / 2} y={top - thickness * 2.1} width={connectorWidth} height={height} viewBox="245 40 390 1040" style={{ overflow: 'hidden' }} filter={`url(#${id}-coil-shadow)`}>
-        <image href="/assets/nav/brass-rope-connector.webp" width="887" height="1774" clipPath={`url(#${id}-logo-knot-clip)`} />
+        <image href="/assets/nav/hex-brass-rope-connector.webp" width="887" height="1774" clipPath={`url(#${id}-logo-knot-clip)`} />
       </svg>
     );
   }
@@ -63,7 +63,7 @@ export default function NavigationRopes({ ropes }) {
               style={{ overflow: 'hidden' }}
             >
               {isLogo ? (
-                <image href="/assets/nav/brass-rope-connector.webp" width="887" height="1774" clipPath={`url(#${id}-logo-stem-clip)`} />
+                <image href="/assets/nav/hex-brass-rope-connector.webp" width="887" height="1774" clipPath={`url(#${id}-logo-stem-clip)`} />
               ) : (
                 <image href="/assets/nav/branch-double-wrap.webp" width="1024" height="1536" clipPath={`url(#${id}-branch-stem-clip)`} />
               )}
