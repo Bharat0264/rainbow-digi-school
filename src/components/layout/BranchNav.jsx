@@ -153,7 +153,6 @@ export default function BranchNav() {
   }, [navigate]);
 
   const sign = (item, drawer = false) => {
-    const isSchoolLife = item.id === 'school-life';
     return (
       <Link
         key={item.id}
@@ -171,18 +170,13 @@ export default function BranchNav() {
         onClick={event => visit(event, item)}
       >
         <span className="featured-board-content">
-          <span className="featured-word-wrap">
-            {isSchoolLife ? (
-              <span className="featured-label">
-                <span className="featured-word" data-text="School">School</span>{' '}
-                <span className="featured-word" data-text="Life">Life</span>
-              </span>
-            ) : (
-              <span className="featured-label" data-text={item.label}>
-                {item.label}
-              </span>
-            )}
-          </span>
+          <img
+            className="featured-label-art"
+            src={`/assets/nav/labels/${item.id}.png`}
+            alt={item.label}
+            decoding="async"
+            draggable={false}
+          />
         </span>
       </Link>
     );

@@ -203,6 +203,18 @@
   pointer-events: none;
 }
 
+.featured-label-art {
+  display: block;
+  width: 94%;
+  height: 54%;
+  object-fit: contain;
+  transform: translateY(calc(var(--board-height) * 0.06));
+  pointer-events: none;
+}
+.featured-sign-home .featured-label-art { width: 65%; }
+.featured-sign-campus .featured-label-art,
+.featured-sign-contact .featured-label-art { width: 86%; }
+
 .featured-word-wrap {
   position: relative;
   display: inline-flex;
