@@ -11,7 +11,8 @@ import './BranchNav.css';
 const ITEMS = [{ path: '/', label: 'Home', id: 'home' }, ...NAV.left, ...NAV.right]
   .map(item => ({ ...item, id: item.id || item.label.toLowerCase().replace(/\s+/g, '-') }));
 
-const BRANCH_ART = '/images/navigation/branch-house-medium.webp';
+const BRANCH_ART = '/images/navigation/branch-house-hd.webp';
+const BRANCH_HD_ART = '/images/navigation/branch-house-hd@2x.webp';
 const RAINBOW_BACKDROP = '/images/navigation/rainbow-cloud-backdrop.webp';
 const COMPACT_ART = '/images/navigation/branch-house-compact.png';
 const MENU_ICONS = { home: House, academics: GraduationCap, admissions: UsersRound, campus: School, 'school-life': BookOpen, contact: Phone };
@@ -206,7 +207,7 @@ export default function BranchNav() {
         <div className="featured-canopy">
           <picture>
             <source media="(max-width:767px)" srcSet={COMPACT_ART} width="1536" height="1024" />
-            <img ref={artRef} className="featured-branch" fetchPriority="high" src={BRANCH_ART} width="2172" height="430" alt="" aria-hidden="true" decoding="async" />
+            <img ref={artRef} className="featured-branch" fetchPriority="high" src={BRANCH_HD_ART} srcSet={`${BRANCH_ART} 2172w, ${BRANCH_HD_ART} 4344w`} sizes="(min-width: 1895px) 1800px, 95vw" width="2172" height="430" alt="" aria-hidden="true" decoding="async" />
           </picture>
         </div>
         <NavigationRopes ropes={geometry.ropes} />
