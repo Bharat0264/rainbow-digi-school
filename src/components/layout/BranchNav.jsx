@@ -230,10 +230,6 @@ export default function BranchNav() {
         </button>
         {open && (
           <div ref={drawerRef} id="school-navigation-menu" className="featured-drawer">
-            <svg className="featured-menu-vine" viewBox="0 0 250 348" aria-hidden="true">
-              <path d="M 77 8 C -12 62 -12 255 77 338" fill="none" stroke="#795020" strokeWidth="3" />
-              {[ [56,20,'#ffc800'], [26,81,'#00baff'], [11,142,'#ff397f'], [11,203,'#83df00'], [26,264,'#ff9d00'], [56,325,'#bb49fa'] ].map(([cx,cy,fill]) => <circle key={cy} cx={cx} cy={cy} r="5" fill={fill} stroke="#8b5b26" strokeWidth="1" />)}
-            </svg>
             {ITEMS.map(item => sign(item, true))}
           </div>
         )}

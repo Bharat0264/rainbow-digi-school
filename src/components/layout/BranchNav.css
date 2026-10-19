@@ -483,15 +483,6 @@
     transform-origin: center center;
     transform: none;
   }
-  .featured-menu-vine {
-    position: absolute;
-    inset: 0;
-    width: 250px;
-    height: 348px;
-    pointer-events: none;
-    z-index: -1;
-    filter: drop-shadow(0 2px 1px #59300b33);
-  }
   .featured-drawer .featured-sign:nth-of-type(1),
   .featured-drawer .featured-sign:nth-of-type(6) { margin-left: 0; width: calc(100% - 2px); }
   .featured-drawer .featured-sign:nth-of-type(2),
