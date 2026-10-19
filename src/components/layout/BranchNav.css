@@ -430,7 +430,7 @@
     --logo-width: calc(174px * var(--scale));
     --logo-height: calc(var(--logo-width) * 0.55);
     --handle-top: calc(var(--logo-height) - 10px * var(--scale));
-    --logo-top: calc(178px * var(--scale));
+    --logo-top: calc(170px * var(--scale));
     --menu-top: calc(176px * var(--scale));
     max-width: 440px;
     aspect-ratio: 440 / 410;
