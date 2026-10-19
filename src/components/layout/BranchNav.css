@@ -159,10 +159,10 @@
   height: var(--board-height);
   padding: calc(8px * var(--scale));
   font-size: calc(24px * var(--scale));
-  background-image: url('/assets/nav/board-menu-clean.png');
+  background-image: url('/assets/nav/board-menu-golden.png');
   background-image: image-set(
-    url('/assets/nav/board-menu-clean.webp') 1x,
-    url('/assets/nav/board-menu-clean@2x.webp') 2x
+    url('/assets/nav/board-menu-golden.webp') 1x,
+    url('/assets/nav/board-menu-golden@2x.webp') 2x
   );
   background-size: contain;
   background-repeat: no-repeat;
@@ -282,10 +282,10 @@
   white-space: inherit;
   color: transparent;
   -webkit-text-fill-color: transparent;
-  background-image: url('/assets/nav/board-menu-clean.png');
+  background-image: url('/assets/nav/board-menu-golden.png');
   background-image: image-set(
-    url('/assets/nav/board-menu-clean.webp') 1x,
-    url('/assets/nav/board-menu-clean@2x.webp') 2x
+    url('/assets/nav/board-menu-golden.webp') 1x,
+    url('/assets/nav/board-menu-golden@2x.webp') 2x
   );
   background-size: var(--board-width) var(--board-height);
   background-position: center;
