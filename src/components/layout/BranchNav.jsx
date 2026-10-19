@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { House, GraduationCap, UsersRound, School, BookOpen, Phone } from 'lucide-react';
 import Logo from '../ui/Logo';
 import NavigationRopes from './NavigationRopes';
 import { createSquirrelAnimation } from './squirrelAnimation';
@@ -13,6 +14,7 @@ const ITEMS = [{ path: '/', label: 'Home', id: 'home' }, ...NAV.left, ...NAV.rig
 const BRANCH_ART = '/images/navigation/branch-house-medium.webp';
 const RAINBOW_BACKDROP = '/images/navigation/rainbow-cloud-backdrop.webp';
 const COMPACT_ART = '/images/navigation/branch-house-compact.png';
+const MENU_ICONS = { home: House, academics: GraduationCap, admissions: UsersRound, campus: School, 'school-life': BookOpen, contact: Phone };
 
 function ordinaryClick(event) { return event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey; }
 
@@ -156,6 +158,7 @@ export default function BranchNav() {
   }, [navigate]);
 
   const sign = (item, drawer = false) => {
+    const Icon = MENU_ICONS[item.id];
     return (
       <Link
         key={item.id}
@@ -172,6 +175,7 @@ export default function BranchNav() {
         className={`featured-sign featured-sign-${item.id}${selected === item.id ? ' featured-active' : ''}`}
         onClick={event => visit(event, item)}
       >
+        {drawer && <span className={`featured-menu-icon featured-menu-icon-${item.id}`} aria-hidden="true"><Icon size={23} strokeWidth={2.5} /></span>}
         <span className="featured-board-content">
           <img
             className="featured-label-art"
@@ -225,6 +229,10 @@ export default function BranchNav() {
         </button>
         {open && (
           <div ref={drawerRef} id="school-navigation-menu" className="featured-drawer">
+            <svg className="featured-menu-vine" viewBox="0 0 250 348" aria-hidden="true">
+              <path d="M 77 8 C -12 62 -12 255 77 338" fill="none" stroke="#795020" strokeWidth="3" />
+              {[ [56,20,'#ffc800'], [26,81,'#00baff'], [11,142,'#ff397f'], [11,203,'#83df00'], [26,264,'#ff9d00'], [56,325,'#bb49fa'] ].map(([cx,cy,fill]) => <circle key={cy} cx={cx} cy={cy} r="5" fill={fill} stroke="#8b5b26" strokeWidth="1" />)}
+            </svg>
             {ITEMS.map(item => sign(item, true))}
           </div>
         )}
