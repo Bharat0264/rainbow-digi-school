@@ -352,8 +352,8 @@
   padding: 0;
   background-image: url('/assets/nav/board-logo.png');
   background-image: image-set(
-    url('/assets/nav/board-logo.webp') 1x,
-    url('/assets/nav/board-logo@2x.webp') 2x
+    url('/assets/nav/board-logo-repaired.webp') 1x,
+    url('/assets/nav/board-logo-repaired@2x.webp') 2x
   );
   background-size: 100% 100%;
   background-repeat: no-repeat;
@@ -422,7 +422,7 @@
 
 @media (max-width: 767px) {
   .featured-inner {
-    --logo-width: calc(184px * var(--scale));
+    --logo-width: calc(182px * var(--scale));
     --logo-height: calc(var(--logo-width) * 295 / 682);
     --handle-top: calc(var(--logo-height) - 4px * var(--scale));
     --logo-top: calc(182px * var(--scale));
@@ -435,7 +435,7 @@
     height: calc(220px * var(--scale));
   }
   .featured-signs { display: none; }
-  .featured-home { left: calc(50% + 4.4px * var(--scale)); }
+  .featured-home { left: calc(50% + 3.3px * var(--scale)); }
   .featured-squirrel {
     width: calc(46px * var(--scale));
     height: calc(46px * var(--scale));

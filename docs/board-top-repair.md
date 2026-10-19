@@ -1,0 +1,7 @@
+# Logo board upper rail repair
+
+Built-in imagegen edit of `public/assets/nav/board-logo@2x.png`. The repaired board has a continuous upper timber rail and matching golden rope attachments. Text was visually checked. Final transparent WebP exports: `public/assets/nav/board-logo-repaired.webp` (682 × 295) and `board-logo-repaired@2x.webp` (1364 × 590). Originals retained.
+
+## Prompt
+
+Precise repair of supplied school logo wooden board. Preserve ALL exact text ('Rainbow', 'DIGI School', 'Excellence Begins Early'), lettering shapes, text positions, wood board proportions, side leaves, bottom hardware and existing crop. Repair ONLY the upper horizontal orange wooden rail: make its upper edge complete, smooth continuous natural rounded timber without missing chips, gray cut marks, gaps or rectangular notches. Repair both attachment knots at native x158 and524 on the 682px-wide source, symmetrical identical size, same warm golden tan color. Knots must blend seamlessly with vertical twisted hanging rope stubs continuing straight upward to the top canvas edge, 7px native width, both exact same rope color and texture. No seams or cut at either joint. Keep existing source framing 682x295, no added padding, no repositioning. Actual transparent background everywhere except objects, no glow, no backdrop. Preserve all other pixels. Premium detailed 3D school game UI. Output only repaired existing board.
