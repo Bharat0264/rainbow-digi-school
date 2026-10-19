@@ -98,7 +98,7 @@ export default function BranchNav() {
         nav.style.setProperty(`--rope-len-${boardIndex}`, `${ropeLength.toFixed(2)}px`);
         pair.forEach(rope => ropes.push({
           ...rope, bottom: r.y, hole, knotY, ropeLength, boardIndex,
-          thickness: (isLogo ? 5.5 * 1.4 : 5.5) * scale,
+          thickness: (isLogo ? 5.5 * (compact ? 1.1 : 1.4) : 5.5) * scale,
           board: isLogo ? 'logo' : element.dataset.navId,
         }));
       });
