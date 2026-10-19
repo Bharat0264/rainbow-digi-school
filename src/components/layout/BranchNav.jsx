@@ -13,7 +13,7 @@ const ITEMS = [{ path: '/', label: 'Home', id: 'home' }, ...NAV.left, ...NAV.rig
 const BRANCH_ART = '/images/navigation/branch-house-hd.webp';
 const BRANCH_HD_ART = '/images/navigation/branch-house-hd@2x.webp';
 const RAINBOW_BACKDROP = '/images/navigation/rainbow-cloud-backdrop.webp';
-const COMPACT_ART = '/images/navigation/branch-house-compact-connected.png';
+const COMPACT_ART = '/images/navigation/branch-house-compact.png';
 const MENU_ICONS = { home: House, academics: GraduationCap, admissions: UsersRound, campus: School, 'school-life': BookOpen, contact: Phone };
 
 function ordinaryClick(event) { return event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey; }
@@ -69,8 +69,6 @@ export default function BranchNav() {
       [...boardsRef.current.values(), logoRef.current].forEach((element, index) => {
         if (!element?.getClientRects().length || element.closest('.featured-drawer')) return;
         const r = relative(element), isLogo = element === logoRef.current;
-        // The mobile artwork includes continuous lashings and hanging ropes.
-        if (isLogo && compact) return;
         // Board uses center top transform origin for active scale; its top edge y matches parent row.
         if (!isLogo) r.y = relative(element.parentElement).y;
         // Logo ropes meet the two knots already painted into its upper rail.
@@ -79,9 +77,8 @@ export default function BranchNav() {
           const surface = ropeSurface(x, art);
           // The central ropes start at the house rail, above the branch underside.
           if (isLogo) surface.under = art.y + art.height * (art.compact ? 440 / 1024 : 306 / 430);
-          if (isLogo && art.compact) {
-            // Attach mobile knots to the house rail, not the sloping bark behind it.
-            // The coil's lower edge overlaps the hanging rope to avoid a visible seam.
+        if (isLogo) {
+            // Both layouts use the same connected golden knot and rope renderer.
             surface.top = surface.under;
             surface.angle = 0;
           }

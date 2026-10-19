@@ -1,9 +1,17 @@
 import { useId } from 'react';
 
-function RopeCoil({ x, top, angle, thickness, id }) {
+function RopeCoil({ x, top, angle, thickness, id, isLogo }) {
   // Image is 694 x 740. The 3 horizontal turns occupy ~555px height (185px per turn).
   // Keep branch knots compact while preserving their proportions and bark anchor.
   const width = thickness * 3;
+  if (isLogo) {
+    const height = width * 65 / 77;
+    return (
+      <svg x={x - width / 2} y={top - height + thickness * .18} width={width} height={height} viewBox="200 70 77 65" style={{ overflow: 'hidden' }} filter={`url(#${id}-coil-shadow)`}>
+        <image href="/assets/nav/connected-logo-mascot.webp" width="1106" height="1422" clipPath={`url(#${id}-logo-knot-clip)`} />
+      </svg>
+    );
+  }
   const height = width * (740 / 694);
   // Bottom of coil rests on top bark of branch with a slight overlap to bed in naturally.
   const y = top - height + thickness * 0.18;
@@ -36,6 +44,8 @@ export default function NavigationRopes({ ropes }) {
     <>
       <svg className="featured-ropes featured-ropes-back" aria-hidden="true">
         <defs>
+          <clipPath id={`${id}-logo-knot-clip`}><rect x="200" y="70" width="77" height="65" /></clipPath>
+          <clipPath id={`${id}-logo-stem-clip`}><rect x="216" y="0" width="42" height="64" /></clipPath>
           <radialGradient id={`${id}-bark-contact`} cx="50%" cy="50%" r="50%">
             <stop offset="0%" stopColor="rgba(30,15,0,0.45)" />
             <stop offset="65%" stopColor="rgba(30,15,0,0.20)" />
@@ -55,25 +65,23 @@ export default function NavigationRopes({ ropes }) {
               <feFuncB type="linear" slope="0.7458" />
             </feComponentTransfer>
           </filter>
-          <filter id={`${id}-gold-fiber`} x="0%" y="0%" width="100%" height="100%" colorInterpolationFilters="sRGB">
-            <feComponentTransfer>
-              <feFuncR type="linear" slope="1.05" />
-              <feFuncG type="linear" slope="0.85" />
-              <feFuncB type="linear" slope="0.65" />
-            </feComponentTransfer>
-          </filter>
           {ropes.map(({ x, thickness, isLogo }, index) => (
             <pattern
               key={index}
               id={`${id}-fiber-${index}`}
               x={x - thickness / 2}
               width={thickness}
-              height={thickness * 77 / 109}
+              height={thickness * (isLogo ? 64 / 42 : 77 / 109)}
               patternUnits="userSpaceOnUse"
-              viewBox="0 0 109 77"
+              viewBox={isLogo ? '216 0 42 64' : '0 0 109 77'}
               preserveAspectRatio="none"
+              style={{ overflow: 'hidden' }}
             >
-              <image href="/images/navigation/rope-straight-tile.png" width="109" height="77" filter={`url(#${id}-${isLogo ? 'gold-fiber' : 'fiber-color'})`} />
+              {isLogo ? (
+                <image href="/assets/nav/connected-logo-mascot.webp" width="1106" height="1422" clipPath={`url(#${id}-logo-stem-clip)`} />
+              ) : (
+                <image href="/images/navigation/rope-straight-tile.png" width="109" height="77" filter={`url(#${id}-fiber-color)`} />
+              )}
             </pattern>
           ))}
         </defs>
@@ -141,7 +149,7 @@ export default function NavigationRopes({ ropes }) {
                 strokeLinecap="butt"
               />
               {/* Photorealistic 3D rope coil sitting on top of the branch */}
-              <RopeCoil x={x} top={top} angle={angle} thickness={thickness} id={id} />
+              <RopeCoil x={x} top={top} angle={angle} thickness={thickness} id={id} isLogo={rope.isLogo} />
             </g>
           );
         })}
