@@ -78,6 +78,12 @@ export default function BranchNav() {
           const surface = ropeSurface(x, art);
           // The central ropes start at the house rail, above the branch underside.
           if (isLogo) surface.under = art.y + art.height * (art.compact ? 440 / 1024 : 306 / 430);
+          if (isLogo && art.compact) {
+            // Attach mobile knots to the house rail, not the sloping bark behind it.
+            // The coil's lower edge overlaps the hanging rope to avoid a visible seam.
+            surface.top = surface.under;
+            surface.angle = 0;
+          }
           const branchThickness = surface.thickness;
           const wrapHeight = branchThickness * 1.10;
           const wrapTop = surface.centerY - wrapHeight / 2;
