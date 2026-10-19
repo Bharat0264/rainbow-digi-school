@@ -11,7 +11,8 @@ const clamp = t => Math.max(0,Math.min(1,t));
 // Measured alpha bounds of gait frames 1–4 in the existing 128px cells:
 // x=14..113, paws end at y=119; the head centre is approximately (94,70).
 // Place the paw baseline, not the padded image rectangle, on the bark/sill.
-const SPRITE = { cell:128, centre:64, feet:120, headY:70, extent:50, insideScale:.65 };
+const SPRITE = { cell:128, centre:64, feet:120, headY:70, extent:50, insideScale:.92 };
+export const SQUIRREL_LOOP_MS = 5800;
 
 /** One small transparent canvas and one RAF; no video or artwork replacement. */
 export function createSquirrelAnimation(canvas) {
@@ -20,8 +21,9 @@ export function createSquirrelAnimation(canvas) {
   let layout, pose, activity, anchor, raf=0, disposed=false;
   let state='inside', target='house', side=1, entryProgress=1, distance=0;
   let visible=true, pausedAt=0, lastFrame=0;
+  let looping=true, loopStarted=null, loopProgress=0, resumeLoopAt=0, lastTick=0;
   const source = () => ART[layout.art.compact ? 'compact' : 'desktop'];
-  const bodySize = () => Math.min(layout.size,layout.art.width/source().width*104);
+  const bodySize = () => Math.min(layout.size,layout.art.width/source().width*88);
   const baseScale = () => bodySize()/layout.size;
   function surface(u) {
     const art=source(), x=clamp(u)*art.width;
@@ -70,7 +72,7 @@ export function createSquirrelAnimation(canvas) {
     const x=art.x+pose.u*art.width, y=art.y+pose.v*art.height;
     const left=x-size/2, top=y-size*120/128;
     context.clearRect(0,0,128,128);
-    if (state!=='inside' && sprite.complete && sprite.naturalWidth) {
+    if (!motion.matches && state!=='inside' && sprite.complete && sprite.naturalWidth) {
       context.save();
       // Clip only the squirrel. The untouched window rim/wall stays in front.
       // The outside half-plane joins the actual dark circular opening.
@@ -85,14 +87,20 @@ export function createSquirrelAnimation(canvas) {
       // Appear from outside the branch image; never pop into its middle.
       context.beginPath();
       context.rect((art.x-left)*unit,-512,art.width*unit,1536); context.clip();
-      const moving=state==='approaching'||state==='boardMoving';
-      const bounce=moving ? Math.sin(distance/18*Math.PI)**2*1.5 : 0;
-      context.translate(64,120-bounce);
       const scale=pose.scale*baseScale();
+      if (state!=='enteringHouse' && state!=='exitingHouse' && state!=='climbing' && state!=='descending') {
+        const shadow=context.createRadialGradient(64,120,0,64,120,23*scale);
+        shadow.addColorStop(0,'rgba(46,22,7,.30)');shadow.addColorStop(1,'rgba(46,22,7,0)');
+        context.save();context.translate(64,120);context.scale(1,.13);
+        context.fillStyle=shadow;context.translate(-64,-120);
+        context.beginPath();context.arc(64,120,23*scale,0,Math.PI*2);context.fill();context.restore();
+      }
+      // Gait frames supply the body motion while the paw baseline stays grounded.
+      context.translate(64,120);
       context.scale(pose.direction*scale,scale);
       // Tilt into the opening while the head leads and the tail follows.
       if (state==='climbing' || state==='descending') {
-        context.rotate(Math.sin(activity.progress*Math.PI)*(state==='climbing'?-.16:.12));
+        context.rotate(Math.sin((activity?.progress??loopProgress)*Math.PI)*(state==='climbing'?-.16:.12));
       }
       context.drawImage(sprite,frame*128,0,128,128,-64,-120,128,128);
       context.restore();
@@ -101,7 +109,54 @@ export function createSquirrelAnimation(canvas) {
     Object.assign(canvas.dataset,{state,target,direction:String(pose.direction),frame:String(frame),
       x:String(x),y:String(y),scale:String(pose.scale),surfaceY:String(art.y+surface(pose.u)*art.height),
       doorX:String(art.x+door.u*art.width),doorY:String(art.y+door.v*art.height),doorRadius:String(door.r),
-      progress:String(activity?.progress??1),entryProgress:String(entryProgress)});
+      progress:String(activity?.progress??loopProgress),entryProgress:String(entryProgress),
+      looping:String(looping),loopTime:String(loopStarted===null?0:((performance.now()-loopStarted)%SQUIRREL_LOOP_MS))});
+  }
+  function advanceLoop(now) {
+    if (!layout || !sprite.complete || !sprite.naturalWidth) return;
+    if (loopStarted===null) loopStarted=now;
+    const elapsed=(now-loopStarted)%SQUIRREL_LOOP_MS, art=source();
+    const rest=(layout.art.compact?300:380)/art.width;
+    const edge=branchEnd(), near=edge.u-80/art.width;
+    const run=(from,to,t) => {
+      const u=lerp(from,to,clamp(t));
+      pose={u,v:surface(u),scale:1,direction:1};
+      state='approaching';
+    };
+    side=1;
+    entryProgress=0;
+    loopProgress=0;
+    let frame=0;
+    if (elapsed<800) {
+      run(-70/art.width,rest,elapsed/800);
+      frame=1+Math.floor(elapsed/65)%4;
+    } else if (elapsed<1150) {
+      pose={u:rest,v:surface(rest),scale:1,direction:1};state='idle';
+      frame=elapsed<960?0:7;
+    } else if (elapsed<2550) {
+      run(rest,near,(elapsed-1150)/1400);
+      frame=1+Math.floor((elapsed-1150)/65)%4;
+    } else if (elapsed<2850) {
+      run(near,edge.u,smooth((elapsed-2550)/300));
+      frame=1+Math.floor((elapsed-2550)/90)%4;
+    } else if (elapsed<3550) {
+      const t=(elapsed-2850)/700, end=contact();
+      // One short hop from bark onto the actual porch, landing before entry.
+      pose={u:lerp(edge.u,end.u,smooth(t)),
+        v:lerp(edge.v,end.v,smooth(t))-Math.sin(Math.PI*t)*24/art.height,
+        scale:1,direction:1};
+      state='climbing';loopProgress=t;frame=t<.22?6:(t<.78?5:6);
+    } else if (elapsed<3750) {
+      pose=contact();state='standing';frame=0;
+    } else if (elapsed<4800) {
+      entryProgress=smooth((elapsed-3750)/1050);
+      state='enteringHouse';pose=entrancePose(entryProgress);
+      frame=1+Math.floor((elapsed-3750)/85)%4;
+    } else {
+      state='inside';entryProgress=1;pose=entrancePose(1);
+    }
+    distance=0;
+    draw(frame);
   }
   function begin(kind,request,now=performance.now(),duration=1000) {
     activity={kind,request,from:{...pose},started:now,duration:Math.max(1,duration),entryFrom:entryProgress,progress:0};
@@ -154,8 +209,24 @@ export function createSquirrelAnimation(canvas) {
     draw([1,2,3,4][Math.floor(distance/18)%4]);
   }
   function tick(now) {
-    raf=0; advance(now);
-    if (activity && !raf && !disposed && visible && !document.hidden) raf=requestAnimationFrame(tick);
+    raf=0;
+    if (motion.matches) {motionChanged();return;}
+    if (now-lastTick<1000/30-1) {
+      if (!disposed && visible && !document.hidden && !motion.matches) raf=requestAnimationFrame(tick);
+      return;
+    }
+    lastTick=now;
+    if (looping) advanceLoop(now);
+    else {
+      advance(now);
+      if (!activity && state==='standing') {
+        if (!resumeLoopAt) resumeLoopAt=now+600;
+        if (now>=resumeLoopAt) {resumeLoopAt=0;launch({kind:'house'});}
+      } else if (!activity && state==='inside') {
+        looping=true;loopStarted=now-4800;advanceLoop(now);
+      }
+    }
+    if (!raf && !disposed && visible && !document.hidden && !motion.matches) raf=requestAnimationFrame(tick);
   }
   function settle() {
     cancelAnimationFrame(raf); raf=0;
@@ -167,11 +238,20 @@ export function createSquirrelAnimation(canvas) {
   }
   function launch(request) {
     if (!layout || disposed) return;
+    const wasLooping=looping;
+    looping=false;resumeLoopAt=0;
     // A drawer link disappears after immediate navigation; keep its measured
     // destination when finishing a portal passage before the next trip.
     if (request.kind!=='house' && !request.resolve?.() && !Number.isFinite(request.u)) return;
     target=request.kind==='house' ? 'house' : request.id;
     if (request.kind!=='house') {anchor=request;boardPosition(request);}
+    if (wasLooping && state==='enteringHouse') {
+      // Finish a half-hidden entry before responding to a navigation click.
+      begin('enteringHouse',request,performance.now(),Math.max(1,1050*(1-entryProgress)));
+      if (motion.matches) settle();
+      else if (!raf && visible && !document.hidden) raf=requestAnimationFrame(tick);
+      return;
+    }
     // Supersede the intent without mirroring a half-occluded animal or
     // restarting a loop. The current portal passage ends before it turns.
     if (activity && (state==='enteringHouse' || state==='exitingHouse'
@@ -209,7 +289,13 @@ export function createSquirrelAnimation(canvas) {
     launch(input?{...input}:{kind:'house'});
   }
   function motionChanged() {
-    if (motion.matches) settle();
+    if (motion.matches) {
+      looping=false;cancelAnimationFrame(raf);raf=0;
+      state='inside';activity=null;entryProgress=1;pose=entrancePose(1);draw();
+    } else {
+      looping=true;loopStarted=null;
+      if (!raf && visible && !document.hidden) raf=requestAnimationFrame(tick);
+    }
   }
   function visibilityChanged() {
     const paused=!visible||document.hidden;
@@ -217,8 +303,9 @@ export function createSquirrelAnimation(canvas) {
       pausedAt=performance.now(); cancelAnimationFrame(raf);raf=0;
     } else if (!paused && pausedAt) {
       if (activity) activity.started+=performance.now()-pausedAt;
+      if (loopStarted!==null) loopStarted+=performance.now()-pausedAt;
       pausedAt=0;
-      if (activity) raf=requestAnimationFrame(tick);
+      if (!motion.matches && !raf) raf=requestAnimationFrame(tick);
     }
   }
   const observer=new IntersectionObserver(entries=>{
@@ -227,7 +314,12 @@ export function createSquirrelAnimation(canvas) {
   observer.observe(canvas.parentElement);
   document.addEventListener('visibilitychange',visibilityChanged);
   motion.addEventListener('change',motionChanged);
-  sprite.onload=()=>{if (!disposed) draw(0);};
+  sprite.onload=()=>{
+    if (!disposed && layout) {
+      if (!motion.matches && !raf) raf=requestAnimationFrame(tick);
+      else draw(0);
+    }
+  };
   sprite.src='/images/navigation/squirrel-gait-v2.webp';
   return {
     start,
@@ -248,7 +340,9 @@ export function createSquirrelAnimation(canvas) {
         if (['boardMoving','approaching'].includes(activity.kind)) activity.from.v=surface(activity.from.u);
         advance(pausedAt||performance.now());
       }
-      draw();
+      if (looping && sprite.complete && sprite.naturalWidth && !motion.matches) advanceLoop(pausedAt||performance.now());
+      else draw();
+      if (sprite.complete && sprite.naturalWidth && !motion.matches && !raf && visible && !document.hidden) raf=requestAnimationFrame(tick);
     },
     dispose() {
       disposed=true;activity=null;cancelAnimationFrame(raf);
