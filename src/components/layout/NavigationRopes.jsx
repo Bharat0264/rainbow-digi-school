@@ -122,7 +122,7 @@ export default function NavigationRopes({ ropes, railFasteners = [] }) {
               {/* Straight vertical rope drop from underside of branch straight down to hole */}
               {rope.isLogo && (
                 <path
-                  d={`M ${x} ${under + thickness * 5} V ${hole}`}
+                  d={`M ${rope.upperX ?? x} ${under + thickness * 5} L ${x} ${hole}`}
                   fill="none"
                   stroke="#936033"
                   strokeWidth={thickness}
@@ -130,14 +130,14 @@ export default function NavigationRopes({ ropes, railFasteners = [] }) {
                 />
               )}
               <path
-                d={`M ${x} ${rope.isLogo ? under + thickness * 5 : under - 2} V ${hole}`}
+                d={rope.isLogo ? `M ${rope.upperX ?? x} ${under + thickness * 5} L ${x} ${hole}` : `M ${x} ${under - 2} V ${hole}`}
                 fill="none"
                 stroke={`url(#${id}-fiber-${index})`}
                 strokeWidth={thickness}
                 strokeLinecap="butt"
               />
               {/* Photorealistic 3D rope coil sitting on top of the branch */}
-              <RopeCoil x={x} top={top} under={under} thickness={thickness} id={id} isLogo={rope.isLogo} />
+              <RopeCoil x={rope.isLogo ? (rope.upperX ?? x) : x} top={top} under={under} thickness={thickness} id={id} isLogo={rope.isLogo} />
             </g>
           );
         })}

@@ -72,13 +72,16 @@ export default function BranchNav() {
         // Board uses center top transform origin for active scale; its top edge y matches parent row.
         if (!isLogo) r.y = relative(element.parentElement).y;
         // Logo ropes meet the two knots already painted into its upper rail.
-        const pair = (isLogo ? [.215, .788] : [.22, .78]).map(anchor => {
+        const ropeThickness=(isLogo ? 5.5 * (compact ? 1.1 : 1.4) : 5.5) * scale;
+        const pair = (isLogo ? [.215, .788] : [.22, .78]).map((anchor, pairIndex) => {
           const x = r.x + r.width * anchor;
           const surface = ropeSurface(x, art);
-          // The central ropes start at the house rail, above the branch underside.
-          if (isLogo) surface.under = art.y + art.height * (art.compact ? 440 / 1024 : 306 / 430);
-        if (isLogo) {
-            // Both layouts use the same connected golden knot and rope renderer.
+          let upperX=x;
+          if (isLogo) {
+            // Register the gold mount to the black fastener baked into the rail.
+            const [boltX,boltY]=(art.compact?[[624,418],[944,418]]:[[972,291],[1212,291]])[pairIndex];
+            upperX=art.x+boltX/(art.compact?1536:2172)*art.width-ropeThickness*.022;
+            surface.under=art.y+boltY/(art.compact?1024:430)*art.height+ropeThickness*1.095;
             surface.top = surface.under;
             surface.angle = 0;
           }
@@ -86,7 +89,7 @@ export default function BranchNav() {
           const wrapHeight = branchThickness * 1.10;
           const wrapTop = surface.centerY - wrapHeight / 2;
           const wrapBottom = surface.centerY + wrapHeight / 2;
-          return { x, ...surface, wrapTop, wrapBottom, wrapHeight, isLogo };
+          return { x, upperX, ...surface, wrapTop, wrapBottom, wrapHeight, isLogo };
         });
         // Menu holes are baked into the original 594 × 450 plank at y=57.
         const hole = r.y + r.height * (isLogo ? .20 : 57 / 450);
@@ -96,13 +99,12 @@ export default function BranchNav() {
         nav.style.setProperty(`--rope-len-${boardIndex}`, `${ropeLength.toFixed(2)}px`);
         pair.forEach(rope => ropes.push({
           ...rope, bottom: r.y, hole, knotY, ropeLength, boardIndex,
-          thickness: (isLogo ? 5.5 * (compact ? 1.1 : 1.4) : 5.5) * scale,
+          thickness: ropeThickness,
           board: isLogo ? 'logo' : element.dataset.navId,
         }));
       });
-      // Align to the mounting nut's inner bushing, not the old painted rivets.
-      const railFasteners=ropes.filter(rope=>rope.isLogo).map(({x,under,thickness})=>({
-        x:x+thickness*.022,
+      const railFasteners=ropes.filter(rope=>rope.isLogo).map(({upperX,under,thickness})=>({
+        x:upperX+thickness*.022,
         y:under-thickness*1.095,
         size:thickness*1.1,
       }));
