@@ -49,9 +49,7 @@ export default function BranchNav() {
 
   useLayoutEffect(() => {
     const nav = navRef.current, canvas = canvasRef.current;
-    const animation = createSquirrelAnimation(canvas, {
-      id: 'home', resolve: () => boardsRef.current.get('home'),
-    });
+    const animation = createSquirrelAnimation(canvas);
     startRef.current = animation.start;
     const relative = element => {
       const a = element.getBoundingClientRect(), b = nav.getBoundingClientRect();

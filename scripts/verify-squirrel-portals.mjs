@@ -37,10 +37,12 @@ try {
       assert.ok(Math.abs(+d.y-Number(d.surfaceY))<1,'Paws stay on branch surface');
     };
     if(width>=768) {
-      await aligned('/');
+      const startup=await read();
+      assert.equal(startup.state,'inside','Desktop starts in the house');
+      assert.equal(startup.peeking,'true');assert.ok(startup.visible);assert.equal(startup.outside,false);
       for(const route of ['/academics','/admissions','/campus','/school-life','/contact','/']) {
         await page.locator(`.featured-signs a[href="${route}"]`).click();
-        await page.clock.runFor(1300);await aligned(route);
+        await page.clock.runFor(3000);await aligned(route);
       }
       // The central house link still exercises the separately retained portal trip.
       await page.locator('.featured-logo').click();await page.clock.runFor(7500);
