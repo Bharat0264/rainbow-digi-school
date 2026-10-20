@@ -8,13 +8,11 @@ try {
     const page=await browser.newPage({viewport:{width,height:900}});
     await page.clock.install();await page.goto('http://localhost:4257');
     await page.locator('.featured-branch').evaluate(e=>e.decode());
-    await page.locator('.featured-sprite-sources').evaluate(async e=>Promise.all([...e.querySelectorAll('img')].map(i=>i.decode())));
+    await page.evaluate(async()=>{const i=new Image();i.src='/images/navigation/squirrel-entry-poses.webp';await i.decode();});
     await page.clock.runFor(100);
     const read=()=>page.locator('.featured-squirrel').evaluate(e=>{
       const d={...e.dataset},r=e.getBoundingClientRect(),n=e.parentElement.getBoundingClientRect();
-      const sample=document.createElement('canvas');sample.width=128;sample.height=128;
-      const ctx=sample.getContext('2d');ctx.drawImage(e,0,0,128,128);
-      const pixels=ctx.getImageData(0,0,128,128).data;
+      const pixels=e.getContext('2d').getImageData(0,0,128,128).data;
       let visible=false,outside=false,sumX=0,sumY=0,count=0;
       for(let y=0;y<128;y++)for(let x=0;x<128;x++)if(pixels[(y*128+x)*4+3]>70){
         visible=true;

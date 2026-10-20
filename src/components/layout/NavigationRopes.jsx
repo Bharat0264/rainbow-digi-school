@@ -7,7 +7,7 @@ function RopeCoil({ x, top, under, thickness, id, isLogo }) {
     const height = connectorWidth * 1040 / 390;
     return (
       <svg x={x - connectorWidth / 2} y={top - thickness * 2.1} width={connectorWidth} height={height} viewBox="245 40 390 1040" style={{ overflow: 'hidden' }} filter={`url(#${id}-coil-shadow)`}>
-        <image href="/assets/nav/optimized/hex-brass-rope-connector.svg" width="887" height="1774" clipPath={`url(#${id}-logo-knot-clip)`} />
+        <image href="/assets/nav/hex-brass-rope-connector.webp" width="887" height="1774" clipPath={`url(#${id}-logo-knot-clip)`} />
       </svg>
     );
   }
@@ -16,7 +16,7 @@ function RopeCoil({ x, top, under, thickness, id, isLogo }) {
   const height = (under - top + thickness * 1.2) * 1460 / 920;
   return (
     <svg data-branch-wrap="double" x={x - wrapWidth / 2} y={top - thickness * .6} width={wrapWidth} height={height} viewBox="160 60 720 1460" preserveAspectRatio="none" style={{ overflow: 'hidden' }} filter={`url(#${id}-coil-shadow)`}>
-      <image href="/assets/nav/optimized/branch-double-wrap.svg" width="1024" height="1536" clipPath={`url(#${id}-branch-wrap-clip)`} />
+      <image href="/assets/nav/branch-double-wrap.webp" width="1024" height="1536" clipPath={`url(#${id}-branch-wrap-clip)`} />
     </svg>
   );
 }
@@ -63,9 +63,9 @@ export default function NavigationRopes({ ropes, railFasteners = [] }) {
               style={{ overflow: 'hidden' }}
             >
               {isLogo ? (
-                <image href="/assets/nav/optimized/hex-brass-rope-connector.svg" width="887" height="1774" clipPath={`url(#${id}-logo-stem-clip)`} />
+                <image href="/assets/nav/hex-brass-rope-connector.webp" width="887" height="1774" clipPath={`url(#${id}-logo-stem-clip)`} />
               ) : (
-                <image href="/assets/nav/optimized/branch-double-wrap.svg" width="1024" height="1536" clipPath={`url(#${id}-branch-stem-clip)`} />
+                <image href="/assets/nav/branch-double-wrap.webp" width="1024" height="1536" clipPath={`url(#${id}-branch-stem-clip)`} />
               )}
             </pattern>
           ))}
@@ -84,7 +84,7 @@ export default function NavigationRopes({ ropes, railFasteners = [] }) {
       </svg>
       <svg className="featured-ropes featured-ropes-front" aria-hidden="true">
         {railFasteners.map(({x,y,size},index)=>(
-          <image key={`screw-${index}`} data-house-screw={index} href="/assets/nav/optimized/gold-rail-screw.svg" x={x-size/2} y={y-size/2} width={size} height={size} preserveAspectRatio="xMidYMid meet" />
+          <image key={`screw-${index}`} data-house-screw={index} href="/assets/nav/gold-rail-screw.webp" x={x-size/2} y={y-size/2} width={size} height={size} preserveAspectRatio="xMidYMid meet" />
         ))}
         {ropes.map((rope, index) => {
           const {
@@ -155,7 +155,7 @@ export default function NavigationRopes({ ropes, railFasteners = [] }) {
             <ellipse cx={x} cy={hole - thickness * 0.08} rx={thickness * 0.6} ry={thickness * 0.48} fill="#241409" />
             <image
               data-board-nut={board}
-              href="/assets/nav/optimized/board-rope-hex-nut.svg"
+              href="/assets/nav/board-rope-hex-nut.webp"
               x={x - thickness * 1.8}
               y={hole - thickness * 3.6 * .43}
               width={thickness * 3.6}
@@ -172,7 +172,7 @@ export default function NavigationRopes({ ropes, railFasteners = [] }) {
               strokeLinecap={isLogo ? 'butt' : 'round'}
             />
             {/* The front washer occludes the rope tip as it passes into the hole. */}
-            <image href="/assets/nav/optimized/board-rope-hex-nut.svg" x={x-thickness*1.8} y={hole-thickness*3.6*.43} width={thickness*3.6} height={thickness*3.6} clipPath={`url(#${id}-nut-lip-${index})`} />
+            <image href="/assets/nav/board-rope-hex-nut.webp" x={x-thickness*1.8} y={hole-thickness*3.6*.43} width={thickness*3.6} height={thickness*3.6} clipPath={`url(#${id}-nut-lip-${index})`} />
           </g>
         ))}
       </svg>

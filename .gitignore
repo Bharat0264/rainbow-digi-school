@@ -26,6 +26,3 @@ artifacts/
 *.njsproj
 *.sln
 *.sw?
-
-# Offline artwork sources and upscaling tools
-design-masters/
