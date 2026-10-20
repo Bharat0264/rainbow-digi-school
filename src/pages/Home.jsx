@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import styles from "./Home.module.css";
 import { ArrowRight, MapPin, MessageCircle } from "lucide-react";
 import { HOME_STAGES, HOME_PILLARS, HOME_FAQS, SCHOOL } from "../data/school";
 import {
@@ -126,7 +127,7 @@ export default function Home() {
       {/* Two-Stage Educational Journey Cards */}
       <section className="section learning-section">
         <div className="site-container">
-          <div className="section-row">
+          <div className={`section-row ${styles.programmesHeading}`}>
             <SectionHeading
               eyebrow="Educational programmes"
               title="A clear path from early play to primary learning."
