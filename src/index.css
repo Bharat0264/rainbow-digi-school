@@ -342,6 +342,19 @@ main {
   align-items: start;
 }
 
+/* Curriculum cards follow the reference proportions without changing content. */
+#curriculum.intro-grid {
+  grid-template-columns: minmax(0, 1.27fr) minmax(0, 1fr);
+  align-items: stretch;
+  gap: 24px;
+}
+#curriculum > .clay-tile { min-width: 0; }
+#curriculum > .editorial-copy { display: flex; flex-direction: column; }
+#curriculum > .editorial-copy > .text-link { margin-top: auto; align-self: flex-start; }
+@media (max-width: 1024px) {
+  #curriculum.intro-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
 .editorial-copy p {
   margin-bottom: 20px;
   font-size: 15px;
