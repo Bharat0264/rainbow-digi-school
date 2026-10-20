@@ -1,6 +1,6 @@
 import { useId } from 'react';
 
-function RopeCoil({ x, top, under, thickness, id, isLogo }) {
+function RopeCoil({ x, top, under, angle = 0, thickness, id, isLogo }) {
   // House connectors and branch wraps share the same measured rope anchors.
   if (isLogo) {
     const connectorWidth = thickness * 2.8;
@@ -11,13 +11,18 @@ function RopeCoil({ x, top, under, thickness, id, isLogo }) {
       </svg>
     );
   }
-  // The two wraps span the actual bark depth, with one connected tail below.
+  // Fit the two loops to the bark's local slope. The hanging strand is rendered
+  // separately, so tilting the wrap never pulls the drop away from its eyelet.
   const wrapWidth = thickness * 4;
-  const height = (under - top + thickness * 1.2) * 1460 / 920;
+  const height = (under - top + thickness * 1.2) * 980 / 920;
+  const slope = Math.tan(angle * Math.PI / 180);
   return (
-    <svg data-branch-wrap="double" x={x - wrapWidth / 2} y={top - thickness * .6} width={wrapWidth} height={height} viewBox="160 60 720 1460" preserveAspectRatio="none" style={{ overflow: 'hidden' }} filter={`url(#${id}-coil-shadow)`}>
-      <image href="/assets/nav/branch-double-wrap.webp" width="1024" height="1536" clipPath={`url(#${id}-branch-wrap-clip)`} />
-    </svg>
+    <g data-wrap-slope={slope} transform={`matrix(1 ${slope} 0 1 0 ${-slope * x})`}>
+      <ellipse cx={x} cy={(top + under) / 2} rx={wrapWidth * .65} ry={(under - top) * .52} fill={`url(#${id}-bark-contact)`} opacity=".55" />
+      <svg data-branch-wrap="double" x={x - wrapWidth / 2} y={top - thickness * .6} width={wrapWidth} height={height} viewBox="160 60 720 980" preserveAspectRatio="none" style={{ overflow: 'hidden' }} filter={`url(#${id}-coil-shadow)`}>
+        <image href="/assets/nav/branch-double-wrap.webp" width="1024" height="1536" clipPath={`url(#${id}-branch-wrap-clip)`} />
+      </svg>
+    </g>
   );
 }
 
@@ -137,7 +142,7 @@ export default function NavigationRopes({ ropes, railFasteners = [] }) {
                 strokeLinecap="butt"
               />
               {/* Photorealistic 3D rope coil sitting on top of the branch */}
-              <RopeCoil x={rope.isLogo ? (rope.upperX ?? x) : x} top={top} under={under} thickness={thickness} id={id} isLogo={rope.isLogo} />
+              <RopeCoil x={rope.isLogo ? (rope.upperX ?? x) : x} top={top} under={under} angle={angle} thickness={thickness} id={id} isLogo={rope.isLogo} />
             </g>
           );
         })}

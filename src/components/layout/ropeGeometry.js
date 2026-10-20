@@ -42,7 +42,8 @@ export function ropeSurface(x, art) {
   const t = (nativeX - a[0]) / (b[0] - a[0]);
   const y = edge => art.y + (a[edge] + (b[edge] - a[edge]) * t) / source.height * art.height;
   const dx = (b[0] - a[0]) / source.width * art.width;
-  const dy = (b[1] - a[1]) / source.height * art.height;
+  // Follow the log's centreline, not an isolated bump on its upper edge.
+  const dy = ((b[1] + b[2]) - (a[1] + a[2])) / 2 / source.height * art.height;
   const angle = Math.atan2(dy, dx) * 180 / Math.PI;
   const top = y(1);
   const under = y(2);
