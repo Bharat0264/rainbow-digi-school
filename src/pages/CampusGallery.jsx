@@ -1,12 +1,16 @@
 import { useRef } from "react";
 import { Link } from "react-router-dom";
-import { X, Expand, ArrowUpRight, ArrowRight } from "lucide-react";
+import { X, Expand, ArrowUpRight, ArrowRight, School, MessagesSquare, Palette, ShieldCheck, Bus, Phone } from "lucide-react";
+import walkthroughArt from "../assets/campus-walkthrough.webp";
+import styles from "./CampusWalkthrough.module.css";
 import { CAMPUS_DETAILS, SCHOOL } from "../data/school";
 import {
   PageIntro,
   SectionHeading,
   CampusPhoto,
 } from "../components/ui/PageElements";
+
+const WALKTHROUGH_ICONS = [School, MessagesSquare, Palette, ShieldCheck, Bus];
 
 export default function CampusGallery() {
   const dialog = useRef(null);
@@ -66,32 +70,24 @@ export default function CampusGallery() {
       </section>
 
       {/* Planning a Visit & Walkthrough Checklist */}
-      <section className="section site-container">
-        <div className="section-row">
-          <SectionHeading
-            eyebrow="Parent walkthrough guide"
-            title="What to observe when visiting our campus."
-          >
-            We invite prospective parents to tour our classrooms in person. Here
-            are practical aspects to look for during a school walkthrough:
-          </SectionHeading>
-        </div>
-        <div className="clay-tile clay-cream" style={{ padding: "32px" }}>
-          <ul className="check-list" style={{ marginBottom: "24px" }}>
-            {CAMPUS_DETAILS.visitChecklist.map((item) => (
-              <li key={item}>
-                <span className="check-bullet" aria-hidden="true">✓</span>
-                <span style={{ fontSize: "15px" }}>{item}</span>
-              </li>
-            ))}
-          </ul>
-          <div className="information-note clay-tile clay-yellow">
-            <p>
-              Please call our office ahead of travelling so we can schedule an
-              educator to greet you and answer your questions without disrupting
-              ongoing classes.
-            </p>
-          </div>
+      <section className={`section site-container ${styles.walkthrough}`} aria-labelledby="walkthrough-heading">
+        <header className={styles.heading}>
+          <p className="eyebrow"><span className="eyebrow-dot" /> Parent walkthrough guide</p>
+          <h2 id="walkthrough-heading">What to observe when<br /> <span>visiting</span> our campus.</h2>
+          <p className={styles.description}>We invite prospective parents to tour our classrooms in person. Here are practical aspects to look for during a school walkthrough:</p>
+        </header>
+        <ul className={styles.checklist}>
+          {CAMPUS_DETAILS.visitChecklist.map((item, index) => {
+            const Icon = WALKTHROUGH_ICONS[index];
+            return <li key={item}><span className={styles.icon} aria-hidden="true"><Icon /></span><span>{item}</span></li>;
+          })}
+        </ul>
+        <figure className={styles.art}>
+          <img src={walkthroughArt} alt="" width="1536" height="1024" loading="lazy" decoding="async" />
+        </figure>
+        <div className={styles.callout}>
+          <span className={styles.phone} aria-hidden="true"><Phone /></span>
+          <p>Please call our office ahead of travelling so we can schedule an educator to greet you and answer your questions without disrupting ongoing classes.</p>
         </div>
       </section>
 
