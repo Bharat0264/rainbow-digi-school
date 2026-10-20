@@ -85,6 +85,15 @@ export function createSquirrelAnimation(canvas) {
     const renderPose=peeking?{u:door.u,v:door.v+(door.r*.95+door.r*1.5*(1-peekProgress))/art.height,scale:.9,direction:1}:pose;
     const x=art.x+renderPose.u*art.width, y=art.y+renderPose.v*art.height;
     const left=x-size/2, top=y-size*120/128;
+    const dpr=Math.max(1,Math.min(window.devicePixelRatio||1,3));
+    const pixelWidth=Math.round(128*dpr), pixelHeight=Math.round(128*dpr);
+    if (canvas.width!==pixelWidth || canvas.height!==pixelHeight) {
+      canvas.width=pixelWidth;
+      canvas.height=pixelHeight;
+    }
+    context.setTransform(dpr,0,0,dpr,0,0);
+    context.imageSmoothingQuality='high';
+    context.imageSmoothingEnabled=true;
     context.clearRect(0,0,128,128);
     if ((state!=='inside'||peeking) && sprite.complete && sprite.naturalWidth) {
       context.save();
@@ -115,13 +124,18 @@ export function createSquirrelAnimation(canvas) {
         context.rotate(Math.sin(activity.progress*Math.PI)*(state==='climbing'?-.16:.12));
       }
       if (portalSprite.naturalWidth && (peeking||state==='enteringHouse')) {
+        const portalCell=portalSprite.naturalWidth/4;
+        const portalRatio=portalSprite.naturalWidth/1024;
         const cell=peeking?3:(entryProgress>.62?2:entryProgress>.35?1:0);
         if (!peeking && entryProgress>=.82) {
           // Only the trailing tail remains at this point. Do not shrink the
           // head back into view after it has passed behind the wooden rim.
-          context.drawImage(portalSprite,512,0,140,210,-64,-120,70,105);
-        } else context.drawImage(portalSprite,cell*256,0,256,256,-64,-120,128,128);
-      } else context.drawImage(sprite,frame*128,0,128,128,-64,-120,128,128);
+          context.drawImage(portalSprite,512*portalRatio,0,140*portalRatio,210*portalRatio,-64,-120,70,105);
+        } else context.drawImage(portalSprite,cell*portalCell,0,portalCell,portalCell,-64,-120,128,128);
+      } else {
+        const cellSize=sprite.naturalWidth/8;
+        context.drawImage(sprite,frame*cellSize,0,cellSize,cellSize,-64,-120,128,128);
+      }
       context.restore();
     }
     canvas.style.transform=`translate3d(${left}px,${top}px,0)`;
