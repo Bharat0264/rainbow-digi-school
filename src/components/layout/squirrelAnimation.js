@@ -13,8 +13,8 @@ const clamp = t => Math.max(0,Math.min(1,t));
 // Place the paw baseline, not the padded image rectangle, on the bark/sill.
 
 /** One small transparent canvas and one RAF; no video or artwork replacement. */
-export function createSquirrelAnimation(canvas) {
-  const context = canvas.getContext('2d'), sprite = new Image(), portalSprite = new Image();
+export function createSquirrelAnimation(canvas, spriteSource, portalSource) {
+  const context = canvas.getContext('2d'), sprite=new Image(), portalSprite=new Image();
   const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let layout, pose, activity, anchor, raf=0, disposed=false;
   let state='inside', target='house', side=1, entryProgress=1, distance=0;
@@ -85,6 +85,10 @@ export function createSquirrelAnimation(canvas) {
     const renderPose=peeking?{u:door.u,v:door.v+(door.r*.95+door.r*1.5*(1-peekProgress))/art.height,scale:.9,direction:1}:pose;
     const x=art.x+renderPose.u*art.width, y=art.y+renderPose.v*art.height;
     const left=x-size/2, top=y-size*120/128;
+    const pixels=Math.ceil(size*Math.min(window.devicePixelRatio||1,3));
+    if(canvas.width!==pixels || canvas.height!==pixels){canvas.width=pixels;canvas.height=pixels;}
+    context.setTransform(pixels/128,0,0,pixels/128,0,0);
+    context.imageSmoothingEnabled=true;context.imageSmoothingQuality='high';
     context.clearRect(0,0,128,128);
     if ((state!=='inside'||peeking) && sprite.complete && sprite.naturalWidth) {
       context.save();
@@ -119,11 +123,13 @@ export function createSquirrelAnimation(canvas) {
         if (!peeking && entryProgress>=.82) {
           // Only the trailing tail remains at this point. Do not shrink the
           // head back into view after it has passed behind the wooden rim.
-          context.drawImage(portalSprite,512,0,140,210,-64,-120,70,105);
-        } else context.drawImage(portalSprite,cell*256,0,256,256,-64,-120,128,128);
-      } else context.drawImage(sprite,frame*128,0,128,128,-64,-120,128,128);
+          const ratio=portalSprite.naturalWidth/1024;
+          context.drawImage(portalSprite,512*ratio,0,140*ratio,210*ratio,-64,-120,70,105);
+        } else {const cellSize=portalSprite.naturalWidth/4;context.drawImage(portalSprite,cell*cellSize,0,cellSize,cellSize,-64,-120,128,128);}
+      } else {const cellSize=sprite.naturalWidth/8;context.drawImage(sprite,frame*cellSize,0,cellSize,cellSize,-64,-120,128,128);}
       context.restore();
     }
+    canvas.style.willChange=activity?'transform':'auto';
     canvas.style.transform=`translate3d(${left}px,${top}px,0)`;
     Object.assign(canvas.dataset,{state,target,direction:String(pose.direction),frame:String(frame),
       x:String(x),y:String(y),scale:String(pose.scale),surfaceY:String(art.y+surface(pose.u)*art.height),
@@ -263,9 +269,11 @@ export function createSquirrelAnimation(canvas) {
   document.addEventListener('visibilitychange',visibilityChanged);
   motion.addEventListener('change',motionChanged);
   sprite.onload=()=>{if (!disposed) draw(0);};
-  sprite.src='/images/navigation/squirrel-gait-v2.webp';
   portalSprite.onload=()=>{if(!disposed)draw();};
-  portalSprite.src='/images/navigation/squirrel-entry-poses.webp';
+  const syncGait=()=>{sprite.src=spriteSource.currentSrc||spriteSource.src;};
+  const syncPortal=()=>{portalSprite.src=portalSource.currentSrc||portalSource.src;};
+  spriteSource.addEventListener('load',syncGait);portalSource.addEventListener('load',syncPortal);
+  if(spriteSource.complete)syncGait();if(portalSource.complete)syncPortal();
   return {
     start,
     measure(next) {
@@ -298,6 +306,7 @@ export function createSquirrelAnimation(canvas) {
       disposed=true;activity=null;cancelAnimationFrame(raf);
       clearTimeout(peekTimer);portalSprite.onload=null;
       observer.disconnect();sprite.onload=null;
+      spriteSource.removeEventListener('load',syncGait);portalSource.removeEventListener('load',syncPortal);
       motion.removeEventListener('change',motionChanged);
       document.removeEventListener('visibilitychange',visibilityChanged);
     },

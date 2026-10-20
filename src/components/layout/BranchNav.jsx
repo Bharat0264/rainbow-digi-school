@@ -2,6 +2,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { House, GraduationCap, UsersRound, School, BookOpen, Phone } from 'lucide-react';
 import NavigationRopes from './NavigationRopes';
+import { CanopyLayer, AssemblyArt, SquirrelSprites } from './NavArtwork';
 import { createSquirrelAnimation } from './squirrelAnimation';
 import { ropeSurface } from './ropeGeometry';
 import { NAV } from '../../data/nav';
@@ -10,10 +11,7 @@ import './BranchNav.css';
 const ITEMS = [{ path: '/', label: 'Home', id: 'home' }, ...NAV.left, ...NAV.right]
   .map(item => ({ ...item, id: item.id || item.label.toLowerCase().replace(/\s+/g, '-') }));
 
-const BRANCH_ART = '/images/navigation/branch-house-detailed.webp';
-const BRANCH_HD_ART = '/images/navigation/branch-house-detailed@2x.webp';
-const RAINBOW_BACKDROP = '/images/navigation/rainbow-cloud-backdrop.webp';
-const COMPACT_ART = '/images/navigation/branch-house-compact-detailed.webp';
+const RAINBOW_BACKDROP = '/assets/nav/optimized/rainbow.svg';
 const MENU_ICONS = { home: House, academics: GraduationCap, admissions: UsersRound, campus: School, 'school-life': BookOpen, contact: Phone };
 
 function ordinaryClick(event) { return event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey; }
@@ -22,6 +20,7 @@ export default function BranchNav() {
   const location = useLocation();
   const navigate = useNavigate();
   const navRef = useRef(null), artRef = useRef(null), canvasRef = useRef(null), logoRef = useRef(null);
+  const gaitRef = useRef(null), entryRef = useRef(null);
   const boardsRef = useRef(new Map()), startRef = useRef(() => {});
   const [open, setOpen] = useState(false);
   const menuRef = useRef(null), drawerRef = useRef(null);
@@ -49,21 +48,30 @@ export default function BranchNav() {
 
   useLayoutEffect(() => {
     const nav = navRef.current, canvas = canvasRef.current;
-    const animation = createSquirrelAnimation(canvas);
+    const animation = createSquirrelAnimation(canvas, gaitRef.current, entryRef.current);
     startRef.current = animation.start;
     const relative = element => {
       const a = element.getBoundingClientRect(), b = nav.getBoundingClientRect();
       return { x: a.x - b.x, y: a.y - b.y, width: a.width, height: a.height };
     };
     const measure = () => {
-      const box = nav.getBoundingClientRect();
       const compact = window.matchMedia('(max-width: 767px)').matches;
+      let sceneWidth=Math.round(Math.min(window.innerWidth*.95,compact?440:1800));
+      if((window.innerWidth-sceneWidth)%2)sceneWidth--;
+      nav.style.width=`${sceneWidth}px`;
+      const box=nav.getBoundingClientRect();
+      nav.style.setProperty('--canopy-height',`${Math.round(box.width*(compact?1024/1536:430/2172))}px`);
       const scale = box.width / (compact ? 440 : 1224);
       if (Math.abs(Number(nav.style.getPropertyValue('--scale')) - scale) > .0001) {
         nav.style.setProperty('--scale', String(scale));
       }
+      nav.style.setProperty('--board-width',`${Math.round(120*scale)}px`);
+      nav.style.setProperty('--board-height',`${Math.round(Math.round(120*scale)*450/594)}px`);
+      nav.style.setProperty('--board-gap',`${Math.round(18*scale)}px`);
+      nav.style.setProperty('--board-top',`${Math.round(220*scale)}px`);
+      nav.style.setProperty('--logo-top',`${Math.round((compact?170:205)*scale)}px`);
       const art = relative(artRef.current);
-      art.compact = artRef.current.currentSrc.includes('branch-house-compact');
+      art.compact = artRef.current.currentSrc.includes('/compact-');
       // Match the board's baked rope stubs to the house mounts, so the drop is
       // vertical instead of crossing a second, angled strand at either knot.
       const nativeWidth=art.compact?1536:2172;
@@ -71,8 +79,8 @@ export default function BranchNav() {
       const centralThickness=5.5*(compact?1.1:1.4)*scale;
       const logoWidth=(mountingXs[1]-mountingXs[0])/nativeWidth*art.width/(.788-.215);
       const logoCenter=art.x+mountingXs[0]/nativeWidth*art.width-centralThickness*.022+(.5-.215)*logoWidth;
-      nav.style.setProperty('--logo-width',`${logoWidth}px`);
-      nav.style.setProperty('--logo-center',`${logoCenter}px`);
+      nav.style.setProperty('--logo-width',`${Math.round(logoWidth)}px`);
+      nav.style.setProperty('--logo-center',`${Math.round(logoCenter-logoWidth/2)+Math.round(logoWidth)/2}px`);
       const layout = { art, width: box.width, height: box.height, size: parseFloat(getComputedStyle(canvas).width) };
       const ropes = [];
       [...boardsRef.current.values(), logoRef.current].forEach((element, index) => {
@@ -117,7 +125,8 @@ export default function BranchNav() {
         y:under-thickness*1.095,
         size:thickness*1.1,
       }));
-      setGeometry({ ...layout, ropes, railFasteners });
+      const nextGeometry={...layout,ropes,railFasteners};
+      setGeometry(previous=>JSON.stringify(previous)===JSON.stringify(nextGeometry)?previous:nextGeometry);
       animation.measure(layout);
     };
     measure();
@@ -126,6 +135,7 @@ export default function BranchNav() {
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(measure);
     };
+    window.addEventListener('resize',scheduleMeasure);
     const observer = new ResizeObserver(scheduleMeasure);
     observer.observe(nav);
     observer.observe(artRef.current);
@@ -139,6 +149,7 @@ export default function BranchNav() {
     branchImage.addEventListener('load', scheduleMeasure);
     return () => {
       cancelAnimationFrame(frame);
+      window.removeEventListener('resize',scheduleMeasure);
       animation.dispose();
       observer.disconnect();
       classObserver.disconnect();
@@ -199,13 +210,7 @@ export default function BranchNav() {
       >
         {drawer && <span className={`featured-menu-icon featured-menu-icon-${item.id}`} aria-hidden="true"><Icon size={23} strokeWidth={2.5} /></span>}
         <span className="featured-board-content">
-          <img
-            className="featured-label-art"
-            src={`/assets/nav/labels/${item.id}.png`}
-            alt={item.label}
-            decoding="async"
-            draggable={false}
-          />
+          <span className={`featured-label-text featured-label-text-${item.id}`}>{item.label}</span>
         </span>
       </Link>
     );
@@ -226,17 +231,17 @@ export default function BranchNav() {
           <img src={RAINBOW_BACKDROP} width="1536" height="1024" alt="" decoding="async" />
         </div>
         <div className="featured-canopy">
-          <picture>
-            <source media="(max-width:767px)" srcSet={COMPACT_ART} width="1536" height="1024" />
-            <img ref={artRef} className="featured-branch" fetchPriority="high" src={BRANCH_HD_ART} srcSet={`${BRANCH_ART} 2172w, ${BRANCH_HD_ART} 4344w`} sizes="(min-width: 1895px) 1800px, 95vw" width="2172" height="430" alt="" aria-hidden="true" decoding="async" />
-          </picture>
+          <CanopyLayer layer="branch" imageRef={artRef} />
+          <CanopyLayer layer="leaves" />
+          <CanopyLayer layer="house" />
         </div>
         <NavigationRopes ropes={geometry.ropes} railFasteners={geometry.railFasteners} />
+        <SquirrelSprites gaitRef={gaitRef} entryRef={entryRef} />
         <canvas ref={canvasRef} className="featured-squirrel" width="128" height="128" aria-hidden="true" />
         <div className="featured-signs featured-left">{ITEMS.slice(0, 3).map(item => sign(item))}</div>
         <div className="featured-home">
           <Link ref={logoRef} to="/" onClick={visitHouse} aria-label="Rainbow Digi School — Excellence begins early — home" className={`featured-logo${location.pathname === '/' ? ' featured-active' : ''}`}>
-            <img className="featured-assembly" src="/assets/nav/connected-logo-mascot.webp" width="1106" height="1422" alt="Rainbow DIGI School — Excellence Begins Early" decoding="async" draggable={false} />
+            <AssemblyArt />
           </Link>
           <button type="button" className="featured-monkey" aria-label="Send the squirrel home" onClick={visitMonkey}>
           </button>

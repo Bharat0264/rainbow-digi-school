@@ -73,7 +73,8 @@
   user-select: none;
 }
 
-.featured-branch {
+.featured-branch,
+.featured-canopy-detail {
   position: absolute;
   top: 0;
   left: 50%;
@@ -420,7 +421,6 @@
   width: calc(68px * var(--scale));
   height: calc(68px * var(--scale));
   pointer-events: none;
-  will-change: transform;
 }
 .featured-menu,
 .featured-drawer { display: none; }
@@ -542,5 +542,45 @@
   .featured-drawer .featured-sign-school-life .featured-label {
     font-size: 14px;
     line-height: 0.95;
+  }
+}
+/* Raster layers retain their original frame and never use a static scale transform. */
+.featured-branch,
+.featured-canopy-detail { left: 0; transform: none; height: var(--canopy-height, auto); image-rendering: auto; }
+.featured-sky img { left: 0; transform: none; image-rendering: auto; }
+.featured-home { transform: none; margin-left: calc(var(--logo-width) / -2); }
+.featured-assembly { image-rendering: auto; }
+.featured-sprite-sources { position: absolute; width: 1px; height: 1px; overflow: hidden; visibility: hidden; pointer-events: none; }
+.featured-sign {
+  background-image: url('/assets/nav/optimized/board-360.webp');
+  background-image: image-set(url('/assets/nav/optimized/board-180.avif') type('image/avif') 1x, url('/assets/nav/optimized/board-360.avif') type('image/avif') 2x, url('/assets/nav/optimized/board-594.avif') type('image/avif') 3x, url('/assets/nav/optimized/board-180.webp') type('image/webp') 1x, url('/assets/nav/optimized/board-360.webp') type('image/webp') 2x, url('/assets/nav/optimized/board-594.webp') type('image/webp') 3x);
+}
+.featured-label-text {
+  display: inline-block;
+  font-family: Fredoka, 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: calc(22px * var(--scale));
+  letter-spacing: -.045em;
+  line-height: 1.05;
+  white-space: nowrap;
+  color: var(--label-face);
+  -webkit-text-stroke: calc(1.3px * var(--scale)) #fff2c7;
+  paint-order: stroke fill;
+  text-shadow: 0 1px 0 var(--label-shadow), 0 2px 0 var(--label-shadow), 0 3px 1px #592b18;
+}
+.featured-label-text-home { --label-face: #ffdc14; --label-shadow: #ed8100; font-size: calc(26px * var(--scale)); }
+.featured-label-text-academics { --label-face: #16c5ff; --label-shadow: #0077cb; }
+.featured-label-text-admissions { --label-face: #ff4b93; --label-shadow: #b90842; }
+.featured-label-text-campus { --label-face: #8fe400; --label-shadow: #468900; font-size: calc(24px * var(--scale)); }
+.featured-label-text-school-life { --label-face: #ffcd16; --label-shadow: #d76e00; font-size: calc(21px * var(--scale)); }
+.featured-label-text-contact { --label-face: #c972ef; --label-shadow: #823da7; font-size: calc(24px * var(--scale)); }
+@media(max-width:767px) {
+  .featured-sky img { left: -6%; }
+  .featured-drawer .featured-label-text { font-size: 21px; }
+}
+@media(max-width:767px) {
+  .featured-drawer .featured-sign {
+    background-image: url('/assets/nav/optimized/board-480.webp');
+    background-image: image-set(url('/assets/nav/optimized/board-240.avif') type('image/avif') 1x, url('/assets/nav/optimized/board-480.avif') type('image/avif') 2x, url('/assets/nav/optimized/board-720.avif') type('image/avif') 3x, url('/assets/nav/optimized/board-240.webp') type('image/webp') 1x, url('/assets/nav/optimized/board-480.webp') type('image/webp') 2x, url('/assets/nav/optimized/board-720.webp') type('image/webp') 3x);
   }
 }
