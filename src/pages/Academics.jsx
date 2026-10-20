@@ -30,7 +30,7 @@ export default function Academics() {
 
       {/* Curriculum Framework Bento */}
       <section id="curriculum" className="section site-container intro-grid">
-        <div className="clay-tile clay-cream">
+        <div className="clay-tile clay-cream curriculum-overview">
           <SectionHeading
             eyebrow="Curriculum framework"
             title="A structured, child-centred approach."
@@ -38,6 +38,20 @@ export default function Academics() {
             A clear understanding of how our classroom learning is planned and
             delivered.
           </SectionHeading>
+          <ul className="curriculum-stages" aria-label="Learning stages">
+            <li>
+              <strong>{earlyYears.grades}</strong>
+              <span>Play, phonics and early number skills.</span>
+            </li>
+            <li>
+              <strong>{primaryYears.grades}</strong>
+              <span>Literacy, mathematics and guided inquiry.</span>
+            </li>
+          </ul>
+          <a href="#early-years" className="button button-primary curriculum-programmes-link">
+            <span>Explore our programmes</span>
+            <ArrowRight size={18} aria-hidden="true" />
+          </a>
         </div>
         <div className="editorial-copy clay-tile clay-mint">
           <p>
