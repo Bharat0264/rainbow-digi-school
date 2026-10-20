@@ -720,7 +720,8 @@ main {
   color: var(--ink-muted);
 }
 
-.dialog-close {
+.photo-dialog .dialog-close {
+  padding: 0;
   position: sticky;
   margin-left: auto;
   top: 0;
