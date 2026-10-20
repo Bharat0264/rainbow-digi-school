@@ -10,10 +10,10 @@ import './BranchNav.css';
 const ITEMS = [{ path: '/', label: 'Home', id: 'home' }, ...NAV.left, ...NAV.right]
   .map(item => ({ ...item, id: item.id || item.label.toLowerCase().replace(/\s+/g, '-') }));
 
-const BRANCH_ART = '/images/navigation/branch-house-hd.webp';
-const BRANCH_HD_ART = '/images/navigation/branch-house-hd@2x.webp';
+const BRANCH_ART = '/images/navigation/branch-house-detailed.webp';
+const BRANCH_HD_ART = '/images/navigation/branch-house-detailed@2x.webp';
 const RAINBOW_BACKDROP = '/images/navigation/rainbow-cloud-backdrop.webp';
-const COMPACT_ART = '/images/navigation/branch-house-compact.png';
+const COMPACT_ART = '/images/navigation/branch-house-compact-detailed.webp';
 const MENU_ICONS = { home: House, academics: GraduationCap, admissions: UsersRound, campus: School, 'school-life': BookOpen, contact: Phone };
 
 function ordinaryClick(event) { return event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey; }
