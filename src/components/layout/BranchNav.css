@@ -544,3 +544,21 @@
     line-height: 0.95;
   }
 }
+
+/* Bark-only replacement shares the original art frame; no layout or anchor changes. */
+.featured-bark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2172 / 430;
+  mask-image: url('/images/navigation/bark/desktop-bark-matte.png');
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+  image-rendering: auto;
+  pointer-events: none;
+  user-select: none;
+}
+@media(max-width:767px) { .featured-bark { aspect-ratio: 1536 / 1024; mask-image: url('/images/navigation/bark/compact-bark-matte.png'); } }

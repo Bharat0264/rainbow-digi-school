@@ -10,10 +10,12 @@ import './BranchNav.css';
 const ITEMS = [{ path: '/', label: 'Home', id: 'home' }, ...NAV.left, ...NAV.right]
   .map(item => ({ ...item, id: item.id || item.label.toLowerCase().replace(/\s+/g, '-') }));
 
-const BRANCH_ART = '/images/navigation/branch-house-detailed.webp';
+const BRANCH_ART = '/images/navigation/bark/branch-house-desktop-preserved.webp';
 const BRANCH_HD_ART = '/images/navigation/branch-house-detailed@2x.webp';
 const RAINBOW_BACKDROP = '/images/navigation/rainbow-cloud-backdrop.webp';
 const COMPACT_ART = '/images/navigation/branch-house-compact-detailed.webp';
+const BARK_WIDTHS = [1600, 2400, 3200, 3600, 4800, 5400];
+const barkSources = (kind, format) => BARK_WIDTHS.map(width => `/images/navigation/bark/${kind}-bark-${width}.${format} ${width}w`).join(', ');
 const MENU_ICONS = { home: House, academics: GraduationCap, admissions: UsersRound, campus: School, 'school-life': BookOpen, contact: Phone };
 
 function ordinaryClick(event) { return event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey; }
@@ -229,6 +231,12 @@ export default function BranchNav() {
           <picture>
             <source media="(max-width:767px)" srcSet={COMPACT_ART} width="1536" height="1024" />
             <img ref={artRef} className="featured-branch" fetchPriority="high" src={BRANCH_HD_ART} srcSet={`${BRANCH_ART} 2172w, ${BRANCH_HD_ART} 4344w`} sizes="(min-width: 1895px) 1800px, 95vw" width="2172" height="430" alt="" aria-hidden="true" decoding="async" />
+          </picture>
+          <picture>
+            <source media="(max-width:767px)" type="image/avif" srcSet={barkSources('compact', 'avif')} sizes="(min-width:464px) 440px, 95vw" width="1536" height="1024" />
+            <source media="(max-width:767px)" type="image/webp" srcSet={barkSources('compact', 'webp')} sizes="(min-width:464px) 440px, 95vw" width="1536" height="1024" />
+            <source type="image/avif" srcSet={barkSources('desktop', 'avif')} sizes="(min-width:1895px) 1800px, 95vw" />
+            <img className="featured-bark" src="/images/navigation/bark/desktop-bark-1600.webp" srcSet={barkSources('desktop', 'webp')} sizes="(min-width:1895px) 1800px, 95vw" width="2172" height="430" loading="eager" fetchPriority="high" decoding="async" alt="" aria-hidden="true" />
           </picture>
         </div>
         <NavigationRopes ropes={geometry.ropes} railFasteners={geometry.railFasteners} />
