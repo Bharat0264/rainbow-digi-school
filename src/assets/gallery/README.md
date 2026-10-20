@@ -1,6 +1,8 @@
 ﻿# Photo album assets
 
-All six starter albums (Annual Day, Sports Day, Classrooms, Celebrations, Campus, Field Trips) are **placeholder albums**. Each contains three sample spreads made from the same twelve replaceable preview photographs. These are layout examples, not a claim that the photos depict those events. Both the shelf and data identify them as previews.
+All four starter albums (Campus, Classrooms, Celebrations, Activities) are **placeholder albums**. Each contains three sample spreads made from the same twelve replaceable preview photographs. These are layout examples, not a claim that the photos depict those events. Both the shelf and data identify them as previews.
+
+The Classrooms cover (`classrooms/cover-thumb.webp`, 400 x 300) reuses the fictional teacher-and-children illustration from the campus walkthrough. It is an illustrated preview, not a photograph of an actual classroom. The other cover photos and all page photos remain replaceable school previews.
 
 The twelve sources are eleven supplied school screenshot stills (113205 through 113637), plus the existing campus exterior. The UI screenshot 113831 is excluded. No dates or children's names have been invented.
 

@@ -4,7 +4,7 @@ const asset = name => {
   if (!url) throw new Error(`Gallery image not found: ${name}`);
   return url;
 };
-export const GALLERY_CATEGORIES = ['All', 'Events', 'Classrooms', 'Sports', 'Celebrations', 'Campus'];
+export const GALLERY_CATEGORIES = ['All', 'Campus', 'Classrooms', 'Celebrations', 'Activities'];
 export function photo({ src, thumb, width = 765, height = 1020, thumbWidth = 400, thumbHeight = 300, date = null, ...details }) {
   return { ...details, src: asset(src), thumb: asset(thumb), width, height, thumbWidth, thumbHeight, date };
 }
@@ -24,109 +24,9 @@ export const galleryPhotos = [
   photo({"id":"gallery-12","src":"gallery-12-full.webp","thumb":"gallery-12-thumb.webp","width":765,"height":1020,"alt":"Rainbow DIGI School building exterior","caption":"Our school in Kandlakoya","category":"Campus","placeholder":true}),
 ];
 
-// All six starter albums and their photo entries are replaceable placeholders.
+// All four starter albums and their photo entries are replaceable placeholders.
 // Replace any galleryPhotos[...] line below with photo({...}) for a final image.
 export const albums = [
-  {
-    id: 'annual-day', title: 'Annual Day', category: 'Events', tone: 'coral',
-    cover: galleryPhotos[4].thumb, placeholder: true,
-    description: "A book ready for our performances, shared smiles and special school days.",
-    pages: [
-      { id: 'annual-day-01', template: 'collage', label: "The little things", photos: [
-        galleryPhotos[4],
-        galleryPhotos[5],
-        galleryPhotos[6],
-        galleryPhotos[7],
-      ] },
-      { id: 'annual-day-02', template: 'postcards', label: "Together is our favourite place", photos: [
-        galleryPhotos[8],
-        galleryPhotos[9],
-        galleryPhotos[10],
-        galleryPhotos[11],
-      ] },
-      { id: 'annual-day-03', template: 'moments', label: "A page to remember", photos: [
-        galleryPhotos[0],
-        galleryPhotos[1],
-        galleryPhotos[2],
-        galleryPhotos[3],
-      ] },
-    ],
-  },
-  {
-    id: 'sports-day', title: 'Sports Day', category: 'Sports', tone: 'gold',
-    cover: galleryPhotos[5].thumb, placeholder: true,
-    description: "A book ready for movement, teamwork and little achievements.",
-    pages: [
-      { id: 'sports-day-01', template: 'collage', label: "The little things", photos: [
-        galleryPhotos[5],
-        galleryPhotos[6],
-        galleryPhotos[7],
-        galleryPhotos[8],
-      ] },
-      { id: 'sports-day-02', template: 'postcards', label: "Together is our favourite place", photos: [
-        galleryPhotos[9],
-        galleryPhotos[10],
-        galleryPhotos[11],
-        galleryPhotos[0],
-      ] },
-      { id: 'sports-day-03', template: 'moments', label: "A page to remember", photos: [
-        galleryPhotos[1],
-        galleryPhotos[2],
-        galleryPhotos[3],
-        galleryPhotos[4],
-      ] },
-    ],
-  },
-  {
-    id: 'classrooms', title: 'Classrooms', category: 'Classrooms', tone: 'teal',
-    cover: galleryPhotos[6].thumb, placeholder: true,
-    description: "A book ready for everyday discoveries and creative learning.",
-    pages: [
-      { id: 'classrooms-01', template: 'collage', label: "The little things", photos: [
-        galleryPhotos[6],
-        galleryPhotos[7],
-        galleryPhotos[8],
-        galleryPhotos[9],
-      ] },
-      { id: 'classrooms-02', template: 'postcards', label: "Together is our favourite place", photos: [
-        galleryPhotos[10],
-        galleryPhotos[11],
-        galleryPhotos[0],
-        galleryPhotos[1],
-      ] },
-      { id: 'classrooms-03', template: 'moments', label: "A page to remember", photos: [
-        galleryPhotos[2],
-        galleryPhotos[3],
-        galleryPhotos[4],
-        galleryPhotos[5],
-      ] },
-    ],
-  },
-  {
-    id: 'celebrations', title: 'Celebrations', category: 'Celebrations', tone: 'lilac',
-    cover: galleryPhotos[0].thumb, placeholder: true,
-    description: "Colourful traditions and moments of togetherness.",
-    pages: [
-      { id: 'celebrations-01', template: 'collage', label: "The little things", photos: [
-        galleryPhotos[0],
-        galleryPhotos[1],
-        galleryPhotos[2],
-        galleryPhotos[3],
-      ] },
-      { id: 'celebrations-02', template: 'postcards', label: "Together is our favourite place", photos: [
-        galleryPhotos[4],
-        galleryPhotos[5],
-        galleryPhotos[6],
-        galleryPhotos[7],
-      ] },
-      { id: 'celebrations-03', template: 'moments', label: "A page to remember", photos: [
-        galleryPhotos[8],
-        galleryPhotos[9],
-        galleryPhotos[10],
-        galleryPhotos[11],
-      ] },
-    ],
-  },
   {
     id: 'campus', title: 'Campus', category: 'Campus', tone: 'green',
     cover: galleryPhotos[11].thumb, placeholder: true,
@@ -153,28 +53,77 @@ export const albums = [
     ],
   },
   {
-    id: 'field-trips', title: 'Field Trips', category: 'Events', tone: 'blue',
-    cover: galleryPhotos[8].thumb, placeholder: true,
-    description: "A book ready for journeys, new experiences and discoveries.",
+    id: 'classrooms', title: 'Classrooms', category: 'Classrooms', tone: 'blue',
+    cover: asset('classrooms/cover-thumb.webp'), coverWidth: 400, coverHeight: 300, placeholder: true,
+    description: "A book ready for everyday discoveries and creative learning.",
     pages: [
-      { id: 'field-trips-01', template: 'collage', label: "The little things", photos: [
+      { id: 'classrooms-01', template: 'collage', label: "The little things", photos: [
+        galleryPhotos[6],
+        galleryPhotos[7],
         galleryPhotos[8],
         galleryPhotos[9],
+      ] },
+      { id: 'classrooms-02', template: 'postcards', label: "Together is our favourite place", photos: [
         galleryPhotos[10],
         galleryPhotos[11],
+        galleryPhotos[0],
+        galleryPhotos[1],
       ] },
-      { id: 'field-trips-02', template: 'postcards', label: "Together is our favourite place", photos: [
+      { id: 'classrooms-03', template: 'moments', label: "A page to remember", photos: [
+        galleryPhotos[2],
+        galleryPhotos[3],
+        galleryPhotos[4],
+        galleryPhotos[5],
+      ] },
+    ],
+  },
+  {
+    id: 'celebrations', title: 'Celebrations', category: 'Celebrations', tone: 'purple',
+    cover: galleryPhotos[0].thumb, placeholder: true,
+    description: "Colourful traditions and moments of togetherness.",
+    pages: [
+      { id: 'celebrations-01', template: 'collage', label: "The little things", photos: [
         galleryPhotos[0],
         galleryPhotos[1],
         galleryPhotos[2],
         galleryPhotos[3],
       ] },
-      { id: 'field-trips-03', template: 'moments', label: "A page to remember", photos: [
+      { id: 'celebrations-02', template: 'postcards', label: "Together is our favourite place", photos: [
+        galleryPhotos[4],
+        galleryPhotos[5],
+        galleryPhotos[6],
+        galleryPhotos[7],
+      ] },
+      { id: 'celebrations-03', template: 'moments', label: "A page to remember", photos: [
+        galleryPhotos[8],
+        galleryPhotos[9],
+        galleryPhotos[10],
+        galleryPhotos[11],
+      ] },
+    ],
+  },
+  {
+    id: 'activities', title: 'Activities', category: 'Activities', tone: 'orange',
+    cover: galleryPhotos[6].thumb, placeholder: true,
+    description: "Creative play, colourful artwork and everyday discoveries.",
+    pages: [
+      { id: 'activities-01', template: 'collage', label: "The little things", photos: [
+        galleryPhotos[8],
+        galleryPhotos[9],
+        galleryPhotos[10],
+        galleryPhotos[11],
+      ] },
+      { id: 'activities-02', template: 'postcards', label: "Together is our favourite place", photos: [
+        galleryPhotos[0],
+        galleryPhotos[1],
+        galleryPhotos[2],
+        galleryPhotos[3],
+      ] },
+      { id: 'activities-03', template: 'moments', label: "A page to remember", photos: [
         galleryPhotos[4],
         galleryPhotos[5],
         galleryPhotos[6],
         galleryPhotos[7],
       ] },
     ],
-  },
-];
+  },];

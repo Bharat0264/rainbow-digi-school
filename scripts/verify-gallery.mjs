@@ -36,16 +36,16 @@ try {
     const context = await browser.newContext({ viewport: { width, height: width < 768 ? 844 : 900 }, hasTouch: width < 768, permissions: ['clipboard-read', 'clipboard-write'] });
     const page = await context.newPage(), errors = [], imageResponses = new Map();
     page.on('pageerror', error => errors.push(error.message));
-    page.on('response', response => { if (response.request().resourceType() === 'image' && response.url().includes('/src/assets/gallery/')) imageResponses.set(response.url(), response); });
+    page.on('response', response => { if (response.request().resourceType() === 'image' && (response.url().includes('/src/assets/gallery/') || response.url().includes('/src/assets/campus-walkthrough.webp'))) imageResponses.set(response.url(), response); });
     await page.goto(`${base}/school-life#gallery`);
     await page.evaluate(() => document.fonts.ready);
     await page.waitForTimeout(600);
     const gallery = page.locator('#gallery');
     const books = gallery.locator('.gallery-book');
-    assert.equal(await books.count(), 6);
+    assert.equal(await books.count(), 4);
     assert.ok(await noOverflow(page), 'No horizontal page scroll on shelf');
     if (width < 768) assert.equal(await gallery.locator('.gallery-shelf').evaluate(e => getComputedStyle(e).scrollSnapType), 'x mandatory');
-    else assert.equal(await gallery.locator('.gallery-shelf').evaluate(e => getComputedStyle(e).gridTemplateColumns.split(' ').length), 6);
+    else assert.equal(await gallery.locator('.gallery-shelf').evaluate(e => getComputedStyle(e).gridTemplateColumns.split(' ').length), 4);
     if (width === 390 || width === 1440) {
       await gallery.screenshot({ path: `artifacts/albums-shelf-${width}.png` });
       await accessible(page, '#gallery');
@@ -56,14 +56,14 @@ try {
     assert.ok(![...imageResponses.keys()].some(url => /-full[.-]/.test(url)), 'Shelf never loads full photos');
     await gallery.getByRole('button', { name: 'Search albums and photos', exact: true }).click();
     const search = gallery.getByRole('searchbox');
-    await search.fill('Annual Day'); assert.equal(await books.count(), 1);
+    await search.fill('Classrooms'); assert.equal(await books.count(), 1);
     await search.fill('not-a-real-event'); assert.equal(await books.count(), 0);
-    await search.fill('flowers'); assert.equal(await books.count(), 6, 'Search finds photo captions too');
+    await search.fill('flowers'); assert.equal(await books.count(), 4, 'Search finds photo captions too');
     await search.fill('');
     await gallery.getByRole('button', { name: 'Search albums and photos', exact: true }).click();
-    const opener = gallery.getByRole('button', { name: /^Open Annual Day album/ });
+    const opener = gallery.getByRole('button', { name: /^Open Classrooms album/ });
     await opener.click();
-    const dialog = page.getByRole('dialog', { name: 'Annual Day', exact: true });
+    const dialog = page.getByRole('dialog', { name: 'Classrooms', exact: true });
     await dialog.waitFor({ state: 'visible' }); await page.waitForTimeout(700);
     assert.equal(await countText(dialog), 'Page 1 of 3');
     assert.equal(await dialog.locator('.gallery-flow-page').count(), 3);
@@ -125,7 +125,7 @@ try {
     }
     await dialog.getByRole('button', { name: 'Share album' }).click();
     const shared = await page.evaluate(() => navigator.clipboard.readText());
-    assert.ok(shared.includes('album=annual-day') && shared.endsWith('#gallery'));
+    assert.ok(shared.includes('album=classrooms') && shared.endsWith('#gallery'));
     await dialog.getByRole('button', { name: 'Back to albums' }).focus();
     await page.keyboard.press('Shift+Tab');
     assert.equal(await dialog.getByRole('button', { name: 'Enter fullscreen' }).evaluate(e => e === document.activeElement), true);
@@ -134,7 +134,7 @@ try {
     await page.keyboard.press('Escape'); await dialog.waitFor({ state: 'hidden' });
     assert.equal(await opener.evaluate(e => e === document.activeElement), true);
     assert.equal(await page.evaluate(() => document.body.style.overflow), '');
-    await gallery.getByRole('button', { name: 'Play Annual Day slideshow' }).click();
+    await gallery.getByRole('button', { name: 'Play Classrooms slideshow' }).click();
     await dialog.waitFor({ state: 'visible' });
     assert.ok(await dialog.getByRole('button', { name: 'Pause slideshow' }).isVisible());
     await dialog.getByRole('button', { name: 'Back to albums' }).click(); await dialog.waitFor({ state: 'hidden' });
