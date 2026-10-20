@@ -1,15 +1,20 @@
+.programmesHeading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: start;
+  column-gap: 28px;
+  row-gap: 20px;
+}
+.programmesHeading > :global(.section-heading) { display: contents; }
+.programmesHeading :global(.eyebrow) { grid-column: 1; margin: 0; align-self: end; }
+.programmesHeading h2 { grid-column: 1; max-width: 9em; font-size: clamp(36px, 4.2vw, 60px); line-height: 1.08; }
+.curriculumButton { grid-column: 1; justify-self: start; align-self: start; gap: 22px; }
+.programmeTrain { grid-column: 2; grid-row: 1 / 4; display: block; width: 100%; height: auto; align-self: center; }
 @media (max-width: 767px) {
-  .programmesHeading {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 96px;
-    align-items: end;
-    column-gap: 16px;
-    row-gap: 12px;
-  }
-  .programmesHeading > :global(.section-heading) { display: contents; }
-  .programmesHeading :global(.eyebrow) { grid-column: 1 / -1; margin: 0; }
-  .programmesHeading h2 { grid-column: 1; max-width: 8.4em; font-size: clamp(24px, 6vw, 28px); line-height: 1.12; }
-  .programmesHeading > :global(.text-link) { grid-column: 2; min-height: 44px; gap: 8px; font-size: 14px; line-height: 1.5; white-space: normal; }
-  .programmesHeading > :global(.text-link) span { min-width: 0; text-align: center; }
-  .programmesHeading > :global(.text-link) svg { width: 12px; height: 12px; flex-shrink: 0; }
+  .programmesHeading { grid-template-columns: minmax(0, 1fr) 108px; align-items: end; column-gap: 12px; row-gap: 12px; }
+  .programmesHeading :global(.eyebrow) { grid-column: 1 / -1; }
+  .programmesHeading h2 { max-width: 8.4em; font-size: clamp(24px, 6vw, 28px); line-height: 1.12; }
+  .programmesHeading .curriculumButton { grid-column: 2; grid-row: 2; align-self: end; justify-self: stretch; min-height: 44px; padding: 10px 9px; gap: 5px; font-size: 12px; line-height: 1.4; white-space: normal; text-align: center; }
+  .curriculumButton svg { width: 14px; height: 14px; flex-shrink: 0; }
+  .programmeTrain { grid-column: 1 / -1; grid-row: 3; width: min(100%, 480px); justify-self: center; margin-block: 4px 8px; }
 }

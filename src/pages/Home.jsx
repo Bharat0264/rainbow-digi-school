@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import styles from "./Home.module.css";
+import programmeTrain from "../assets/programme-train.webp";
 import { ArrowRight, MapPin, MessageCircle } from "lucide-react";
 import { HOME_STAGES, HOME_PILLARS, HOME_FAQS, SCHOOL } from "../data/school";
 import {
@@ -132,7 +133,8 @@ export default function Home() {
               eyebrow="Educational programmes"
               title="A clear path from early play to primary learning."
             />
-            <ArrowLink to="/academics">Detailed curriculum</ArrowLink>
+            <Link className={`button button-primary ${styles.curriculumButton}`} to="/academics"><span>Detailed curriculum</span><ArrowRight size={20} aria-hidden="true" /></Link>
+            <img className={styles.programmeTrain} src={programmeTrain} alt="" width={1536} height={1024} loading="lazy" decoding="async" />
           </div>
           <div className="stage-grid">
             {HOME_STAGES.map((stage) => {
