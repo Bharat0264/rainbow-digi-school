@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowUpRight, ArrowRight } from "lucide-react";
+import Gallery from "../components/gallery/Gallery";
 import { SCHOOL_LIFE_EXPERIENCE, EVENTS, SCHOOL } from "../data/school";
 import {
   PageIntro,
@@ -150,6 +151,8 @@ export default function SchoolLife() {
           </div>
         </div>
       </section>
+
+      <Gallery />
     </>
   );
 }

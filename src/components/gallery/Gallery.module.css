@@ -1,0 +1,40 @@
+.section { scroll-margin-top: 96px; }
+.heading { position: relative; padding-bottom: 20px; }
+.heading::after { content: ''; display: block; width: 86px; height: 6px; margin-top: 18px; border-radius: 999px; background: linear-gradient(90deg,#ef806a,#f5ce62,#99c880,#89cbc0,#8997d9); }
+.heading > p:last-of-type { margin-top: 10px; color: var(--ink-muted); }
+.previewNote { max-width: 680px; font-size: 13px; line-height: 1.65; color: var(--ink-muted); margin-bottom: 22px; }
+.filters { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 26px; }
+.filter { min-height: 44px; padding: 10px 20px; border: 1px solid #decaab; border-radius: 999px; background: linear-gradient(#fffaf0,#f5ead6); color: #493622; font: 700 14px/1.4 var(--font-sans); cursor: pointer; transition: background .2s ease, transform .2s ease; }
+.filter[aria-pressed='true'] { border-color: #8d662c; background: #f6d36c; color: #342407; box-shadow: 0 3px 9px #71502212; }
+.filter:hover { transform: translateY(-1px); }
+.filter:focus-visible, .card:focus-visible, .loadMore:focus-visible { outline: 3px solid #2b695b; outline-offset: 4px; }
+.grid { display: grid; position: relative; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px; margin: 0; padding: 0; list-style: none; }
+.grid > li { min-width: 0; animation: galleryCardIn .2s ease-out both; }
+@keyframes galleryCardIn { from { opacity: 0; transform: translateY(4px) scale(.98); } to { opacity: 1; transform: none; } }
+.card { display: flex; flex-direction: column; width: 100%; height: 100%; padding: 6px; border: 1px solid #e8d6b7; border-radius: 20px; background: #fffaf0; box-shadow: 0 5px 16px #5943280d; text-align: left; color: #3d3022; cursor: pointer; transition: transform .2s ease, box-shadow .2s ease; }
+.card:hover { transform: translateY(-3px); box-shadow: 0 10px 22px #59432818; }
+.imageWrap { position: relative; display: block; width: 100%; aspect-ratio: 4 / 3; overflow: hidden; border-radius: 14px; background: #e7ddcb; }
+.imageWrap img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.placeholder { position: absolute; left: 8px; top: 8px; padding: 3px 7px; border-radius: 999px; background: #fffaf0ed; color: #493622; font-size: 10px; font-weight: 700; line-height: 1.6; }
+.caption { display: block; padding: 10px 7px 7px; font-size: 12px; line-height: 1.5; overflow-wrap: anywhere; }
+.more { display: flex; justify-content: center; margin-top: 28px; }
+.privacy { margin-top: 26px; text-align: center; font-size: 13px; color: var(--ink-muted); }
+.empty { padding: 32px 0; color: var(--ink-muted); }
+.status { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.dialog { position: fixed; inset: 0; width: 100%; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 16px; border: 0; color: #fffaf0; background: #18231df5; overscroll-behavior: contain; }
+.dialog[open] { display: grid; grid-template-rows: auto minmax(0,1fr) auto; gap: 14px; }
+.dialog::backdrop { background: #111a14d9; }
+.toolbar { display: flex; align-items: center; gap: 16px; }
+.toolbar h2 { font-family: var(--font-sans); font-size: 16px; font-weight: 600; }
+.counter { margin-left: auto; font-size: 14px; font-variant-numeric: tabular-nums; }
+.viewerButton { display: grid; place-items: center; width: 44px; min-width: 44px; height: 44px; padding: 0; border: 1px solid #fffaf05c; border-radius: 50%; color: #fffaf0; background: #fffaf014; cursor: pointer; }
+.viewerButton:focus-visible { outline: 3px solid #f6d36c; outline-offset: 4px; }
+.viewerButton:hover { background: #fffaf029; }
+.viewerButton:disabled { opacity: .35; cursor: default; }
+.stage { display: grid; grid-template-columns: 44px minmax(0,1fr) 44px; gap: 8px; align-items: center; min-height: 0; touch-action: pan-y; }
+.fullImage { display: block; width: 100%; height: 100%; min-height: 0; min-width: 0; object-fit: contain; user-select: none; }
+.viewerCaption { text-align: center; font-size: 14px; line-height: 1.6; padding: 0 8px 6px; }
+.viewerCaption time { display: block; font-size: 12px; color: #d7dfd8; }
+@media (min-width: 640px) { .grid { grid-template-columns: repeat(3,minmax(0,1fr)); gap: 20px; } .dialog { padding: 24px; } .stage { gap: 22px; } }
+@media (min-width: 1024px) { .grid { grid-template-columns: repeat(4,minmax(0,1fr)); } }
+@media (prefers-reduced-motion: reduce) { .grid > li { animation: none; } .filter, .card { transition: none; } .filter:hover, .card:hover { transform: none; } }

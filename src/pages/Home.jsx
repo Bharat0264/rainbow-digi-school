@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import GalleryPreview from "../components/gallery/GalleryPreview";
+import galleryStyles from "../components/gallery/GalleryPreview.module.css";
 import { ArrowRight, MapPin, MessageCircle } from "lucide-react";
 import { HOME_STAGES, HOME_PILLARS, HOME_FAQS, SCHOOL } from "../data/school";
 import {
@@ -47,18 +49,21 @@ export default function Home() {
             <span>{SCHOOL.tagline}</span>
           </div>
         </div>
-        <div className="hero-visual clay-tile clay-mint">
-          <CampusPhoto priority caption={false} />
-          <div className="photo-label clay-tile clay-cream clay-shape-pill">
-            <MapPin size={18} aria-hidden="true" />
-            <span>
-              A real place for new beginnings
-              <small>Our school in Kandlakoya</small>
+        <div className={galleryStyles.photoColumn}>
+          <div className="hero-visual clay-tile clay-mint">
+            <CampusPhoto priority caption={false} />
+            <div className="photo-label clay-tile clay-cream clay-shape-pill">
+              <MapPin size={18} aria-hidden="true" />
+              <span>
+                A real place for new beginnings
+                <small>Our school in Kandlakoya</small>
+              </span>
+            </div>
+            <span className="photo-index" aria-hidden="true">
+              01 / OUR SCHOOL
             </span>
           </div>
-          <span className="photo-index" aria-hidden="true">
-            01 / OUR SCHOOL
-          </span>
+          <GalleryPreview />
         </div>
       </section>
 
@@ -242,6 +247,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+
 
       {/* Home-Specific FAQ Bento Grid */}
       <section className="section site-container faq-grid">
