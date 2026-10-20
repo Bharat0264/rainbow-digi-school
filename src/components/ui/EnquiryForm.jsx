@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import GlassSelect from "./GlassSelect";
 
 const programs = [
   "Nursery",
@@ -183,21 +184,15 @@ export default function EnquiryForm({
           <label htmlFor={fieldId("program")}>
             Class of interest <span aria-hidden="true">*</span>
           </label>
-          <select
+          <GlassSelect
             id={fieldId("program")}
             name="program"
             required
             aria-invalid={!!errors.program}
             aria-describedby={describedBy("program")}
             defaultValue=""
-          >
-            <option value="" disabled>
-              Select a class
-            </option>
-            {programs.map((program) => (
-              <option key={program}>{program}</option>
-            ))}
-          </select>
+            options={programs}
+          />
           {error("program")}
         </div>
       </div>

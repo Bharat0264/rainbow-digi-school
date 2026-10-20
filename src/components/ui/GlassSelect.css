@@ -1,0 +1,356 @@
+/* 3D Glassmorphic Dropdown Component */
+
+.glass-select-container {
+  position: relative;
+  width: 100%;
+  font-family: var(--font-sans, "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+}
+
+.glass-select-container.is-open {
+  z-index: 100;
+}
+
+/* Native select kept for FormData, accessibility, & test automation */
+.glass-select-native {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.0001;
+  pointer-events: none;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  z-index: -1;
+}
+
+/* Trigger Capsule: Pill with amber/golden 3D bevel rim and specular highlights */
+.glass-select-trigger {
+  position: relative;
+  width: 100%;
+  height: 52px;
+  padding: 4px 7px 4px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 9999px;
+  cursor: pointer;
+  user-select: none;
+  background: linear-gradient(180deg, #ffffff 0%, #fffbf2 25%, #fef5dc 70%, #fae7ba 100%);
+  border: 2px solid #ebba4b;
+  box-shadow: 
+    0 4px 18px rgba(220, 160, 40, 0.2),
+    inset 0 2.5px 3px rgba(255, 255, 255, 1),
+    inset 0 -2px 3px rgba(210, 145, 30, 0.25),
+    inset 2px 0 3px rgba(255, 255, 255, 0.8),
+    inset -2px 0 3px rgba(255, 255, 255, 0.8);
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+.glass-select-trigger:focus-visible {
+  box-shadow: 
+    0 0 0 3.5px rgba(235, 185, 75, 0.55),
+    0 4px 18px rgba(220, 160, 40, 0.22);
+}
+
+.glass-select-trigger[aria-invalid="true"] {
+  border-color: #f43f5e;
+  box-shadow: 
+    0 0 0 3px rgba(244, 63, 94, 0.28),
+    0 4px 18px rgba(244, 63, 94, 0.15);
+}
+
+/* Specular reflection streak across top inner rim */
+.glass-select-trigger::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 20px;
+  right: 20px;
+  height: 12px;
+  border-radius: 9999px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.2) 70%, rgba(255, 255, 255, 0) 100%);
+  pointer-events: none;
+}
+
+/* Secondary delicate inner contour ring */
+.glass-select-trigger::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  pointer-events: none;
+}
+
+.glass-trigger-left {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  position: relative;
+  z-index: 1;
+}
+
+.glass-trigger-label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #383127;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 3D Circular Chevron Button */
+.glass-chevron-circle {
+  position: relative;
+  z-index: 1;
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 35% 30%, #ffffff 0%, #faf5ec 45%, #ece2d2 85%, #dfd2bf 100%);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 
+    0 2px 5px rgba(160, 120, 60, 0.16),
+    inset 1.5px 2px 2.5px rgba(255, 255, 255, 1),
+    inset -1px -1.5px 2px rgba(140, 100, 45, 0.18);
+  color: #383127;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-select-container.is-open .glass-chevron-circle {
+  transform: rotate(180deg);
+}
+
+.glass-chevron-icon {
+  width: 16px;
+  height: 16px;
+  stroke: #383127;
+  stroke-width: 3.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+/* Dropdown Panel: Frosted Glass Container */
+.glass-select-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  z-index: 100;
+  max-height: min(490px, calc(100vh - 120px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(220, 160, 40, 0.35) transparent;
+  border-radius: 28px;
+  padding: 6px;
+  margin: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 253, 248, 0.7) 50%, rgba(255, 255, 255, 0.82) 100%);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 2px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 
+    0 24px 50px -8px rgba(160, 120, 50, 0.18),
+    0 8px 20px rgba(0, 0, 0, 0.04),
+    inset 0 2px 4px rgba(255, 255, 255, 1),
+    inset 0 -2px 4px rgba(210, 190, 160, 0.2);
+  animation: glassDropdownFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-select-dropdown::-webkit-scrollbar {
+  width: 5px;
+}
+
+.glass-select-dropdown::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.glass-select-dropdown::-webkit-scrollbar-thumb {
+  background: rgba(220, 160, 40, 0.35);
+  border-radius: 9999px;
+}
+
+@keyframes glassDropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Bottom specular reflection shine on glass card */
+.glass-select-dropdown::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  right: 35px;
+  width: 60px;
+  height: 3px;
+  border-radius: 9999px;
+  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+  pointer-events: none;
+}
+
+/* Option Row Pills */
+.glass-option-item {
+  position: relative;
+  width: 100%;
+  height: 48px;
+  padding: 4px 16px 4px 6px;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  border-radius: 9999px;
+  cursor: pointer;
+  user-select: none;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0.38) 60%, rgba(255, 255, 255, 0.18) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.9);
+  transition: all 0.15s ease;
+  box-sizing: border-box;
+}
+
+.glass-option-item:hover,
+.glass-option-item.is-focused {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 250, 238, 0.8) 100%);
+  border-color: rgba(235, 195, 100, 0.55);
+  box-shadow: 0 2px 8px rgba(210, 160, 60, 0.14), inset 0 1px 2px #ffffff;
+}
+
+.glass-option-item.is-selected {
+  background: linear-gradient(180deg, #ffffff 0%, #fff8e4 35%, #feeec7 100%);
+  border: 1.5px solid rgba(235, 185, 75, 0.85);
+  box-shadow: 
+    0 3px 10px rgba(220, 160, 40, 0.2),
+    inset 0 2px 3px rgba(255, 255, 255, 1),
+    inset 0 -1.5px 2px rgba(200, 140, 30, 0.22);
+}
+
+.glass-option-label {
+  font-size: 15.5px;
+  font-weight: 600;
+  color: #2b2620;
+  letter-spacing: -0.01em;
+}
+
+/* 3D Jelly Domes */
+.glass-badge {
+  position: relative;
+  width: 42px;
+  height: 35px;
+  min-width: 42px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: 
+    0 3px 8px var(--b-glow),
+    inset 1.5px 2px 3px rgba(255, 255, 255, 1),
+    inset -1px -2px 3px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--b-border);
+  background: var(--b-bg);
+}
+
+/* Crescent Specular Highlight */
+.glass-badge::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 6px;
+  width: 28px;
+  height: 11px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0) 100%);
+  pointer-events: none;
+}
+
+/* 3D Jelly Badge Color Themes */
+.glass-badge.badge-amber {
+  --b-bg: radial-gradient(circle at 35% 30%, #ffffff 0%, #fff8db 25%, #feebb5 55%, #fcd277 85%, #f5be4b 100%);
+  --b-border: rgba(240, 185, 60, 0.7);
+  --b-glow: rgba(230, 165, 30, 0.3);
+  color: #d97706;
+}
+
+.glass-badge.badge-rose {
+  --b-bg: radial-gradient(circle at 35% 30%, #ffffff 0%, #fff0f5 25%, #fde2ec 55%, #fbc2d8 85%, #f89ec0 100%);
+  --b-border: rgba(245, 150, 185, 0.6);
+  --b-glow: rgba(235, 110, 160, 0.3);
+  color: #e11d48;
+}
+
+.glass-badge.badge-mint {
+  --b-bg: radial-gradient(circle at 35% 30%, #ffffff 0%, #f0fdf7 25%, #dcfce7 55%, #bbf7d0 85%, #86efac 100%);
+  --b-border: rgba(110, 220, 160, 0.6);
+  --b-glow: rgba(40, 180, 110, 0.28);
+  color: #059669;
+}
+
+.glass-badge.badge-purple {
+  --b-bg: radial-gradient(circle at 35% 30%, #ffffff 0%, #f5f3ff 25%, #ede9fe 55%, #ddd6fe 85%, #c4b5fd 100%);
+  --b-border: rgba(180, 160, 250, 0.6);
+  --b-glow: rgba(130, 100, 230, 0.3);
+  color: #7c3aed;
+}
+
+.glass-badge.badge-blue {
+  --b-bg: radial-gradient(circle at 35% 30%, #ffffff 0%, #f0f9ff 25%, #e0f2fe 55%, #bae6fd 85%, #7dd3fc 100%);
+  --b-border: rgba(120, 200, 250, 0.6);
+  --b-glow: rgba(30, 150, 230, 0.28);
+  color: #0284c7;
+}
+
+.glass-badge.badge-orange {
+  --b-bg: radial-gradient(circle at 35% 30%, #ffffff 0%, #fff7ed 25%, #ffedd5 55%, #fed7aa 85%, #fdba74 100%);
+  --b-border: rgba(250, 180, 110, 0.6);
+  --b-glow: rgba(240, 130, 30, 0.28);
+  color: #ea580c;
+}
+
+.glass-badge.badge-lime {
+  --b-bg: radial-gradient(circle at 35% 30%, #ffffff 0%, #f7fee7 25%, #ecfccb 55%, #d9f99d 85%, #bef264 100%);
+  --b-border: rgba(180, 230, 90, 0.6);
+  --b-glow: rgba(110, 180, 20, 0.28);
+  color: #16a34a;
+}
+
+.glass-badge.badge-violet {
+  --b-bg: radial-gradient(circle at 35% 30%, #ffffff 0%, #faf5ff 25%, #f3e8ff 55%, #e9d5ff 85%, #d8b4fe 100%);
+  --b-border: rgba(200, 160, 250, 0.6);
+  --b-glow: rgba(140, 80, 220, 0.28);
+  color: #7e22ce;
+}
+
+.glass-badge.badge-pink {
+  --b-bg: radial-gradient(circle at 35% 30%, #ffffff 0%, #fff1f2 25%, #ffe4e6 55%, #fecdd3 85%, #fda4af 100%);
+  --b-border: rgba(250, 140, 160, 0.6);
+  --b-glow: rgba(230, 60, 100, 0.28);
+  color: #e11d48;
+}
+
+/* Bold Badge Numerals */
+.badge-num {
+  font-family: var(--font-display, "Fredoka", "Plus Jakarta Sans", sans-serif);
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1;
+  position: relative;
+  top: 0.5px;
+}
