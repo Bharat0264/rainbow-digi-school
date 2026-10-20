@@ -602,12 +602,14 @@ main {
   display: grid;
   grid-template-columns: 0.95fr 1.05fr;
   gap: 36px;
-  align-items: start;
+  align-items: stretch;
 }
 
 .photo-story-image-card {
   padding: 18px;
-  align-self: start;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
 }
 
 .photo-open {
@@ -618,6 +620,22 @@ main {
   position: relative;
   text-align: left;
   display: block;
+}
+
+.photo-story .photo-open {
+  flex: 1;
+  min-height: 0;
+}
+.photo-story .campus-photo { position: absolute; inset: 0; }
+.photo-story .campus-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+@media (max-width: 1024px) {
+  .photo-story .photo-open { flex: none; aspect-ratio: 765 / 1020; }
 }
 
 .photo-pill-badge {
