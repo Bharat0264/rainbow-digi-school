@@ -9,7 +9,7 @@ function paperEase(x) {
   return cubic((lo + hi) / 2,.045,1);
 }
 
-function PaperPage({ leaf, index, total, title }) {
+export function PaperPage({ leaf, index, total, title }) {
   return <article className={`paper-leaf ${leaf.cover ? 'paper-hardcover' : ''}`} data-density={leaf.cover ? 'hard' : 'soft'} data-leaf={index} aria-label={leaf.cover ? `${leaf.cover} cover` : `Page ${index} of ${total}: ${leaf.label}`}>
     <div className="paper-leaf-content">
       {leaf.cover ? <div className="paper-cover-design"><img src="/logo.webp" width="1021" height="491" alt="Rainbow Digi School logo" draggable={false} /><h3>{title}</h3><p>Little moments, lasting memories</p><span>{leaf.cover === 'Back' ? 'Rainbow Digi School' : 'Our Photo Albums'}</span></div> : <>

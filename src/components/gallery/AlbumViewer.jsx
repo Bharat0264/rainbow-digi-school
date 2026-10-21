@@ -1,4 +1,6 @@
 ﻿import { useEffect, useMemo, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
+import CampusSpineBook from './CampusSpineBook';
 import { ArrowLeft, ArrowRight, BookOpen, Grid2X2 } from 'lucide-react';
 import PageTurnBook from './PageTurnBook';
 import GalleryLightbox from './GalleryLightbox';
@@ -44,7 +46,8 @@ export default function AlbumViewer({ album, onClose, opener, initialPage = 0 })
   const openPhoto = (photo, element) => {
     setLightbox({ index: photos.findIndex(item => item.id === photo.id), opener: element });
   };
-  return <dialog ref={dialog} className={`gallery-viewer ${closing ? 'gallery-viewer-closing' : ''}`} aria-labelledby="gallery-album-title" onPointerDownCapture={() => setHintSeen(true)}
+  const BookRenderer = album.id === 'campus' ? CampusSpineBook : PageTurnBook;
+  const viewer = <dialog ref={dialog} className={`gallery-viewer ${album.id === 'campus' ? 'gallery-viewer-campus' : ''} ${closing ? 'gallery-viewer-closing' : ''}`} aria-labelledby="gallery-album-title" onPointerDownCapture={() => setHintSeen(true)}
     onCancel={event => { event.preventDefault(); close(); }}
     onKeyDown={event => {
       setHintSeen(true);
@@ -72,7 +75,7 @@ export default function AlbumViewer({ album, onClose, opener, initialPage = 0 })
         </button>)}
       </div> : <div className={`gallery-book-flow ${closing ? 'gallery-book-closing' : ''}`}>
         <div className="gallery-coverflow">
-          <PageTurnBook ref={book} leaves={leaves} title={album.title} index={safeIndex} onChange={setPageIndex} onInteract={() => setHintSeen(true)} hintSeen={hintSeen} />
+          <BookRenderer ref={book} leaves={leaves} title={album.title} index={safeIndex} onChange={setPageIndex} onInteract={() => setHintSeen(true)} hintSeen={hintSeen} />
           <div className={`gallery-opening-cover gallery-tone-${album.tone}`} aria-hidden="true"><span>{album.title}</span></div>
         </div>
         <div className="gallery-page-controls">
@@ -90,4 +93,5 @@ export default function AlbumViewer({ album, onClose, opener, initialPage = 0 })
     </footer>
     {lightbox && <GalleryLightbox photos={photos} initialIndex={lightbox.index} opener={lightbox.opener} onClose={() => setLightbox(null)} />}
   </dialog>;
+  return album.id === 'campus' && typeof document !== 'undefined' ? createPortal(viewer, document.body) : viewer;
 }
