@@ -1,6 +1,5 @@
 import EnquiryForm from "../components/ui/EnquiryForm";
-import { SectionHeading, Faqs } from "../components/ui/PageElements";
-import AdmissionsHero from "../components/admissions/AdmissionsHero";
+import { PageIntro, SectionHeading, Faqs } from "../components/ui/PageElements";
 import {
   ADMISSION_ROADMAP,
   ADMISSION_ELIGIBILITY,
@@ -12,7 +11,22 @@ import {
 export default function Admissions() {
   return (
     <>
-      <AdmissionsHero />
+      <PageIntro
+        eyebrow="Nursery to Grade V · Admissions 2026–2027"
+        title="The Next Chapter Starts Here."
+        image={SCHOOL.campusPhoto}
+      >
+        <p>
+          We welcome families looking for a caring, curiosity-driven educational
+          environment. Learn about our 5-step admissions process, class age
+          guidelines, and documentation, then submit your enquiry below.
+        </p>
+        <div className="page-intro-actions">
+          <a className="button button-primary clay-btn-yellow" href="#enquiry">
+            <span>Start an admissions enquiry</span>
+          </a>
+        </div>
+      </PageIntro>
 
       {/* 5-Step Enrolment Roadmap */}
       <section className="section site-container">
