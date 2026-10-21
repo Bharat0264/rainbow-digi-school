@@ -1,1 +1,44 @@
-import{chromium}from'playwright';import{readFile,writeFile}from'node:fs/promises';const base='https://rainbow-digi-school.vercel.app';const rows=JSON.parse(await readFile('artifacts/review-round-1/before/crawl.json'));const urls=[...new Set(rows.flatMap(x=>x.dom.links.map(a=>a.href)).filter(x=>x&&!x.startsWith('#')&&!/^(mailto:|tel:)/.test(x)).map(x=>new URL(x,base).href.split('#')[0]))];const b=await chromium.launch();const c=await b.newContext();const checks=[];for(const url of urls){try{const r=await c.request.head(url,{timeout:15000});checks.push({url,status:r.status(),final:r.url()})}catch(e){checks.push({url,error:e.message.split('\n')[0]})}}const r=await c.request.get(base);const headers=await r.headers();await writeFile('artifacts/review-round-1/security-links.json',JSON.stringify({links:checks,headers:Object.fromEntries(Object.entries(headers).filter(([k])=>/content-security|content-type-options|referrer-policy|frame-options|permissions-policy|cache-control|content-encoding/.test(k)))},null,2));console.log(checks.map(x=>`${x.status||'unverified'} ${x.url}`).join('\n'));await b.close();
+import { chromium } from 'playwright';
+import { readFile, writeFile } from 'node:fs/promises';
+const base = 'https://rainbow-digi-school.vercel.app';
+const rows = JSON.parse(await readFile('artifacts/review-round-1/before/crawl.json'));
+const urls = [
+  ...new Set(
+    rows
+      .flatMap((x) => x.dom.links.map((a) => a.href))
+      .filter((x) => x && !x.startsWith('#') && !/^(mailto:|tel:)/.test(x))
+      .map((x) => new URL(x, base).href.split('#')[0]),
+  ),
+];
+const b = await chromium.launch();
+const c = await b.newContext();
+const checks = [];
+for (const url of urls) {
+  try {
+    const r = await c.request.head(url, { timeout: 15000 });
+    checks.push({ url, status: r.status(), final: r.url() });
+  } catch (e) {
+    checks.push({ url, error: e.message.split('\n')[0] });
+  }
+}
+const r = await c.request.get(base);
+const headers = await r.headers();
+await writeFile(
+  'artifacts/review-round-1/security-links.json',
+  JSON.stringify(
+    {
+      links: checks,
+      headers: Object.fromEntries(
+        Object.entries(headers).filter(([k]) =>
+          /content-security|content-type-options|referrer-policy|frame-options|permissions-policy|cache-control|content-encoding/.test(
+            k,
+          ),
+        ),
+      ),
+    },
+    null,
+    2,
+  ),
+);
+console.log(checks.map((x) => `${x.status || 'unverified'} ${x.url}`).join('\n'));
+await b.close();

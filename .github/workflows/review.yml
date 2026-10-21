@@ -1,5 +1,16 @@
 name: Review gates
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      preview_url:
+        description: Current Vercel preview URL for this branch
+        required: true
+      baseline_url:
+        description: Frozen production baseline URL
+        default: https://rainbow-digi-school.vercel.app
+        required: true
 jobs:
   verify:
     runs-on: ubuntu-latest
@@ -15,6 +26,20 @@ jobs:
       - run: npm run typecheck
       - run: npm run build
       - run: npm test
+      - name: Deployed baseline comparison (manual final review)
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          PREVIEW_URL: ${{ inputs.preview_url }}
+          BASELINE_URL: ${{ inputs.baseline_url }}
+        run: |
+          node scripts/review/crawl.mjs "$BASELINE_URL" artifacts/review-round-1/before
+          node scripts/review/crawl.mjs "$PREVIEW_URL" artifacts/review-round-1/after
+          node scripts/review/states.mjs "$BASELINE_URL" artifacts/review-round-1/before
+          node scripts/review/states.mjs "$PREVIEW_URL" artifacts/review-round-1/after
+          node scripts/review/lighthouse.mjs "$BASELINE_URL" artifacts/review-round-1/before/lighthouse
+          node scripts/review/lighthouse.mjs "$PREVIEW_URL" artifacts/review-round-1/after/lighthouse
+          npm run review:compare
+          npm run review:gates
       - uses: actions/upload-artifact@v4
         if: always()
         with:

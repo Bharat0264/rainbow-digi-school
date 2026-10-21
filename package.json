@@ -22,7 +22,8 @@
     "review:crawl": "node scripts/review/crawl.mjs",
     "review:lighthouse": "node scripts/review/lighthouse.mjs",
     "review:compare": "node scripts/review/compare.mjs",
-    "format": "prettier --write src scripts/review tests playwright.config.js eslint.config.js"
+    "format": "prettier --write src scripts/review tests playwright.config.js eslint.config.js",
+    "review:gates": "node scripts/review/gates.mjs"
   },
   "dependencies": {
     "framer-motion": "14.0.0",
