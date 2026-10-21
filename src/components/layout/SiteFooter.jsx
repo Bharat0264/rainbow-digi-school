@@ -1,9 +1,11 @@
+import styles from "./SiteFooter.module.css";
+import { ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SCHOOL } from "../../data/school";
 
 export default function SiteFooter() {
   return (
-    <footer className="site-footer">
+    <footer className={`site-footer ${styles.panel}`}>
       <div className="site-container footer-grid">
         {/* Left Column: Brand Block (Row 1: Logo | Divider | Text Stack, Row 2: Map Pin + Address) */}
         <div className="footer-brand">
@@ -65,7 +67,7 @@ export default function SiteFooter() {
               ["/contact", "Contact"],
             ].map(([to, label]) => (
               <Link key={to} to={to}>
-                {label}
+                <span>{label}</span><ChevronRight size={17} aria-hidden="true" />
               </Link>
             ))}
           </nav>

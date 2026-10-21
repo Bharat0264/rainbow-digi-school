@@ -1,0 +1,30 @@
+.panel {width:min(1400px,calc(100% - 48px));margin:36px auto 28px;padding-top:36px;overflow:hidden;border:1px solid #fffdf6;border-radius:28px;background:var(--clay-cream);box-shadow:var(--shadow-raised);isolation:isolate;}
+.panel::before,.panel::after {content:'';position:absolute;z-index:-1;pointer-events:none;width:230px;height:230px;border:48px solid #f6d36c26;border-radius:50%;}
+.panel::before {right:-125px;top:-160px;}
+.panel::after {left:-160px;bottom:35px;width:310px;height:220px;transform:rotate(25deg);}
+.panel :global(.footer-grid) {width:calc(100% - 72px);max-width:none;grid-template-columns:minmax(0,1.6fr) minmax(0,.8fr) minmax(0,1fr);gap:28px;padding-bottom:34px;align-items:stretch;}
+.panel :global(.footer-grid > div:not(:first-child)) {padding-left:28px;border-left:1px solid #d2c3af66;}
+.panel :global(.footer-brand) {justify-content:center;max-width:none;}
+.panel :global(.footer-logo-img) {height:80px;max-width:170px;}
+.panel :global(.footer-school-name) {font-size:clamp(25px,2.2vw,34px);}
+.panel :global(.footer-tagline) {font-size:18px;margin-top:8px;}
+.panel :global(.footer-brand-divider) {height:80px;margin-inline:18px;}
+.panel :global(.footer-address) {margin-top:30px;gap:20px;max-width:none;}
+.panel :global(.footer-address address) {font-size:16px;}
+.panel :global(.footer-pin-icon) {width:48px;height:48px;padding:12px;border-radius:50%;background:#f9dedb;box-sizing:border-box;}
+.panel :global(.footer-grid h2) {font-size:13px;letter-spacing:.09em;margin-bottom:18px;}
+.panel :global(.footer-grid h2)::after {content:'';display:block;width:40px;height:3px;border-radius:3px;background:#f6c945;margin-top:10px;}
+.panel :global(.footer-grid nav) {gap:0;}
+.panel :global(.footer-grid nav a) {justify-content:space-between;gap:12px;min-height:43px;padding-block:9px;font-size:15px;font-weight:500;border-bottom:1px solid #d2c3af44;}
+.panel :global(.footer-grid nav a:last-child) {border-bottom:0;}
+.panel :global(.footer-contact-list) {gap:9px;}
+.panel :global(.footer-contact-link) {gap:14px;font-size:14px;font-weight:500;min-width:0;}
+.panel :global(.footer-contact-link span) {overflow-wrap:anywhere;min-width:0;}
+.panel :global(.footer-contact-icon) {width:39px;height:39px;min-width:39px;min-height:39px;padding:10px;box-sizing:border-box;border-radius:50%;background:#f6d36c33;}
+.panel :global(.footer-bottom) {width:100%;max-width:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;padding:20px 36px;font-size:13px;border-top:1px solid #d2c3af66;}
+.panel :global(.footer-bottom > *) {min-height:32px;display:flex;align-items:center;}
+.panel :global(.footer-bottom > :not(:first-child)) {border-left:1px solid #d2c3af66;justify-content:center;}
+.panel :global(.footer-bottom > :last-child) {justify-content:flex-end;}
+.panel :global(a:focus-visible) {outline:3px solid #3e5e57;outline-offset:4px;border-radius:6px;}
+@media(max-width:1100px) {.panel :global(.footer-grid) {grid-template-columns:1fr 1fr;gap:28px;}.panel :global(.footer-brand) {grid-column:1 / -1;}.panel :global(.footer-grid > div:nth-child(2)) {border-left:0;padding-left:0;}.panel :global(.footer-brand-row) {max-width:600px;}.panel :global(.footer-address) {margin-top:20px;}}
+@media(max-width:640px) {.panel {width:calc(100% - 32px);margin-top:24px;padding-top:28px;border-radius:24px;}.panel :global(.footer-grid) {width:calc(100% - 40px);grid-template-columns:1fr;gap:28px;padding-bottom:28px;}.panel :global(.footer-grid > div:not(:first-child)) {padding-left:0;border-left:0;border-top:1px solid #d2c3af66;padding-top:24px;}.panel :global(.footer-brand-row) {align-items:center;}.panel :global(.footer-logo-img) {height:55px;max-width:112px;}.panel :global(.footer-brand-divider) {height:55px;margin-inline:12px;}.panel :global(.footer-school-name) {font-size:23px;}.panel :global(.footer-tagline) {font-size:13px;}.panel :global(.footer-address address) {font-size:14px;}.panel :global(.footer-address) {gap:12px;}.panel :global(.footer-address-br) {display:none;}.panel :global(.footer-bottom) {grid-template-columns:1fr;gap:14px;padding:20px;}.panel :global(.footer-bottom > *),.panel :global(.footer-bottom > :last-child),.panel :global(.footer-bottom > :not(:first-child)) {justify-content:center;border-left:0;}.panel :global(.footer-contact-link) {font-size:14px;}}
