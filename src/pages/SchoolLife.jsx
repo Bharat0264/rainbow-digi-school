@@ -1,26 +1,15 @@
 import { Link } from "react-router-dom";
 import { ArrowUpRight, ArrowRight } from "lucide-react";
 import { SCHOOL_LIFE_EXPERIENCE, EVENTS, SCHOOL } from "../data/school";
-import {
-  PageIntro,
-  SectionHeading,
-} from "../components/ui/PageElements";
+import { SectionHeading } from "../components/ui/PageElements";
+import SchoolLifeHero from "../components/school-life/SchoolLifeHero";
 
 export default function SchoolLife() {
   const { dailyRhythm, celebrations } = SCHOOL_LIFE_EXPERIENCE;
 
   return (
     <>
-      <PageIntro
-        eyebrow="Student Life & School Culture"
-        title="More Than a School Day."
-      >
-        <p>
-          Beyond textbooks and workbooks, childhood at Rainbow Digi School is
-          filled with laughter, shared celebrations, creative expression, and
-          meaningful friendships.
-        </p>
-      </PageIntro>
+      <SchoolLifeHero />
 
       {/* Daily Rhythm Bento */}
       <section className="section site-container">
