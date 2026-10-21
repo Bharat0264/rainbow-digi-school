@@ -135,7 +135,7 @@ export default function SiteFooter() {
             <a
               href={SCHOOL.contact.mapsUrl}
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
               className="footer-contact-link"
             >
               <span className="footer-icon-badge" aria-hidden="true"><svg
@@ -158,7 +158,7 @@ export default function SiteFooter() {
             <a
               href={SCHOOL.social.instagram}
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
               className="footer-contact-link"
             >
               <span className="footer-icon-badge" aria-hidden="true"><svg
