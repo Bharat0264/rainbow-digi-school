@@ -155,7 +155,7 @@ export default function Admissions() {
                     href={phone.href}
                     className="clay-btn clay-btn-cream contact-pill"
                   >
-                    <Phone size={20} aria-hidden="true" /><span>{phone.label}</span>
+                    <span className="enquiry-contact-badge" aria-hidden="true"><Phone size={20} /></span><span>{phone.label}</span>
                   </a>
                 ))}
               </div>
@@ -164,7 +164,7 @@ export default function Admissions() {
                 className="clay-btn clay-btn-cream contact-pill email-pill"
                 style={{ marginTop: "12px", display: "inline-flex" }}
               >
-                <Mail size={20} aria-hidden="true" /><span>{SCHOOL.contact.email}</span>
+                <span className="enquiry-contact-badge" aria-hidden="true"><Mail size={20} /></span><span>{SCHOOL.contact.email}</span>
               </a>
             </div>
           </div>
