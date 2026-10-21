@@ -145,7 +145,7 @@ export function createSquirrelAnimation(canvas) {
       progress:String(activity?.progress??1),entryProgress:String(entryProgress),peeking:String(peeking),peekProgress:String(peekProgress)});
   }
   function begin(kind,request,now=performance.now(),duration=1000) {
-    activity={kind,request,from:{...pose},started:now,duration:Math.max(1,duration),entryFrom:entryProgress,progress:0};
+    activity={kind,request,from:{...pose},started:now,duration:Math.max(1,duration*.65),entryFrom:entryProgress,progress:0};
     state=kind;
   }
   function finish() {
