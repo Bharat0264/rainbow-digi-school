@@ -15,7 +15,12 @@ function RopeCoil({ x, top, under, angle = 0, thickness, id, isLogo }) {
   const fit = ropeWrapFit(x, top, under, angle, thickness);
   return (
     <g data-wrap-angle={angle} data-wrap-join={fit.joinY} transform={fit.transform}>
-      <ellipse cx={x} cy={fit.joinY - fit.bodyHeight / 2} rx={fit.width * .55} ry={fit.bodyHeight * .49} fill={`url(#${id}-bark-contact)`} opacity=".42" />
+      {/* Each strand seats against the bark with its own narrow contact shadow. */}
+      {[-1, 1].map(side => <ellipse key={side} data-wrap-contact={side}
+        cx={x + side * fit.width * .19 + thickness * .12}
+        cy={fit.joinY - fit.bodyHeight / 2 + thickness * .10}
+        rx={fit.width * .28} ry={fit.bodyHeight * .49}
+        fill={`url(#${id}-bark-contact)`} opacity=".58" />)}
       <svg data-branch-wrap="double" x={fit.x} y={fit.y} width={fit.width} height={fit.height} viewBox="160 60 720 940" preserveAspectRatio="none" style={{ overflow: 'hidden' }} filter={`url(#${id}-coil-shadow)`}>
         <image href="/assets/nav/branch-double-wrap.webp" width="1024" height="1536" clipPath={`url(#${id}-branch-wrap-clip)`} />
       </svg>
@@ -138,6 +143,10 @@ export default function NavigationRopes({ ropes, railFasteners = [] }) {
                 strokeWidth={thickness}
                 strokeLinecap="butt"
               />
+              {/* The lower turn overlaps the vertical strand, with a small shadow
+                  tucked underneath rather than a dark halo around the whole coil. */}
+              {!rope.isLogo && <ellipse data-rope-overlap="true" cx={x} cy={under + thickness * .65}
+                rx={thickness * .70} ry={thickness * .20} fill="#382008" opacity=".30" />}
               {/* Photorealistic 3D rope coil sitting on top of the branch */}
               <RopeCoil x={rope.isLogo ? (rope.upperX ?? x) : x} top={top} under={under} angle={angle} thickness={thickness} id={id} isLogo={rope.isLogo} />
             </g>

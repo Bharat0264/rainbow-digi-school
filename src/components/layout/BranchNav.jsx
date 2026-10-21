@@ -81,7 +81,12 @@ export default function BranchNav() {
         if (!isLogo) r.y = relative(element.parentElement).y;
         // Logo ropes meet the two knots already painted into its upper rail.
         const ropeThickness=(isLogo ? 5.5 * (compact ? 1.1 : 1.4) : 5.5) * scale;
-        const pair = (isLogo ? [.215, .788] : [.22, .78]).map((anchor, pairIndex) => {
+        // Equal half-pitch spacing within each three-sign row. Keep the house's
+        // two fixed mounts and the branch/rainbow composition untouched.
+        const gap = isLogo ? 0 : parseFloat(getComputedStyle(element.parentElement).columnGap) || 0;
+        const halfPitch = (r.width + gap) / 4;
+        const anchors = isLogo ? [.215, .788] : [.5 - halfPitch / r.width, .5 + halfPitch / r.width];
+        const pair = anchors.map((anchor, pairIndex) => {
           const x = r.x + r.width * anchor;
           const surface = ropeSurface(x, art);
           let upperX=x;

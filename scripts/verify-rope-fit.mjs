@@ -38,8 +38,15 @@ try {
   }));
   assert.equal(checks.filter(c=>c.logo).length,2,'Keep both fixed house connectors');
   assert.equal(checks.filter(c=>!c.logo).length,width<768?0:12);
-  for(const c of checks.filter(c=>!c.logo)){
-   assert.ok(Math.abs(c.bottom.x-c.x)<1/64,'Coil exit meets the vertical hanging strand');
+  const branchWraps = checks.filter(c=>!c.logo);
+  if(branchWraps.length) for(const row of [branchWraps.slice(0,6),branchWraps.slice(6)]) {
+    const gaps=row.slice(1).map((item,i)=>item.x-row[i].x);
+    assert.ok(Math.max(...gaps)-Math.min(...gaps)<.04,'Wraps are evenly spaced along each side of the house');
+  }
+  assert.equal(await page.locator('[data-wrap-contact]').count(),branchWraps.length*2,'Separate contact shadows under both turns');
+  assert.equal(await page.locator('[data-rope-overlap]').count(),branchWraps.length,'Lower turns overlap the straight strand');
+  for(const c of branchWraps){
+   assert.ok(Math.abs(c.bottom.x-c.x)<1/64,`Coil exit meets the vertical hanging strand: ${JSON.stringify({width,...c})}`);
    assert.ok(Math.abs(c.bottom.y-(c.under+c.thickness*.42))<1/64,'Lower turn hugs bark');
    assert.ok(Math.abs(c.crown.y-(c.top-c.thickness*.42))<1/64,'Upper turn hugs bark');
    assert.ok(Math.abs(c.axisX/c.axisY+Math.tan(c.angle*Math.PI/180))<1e-6,'Coil axis follows the branch normal, not a shear');
