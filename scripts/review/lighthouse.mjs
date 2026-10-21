@@ -47,6 +47,8 @@ try {
       const l = result.lhr,
         slug = route === '/' ? 'home' : route.slice(1);
       await writeFile(`${out}/${slug}-${mode}.json`, result.report);
+      if (new URL(l.finalDisplayedUrl || l.finalUrl).origin !== new URL(base).origin)
+        throw new Error('Lighthouse redirected outside the authorised site');
       const metric = (id) => l.audits[id]?.numericValue;
       rows.push({
         route,

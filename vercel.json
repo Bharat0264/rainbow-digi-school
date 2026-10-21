@@ -40,7 +40,7 @@
       ]
     },
     {
-      "source": "/assets/:path*",
+      "source": "/assets/:file",
       "headers": [
         {
           "key": "Cache-Control",

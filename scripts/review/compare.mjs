@@ -3,7 +3,7 @@ import { PNG } from 'pngjs';
 import pixelmatch from 'pixelmatch';
 const before = process.argv[2] || 'artifacts/review-round-1/before',
   after = process.argv[3] || 'artifacts/review-round-1/after',
-  out = 'artifacts/review-round-1/comparison';
+  out = process.argv[4] || 'artifacts/review-round-1/comparison';
 await mkdir(out, { recursive: true });
 const report = [];
 for (const file of (await readdir(before)).filter((x) => x.endsWith('.png'))) {

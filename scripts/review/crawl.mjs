@@ -65,19 +65,19 @@ try {
         }
       });
       const response = await page.goto(base + route, { waitUntil: 'networkidle', timeout: 60000 });
+      if (new URL(page.url()).origin !== new URL(base).origin)
+        throw new Error(`Crawl redirected outside the authorised site: ${page.url()}`);
       await page.evaluate(() => document.fonts.ready);
       await page.waitForTimeout(250);
       const initial = await page.evaluate(() => ({
         ...window.__review,
-        resources: performance
-          .getEntriesByType('resource')
-          .map((r) => ({
-            url: r.name,
-            type: r.initiatorType,
-            transfer: r.transferSize,
-            encoded: r.encodedBodySize,
-            decoded: r.decodedBodySize,
-          })),
+        resources: performance.getEntriesByType('resource').map((r) => ({
+          url: r.name,
+          type: r.initiatorType,
+          transfer: r.transferSize,
+          encoded: r.encodedBodySize,
+          decoded: r.decodedBodySize,
+        })),
         navigation: performance
           .getEntriesByType('navigation')
           .map((n) => ({ ttfb: n.responseStart, domContentLoaded: n.domContentLoadedEventEnd })),
