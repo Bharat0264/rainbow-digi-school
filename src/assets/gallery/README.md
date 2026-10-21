@@ -16,3 +16,5 @@ To add final photos:
 The exported `albums` data contains `{ id, title, category, cover, description, pages: [{ id, template, label, photos }] }`. Colours are selected by the optional `tone` field. Each original entry in `galleryPhotos` remains marked `placeholder: true`.
 
 The viewer mounts only the current spread and its immediate neighbours. Current-spread full images and next-spread full images are loaded; neighbour previews use thumbnails. Grid thumbnails load lazily, and the lightbox opens full images on demand. Public controls do not add, delete or download photos.
+
+The four `covers/*.webp` files use the supplied school illustration and the three panels of the supplied classroom/celebration/activity artwork. They are album covers, not documentary school photographs. The photo entries remain replaceable placeholders.

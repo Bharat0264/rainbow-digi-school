@@ -29,7 +29,7 @@ export const galleryPhotos = [
 export const albums = [
   {
     id: 'campus', title: 'Campus', category: 'Campus', tone: 'green',
-    cover: galleryPhotos[11].thumb, placeholder: true,
+    cover: asset('covers/campus.webp'), coverWidth: 400, coverHeight: 400, coverAlt: 'Illustrated school building with a blue flag and garden', placeholder: true,
     description: "A little look around the place where we learn and grow.",
     pages: [
       { id: 'campus-01', template: 'collage', label: "The little things", photos: [
@@ -54,7 +54,7 @@ export const albums = [
   },
   {
     id: 'classrooms', title: 'Classrooms', category: 'Classrooms', tone: 'blue',
-    cover: asset('classrooms/cover-thumb.webp'), coverWidth: 400, coverHeight: 300, placeholder: true,
+    cover: asset('covers/classrooms.webp'), coverWidth: 300, coverHeight: 495, coverAlt: 'Illustration of a teacher reading with children in a classroom', placeholder: true,
     description: "A book ready for everyday discoveries and creative learning.",
     pages: [
       { id: 'classrooms-01', template: 'collage', label: "The little things", photos: [
@@ -79,7 +79,7 @@ export const albums = [
   },
   {
     id: 'celebrations', title: 'Celebrations', category: 'Celebrations', tone: 'purple',
-    cover: galleryPhotos[0].thumb, placeholder: true,
+    cover: asset('covers/celebrations.webp'), coverWidth: 300, coverHeight: 495, coverAlt: 'Illustration of children dancing on a colourful celebration stage', placeholder: true,
     description: "Colourful traditions and moments of togetherness.",
     pages: [
       { id: 'celebrations-01', template: 'collage', label: "The little things", photos: [
@@ -104,7 +104,7 @@ export const albums = [
   },
   {
     id: 'activities', title: 'Activities', category: 'Activities', tone: 'orange',
-    cover: galleryPhotos[6].thumb, placeholder: true,
+    cover: asset('covers/activities.webp'), coverWidth: 300, coverHeight: 495, coverAlt: 'Illustration of children painting and making crafts', placeholder: true,
     description: "Creative play, colourful artwork and everyday discoveries.",
     pages: [
       { id: 'activities-01', template: 'collage', label: "The little things", photos: [

@@ -562,3 +562,14 @@
   user-select: none;
 }
 @media(max-width:767px) { .featured-bark { aspect-ratio: 1536 / 1024; mask-image: url('/images/navigation/bark/compact-bark-matte.png'); } }
+
+/* Seat the existing glossy letters against the grain, with a warm contact shadow. */
+.featured-sign:not(.featured-drawer .featured-sign) .featured-label-art {
+  width:108%;
+  height:92%;
+  object-fit:contain;
+  filter:drop-shadow(0 calc(1.2px * var(--scale)) calc(.55px * var(--scale)) rgba(69,29,7,.62));
+}
+.featured-sign-home:not(.featured-drawer .featured-sign) .featured-label-art { width:70%; }
+.featured-sign-campus:not(.featured-drawer .featured-sign) .featured-label-art,
+.featured-sign-contact:not(.featured-drawer .featured-sign) .featured-label-art { width:91%; }

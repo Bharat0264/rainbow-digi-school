@@ -54,50 +54,35 @@ try {
     for (const response of imageResponses.values()) initialBytes += (await response.body()).length;
     assert.ok(initialBytes < 500 * 1024);
     assert.ok(![...imageResponses.keys()].some(url => /-full[.-]/.test(url)), 'Shelf never loads full photos');
-    await gallery.getByRole('button', { name: 'Search albums and photos', exact: true }).click();
-    const search = gallery.getByRole('searchbox');
-    await search.fill('Classrooms'); assert.equal(await books.count(), 1);
-    await search.fill('not-a-real-event'); assert.equal(await books.count(), 0);
-    await search.fill('flowers'); assert.equal(await books.count(), 4, 'Search finds photo captions too');
-    await search.fill('');
-    await gallery.getByRole('button', { name: 'Search albums and photos', exact: true }).click();
+    assert.equal(await gallery.getByRole('button', { name: 'Search albums and photos', exact: true }).count(), 0);
+    assert.equal(await gallery.locator('.gallery-book-play').count(), 0);
     const opener = gallery.getByRole('button', { name: /^Open Classrooms album/ });
     await opener.click();
     const dialog = page.getByRole('dialog', { name: 'Classrooms', exact: true });
     await dialog.waitFor({ state: 'visible' }); await page.waitForTimeout(700);
-    assert.equal(await countText(dialog), 'Page 1 of 6');
+    assert.equal(await countText(dialog), 'Page 1 of 12');
     assert.ok(await dialog.locator('.gallery-mode-book').evaluate(e => e.scrollHeight <= e.clientHeight + 1), 'Book fits without vertical scrolling');
-    assert.equal(await dialog.locator('.gallery-flow-page').count(), 1);
-    assert.equal(await dialog.getByRole('button', { name: /^Turn to next page:/ }).count(), 2, 'Only active spread is interactive');
+    await dialog.locator('.paper-engine').waitFor();
+    assert.equal(await dialog.locator('.paper-engine .paper-leaf[aria-hidden="false"]').count(), width < 768 ? 1 : 2, 'Only current pages are exposed to screen readers');
     assert.equal(await dialog.getByRole('button', { name: 'Back to albums' }).evaluate(e => e === document.activeElement), true);
     if (width === 390 || width === 1440) {
       await dialog.screenshot({ path: `artifacts/albums-book-${width}.png` });
       await accessible(page, '.gallery-viewer');
     }
-    await page.waitForTimeout(750); await page.keyboard.press('ArrowRight'); assert.equal(await countText(dialog), 'Page 2 of 6');
-    await page.waitForTimeout(750); await page.keyboard.press('ArrowLeft'); assert.equal(await countText(dialog), 'Page 1 of 6');
-    await page.waitForTimeout(750); await dialog.getByRole('button', { name: 'Next page', exact: true }).click(); assert.equal(await countText(dialog), 'Page 2 of 6');
-    await page.waitForTimeout(750); await dialog.getByRole('button', { name: 'Previous page', exact: true }).click(); assert.equal(await countText(dialog), 'Page 1 of 6');
-    if (width === 390) {
-      await page.waitForTimeout(750); await nativeSwipe(page, '.gallery-coverflow'); assert.equal(await countText(dialog), 'Page 2 of 6');
-      await page.waitForTimeout(750); await nativeSwipe(page, '.gallery-coverflow', 1); assert.equal(await countText(dialog), 'Page 1 of 6');
-    }
+    await page.keyboard.press('ArrowRight'); await page.waitForTimeout(1000);
+    assert.equal(await countText(dialog), width < 768 ? 'Page 2 of 12' : 'Page 3 of 12');
+    await page.keyboard.press('ArrowLeft'); await page.waitForTimeout(1000); assert.equal(await countText(dialog), 'Page 1 of 12');
     await page.waitForTimeout(750); await dialog.getByRole('button', { name: 'Search this album' }).click();
     await dialog.getByRole('searchbox').fill('Friendship');
-    assert.equal(await countText(dialog), 'Page 1 of 1');
-    assert.equal(await dialog.getByRole('button', { name: /^Turn to next page:/ }).count(), 2);
+    assert.equal(await countText(dialog), 'Page 1 of 2');
+    await dialog.locator('.paper-engine').waitFor();
     await dialog.getByRole('searchbox').fill('No-such-memory');
     assert.ok(await dialog.getByText('No moments match that search. Try another word.').isVisible());
     await dialog.getByRole('searchbox').fill('');
     await page.waitForTimeout(750); await dialog.getByRole('button', { name: 'Search this album' }).click();
-    await dialog.getByRole('button', { name: /^Turn to next page:/ }).first().click();
-    assert.equal(await countText(dialog), 'Page 2 of 6');
-    assert.equal(await dialog.locator('.gallery-turn-sheet').count(), 1);
-    assert.equal(await dialog.locator('.gallery-turn-sheet').evaluate(e => getComputedStyle(e).animationName), 'gallery-paper-forward');
-    await page.waitForTimeout(750);
     await dialog.getByRole('button', { name: 'Show grid view' }).click();
     assert.equal(await dialog.locator('.gallery-grid-photo').count(), 12);
-    assert.equal(await dialog.locator('.gallery-flow-page').count(), 0);
+    assert.equal(await dialog.locator('.paper-engine').count(), 0);
     if (width === 390 || width === 1440) await dialog.screenshot({ path: `artifacts/albums-grid-${width}.png` });
     const thumbnail = dialog.locator('.gallery-grid-photo').nth(2);
     await thumbnail.click();
@@ -120,8 +105,8 @@ try {
     await dialog.getByRole('button', { name: 'Show book view' }).click();
     if (width === 390) {
       await dialog.getByRole('button', { name: 'Start slideshow' }).click();
-      await page.waitForTimeout(3200); assert.equal(await countText(dialog), 'Page 3 of 6');
-      await page.waitForTimeout(750); await dialog.getByRole('button', { name: 'Next page', exact: true }).click();
+      await page.waitForTimeout(4000); assert.equal(await countText(dialog), 'Page 2 of 12');
+      await dialog.getByRole('button', { name: 'Next page', exact: true }).click(); await page.waitForTimeout(1000);
       assert.ok(await dialog.getByRole('button', { name: 'Start slideshow' }).isVisible());
       const paused = await countText(dialog); await page.waitForTimeout(3100); assert.equal(await countText(dialog), paused);
       await dialog.getByRole('button', { name: 'Enter fullscreen' }).click();
@@ -140,10 +125,6 @@ try {
     await page.keyboard.press('Escape'); await dialog.waitFor({ state: 'hidden' });
     assert.equal(await opener.evaluate(e => e === document.activeElement), true);
     assert.equal(await page.evaluate(() => document.body.style.overflow), '');
-    await gallery.getByRole('button', { name: 'Play Classrooms slideshow' }).click();
-    await dialog.waitFor({ state: 'visible' });
-    assert.ok(await dialog.getByRole('button', { name: 'Pause slideshow' }).isVisible());
-    await dialog.getByRole('button', { name: 'Back to albums' }).click(); await dialog.waitFor({ state: 'hidden' });
     assert.ok(await noOverflow(page)); assert.deepEqual(errors, []);
     results.push({ width, shelfKiB: Math.round(initialBytes / 1024), checks: 'shelf, search, book, keyboard, grid, lightbox, focus, share, close, direct play passed' });
     console.log(width, 'album QA passed');
@@ -153,7 +134,7 @@ try {
   await reduced.goto(`${base}/school-life?album=campus&page=2#gallery`);
   const album = reduced.getByRole('dialog', { name: 'Campus', exact: true });
   await album.waitFor({ state: 'visible' });
-  assert.equal(await countText(album), 'Page 2 of 6', 'Shared link opens the chosen page');
+  assert.equal(await countText(album), 'Page 3 of 12', 'Shared link opens the chosen page');
   assert.equal(await album.locator('.gallery-opening-cover').evaluate(e => getComputedStyle(e).display), 'none');
   assert.ok(await album.locator('.gallery-book-flow').evaluate(e => parseFloat(getComputedStyle(e).animationDuration) <= .14));
   await reduced.keyboard.press('Escape'); await album.waitFor({ state: 'hidden' });

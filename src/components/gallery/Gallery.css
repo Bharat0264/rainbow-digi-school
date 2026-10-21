@@ -234,15 +234,6 @@
 .gallery-paper-photo:nth-child(even) .gallery-paper-caption { background: #dee6d3; }
 .gallery-paper-footer { margin-top: 8px; }
 .gallery-opening-cover { left: 3%; width: 47%; }
-.gallery-turn-sheet { position: absolute; z-index: 6; top: 0; left: 50%; width: 47%; height: 100%; transform-origin: left center; transform-style: preserve-3d; pointer-events: none; animation: gallery-paper-forward 720ms cubic-bezier(.35,.05,.3,1) both; }
-.gallery-turn-backward { left: 3%; transform-origin: right center; animation-name: gallery-paper-backward; }
-.gallery-turn-front, .gallery-turn-back { position: absolute; inset: 0; overflow: hidden; backface-visibility: hidden; border-radius: 0 26px 26px 0; box-shadow: 12px 8px 28px #5e431b2b; }
-.gallery-turn-front > .gallery-spread { width: 200%; max-width: none; margin-left: -100%; }
-.gallery-turn-backward .gallery-turn-front > .gallery-spread { margin-left: 0; }
-.gallery-turn-backward .gallery-turn-front, .gallery-turn-backward .gallery-turn-back { border-radius: 26px 0 0 26px; }
-.gallery-turn-back { transform: rotateY(180deg); background: linear-gradient(90deg,#e8dbc1,#fffaf0 18%,#fffdf8 80%,#e8dbc1); }
-@keyframes gallery-paper-forward { 0% { transform: rotateY(0); } 48% { transform: rotateY(-85deg) rotateZ(-1deg); } 100% { transform: rotateY(-180deg); } }
-@keyframes gallery-paper-backward { 0% { transform: rotateY(0); } 48% { transform: rotateY(85deg) rotateZ(1deg); } 100% { transform: rotateY(180deg); } }
 @media(max-width:767px) {
   .gallery-coverflow { height: clamp(285px,85vw,420px); }
   .gallery-spread { padding: 16px 12px; border-radius: 15px; gap: 12px; }
@@ -252,7 +243,6 @@
   .gallery-paper-caption, .gallery-template-moments .gallery-paper-photo:not(:first-child) .gallery-paper-caption { font-size: 10px; padding: 5px 2px; }
   .gallery-page-number { padding-right: 12px; }
 }
-@media(prefers-reduced-motion:reduce) { .gallery-turn-sheet { display: none; animation: none; } .gallery-paper-photo { transform: none !important; } }
 
 /* Size the book from the space left by the toolbar and controls, so it never
    creates its own vertical scrollbar. Grid view keeps its normal scrolling. */
@@ -289,3 +279,32 @@
   .gallery-photo-layout, .gallery-template-moments .gallery-photo-layout { padding-block: 0; }
 }
 .gallery-spread { overflow: clip; }
+@media(prefers-reduced-motion:reduce) { .gallery-paper-photo { transform: none !important; } }
+
+/* Compact album covers using the four supplied illustrations. */
+.gallery-section-header { grid-template-columns:minmax(0,1fr) 300px; }
+.gallery-shelf { max-width:1030px; margin-inline:auto; gap:22px; }
+.gallery-book { min-height:330px; padding:14px 13px 14px 23px; }
+.gallery-cover-doodles { height:22px; margin:0 0 8px; gap:14px; }
+.gallery-cover-doodles > svg { width:23px; height:23px; }
+.gallery-cover-window { aspect-ratio:1.45; margin-bottom:18px; padding:5px; }
+.gallery-cover-window > img { inset:5px; width:calc(100% - 10px); height:calc(100% - 10px); object-fit:contain; background:#fffdf5; }
+.gallery-cover-badge { width:39px; height:39px; bottom:-14px; left:-5px; }
+.gallery-cover-badge svg { width:22px; height:22px; }
+.gallery-book-title { font-size:26px; }
+.gallery-book-title::after { margin-top:6px; }
+.gallery-book-count { margin-top:7px; font-size:10px; }
+.gallery-book-preview { min-height:40px; margin-top:9px; padding:7px 4px; font-size:12px; gap:7px; }
+@media(max-width:767px) {
+ .gallery-section-header { grid-template-columns:minmax(0,1fr); }
+ .gallery-shelf { scroll-padding-inline:calc(50% - 112px); padding-inline:max(20px,calc(50% - 112px)); }
+ .gallery-book-shell { flex-basis:224px; }
+ .gallery-book { min-height:330px; }
+}
+@media(min-width:768px) and (max-width:1023px) {
+ .gallery-book { padding-inline:19px 10px; }
+ .gallery-book-title { font-size:20px; }
+ .gallery-book-preview { font-size:10px; }
+}
+
+.gallery-book-shell:not(.gallery-tone-green) .gallery-cover-window > img { object-fit:cover; object-position:center 43%; }
