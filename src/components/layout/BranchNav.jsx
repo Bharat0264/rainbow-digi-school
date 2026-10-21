@@ -45,6 +45,30 @@ export default function BranchNav() {
     };
   }, [open]);
 
+  useEffect(() => {
+    const animateContentNavigation = event => {
+      if (!ordinaryClick(event)) return;
+      const link = event.target instanceof Element ? event.target.closest('a') : null;
+      if (!link || navRef.current?.contains(link) || link.target === '_blank') return;
+      const destination = new URL(link.href, window.location.href);
+      if (destination.origin !== window.location.origin || destination.pathname === window.location.pathname) return;
+      const item = ITEMS.find(candidate => candidate.path === destination.pathname);
+      if (!item) return;
+      const board = boardsRef.current.get(item.id);
+      if (!board?.getClientRects().length) return;
+
+      startRef.current({
+        id: item.id,
+        resolve: () => {
+          const currentBoard = boardsRef.current.get(item.id);
+          return currentBoard?.getClientRects().length ? currentBoard : null;
+        },
+      });
+    };
+    document.addEventListener('click', animateContentNavigation, true);
+    return () => document.removeEventListener('click', animateContentNavigation, true);
+  }, []);
+
   const [geometry, setGeometry] = useState({ width: 1, height: 1, ropes: [], art: { x: 0, y: 0, width: 1, height: 1 } });
   const selected = ITEMS.find(item => item.id === location.state?.navItem && item.path === location.pathname)?.id
     || ITEMS.find(item => item.path === location.pathname)?.id;
