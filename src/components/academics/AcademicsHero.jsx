@@ -39,8 +39,8 @@ export default function AcademicsHero() {
               <img
                 src="/images/academics-hero-art.webp"
                 alt="Illustrated stack of leatherbound books with warm pastel backdrop and radiating burst marks"
-                width={898}
-                height={856}
+                width={770}
+                height={700}
                 className="academics-hero-img"
                 loading="eager"
                 fetchPriority="high"
