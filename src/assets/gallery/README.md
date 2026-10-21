@@ -18,3 +18,5 @@ The exported `albums` data contains `{ id, title, category, cover, description, 
 The viewer mounts only the current spread and its immediate neighbours. Current-spread full images and next-spread full images are loaded; neighbour previews use thumbnails. Grid thumbnails load lazily, and the lightbox opens full images on demand. Public controls do not add, delete or download photos.
 
 The four `covers/*.webp` files use the supplied school illustration and the three panels of the supplied classroom/celebration/activity artwork. They are album covers, not documentary school photographs. The photo entries remain replaceable placeholders.
+
+Campus cover replacement: `covers/campus.webp` retains the supplied 1435 x 1096 illustration. `covers/campus-640.webp` is its responsive 640 x 489 rendition. The Classrooms, Celebrations and Activities cover files are unchanged. Frames follow each original aspect ratio with no image cropping or inner padding.

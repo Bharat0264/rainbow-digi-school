@@ -307,10 +307,17 @@
  .gallery-book-preview { font-size:10px; }
 }
 
-.gallery-book-shell:not(.gallery-tone-green) .gallery-cover-window > img { object-fit:cover; object-position:center 43%; }
+
 
 @media(max-width:767px) {
  .gallery-shelf-wrap::after { height:35px; bottom:12px; }
  .gallery-shelf-leaf { width:60px; bottom:28px; right:3px; }
  .gallery-shelf-leaf-left { left:3px; right:auto; width:55px; }
 }
+
+/* Each frame follows its own image ratio: show the complete artwork with no
+   letterboxing, inner padding, cropping or distortion. */
+.gallery-cover-window { --gallery-cover-image-height:124px; width:min(100%,calc(var(--gallery-cover-ratio) * var(--gallery-cover-image-height) + 6px)); margin-inline:auto; aspect-ratio:auto; padding:0; border:3px solid #fffcf0; border-radius:16px; }
+.gallery-cover-window > img { position:static; inset:auto; display:block; width:100%; height:auto; margin:0; padding:0; object-fit:contain; object-position:center; border-radius:12px; background:transparent; }
+
+@media(min-width:768px) and (max-width:1023px) { .gallery-cover-window { --gallery-cover-image-height:86px; } }

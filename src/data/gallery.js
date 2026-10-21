@@ -29,7 +29,7 @@ export const galleryPhotos = [
 export const albums = [
   {
     id: 'campus', title: 'Campus', category: 'Campus', tone: 'green',
-    cover: asset('covers/campus.webp'), coverWidth: 400, coverHeight: 400, coverAlt: 'Illustrated school building with a blue flag and garden', placeholder: true,
+    cover: asset('covers/campus.webp'), coverThumb: asset('covers/campus-640.webp'), coverSrcSet: `${asset('covers/campus-640.webp')} 640w, ${asset('covers/campus.webp')} 1435w`, coverWidth: 1435, coverHeight: 1096, coverAlt: 'Illustrated school building with a blue flag and garden', placeholder: true,
     description: "A little look around the place where we learn and grow.",
     pages: [
       { id: 'campus-01', template: 'collage', label: "The little things", photos: [
