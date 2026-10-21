@@ -1,4 +1,5 @@
 import { useId } from 'react';
+import { ropeWrapFit } from './ropeGeometry';
 
 function RopeCoil({ x, top, under, angle = 0, thickness, id, isLogo }) {
   // House connectors and branch wraps share the same measured rope anchors.
@@ -11,15 +12,11 @@ function RopeCoil({ x, top, under, angle = 0, thickness, id, isLogo }) {
       </svg>
     );
   }
-  // Fit the two loops to the bark's local slope. The hanging strand is rendered
-  // separately, so tilting the wrap never pulls the drop away from its eyelet.
-  const wrapWidth = thickness * 4;
-  const height = (under - top + thickness * 1.2) * 980 / 920;
-  const slope = Math.tan(angle * Math.PI / 180);
+  const fit = ropeWrapFit(x, top, under, angle, thickness);
   return (
-    <g data-wrap-slope={slope} transform={`matrix(1 ${slope} 0 1 0 ${-slope * x})`}>
-      <ellipse cx={x} cy={(top + under) / 2} rx={wrapWidth * .65} ry={(under - top) * .52} fill={`url(#${id}-bark-contact)`} opacity=".55" />
-      <svg data-branch-wrap="double" x={x - wrapWidth / 2} y={top - thickness * .6} width={wrapWidth} height={height} viewBox="160 60 720 980" preserveAspectRatio="none" style={{ overflow: 'hidden' }} filter={`url(#${id}-coil-shadow)`}>
+    <g data-wrap-angle={angle} data-wrap-join={fit.joinY} transform={fit.transform}>
+      <ellipse cx={x} cy={fit.joinY - fit.bodyHeight / 2} rx={fit.width * .55} ry={fit.bodyHeight * .49} fill={`url(#${id}-bark-contact)`} opacity=".42" />
+      <svg data-branch-wrap="double" x={fit.x} y={fit.y} width={fit.width} height={fit.height} viewBox="160 60 720 940" preserveAspectRatio="none" style={{ overflow: 'hidden' }} filter={`url(#${id}-coil-shadow)`}>
         <image href="/assets/nav/branch-double-wrap.webp" width="1024" height="1536" clipPath={`url(#${id}-branch-wrap-clip)`} />
       </svg>
     </g>

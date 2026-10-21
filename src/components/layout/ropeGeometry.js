@@ -33,7 +33,7 @@ const BARK = {
   },
 };
 
-export function ropeSurface(x, art) {
+function barkAt(x, art) {
   const source = art.compact ? BARK.compact : BARK.wide;
   const nativeX = Math.max(0, Math.min(source.width, (x - art.x) / art.width * source.width));
   const end = source.points.findIndex(point => point[0] >= nativeX);
@@ -41,13 +41,33 @@ export function ropeSurface(x, art) {
   const b = source.points[Math.max(1, end)];
   const t = (nativeX - a[0]) / (b[0] - a[0]);
   const y = edge => art.y + (a[edge] + (b[edge] - a[edge]) * t) / source.height * art.height;
-  const dx = (b[0] - a[0]) / source.width * art.width;
-  // Follow the log's centreline, not an isolated bump on its upper edge.
-  const dy = ((b[1] + b[2]) - (a[1] + a[2])) / 2 / source.height * art.height;
-  const angle = Math.atan2(dy, dx) * 180 / Math.PI;
-  const top = y(1);
-  const under = y(2);
+  return { top: y(1), under: y(2) };
+}
+
+export function ropeSurface(x, art) {
+  const source = art.compact ? BARK.compact : BARK.wide;
+  // Average over the width of a coil rather than using a single short segment.
+  const radius = 24 / source.width * art.width;
+  const left = barkAt(x - radius, art), right = barkAt(x + radius, art);
+  const slope = ((right.top + right.under) - (left.top + left.under)) / (4 * radius);
+  const angle = Math.atan(slope) * 180 / Math.PI;
+  const { under } = barkAt(x, art);
+  let top = barkAt(x, art).top;
+  // Intersect the upper bark with the normal through the lower rope anchor.
+  // The coil leans around the branch; the strand below it remains at x.
+  for (let i = 0; i < 5; i++) top = barkAt(x + slope * (under - top), art).top;
   const thickness = under - top;
-  const centerY = (top + under) / 2;
-  return { top, under, angle, thickness, centerY };
+  return { top, under, angle, thickness, centerY: (top + under) / 2 };
+}
+
+export function ropeWrapFit(x, top, under, angle, ropeThickness) {
+  const radians = angle * Math.PI / 180;
+  const joinY = under + ropeThickness * .42;
+  // Source loop crown and lower turn are y=60 and y=980 respectively.
+  // Dividing by cos keeps both bark contacts fitted after rotating the coil.
+  const bodyHeight = (under - top + ropeThickness * .84) / Math.cos(radians);
+  const width = ropeThickness * 4;
+  return { x: x - width / 2, y: joinY - bodyHeight, width,
+    height: bodyHeight * 940 / 920, joinY, bodyHeight,
+    transform: `rotate(${angle} ${x} ${joinY})` };
 }
