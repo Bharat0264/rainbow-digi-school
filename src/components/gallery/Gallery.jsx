@@ -1,8 +1,9 @@
 ﻿import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { ArrowRight, BookOpen, Cloud, Image as ImageIcon, Leaf, Palette, PartyPopper, School, Send, Sparkles, Star } from 'lucide-react';
+import { ArrowRight, BookOpen, Cloud, Image as ImageIcon, Palette, PartyPopper, School, Send, Sparkles, Star } from 'lucide-react';
 import { albums, galleryPhotos } from '../../data/gallery';
 import AlbumViewer from './AlbumViewer';
+import leafSprig from '../../assets/gallery/decor/leaf-sprig.webp';
 import './Gallery.css';
 
 const ALBUM_ICONS = { campus: School, classrooms: BookOpen, celebrations: PartyPopper, activities: Palette };
@@ -31,8 +32,8 @@ export default function Gallery() {
     </header>
     <p className="gallery-sr-only" role="status">{visibleAlbums.length} albums found</p>
     <div className="gallery-shelf-wrap">
-      <Leaf className="gallery-shelf-leaf" size={38} aria-hidden="true" />
-      <Leaf className="gallery-shelf-leaf gallery-shelf-leaf-left" size={46} aria-hidden="true" />
+      <img className="gallery-shelf-leaf" src={leafSprig} alt="" aria-hidden="true" width="320" height="284" loading="lazy" decoding="async" />
+      <img className="gallery-shelf-leaf gallery-shelf-leaf-left" src={leafSprig} alt="" aria-hidden="true" width="320" height="284" loading="lazy" decoding="async" />
       <ul className="gallery-shelf" aria-label="School photo albums">
         {visibleAlbums.map(album => {
           const Icon = ALBUM_ICONS[album.id] || BookOpen;

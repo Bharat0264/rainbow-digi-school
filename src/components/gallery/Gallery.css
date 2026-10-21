@@ -22,9 +22,9 @@
 .gallery-glass:disabled { opacity: .45; cursor: default; }
 .gallery-section button:focus-visible, .gallery-viewer button:focus-visible, .gallery-lightbox button:focus-visible { outline: 3px solid #286e59; outline-offset: 4px; }
 .gallery-shelf-wrap { position: relative; min-width: 0; isolation: isolate; }
-.gallery-shelf-wrap::after { content: ''; position: absolute; z-index: -1; bottom: 15px; left: 0; right: 0; height: 32px; border: 1px solid #d7943d; border-bottom: 6px solid #99581e; border-radius: 12px 12px 15px 15px; background: #ca8a39 url('/assets/nav/board-menu-golden.webp') center 48% / 100% 180px; box-shadow: inset 0 3px 0 #ffc96596,0 12px 18px #59381424; }
-.gallery-shelf-leaf { position: absolute; z-index: -1; right: -7px; bottom: 35px; width: 48px; height: 70px; color: #438d28; fill: #75a94d; transform: rotate(25deg); pointer-events: none; }
-.gallery-shelf-leaf-left { right: auto; left: -8px; transform: rotate(-30deg); }
+.gallery-shelf-wrap::after { content: ''; position: absolute; z-index: -1; bottom: 12px; left: 0; right: 0; height: 43px; background: url('../../assets/gallery/decor/wood-shelf.webp') center / 100% 100% no-repeat; filter: drop-shadow(0 9px 8px #59381424); pointer-events: none; }
+.gallery-shelf-leaf { position: absolute; z-index: -1; right: 4px; bottom: 31px; width: 78px; height: auto; object-fit: contain; transform: rotate(10deg); transform-origin: bottom center; filter: drop-shadow(1px 3px 2px #25451a24); pointer-events: none; user-select: none; }
+.gallery-shelf-leaf-left { right: auto; left: 3px; width: 72px; transform: scaleX(-1) rotate(8deg); }
 .gallery-shelf { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 24px; align-items: stretch; margin: 0; padding: 26px 18px 44px; list-style: none; }
 .gallery-book-shell { position: relative; min-width: 0; perspective: 900px; transform-style: preserve-3d; transition: transform 260ms ease; }
 .gallery-tone-green { --gallery-cover: #3c920c; --gallery-top: #79d629; --gallery-spine: #2b710b; --gallery-cover-ink: #fffdf1; --gallery-button-ink: #236806; }
@@ -308,3 +308,9 @@
 }
 
 .gallery-book-shell:not(.gallery-tone-green) .gallery-cover-window > img { object-fit:cover; object-position:center 43%; }
+
+@media(max-width:767px) {
+ .gallery-shelf-wrap::after { height:35px; bottom:12px; }
+ .gallery-shelf-leaf { width:60px; bottom:28px; right:3px; }
+ .gallery-shelf-leaf-left { left:3px; right:auto; width:55px; }
+}
