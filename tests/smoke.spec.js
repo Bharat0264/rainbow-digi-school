@@ -78,7 +78,10 @@ test('form validates, dropdown keyboard, double-submit and success (mock only)',
     });
   });
   const send = page.getByRole('button', { name: 'Send enquiry', exact: true });
-  await send.click();
+  await send.evaluate((button) => {
+    button.click();
+    button.click();
+  });
   await expect(
     page.getByRole('status').filter({ hasText: 'Your enquiry has been saved' }),
   ).toBeVisible();

@@ -38,6 +38,7 @@ jobs:
           node scripts/review/states.mjs "$PREVIEW_URL" artifacts/review-round-1/after
           node scripts/review/lighthouse.mjs "$BASELINE_URL" artifacts/review-round-1/before/lighthouse
           node scripts/review/lighthouse.mjs "$PREVIEW_URL" artifacts/review-round-1/after/lighthouse
+          node scripts/review/cpu4x.mjs "$PREVIEW_URL"
           npm run review:compare
           npm run review:gates
       - uses: actions/upload-artifact@v4
