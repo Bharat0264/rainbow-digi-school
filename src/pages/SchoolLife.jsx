@@ -1,9 +1,10 @@
+import styles from "./SchoolLifeIntro.module.css";
+import schoolSupplies from "../assets/school-life-supplies.webp";
 import { Link } from "react-router-dom";
 import { ArrowUpRight, ArrowRight } from "lucide-react";
 import Gallery from "../components/gallery/Gallery";
 import { SCHOOL_LIFE_EXPERIENCE, EVENTS, SCHOOL } from "../data/school";
 import {
-  PageIntro,
   SectionHeading,
 } from "../components/ui/PageElements";
 
@@ -12,16 +13,29 @@ export default function SchoolLife() {
 
   return (
     <>
-      <PageIntro
-        eyebrow="Student Life & School Culture"
-        title="More Than a School Day."
-      >
-        <p>
-          Beyond textbooks and workbooks, childhood at Rainbow Digi School is
-          filled with laughter, shared celebrations, creative expression, and
-          meaningful friendships.
-        </p>
-      </PageIntro>
+      <section className="section page-intro">
+        <div className="site-container">
+          <div className={`page-intro-card clay-tile clay-cream ${styles.card}`}>
+            <div className={styles.copy}>
+              <p className="eyebrow"><span className="eyebrow-dot" /> Student Life &amp; School Culture</p>
+              <h1>More Than a <span className={styles.emphasis}>School Day.</span></h1>
+              <div className="page-lead"><p>
+                Beyond textbooks and workbooks, childhood at Rainbow Digi School is
+                filled with laughter, shared celebrations, creative expression, and
+                meaningful friendships.
+              </p></div>
+            </div>
+            <div className={styles.art} aria-hidden="true">
+              <svg className={styles.flight} viewBox="0 0 300 200" fill="none">
+                <path d="M12 182C18 99 92 78 129 100S184 172 157 167S122 87 168 91S238 77 259 48" stroke="currentColor" strokeWidth="2" strokeDasharray="7 8" strokeLinecap="round" />
+                <path d="M225 35L286 13L263 64L251 47L239 59L239 43L286 13L251 47L225 35Z" stroke="currentColor" strokeWidth="3" strokeLinejoin="round" />
+                <path d="M284 102L287 110L296 111L289 117L291 126L284 121L276 126L278 117L271 111L280 110Z" fill="currentColor" />
+              </svg>
+              <img src={schoolSupplies} width="720" height="900" alt="" decoding="async" />
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Daily Rhythm Bento */}
       <section className="section site-container">
