@@ -52,7 +52,7 @@ export default function Gallery() {
     {!visibleAlbums.length && <p className="gallery-empty">No albums match that search. Try an event or a photo caption.</p>}
     <p className="gallery-shelf-hint">Choose a book and turn a little moment into a memory.</p>
     <p className="gallery-privacy">Photos are shared with parental consent.</p>
-    {selected && <AlbumViewer album={selected.album} opener={selected.opener} startSlideshow={selected.play}
-      initialPage={selected.page || 0} initialQuery={selected.query || ''} onClose={() => setSelected(null)} />}
+    {selected && <AlbumViewer album={selected.album} opener={selected.opener}
+      initialPage={selected.page || 0} onClose={() => setSelected(null)} />}
   </section>;
 }

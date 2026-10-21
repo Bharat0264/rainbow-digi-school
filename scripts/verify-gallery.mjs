@@ -61,6 +61,7 @@ try {
     const dialog = page.getByRole('dialog', { name: 'Classrooms', exact: true });
     await dialog.waitFor({ state: 'visible' }); await page.waitForTimeout(700);
     assert.equal(await countText(dialog), 'Page 1 of 12');
+    await page.waitForFunction(() => { const e=document.querySelector('.gallery-mode-book'); return e && e.scrollHeight <= e.clientHeight + 1; }, null, { timeout: 3000 });
     assert.ok(await dialog.locator('.gallery-mode-book').evaluate(e => e.scrollHeight <= e.clientHeight + 1), 'Book fits without vertical scrolling');
     await dialog.locator('.paper-engine').waitFor();
     assert.equal(await dialog.locator('.paper-engine .paper-leaf[aria-hidden="false"]').count(), width < 768 ? 1 : 2, 'Only current pages are exposed to screen readers');
@@ -72,14 +73,7 @@ try {
     await page.keyboard.press('ArrowRight'); await page.waitForTimeout(1000);
     assert.equal(await countText(dialog), width < 768 ? 'Page 2 of 12' : 'Page 3 of 12');
     await page.keyboard.press('ArrowLeft'); await page.waitForTimeout(1000); assert.equal(await countText(dialog), 'Page 1 of 12');
-    await page.waitForTimeout(750); await dialog.getByRole('button', { name: 'Search this album' }).click();
-    await dialog.getByRole('searchbox').fill('Friendship');
-    assert.equal(await countText(dialog), 'Page 1 of 2');
-    await dialog.locator('.paper-engine').waitFor();
-    await dialog.getByRole('searchbox').fill('No-such-memory');
-    assert.ok(await dialog.getByText('No moments match that search. Try another word.').isVisible());
-    await dialog.getByRole('searchbox').fill('');
-    await page.waitForTimeout(750); await dialog.getByRole('button', { name: 'Search this album' }).click();
+    for (const name of ['Search this album','Share album','Start slideshow','Enter fullscreen']) assert.equal(await dialog.getByRole('button',{name,exact:true}).count(),0);
     await dialog.getByRole('button', { name: 'Show grid view' }).click();
     assert.equal(await dialog.locator('.gallery-grid-photo').count(), 12);
     assert.equal(await dialog.locator('.paper-engine').count(), 0);
@@ -103,23 +97,9 @@ try {
     await thumbnail.click(); await lightbox.getByRole('button', { name: 'Close photo' }).click();
     await lightbox.waitFor({ state: 'hidden' });
     await dialog.getByRole('button', { name: 'Show book view' }).click();
-    if (width === 390) {
-      await dialog.getByRole('button', { name: 'Start slideshow' }).click();
-      await page.waitForTimeout(4000); assert.equal(await countText(dialog), 'Page 2 of 12');
-      await dialog.getByRole('button', { name: 'Next page', exact: true }).click(); await page.waitForTimeout(1000);
-      assert.ok(await dialog.getByRole('button', { name: 'Start slideshow' }).isVisible());
-      const paused = await countText(dialog); await page.waitForTimeout(3100); assert.equal(await countText(dialog), paused);
-      await dialog.getByRole('button', { name: 'Enter fullscreen' }).click();
-      await page.waitForFunction(() => Boolean(document.fullscreenElement));
-      await dialog.getByRole('button', { name: 'Exit fullscreen' }).click();
-      await page.waitForFunction(() => !document.fullscreenElement);
-    }
-    await dialog.getByRole('button', { name: 'Share album' }).click();
-    const shared = await page.evaluate(() => navigator.clipboard.readText());
-    assert.ok(shared.includes('album=classrooms') && shared.endsWith('#gallery'));
     await dialog.getByRole('button', { name: 'Back to albums' }).focus();
     await page.keyboard.press('Shift+Tab');
-    assert.equal(await dialog.getByRole('button', { name: 'Enter fullscreen' }).evaluate(e => e === document.activeElement), true);
+    assert.equal(await dialog.getByRole('button', { name: 'Next page', exact: true }).evaluate(e => e === document.activeElement), true);
     await page.keyboard.press('Tab');
     assert.equal(await dialog.getByRole('button', { name: 'Back to albums' }).evaluate(e => e === document.activeElement), true);
     await page.keyboard.press('Escape'); await dialog.waitFor({ state: 'hidden' });
