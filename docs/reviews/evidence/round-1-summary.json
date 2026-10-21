@@ -1,0 +1,2229 @@
+{
+  "productionCommit": "e258ca4a28ed23c135cea11d04aadc4975dc8829",
+  "mainCommit": "24576794d49f528d3423c245b88fa74a29cf0e3c",
+  "before": [
+    {
+      "route": "/",
+      "width": 390,
+      "status": 200,
+      "bytes": 9236891,
+      "errors": [],
+      "warnings": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        }
+      ]
+    },
+    {
+      "route": "/academics",
+      "width": 390,
+      "status": 200,
+      "bytes": 8812127,
+      "errors": [],
+      "warnings": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        }
+      ]
+    },
+    {
+      "route": "/admissions",
+      "width": 390,
+      "status": 200,
+      "bytes": 9047774,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/campus",
+      "width": 390,
+      "status": 200,
+      "bytes": 9400727,
+      "errors": [],
+      "warnings": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        },
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        }
+      ]
+    },
+    {
+      "route": "/school-life",
+      "width": 390,
+      "status": 200,
+      "bytes": 9063066,
+      "errors": [],
+      "warnings": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        }
+      ]
+    },
+    {
+      "route": "/contact",
+      "width": 390,
+      "status": 200,
+      "bytes": 8761782,
+      "errors": [],
+      "warnings": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        }
+      ]
+    },
+    {
+      "route": "/privacy-policy",
+      "width": 390,
+      "status": 200,
+      "bytes": 8633690,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/404",
+      "width": 390,
+      "status": 200,
+      "bytes": 8632282,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/",
+      "width": 768,
+      "status": 200,
+      "bytes": 9799146,
+      "errors": [],
+      "warnings": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        }
+      ]
+    },
+    {
+      "route": "/academics",
+      "width": 768,
+      "status": 200,
+      "bytes": 9374121,
+      "errors": [],
+      "warnings": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        }
+      ]
+    },
+    {
+      "route": "/admissions",
+      "width": 768,
+      "status": 200,
+      "bytes": 9610007,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/campus",
+      "width": 768,
+      "status": 200,
+      "bytes": 9962822,
+      "errors": [],
+      "warnings": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        },
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        }
+      ]
+    },
+    {
+      "route": "/school-life",
+      "width": 768,
+      "status": 200,
+      "bytes": 9725047,
+      "errors": [],
+      "warnings": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        },
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        },
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        },
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        },
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        },
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        },
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        }
+      ]
+    },
+    {
+      "route": "/contact",
+      "width": 768,
+      "status": 200,
+      "bytes": 9324142,
+      "errors": [],
+      "warnings": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        }
+      ]
+    },
+    {
+      "route": "/privacy-policy",
+      "width": 768,
+      "status": 200,
+      "bytes": 9195977,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/404",
+      "width": 768,
+      "status": 200,
+      "bytes": 9194691,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/",
+      "width": 1024,
+      "status": 200,
+      "bytes": 9799196,
+      "errors": [],
+      "warnings": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        }
+      ]
+    },
+    {
+      "route": "/academics",
+      "width": 1024,
+      "status": 200,
+      "bytes": 9371447,
+      "errors": [],
+      "warnings": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        }
+      ]
+    },
+    {
+      "route": "/admissions",
+      "width": 1024,
+      "status": 200,
+      "bytes": 9610013,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/campus",
+      "width": 1024,
+      "status": 200,
+      "bytes": 9962603,
+      "errors": [],
+      "warnings": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        },
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        }
+      ]
+    },
+    {
+      "route": "/school-life",
+      "width": 1024,
+      "status": 200,
+      "bytes": 9724997,
+      "errors": [],
+      "warnings": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        },
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        },
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        },
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        },
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        },
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        },
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        }
+      ]
+    },
+    {
+      "route": "/contact",
+      "width": 1024,
+      "status": 200,
+      "bytes": 9324188,
+      "errors": [],
+      "warnings": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        }
+      ]
+    },
+    {
+      "route": "/privacy-policy",
+      "width": 1024,
+      "status": 200,
+      "bytes": 9195926,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/404",
+      "width": 1024,
+      "status": 200,
+      "bytes": 9194606,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/",
+      "width": 1440,
+      "status": 200,
+      "bytes": 9799160,
+      "errors": [],
+      "warnings": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        }
+      ]
+    },
+    {
+      "route": "/academics",
+      "width": 1440,
+      "status": 200,
+      "bytes": 9374336,
+      "errors": [],
+      "warnings": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        }
+      ]
+    },
+    {
+      "route": "/admissions",
+      "width": 1440,
+      "status": 200,
+      "bytes": 9610022,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/campus",
+      "width": 1440,
+      "status": 200,
+      "bytes": 9962761,
+      "errors": [],
+      "warnings": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        },
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        }
+      ]
+    },
+    {
+      "route": "/school-life",
+      "width": 1440,
+      "status": 200,
+      "bytes": 9725095,
+      "errors": [],
+      "warnings": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        },
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        },
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        },
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        },
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        },
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        },
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        }
+      ]
+    },
+    {
+      "route": "/contact",
+      "width": 1440,
+      "status": 200,
+      "bytes": 9324106,
+      "errors": [],
+      "warnings": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        }
+      ]
+    },
+    {
+      "route": "/privacy-policy",
+      "width": 1440,
+      "status": 200,
+      "bytes": 9195893,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/404",
+      "width": 1440,
+      "status": 200,
+      "bytes": 9194577,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/",
+      "width": 1920,
+      "status": 200,
+      "bytes": 9799237,
+      "errors": [],
+      "warnings": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        }
+      ]
+    },
+    {
+      "route": "/academics",
+      "width": 1920,
+      "status": 200,
+      "bytes": 9374017,
+      "errors": [],
+      "warnings": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        }
+      ]
+    },
+    {
+      "route": "/admissions",
+      "width": 1920,
+      "status": 200,
+      "bytes": 9609985,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/campus",
+      "width": 1920,
+      "status": 200,
+      "bytes": 9962909,
+      "errors": [],
+      "warnings": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        },
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        }
+      ]
+    },
+    {
+      "route": "/school-life",
+      "width": 1920,
+      "status": 200,
+      "bytes": 9725014,
+      "errors": [],
+      "warnings": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        },
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        },
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        },
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        },
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        },
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        },
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        }
+      ]
+    },
+    {
+      "route": "/contact",
+      "width": 1920,
+      "status": 200,
+      "bytes": 9324048,
+      "errors": [],
+      "warnings": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        }
+      ]
+    },
+    {
+      "route": "/privacy-policy",
+      "width": 1920,
+      "status": 200,
+      "bytes": 9195976,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/404",
+      "width": 1920,
+      "status": 200,
+      "bytes": 9194552,
+      "errors": [],
+      "warnings": []
+    }
+  ],
+  "afterLocal": [
+    {
+      "route": "/",
+      "width": 390,
+      "status": 200,
+      "bytes": 7004328,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/academics",
+      "width": 390,
+      "status": 200,
+      "bytes": 6579403,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/admissions",
+      "width": 390,
+      "status": 200,
+      "bytes": 6831659,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/campus",
+      "width": 390,
+      "status": 200,
+      "bytes": 7151313,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/school-life",
+      "width": 390,
+      "status": 200,
+      "bytes": 6831028,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/contact",
+      "width": 390,
+      "status": 200,
+      "bytes": 6529385,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/privacy-policy",
+      "width": 390,
+      "status": 200,
+      "bytes": 6417881,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/404",
+      "width": 390,
+      "status": 200,
+      "bytes": 6416585,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/",
+      "width": 768,
+      "status": 200,
+      "bytes": 7566405,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/academics",
+      "width": 768,
+      "status": 200,
+      "bytes": 7141480,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/admissions",
+      "width": 768,
+      "status": 200,
+      "bytes": 7393736,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/campus",
+      "width": 768,
+      "status": 200,
+      "bytes": 7713390,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/school-life",
+      "width": 768,
+      "status": 200,
+      "bytes": 7393105,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/contact",
+      "width": 768,
+      "status": 200,
+      "bytes": 7091462,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/privacy-policy",
+      "width": 768,
+      "status": 200,
+      "bytes": 6979958,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/404",
+      "width": 768,
+      "status": 200,
+      "bytes": 6978662,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/",
+      "width": 1024,
+      "status": 200,
+      "bytes": 7566405,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/academics",
+      "width": 1024,
+      "status": 200,
+      "bytes": 7141480,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/admissions",
+      "width": 1024,
+      "status": 200,
+      "bytes": 7393736,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/campus",
+      "width": 1024,
+      "status": 200,
+      "bytes": 7713390,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/school-life",
+      "width": 1024,
+      "status": 200,
+      "bytes": 7393105,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/contact",
+      "width": 1024,
+      "status": 200,
+      "bytes": 7091462,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/privacy-policy",
+      "width": 1024,
+      "status": 200,
+      "bytes": 6979958,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/404",
+      "width": 1024,
+      "status": 200,
+      "bytes": 6978662,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/",
+      "width": 1440,
+      "status": 200,
+      "bytes": 7566405,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/academics",
+      "width": 1440,
+      "status": 200,
+      "bytes": 7141480,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/admissions",
+      "width": 1440,
+      "status": 200,
+      "bytes": 7393736,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/campus",
+      "width": 1440,
+      "status": 200,
+      "bytes": 7713390,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/school-life",
+      "width": 1440,
+      "status": 200,
+      "bytes": 7393105,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/contact",
+      "width": 1440,
+      "status": 200,
+      "bytes": 7091462,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/privacy-policy",
+      "width": 1440,
+      "status": 200,
+      "bytes": 6979958,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/404",
+      "width": 1440,
+      "status": 200,
+      "bytes": 6978662,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/",
+      "width": 1920,
+      "status": 200,
+      "bytes": 7566405,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/academics",
+      "width": 1920,
+      "status": 200,
+      "bytes": 7141480,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/admissions",
+      "width": 1920,
+      "status": 200,
+      "bytes": 7393736,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/campus",
+      "width": 1920,
+      "status": 200,
+      "bytes": 7713390,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/school-life",
+      "width": 1920,
+      "status": 200,
+      "bytes": 7393105,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/contact",
+      "width": 1920,
+      "status": 200,
+      "bytes": 7091462,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/privacy-policy",
+      "width": 1920,
+      "status": 200,
+      "bytes": 6979958,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/404",
+      "width": 1920,
+      "status": 200,
+      "bytes": 6978662,
+      "errors": [],
+      "warnings": []
+    }
+  ],
+  "lighthouseProductionBefore": [
+    {
+      "route": "/",
+      "mode": "mobile",
+      "performance": 95,
+      "accessibility": 96,
+      "lcp": 2556.101,
+      "cls": 0,
+      "tbt": 64,
+      "weight": 8737314,
+      "unusedJS": 0,
+      "unusedCSS": 150,
+      "runtimeError": null
+    },
+    {
+      "route": "/academics",
+      "mode": "mobile",
+      "performance": 83,
+      "accessibility": 96,
+      "lcp": 3922.506,
+      "cls": 0,
+      "tbt": 124,
+      "weight": 8311342,
+      "unusedJS": 300,
+      "unusedCSS": 150,
+      "runtimeError": null
+    },
+    {
+      "route": "/admissions",
+      "mode": "mobile",
+      "performance": 69,
+      "accessibility": 100,
+      "lcp": 5888.7192,
+      "cls": 0,
+      "tbt": 277,
+      "weight": 8547134,
+      "unusedJS": 300,
+      "unusedCSS": 0,
+      "runtimeError": null
+    },
+    {
+      "route": "/campus",
+      "mode": "mobile",
+      "performance": 79,
+      "accessibility": 100,
+      "lcp": 4138.219,
+      "cls": 0,
+      "tbt": 199,
+      "weight": 8900133,
+      "unusedJS": 300,
+      "unusedCSS": 0,
+      "runtimeError": null
+    },
+    {
+      "route": "/school-life",
+      "mode": "mobile",
+      "performance": 89,
+      "accessibility": 96,
+      "lcp": 2917.8691,
+      "cls": 0,
+      "tbt": 193.5,
+      "weight": 8281388,
+      "unusedJS": 0,
+      "unusedCSS": 0,
+      "runtimeError": null
+    },
+    {
+      "route": "/contact",
+      "mode": "mobile",
+      "performance": 94,
+      "accessibility": 100,
+      "lcp": 2653.9623,
+      "cls": 0.0005805069246367445,
+      "tbt": 36.5,
+      "weight": 8760879,
+      "unusedJS": 0,
+      "unusedCSS": 0,
+      "runtimeError": null
+    },
+    {
+      "route": "/privacy-policy",
+      "mode": "mobile",
+      "performance": 93,
+      "accessibility": 100,
+      "lcp": 2744.5637,
+      "cls": 0,
+      "tbt": 76,
+      "weight": 8632789,
+      "unusedJS": 0,
+      "unusedCSS": 0,
+      "runtimeError": null
+    },
+    {
+      "route": "/404",
+      "mode": "mobile",
+      "performance": 95,
+      "accessibility": 100,
+      "lcp": 2607.5445,
+      "cls": 0.0004858604587147112,
+      "tbt": 41.5,
+      "weight": 8631438,
+      "unusedJS": 0,
+      "unusedCSS": 0,
+      "runtimeError": null
+    },
+    {
+      "route": "/",
+      "mode": "desktop",
+      "performance": 88,
+      "accessibility": 96,
+      "lcp": 2229.0485,
+      "cls": 0.0002869855967078189,
+      "tbt": 4,
+      "weight": 9268739,
+      "unusedJS": 40,
+      "unusedCSS": 0,
+      "runtimeError": null
+    },
+    {
+      "route": "/academics",
+      "mode": "desktop",
+      "performance": 81,
+      "accessibility": 96,
+      "lcp": 3123.3180999999995,
+      "cls": 0.0006642943833590534,
+      "tbt": 0,
+      "weight": 9053711,
+      "unusedJS": 40,
+      "unusedCSS": 0,
+      "runtimeError": null
+    },
+    {
+      "route": "/admissions",
+      "mode": "desktop",
+      "performance": 76,
+      "accessibility": 100,
+      "lcp": 2847.8733,
+      "cls": 0.004420913909786522,
+      "tbt": 0,
+      "weight": 9079557,
+      "unusedJS": 40,
+      "unusedCSS": 0,
+      "runtimeError": null
+    },
+    {
+      "route": "/campus",
+      "mode": "desktop",
+      "performance": 97,
+      "accessibility": 100,
+      "lcp": 1138.2324499999997,
+      "cls": 0.006084330081939698,
+      "tbt": 0,
+      "weight": 9932205,
+      "unusedJS": 0,
+      "unusedCSS": 0,
+      "runtimeError": null
+    },
+    {
+      "route": "/school-life",
+      "mode": "desktop",
+      "performance": 85,
+      "accessibility": 96,
+      "lcp": 2699.4251000000004,
+      "cls": 0.001380688026755926,
+      "tbt": 0,
+      "weight": 9693961,
+      "unusedJS": 40,
+      "unusedCSS": 0,
+      "runtimeError": null
+    },
+    {
+      "route": "/contact",
+      "mode": "desktop",
+      "performance": 95,
+      "accessibility": 100,
+      "lcp": 1281.5551999999998,
+      "cls": 0.0002954475308641975,
+      "tbt": 0,
+      "weight": 9293451,
+      "unusedJS": 0,
+      "unusedCSS": 0,
+      "runtimeError": null
+    },
+    {
+      "route": "/privacy-policy",
+      "mode": "desktop",
+      "performance": 88,
+      "accessibility": 100,
+      "lcp": 2014.0938,
+      "cls": 0.0002956983024691358,
+      "tbt": 5,
+      "weight": 9165146,
+      "unusedJS": 80,
+      "unusedCSS": 40,
+      "runtimeError": null
+    },
+    {
+      "route": "/404",
+      "mode": "desktop",
+      "performance": 85,
+      "accessibility": 100,
+      "lcp": 2279.1723,
+      "cls": 0,
+      "tbt": 0,
+      "weight": 9163923,
+      "unusedJS": 80,
+      "unusedCSS": 0,
+      "runtimeError": null
+    }
+  ],
+  "lighthouseLocalAfterNotComparableToCDN": [
+    {
+      "route": "/",
+      "mode": "mobile",
+      "performance": 74,
+      "accessibility": 96,
+      "lcp": 12608.346000000001,
+      "cls": 0,
+      "tbt": 50,
+      "weight": 6504891,
+      "unusedJS": 300,
+      "unusedCSS": 150,
+      "runtimeError": null
+    },
+    {
+      "route": "/academics",
+      "mode": "mobile",
+      "performance": 85,
+      "accessibility": 96,
+      "lcp": 4135.401,
+      "cls": 0,
+      "tbt": 20,
+      "weight": 6079964,
+      "unusedJS": 300,
+      "unusedCSS": 150,
+      "runtimeError": null
+    },
+    {
+      "route": "/admissions",
+      "mode": "mobile",
+      "performance": 74,
+      "accessibility": 100,
+      "lcp": 12610.293000000001,
+      "cls": 0,
+      "tbt": 48,
+      "weight": 6332225,
+      "unusedJS": 300,
+      "unusedCSS": 0,
+      "runtimeError": null
+    },
+    {
+      "route": "/campus",
+      "mode": "mobile",
+      "performance": 85,
+      "accessibility": 100,
+      "lcp": 4133.938099999999,
+      "cls": 0,
+      "tbt": 22,
+      "weight": 6651877,
+      "unusedJS": 300,
+      "unusedCSS": 150,
+      "runtimeError": null
+    },
+    {
+      "route": "/school-life",
+      "mode": "mobile",
+      "performance": 74,
+      "accessibility": 96,
+      "lcp": 11784.9879,
+      "cls": 0,
+      "tbt": 37,
+      "weight": 6050049,
+      "unusedJS": 450,
+      "unusedCSS": 150,
+      "runtimeError": null
+    },
+    {
+      "route": "/contact",
+      "mode": "mobile",
+      "performance": 85,
+      "accessibility": 100,
+      "lcp": 4133.4242,
+      "cls": 0,
+      "tbt": 18,
+      "weight": 6529433,
+      "unusedJS": 300,
+      "unusedCSS": 150,
+      "runtimeError": null
+    },
+    {
+      "route": "/privacy-policy",
+      "mode": "mobile",
+      "performance": 74,
+      "accessibility": 100,
+      "lcp": 11484.564,
+      "cls": 0,
+      "tbt": 29,
+      "weight": 6417931,
+      "unusedJS": 300,
+      "unusedCSS": 150,
+      "runtimeError": null
+    },
+    {
+      "route": "/404",
+      "mode": "mobile",
+      "performance": 74,
+      "accessibility": 100,
+      "lcp": 11416.484400000001,
+      "cls": 0,
+      "tbt": 30,
+      "weight": 6416633,
+      "unusedJS": 150,
+      "unusedCSS": 0,
+      "runtimeError": null
+    },
+    {
+      "route": "/",
+      "mode": "desktop",
+      "performance": 76,
+      "accessibility": 96,
+      "lcp": 5962.6312,
+      "cls": 0,
+      "tbt": 0,
+      "weight": 7036916,
+      "unusedJS": 80,
+      "unusedCSS": 40,
+      "runtimeError": null
+    },
+    {
+      "route": "/academics",
+      "mode": "desktop",
+      "performance": 76,
+      "accessibility": 96,
+      "lcp": 5678.9524,
+      "cls": 0,
+      "tbt": 0,
+      "weight": 6611989,
+      "unusedJS": 40,
+      "unusedCSS": 0,
+      "runtimeError": null
+    },
+    {
+      "route": "/admissions",
+      "mode": "desktop",
+      "performance": 76,
+      "accessibility": 100,
+      "lcp": 5927.3416,
+      "cls": 0,
+      "tbt": 0,
+      "weight": 6864250,
+      "unusedJS": 40,
+      "unusedCSS": 0,
+      "runtimeError": null
+    },
+    {
+      "route": "/campus",
+      "mode": "desktop",
+      "performance": 77,
+      "accessibility": 100,
+      "lcp": 4903.0406,
+      "cls": 0,
+      "tbt": 0,
+      "weight": 7683385,
+      "unusedJS": 50,
+      "unusedCSS": 10,
+      "runtimeError": null
+    },
+    {
+      "route": "/school-life",
+      "mode": "desktop",
+      "performance": 76,
+      "accessibility": 96,
+      "lcp": 5984.5272,
+      "cls": 0,
+      "tbt": 0,
+      "weight": 7363099,
+      "unusedJS": 40,
+      "unusedCSS": 0,
+      "runtimeError": null
+    },
+    {
+      "route": "/contact",
+      "mode": "desktop",
+      "performance": 81,
+      "accessibility": 100,
+      "lcp": 3514.05545,
+      "cls": 0,
+      "tbt": 0,
+      "weight": 7061458,
+      "unusedJS": 40,
+      "unusedCSS": 0,
+      "runtimeError": null
+    },
+    {
+      "route": "/privacy-policy",
+      "mode": "desktop",
+      "performance": 78,
+      "accessibility": 100,
+      "lcp": 4774.54175,
+      "cls": 0,
+      "tbt": 0,
+      "weight": 6949956,
+      "unusedJS": 40,
+      "unusedCSS": 0,
+      "runtimeError": null
+    },
+    {
+      "route": "/404",
+      "mode": "desktop",
+      "performance": 78,
+      "accessibility": 100,
+      "lcp": 4775.66285,
+      "cls": 0,
+      "tbt": 0,
+      "weight": 6948658,
+      "unusedJS": 40,
+      "unusedCSS": 0,
+      "runtimeError": null
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "404-1024.png",
+      "before": [
+        1024,
+        1495
+      ],
+      "after": [
+        1024,
+        1495
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "404-1440.png",
+      "before": [
+        1440,
+        1541
+      ],
+      "after": [
+        1440,
+        1541
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "404-1920.png",
+      "before": [
+        1920,
+        1723
+      ],
+      "after": [
+        1920,
+        1723
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "404-390.png",
+      "before": [
+        390,
+        1988
+      ],
+      "after": [
+        390,
+        1988
+      ],
+      "pixels": 216,
+      "ratio": 0.0002785946447918279
+    },
+    {
+      "file": "404-768.png",
+      "before": [
+        768,
+        1380
+      ],
+      "after": [
+        768,
+        1380
+      ],
+      "pixels": 196,
+      "ratio": 0.00018493357487922707
+    },
+    {
+      "file": "academics-1024.png",
+      "before": [
+        1024,
+        4724
+      ],
+      "after": [
+        1024,
+        4724
+      ],
+      "pixels": 25,
+      "ratio": 5.168091130397968e-06
+    },
+    {
+      "file": "academics-1440.png",
+      "before": [
+        1440,
+        4269
+      ],
+      "after": [
+        1440,
+        4269
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "academics-1920.png",
+      "before": [
+        1920,
+        4459
+      ],
+      "after": [
+        1920,
+        4459
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "academics-390.png",
+      "before": [
+        390,
+        7589
+      ],
+      "after": [
+        390,
+        7589
+      ],
+      "pixels": 216,
+      "ratio": 7.298012305259637e-05
+    },
+    {
+      "file": "academics-768.png",
+      "before": [
+        768,
+        5043
+      ],
+      "after": [
+        768,
+        5043
+      ],
+      "pixels": 196,
+      "ratio": 5.0606451186463085e-05
+    },
+    {
+      "file": "admissions-1024.png",
+      "before": [
+        1024,
+        5012
+      ],
+      "after": [
+        1024,
+        5012
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "admissions-1440.png",
+      "before": [
+        1440,
+        5022
+      ],
+      "after": [
+        1440,
+        5022
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "admissions-1920.png",
+      "before": [
+        1920,
+        5226
+      ],
+      "after": [
+        1920,
+        5226
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "admissions-390.png",
+      "before": [
+        390,
+        8978
+      ],
+      "after": [
+        390,
+        8978
+      ],
+      "pixels": 216,
+      "ratio": 6.168925750124236e-05
+    },
+    {
+      "file": "admissions-768.png",
+      "before": [
+        768,
+        6071
+      ],
+      "after": [
+        768,
+        6071
+      ],
+      "pixels": 200,
+      "ratio": 4.289518475813979e-05
+    },
+    {
+      "file": "campus-1024.png",
+      "before": [
+        1024,
+        4658
+      ],
+      "after": [
+        1024,
+        4658
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "campus-1440.png",
+      "before": [
+        1440,
+        3575
+      ],
+      "after": [
+        1440,
+        3575
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "campus-1920.png",
+      "before": [
+        1920,
+        3758
+      ],
+      "after": [
+        1920,
+        3758
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "campus-390.png",
+      "before": [
+        390,
+        5578
+      ],
+      "after": [
+        390,
+        5578
+      ],
+      "pixels": 216,
+      "ratio": 9.929117136001324e-05
+    },
+    {
+      "file": "campus-768.png",
+      "before": [
+        768,
+        4729
+      ],
+      "after": [
+        768,
+        4729
+      ],
+      "pixels": 180,
+      "ratio": 4.956121801649397e-05
+    },
+    {
+      "file": "contact-1024.png",
+      "before": [
+        1024,
+        2534
+      ],
+      "after": [
+        1024,
+        2534
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "contact-1440.png",
+      "before": [
+        1440,
+        2448
+      ],
+      "after": [
+        1440,
+        2448
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "contact-1920.png",
+      "before": [
+        1920,
+        2661
+      ],
+      "after": [
+        1920,
+        2661
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "contact-390.png",
+      "before": [
+        390,
+        3594
+      ],
+      "after": [
+        390,
+        3594
+      ],
+      "pixels": 216,
+      "ratio": 0.00015410299216643124
+    },
+    {
+      "file": "contact-768.png",
+      "before": [
+        768,
+        2778
+      ],
+      "after": [
+        768,
+        2778
+      ],
+      "pixels": 196,
+      "ratio": 9.186765058795297e-05
+    },
+    {
+      "file": "home-1024.png",
+      "before": [
+        1024,
+        6436
+      ],
+      "after": [
+        1024,
+        6436
+      ],
+      "pixels": 3,
+      "ratio": 4.5520315413300186e-07
+    },
+    {
+      "file": "home-1440.png",
+      "before": [
+        1440,
+        5190
+      ],
+      "after": [
+        1440,
+        5190
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "home-1920.png",
+      "before": [
+        1920,
+        5378
+      ],
+      "after": [
+        1920,
+        5378
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "home-390.png",
+      "before": [
+        397,
+        7649
+      ],
+      "after": [
+        397,
+        7649
+      ],
+      "pixels": 216,
+      "ratio": 7.113094581435547e-05
+    },
+    {
+      "file": "home-768.png",
+      "before": [
+        768,
+        6299
+      ],
+      "after": [
+        768,
+        6299
+      ],
+      "pixels": 194,
+      "ratio": 4.010226490977404e-05
+    },
+    {
+      "file": "privacy-policy-1024.png",
+      "before": [
+        1024,
+        2477
+      ],
+      "after": [
+        1024,
+        2477
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "privacy-policy-1440.png",
+      "before": [
+        1440,
+        2599
+      ],
+      "after": [
+        1440,
+        2599
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "privacy-policy-1920.png",
+      "before": [
+        1920,
+        2780
+      ],
+      "after": [
+        1920,
+        2780
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "privacy-policy-390.png",
+      "before": [
+        390,
+        3809
+      ],
+      "after": [
+        390,
+        3809
+      ],
+      "pixels": 54,
+      "ratio": 3.635115212957166e-05
+    },
+    {
+      "file": "privacy-policy-768.png",
+      "before": [
+        768,
+        2521
+      ],
+      "after": [
+        768,
+        2521
+      ],
+      "pixels": 196,
+      "ratio": 0.00010123297633214333
+    },
+    {
+      "file": "school-life-1024.png",
+      "before": [
+        1024,
+        3975
+      ],
+      "after": [
+        1024,
+        3975
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "school-life-1440.png",
+      "before": [
+        1440,
+        3773
+      ],
+      "after": [
+        1440,
+        3773
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "school-life-1920.png",
+      "before": [
+        1920,
+        3997
+      ],
+      "after": [
+        1920,
+        3997
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "school-life-390.png",
+      "before": [
+        390,
+        5979
+      ],
+      "after": [
+        390,
+        5979
+      ],
+      "pixels": 216,
+      "ratio": 9.263190397159288e-05
+    },
+    {
+      "file": "school-life-768.png",
+      "before": [
+        768,
+        4191
+      ],
+      "after": [
+        768,
+        4191
+      ],
+      "pixels": 180,
+      "ratio": 5.592340730136006e-05
+    }
+  ],
+  "auditAfter": {
+    "vulnerabilities": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    "dependencies": {
+      "prod": 13,
+      "dev": 509,
+      "optional": 117,
+      "peer": 14,
+      "peerOptional": 0,
+      "total": 524
+    }
+  },
+  "bundles": {
+    "chunks": [
+      {
+        "file": "assets/AlbumViewer-Bl47c1bI.js",
+        "bytes": 12490,
+        "gzip": 4141,
+        "initial": false
+      },
+      {
+        "file": "assets/AlbumViewer-BRFqurT4.css",
+        "bytes": 8637,
+        "gzip": 2561,
+        "initial": false
+      },
+      {
+        "file": "assets/index-b_YRiNoC.css",
+        "bytes": 118990,
+        "gzip": 24978,
+        "initial": true
+      },
+      {
+        "file": "assets/index-C5i-c5wH.js",
+        "bytes": 387549,
+        "gzip": 119483,
+        "initial": true
+      }
+    ],
+    "initialJS": 387549,
+    "initialCSS": 118990,
+    "dependencies": 6,
+    "devDependencies": 25,
+    "trackedFiles": 384
+  },
+  "failedProductionAssetURLs": [
+    "https://rainbow-digi-school.vercel.app/src/assets/campus-botanical.webp",
+    "https://rainbow-digi-school.vercel.app/src/assets/campus-walkthrough.webp",
+    "https://rainbow-digi-school.vercel.app/src/assets/contact-admissions-child.webp",
+    "https://rainbow-digi-school.vercel.app/src/assets/curriculum-reading.webp",
+    "https://rainbow-digi-school.vercel.app/src/assets/gallery/covers/activities.webp",
+    "https://rainbow-digi-school.vercel.app/src/assets/gallery/covers/campus-640.webp",
+    "https://rainbow-digi-school.vercel.app/src/assets/gallery/covers/celebrations.webp",
+    "https://rainbow-digi-school.vercel.app/src/assets/gallery/covers/classrooms.webp",
+    "https://rainbow-digi-school.vercel.app/src/assets/gallery/decor/leaf-sprig.webp",
+    "https://rainbow-digi-school.vercel.app/src/assets/gallery/gallery-06-thumb.webp",
+    "https://rainbow-digi-school.vercel.app/src/assets/programme-train.webp",
+    "https://rainbow-digi-school.vercel.app/src/assets/school-life-supplies.webp"
+  ],
+  "a11y": [
+    {
+      "route": "/",
+      "width": 390,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "nodes": [
+            {
+              "target": [
+                ".stage-early-years > .stage-top-bar > .stage-number"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.47 (foreground color: #9d796e, background color: #f5c3b6, font size: 28.5pt (38px), font weight: normal). Expected contrast ratio of 3:1"
+            },
+            {
+              "target": [
+                ".stage-primary-years > .stage-top-bar > .stage-number"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.17 (foreground color: #a8b7b4, background color: #607c76, font size: 28.5pt (38px), font weight: normal). Expected contrast ratio of 3:1"
+            },
+            {
+              "target": [
+                ".stage-primary-years > .eyebrow"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.2 (foreground color: #c7ded8, background color: #607c76, font size: 11.3pt (15px), font weight: bold). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".stage-primary-years > p:nth-child(4)"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.75 (foreground color: #e2ece9, background color: #607c76, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/academics",
+      "width": 390,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "nodes": [
+            {
+              "target": [
+                ".clay-slate > p"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #e8f0ee, background color: #607c76, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/admissions",
+      "width": 390,
+      "violations": []
+    },
+    {
+      "route": "/campus",
+      "width": 390,
+      "violations": []
+    },
+    {
+      "route": "/school-life",
+      "width": 390,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "nodes": [
+            {
+              "target": [
+                ".clay-slate > p"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #e8f0ee, background color: #607c76, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/contact",
+      "width": 390,
+      "violations": []
+    },
+    {
+      "route": "/privacy-policy",
+      "width": 390,
+      "violations": []
+    },
+    {
+      "route": "/404",
+      "width": 390,
+      "violations": []
+    },
+    {
+      "route": "/",
+      "width": 1440,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "nodes": [
+            {
+              "target": [
+                ".stage-early-years > .stage-top-bar > .stage-number"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.47 (foreground color: #9d796e, background color: #f5c3b6, font size: 28.5pt (38px), font weight: normal). Expected contrast ratio of 3:1"
+            },
+            {
+              "target": [
+                ".stage-primary-years > .stage-top-bar > .stage-number"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.17 (foreground color: #a8b7b4, background color: #607c76, font size: 28.5pt (38px), font weight: normal). Expected contrast ratio of 3:1"
+            },
+            {
+              "target": [
+                ".stage-primary-years > .eyebrow"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.2 (foreground color: #c7ded8, background color: #607c76, font size: 11.3pt (15px), font weight: bold). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".stage-primary-years > p:nth-child(4)"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.75 (foreground color: #e2ece9, background color: #607c76, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/academics",
+      "width": 1440,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "nodes": [
+            {
+              "target": [
+                ".clay-slate > p"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #e8f0ee, background color: #607c76, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/admissions",
+      "width": 1440,
+      "violations": []
+    },
+    {
+      "route": "/campus",
+      "width": 1440,
+      "violations": []
+    },
+    {
+      "route": "/school-life",
+      "width": 1440,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "nodes": [
+            {
+              "target": [
+                ".clay-slate > p"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.9 (foreground color: #e8f0ee, background color: #607c76, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/contact",
+      "width": 1440,
+      "violations": []
+    },
+    {
+      "route": "/privacy-policy",
+      "width": 1440,
+      "violations": []
+    },
+    {
+      "route": "/404",
+      "width": 1440,
+      "violations": []
+    }
+  ],
+  "trackedFilesBefore": 376,
+  "trackedFilesAfter": 391,
+  "dependenciesBefore": 7,
+  "dependenciesAfter": 6,
+  "devDependenciesBefore": 16,
+  "devDependenciesAfter": 24,
+  "cpu4x": {
+    "rows": [
+      {
+        "width": 390,
+        "album": "campus",
+        "cpuSlowdown": 4,
+        "passed": true
+      },
+      {
+        "width": 390,
+        "album": "classrooms",
+        "cpuSlowdown": 4,
+        "passed": true
+      },
+      {
+        "width": 390,
+        "album": "celebrations",
+        "cpuSlowdown": 4,
+        "passed": true
+      },
+      {
+        "width": 390,
+        "album": "activities",
+        "cpuSlowdown": 4,
+        "passed": true
+      },
+      {
+        "width": 768,
+        "album": "campus",
+        "cpuSlowdown": 4,
+        "passed": true
+      },
+      {
+        "width": 768,
+        "album": "classrooms",
+        "cpuSlowdown": 4,
+        "passed": true
+      },
+      {
+        "width": 768,
+        "album": "celebrations",
+        "cpuSlowdown": 4,
+        "passed": true
+      },
+      {
+        "width": 768,
+        "album": "activities",
+        "cpuSlowdown": 4,
+        "passed": true
+      },
+      {
+        "width": 1024,
+        "album": "campus",
+        "cpuSlowdown": 4,
+        "passed": true
+      },
+      {
+        "width": 1024,
+        "album": "classrooms",
+        "cpuSlowdown": 4,
+        "passed": true
+      },
+      {
+        "width": 1024,
+        "album": "celebrations",
+        "cpuSlowdown": 4,
+        "passed": true
+      },
+      {
+        "width": 1024,
+        "album": "activities",
+        "cpuSlowdown": 4,
+        "passed": true
+      },
+      {
+        "width": 1440,
+        "album": "campus",
+        "cpuSlowdown": 4,
+        "passed": true
+      },
+      {
+        "width": 1440,
+        "album": "classrooms",
+        "cpuSlowdown": 4,
+        "passed": true
+      },
+      {
+        "width": 1440,
+        "album": "celebrations",
+        "cpuSlowdown": 4,
+        "passed": true
+      },
+      {
+        "width": 1440,
+        "album": "activities",
+        "cpuSlowdown": 4,
+        "passed": true
+      },
+      {
+        "width": 1920,
+        "album": "campus",
+        "cpuSlowdown": 4,
+        "passed": true
+      },
+      {
+        "width": 1920,
+        "album": "classrooms",
+        "cpuSlowdown": 4,
+        "passed": true
+      },
+      {
+        "width": 1920,
+        "album": "celebrations",
+        "cpuSlowdown": 4,
+        "passed": true
+      },
+      {
+        "width": 1920,
+        "album": "activities",
+        "cpuSlowdown": 4,
+        "passed": true
+      }
+    ],
+    "errors": []
+  }
+}

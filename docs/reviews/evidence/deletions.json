@@ -1,0 +1,112 @@
+[
+  {
+    "path": "src/components/gallery/ScrapbookSpread.jsx",
+    "bytes": 1452,
+    "reason": "Knip unused file; no references outside the removed closed set; absent from all 40 live production request traces."
+  },
+  {
+    "path": "src/components/home/AboutTeaser.jsx",
+    "bytes": 2210,
+    "reason": "Knip unused file; no references outside the removed closed set; absent from all 40 live production request traces."
+  },
+  {
+    "path": "src/components/home/AdmissionsCTA.jsx",
+    "bytes": 1446,
+    "reason": "Knip unused file; no references outside the removed closed set; absent from all 40 live production request traces."
+  },
+  {
+    "path": "src/components/home/HeroSection.jsx",
+    "bytes": 2206,
+    "reason": "Knip unused file; no references outside the removed closed set; absent from all 40 live production request traces."
+  },
+  {
+    "path": "src/components/home/PaintedAboutTeaserV2.jsx",
+    "bytes": 8973,
+    "reason": "Knip unused file; no references outside the removed closed set; absent from all 40 live production request traces."
+  },
+  {
+    "path": "src/components/home/PaintedAdmissionsCTAV2.jsx",
+    "bytes": 6698,
+    "reason": "Knip unused file; no references outside the removed closed set; absent from all 40 live production request traces."
+  },
+  {
+    "path": "src/components/home/PaintedCampusGalleryV2.jsx",
+    "bytes": 4274,
+    "reason": "Knip unused file; no references outside the removed closed set; absent from all 40 live production request traces."
+  },
+  {
+    "path": "src/components/home/PaintedPhotoStripV2.jsx",
+    "bytes": 4735,
+    "reason": "Knip unused file; no references outside the removed closed set; absent from all 40 live production request traces."
+  },
+  {
+    "path": "src/components/home/PaintedStatsSectionV2.jsx",
+    "bytes": 5298,
+    "reason": "Knip unused file; no references outside the removed closed set; absent from all 40 live production request traces."
+  },
+  {
+    "path": "src/components/home/PaintedTestimonialsSectionV2.jsx",
+    "bytes": 1738,
+    "reason": "Knip unused file; no references outside the removed closed set; absent from all 40 live production request traces."
+  },
+  {
+    "path": "src/components/home/PhotoStrip.jsx",
+    "bytes": 478,
+    "reason": "Knip unused file; no references outside the removed closed set; absent from all 40 live production request traces."
+  },
+  {
+    "path": "src/components/home/ProgramsPreview.jsx",
+    "bytes": 1320,
+    "reason": "Knip unused file; no references outside the removed closed set; absent from all 40 live production request traces."
+  },
+  {
+    "path": "src/components/home/StatsSection.jsx",
+    "bytes": 1812,
+    "reason": "Knip unused file; no references outside the removed closed set; absent from all 40 live production request traces."
+  },
+  {
+    "path": "src/components/home/TestimonialsSection.jsx",
+    "bytes": 1884,
+    "reason": "Knip unused file; no references outside the removed closed set; absent from all 40 live production request traces."
+  },
+  {
+    "path": "src/components/layout/PaintedFooterV2.jsx",
+    "bytes": 12759,
+    "reason": "Knip unused file; no references outside the removed closed set; absent from all 40 live production request traces."
+  },
+  {
+    "path": "src/components/layout/navFloraConfig.js",
+    "bytes": 6447,
+    "reason": "Knip unused file; no references outside the removed closed set; absent from all 40 live production request traces."
+  },
+  {
+    "path": "src/components/ui/AnimatedHeading.jsx",
+    "bytes": 1302,
+    "reason": "Knip unused file; no references outside the removed closed set; absent from all 40 live production request traces."
+  },
+  {
+    "path": "src/components/ui/ClayButton.jsx",
+    "bytes": 760,
+    "reason": "Knip unused file; no references outside the removed closed set; absent from all 40 live production request traces."
+  },
+  {
+    "path": "src/components/ui/ClayCard.jsx",
+    "bytes": 624,
+    "reason": "Knip unused file; no references outside the removed closed set; absent from all 40 live production request traces."
+  },
+  {
+    "path": "src/components/ui/Crayon.jsx",
+    "bytes": 1968,
+    "reason": "Knip unused file; no references outside the removed closed set; absent from all 40 live production request traces."
+  },
+  {
+    "path": "src/components/ui/MagneticButton.jsx",
+    "bytes": 2108,
+    "reason": "Knip unused file; no references outside the removed closed set; absent from all 40 live production request traces."
+  },
+  {
+    "path": "src/components/gallery/PageTurnBook.jsx",
+    "bytes": 13526,
+    "reason": "Replaced by byte-identical rendered PaperPage HTML; the default StPageFlip renderer has no callers. All four production albums use SpineBook; package chunk not requested in 40 production traces. Retained PageTurnBook.css because its paper rules remain live."
+  }
+]

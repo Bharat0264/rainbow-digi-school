@@ -1,0 +1,1 @@
+Read and follow AGENTS.md in full. The same safety, production-baseline, branch, commit, origin-only push and verification rules apply to Gemini Antigravity. Do not overwrite Codex commits or uncommitted work.
