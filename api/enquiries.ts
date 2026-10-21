@@ -1,4 +1,12 @@
-import type { VercelRequest, VercelResponse } from "@vercel/node";
+import type { IncomingMessage } from "node:http";
+
+// Only this handler's public adapter contract; no Vercel build runtime dependency.
+export type EnquiryRequest = Pick<IncomingMessage, "method" | "headers"> & { body?: unknown };
+export interface EnquiryResponse {
+  setHeader(name: string, value: string): unknown;
+  status(code: number): EnquiryResponse;
+  json(body: unknown): unknown;
+}
 import { randomUUID } from "node:crypto";
 import { z } from "zod";
 
@@ -332,8 +340,8 @@ export function createHandler(
   sender: EnquirySender = saveToGoogleAppsScript,
 ) {
   return async function handler(
-    request: VercelRequest,
-    response: VercelResponse,
+    request: EnquiryRequest,
+    response: EnquiryResponse,
   ) {
     response.setHeader("Cache-Control", "no-store");
 

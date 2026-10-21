@@ -29,3 +29,9 @@ artifacts/
 
 # Offline high-resolution artwork masters
 design-masters/
+
+# Review/browser reports and local build verification
+playwright-report/
+test-results/
+coverage/
+build-verify/

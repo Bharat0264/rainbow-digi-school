@@ -1,0 +1,22 @@
+{
+  "entry": [
+    "src/main.jsx",
+    "api/**/*.ts",
+    "scripts/**/*.{mjs,cjs,js}",
+    "server/server.js",
+    "src/entry-prerender.jsx",
+    "tests/**/*.spec.js",
+    "playwright.config.js",
+    "vite.config.js",
+    "eslint.config.js"
+  ],
+  "project": [
+    "src/**/*.{js,jsx,ts,tsx}",
+    "api/**/*.ts",
+    "scripts/**/*.{mjs,cjs,js}",
+    "server/server.js",
+    "tests/**/*.spec.js"
+  ],
+  "ignore": ["artifacts/**", "dist/**"],
+  "ignoreDependencies": ["@tailwindcss/vite", "autoprefixer", "postcss", "tailwindcss"]
+}
