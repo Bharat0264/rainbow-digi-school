@@ -41,6 +41,16 @@ function head(path) {
   return tags.join("\n    ");
 }
 const template = await readFile(resolve("dist/index.html"), "utf8");
+// SSR runs through Vite's module loader; map its source URLs to the exact
+// assets emitted by the production build before publishing resource hints.
+const manifest = JSON.parse(await readFile(resolve("dist/.vite/manifest.json"), "utf8"));
+function productionAssets(markup) {
+  return markup.replace(/\/src\/assets\/[^"'\s<>),]+/g, source => {
+    const asset = manifest[source.slice(1)];
+    if (!asset?.file) throw new Error(`Missing production asset: ${source}`);
+    return `/${asset.file}`;
+  });
+}
 if (
   !template.includes("<!-- seo:start -->") ||
   !template.includes('<div id="root"></div>')
@@ -53,7 +63,7 @@ const server = await createServer({
 try {
   const { render } = await server.ssrLoadModule("/src/entry-prerender.jsx");
   for (const path of [...Object.keys(SEO_ROUTES), "/404"]) {
-    const content = render(path);
+    const content = productionAssets(render(path));
     if (!content.includes("<h1") || content.length < 500)
       throw new Error(`Incomplete rendered page: ${path}`);
     const html = template
