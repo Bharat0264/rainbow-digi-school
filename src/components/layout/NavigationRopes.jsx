@@ -154,7 +154,7 @@ export default function NavigationRopes({ ropes, railFasteners = [] }) {
         })}
       </svg>
       <svg className="featured-ropes featured-ropes-fixings" aria-hidden="true">
-        {ropes.map(({ x, hole, bottom, under, isLogo, board, thickness }, index) => isLogo ? null : (
+        {ropes.map(({ x, hole, bottom, isLogo, board, thickness }, index) => isLogo ? null : (
           <g key={index} data-rope-fixing={board}>
             <defs>
               <clipPath id={`${id}-nut-lip-${index}`}>

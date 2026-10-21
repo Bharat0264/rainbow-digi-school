@@ -1,5 +1,5 @@
 import { forwardRef, useEffect, useImperativeHandle, useLayoutEffect, useRef, useState } from 'react';
-import { PaperPage } from './PageTurnBook';
+import { PaperPage } from './PaperPage';
 import './SpineBook.css';
 
 function spreadAt(index, count, single) {
@@ -10,11 +10,11 @@ function spreadAt(index, count, single) {
   return [left, left + 1 < count ? left + 1 : null];
 }
 
-const SpineBook = forwardRef(function SpineBook({ leaves, title, index, onChange, onInteract }, ref) {
+const SpineBook = forwardRef(function SpineBook({ leaves, title, index, onChange }, ref) {
   const measured = useRef(null);
   const area = useRef(null), gesture = useRef(null), timer = useRef(null), activeTurn = useRef(null);
-  const latest = useRef({ index, onChange, onInteract });
-  useEffect(() => { latest.current = { index, onChange, onInteract }; }, [index,onChange,onInteract]);
+  const latest = useRef({ index, onChange });
+  useEffect(() => { latest.current = { index, onChange }; }, [index,onChange]);
   const [single,setSingle] = useState(() => matchMedia('(max-width:767px)').matches);
   const [size,setSize] = useState(null), [turn,setTurn] = useState(null);
 
@@ -38,7 +38,7 @@ const SpineBook = forwardRef(function SpineBook({ leaves, title, index, onChange
 
   const cancelTurn = () => { clearTimeout(timer.current); activeTurn.current=null; setTurn(null); };
   const move = direction => {
-    latest.current.onInteract();
+    
     if (activeTurn.current) return;
     const current = latest.current.index;
     const currentSpread = spreadAt(current,leaves.length,single);
@@ -52,7 +52,7 @@ const SpineBook = forwardRef(function SpineBook({ leaves, title, index, onChange
       activeTurn.current=null;setTurn(null);latest.current.onChange(target);
     },reduced?250:450);
   };
-  useImperativeHandle(ref,()=>({move,jump(target){latest.current.onInteract();cancelTurn();latest.current.onChange(Math.max(0,Math.min(leaves.length-1,target)));}}));
+  useImperativeHandle(ref,()=>({move,jump(target){cancelTurn();latest.current.onChange(Math.max(0,Math.min(leaves.length-1,target)));}}));
 
   const current = spreadAt(index,leaves.length,single);
   const previous = turn ? spreadAt(turn.from,leaves.length,single) : current;
@@ -66,7 +66,7 @@ const SpineBook = forwardRef(function SpineBook({ leaves, title, index, onChange
 
   return <div ref={area} className={`album-spine-area ${single?'album-spine-single':''}`}>
     {size && <div className="album-spine-frame" style={size} data-left-page={current[0] ?? ''} data-right-page={current[1] ?? ''} data-turning={Boolean(turn)}
-      onPointerDown={event=>{if(event.button!==0)return;latest.current.onInteract();gesture.current={x:event.clientX,y:event.clientY};event.currentTarget.setPointerCapture(event.pointerId);}}
+      onPointerDown={event=>{if(event.button!==0)return;gesture.current={x:event.clientX,y:event.clientY};event.currentTarget.setPointerCapture(event.pointerId);}}
       onPointerCancel={()=>{gesture.current=null;}}
       onPointerUp={event=>{const start=gesture.current;if(!start)return;gesture.current=null;const dx=event.clientX-start.x,dy=event.clientY-start.y;if(Math.abs(dx)>35&&Math.abs(dx)>Math.abs(dy))move(dx<0?1:-1);else if(Math.abs(dx)<8&&Math.abs(dy)<8){const r=event.currentTarget.getBoundingClientRect();move(event.clientX<r.x+r.width/2?-1:1);}}}>
       <div className="album-spine-resting" aria-hidden={turn?true:undefined}>{resting.map((leaf,i)=><div key={i} className="album-spine-slot">{renderPage(leaf,i===0&&!single?'--left':'--right')}</div>)}</div>

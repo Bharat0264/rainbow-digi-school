@@ -1,6 +1,0 @@
-import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import { ACADEMICS } from '../../data/school';
-import { IMAGES } from '../../data/images';
-import SmartImage from '../ui/SmartImage';
-export default function ProgramsPreview() { return <section className="bg-[#fffbeF] px-5 py-20 sm:px-8"><div className="mx-auto max-w-6xl"><div className="mb-10 text-center"><span className="text-sm font-bold text-[#2b5ba8]">Academics</span><h2 className="mt-2 font-['Fredoka'] text-[clamp(1.75rem,3vw,2.5rem)] font-semibold text-[#4a2e0a]">Programs that inspire</h2></div><div className="grid gap-6 md:grid-cols-2">{ACADEMICS.map((program, index) => <motion.article key={program.id} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="rounded-[28px] bg-white p-5 shadow-sm"><SmartImage image={index ? IMAGES.activity2 : IMAGES.activity1} className="mb-5 aspect-[16/8]"/><h3 className="font-['Fredoka'] text-xl font-semibold text-[#4a2e0a]">{program.stage}</h3><p className="mt-2 text-sm font-bold text-[#2b5ba8]">{program.grades}</p><p className="mt-3 text-sm leading-6 text-[#6b5535]">{program.description}</p></motion.article>)}</div><Link to="/academics" className="sunny-button mx-auto mt-8 w-fit">Explore academics</Link></div></section>; }

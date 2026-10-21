@@ -10,7 +10,6 @@ export default function AlbumViewer({ album, onClose, opener, initialPage = 0 })
   const [view, setView] = useState('book');
   const [closing, setClosing] = useState(false);
   const book = useRef(null);
-  const [hintSeen, setHintSeen] = useState(false);
   const [lightbox, setLightbox] = useState(null);
   const dialog = useRef(null), backButton = useRef(null), closeTimer = useRef(null);
   const pages = useMemo(() => album.pages.flatMap(page => page.photos.reduce((spreads, photo, index) => {
@@ -45,10 +44,9 @@ export default function AlbumViewer({ album, onClose, opener, initialPage = 0 })
   const openPhoto = (photo, element) => {
     setLightbox({ index: photos.findIndex(item => item.id === photo.id), opener: element });
   };
-  const viewer = <dialog ref={dialog} className={`gallery-viewer gallery-viewer-spine ${closing ? 'gallery-viewer-closing' : ''}`} aria-labelledby="gallery-album-title" onPointerDownCapture={() => setHintSeen(true)}
+  const viewer = <dialog ref={dialog} className={`gallery-viewer gallery-viewer-spine ${closing ? 'gallery-viewer-closing' : ''}`} aria-labelledby="gallery-album-title"
     onCancel={event => { event.preventDefault(); close(); }}
     onKeyDown={event => {
-      setHintSeen(true);
       if (event.target.closest('.gallery-lightbox')) return;
       if (!event.target.matches('input') && view === 'book' && (event.key === 'ArrowRight' || event.key === 'ArrowLeft')) {
         event.preventDefault(); move(event.key === 'ArrowRight' ? 1 : -1);
@@ -66,14 +64,14 @@ export default function AlbumViewer({ album, onClose, opener, initialPage = 0 })
       </div>
     </header>
     <p className="gallery-sr-only" role="status" aria-live="polite" aria-atomic="true">{pages.length ? pageLabel : 'No matching photos'}</p>
-    <main className={`gallery-viewer-content gallery-mode-${view}`} onWheel={() => setHintSeen(true)}>
+    <main className={`gallery-viewer-content gallery-mode-${view}`}>
       {!pages.length ? <p className="gallery-empty">No moments match that search. Try another word.</p> : view === 'grid' ? <div className="gallery-album-grid">
         {photos.map(photo => <button type="button" className="gallery-grid-photo" key={photo.id} onClick={event => openPhoto(photo, event.currentTarget)} aria-label={`Open photo: ${photo.caption}`}>
           <img src={photo.thumb} alt={photo.alt} width={photo.thumbWidth} height={photo.thumbHeight} loading="lazy" decoding="async" /><span>{photo.caption}</span>
         </button>)}
       </div> : <div className={`gallery-book-flow ${closing ? 'gallery-book-closing' : ''}`}>
         <div className="gallery-coverflow">
-          <SpineBook ref={book} leaves={leaves} title={album.title} index={safeIndex} onChange={setPageIndex} onInteract={() => setHintSeen(true)} hintSeen={hintSeen} />
+          <SpineBook ref={book} leaves={leaves} title={album.title} index={safeIndex} onChange={setPageIndex} />
           <div className={`gallery-opening-cover gallery-tone-${album.tone}`} aria-hidden="true"><span>{album.title}</span></div>
         </div>
         <div className="gallery-page-controls">
