@@ -253,3 +253,39 @@
   .gallery-page-number { padding-right: 12px; }
 }
 @media(prefers-reduced-motion:reduce) { .gallery-turn-sheet { display: none; animation: none; } .gallery-paper-photo { transform: none !important; } }
+
+/* Size the book from the space left by the toolbar and controls, so it never
+   creates its own vertical scrollbar. Grid view keeps its normal scrolling. */
+.gallery-mode-book { overflow: hidden; }
+.gallery-book-flow { display: flex; flex-direction: column; height: 100%; max-height: calc(min(60dvh,620px) + 90px); min-height: 0; padding-block: 12px; }
+.gallery-coverflow { flex: 1; height: auto; min-height: 0; }
+.gallery-page-controls { flex-shrink: 0; margin-top: 22px; }
+@media(max-width:767px) {
+  .gallery-book-flow { max-height: calc(clamp(285px,85vw,420px) + 84px); }
+}
+@media(max-height:600px) {
+  .gallery-viewer { padding-block: 10px; }
+  .gallery-viewer[open] { gap: 8px; }
+  .gallery-viewer-title h2 { font-size: 24px; }
+  .gallery-viewer-title p { margin-top: 2px; }
+  .gallery-spread { padding: 10px 14px; gap: 6px; }
+  .gallery-page-number { font-size: 24px; }
+  .gallery-photo-layout, .gallery-template-moments .gallery-photo-layout { padding-block: 4px; }
+  .gallery-paper-footer { display: none; }
+  .gallery-paper-caption, .gallery-template-moments .gallery-paper-photo:not(:first-child) .gallery-paper-caption { font-size: 10px; padding-block: 3px; margin-top: 2px; }
+  .gallery-page-controls { margin-top: 14px; }
+  .gallery-progress { margin-bottom: 8px; }
+  .gallery-notice { margin-top: 5px; }
+}
+.gallery-coverflow { container-type: size; }
+.gallery-spread { padding: clamp(10px,4cqh,32px); gap: clamp(6px,2cqh,12px); }
+.gallery-page-number { font-size: clamp(18px,8cqh,42px); }
+.gallery-photo-layout, .gallery-template-moments .gallery-photo-layout { padding-block: clamp(3px,2cqh,12px); }
+@media(max-height:600px) {
+  .gallery-spread { padding: 6px 12px; gap: 4px; }
+  .gallery-page-number { font-size: 18px; }
+  .gallery-paper-photo, .gallery-template-postcards .gallery-paper-photo:nth-child(odd), .gallery-template-postcards .gallery-paper-photo:nth-child(even) { padding: 4px; transform: none; }
+  .gallery-paper-photo::before { display: none; }
+  .gallery-photo-layout, .gallery-template-moments .gallery-photo-layout { padding-block: 0; }
+}
+.gallery-spread { overflow: clip; }

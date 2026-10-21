@@ -66,6 +66,7 @@ try {
     const dialog = page.getByRole('dialog', { name: 'Classrooms', exact: true });
     await dialog.waitFor({ state: 'visible' }); await page.waitForTimeout(700);
     assert.equal(await countText(dialog), 'Page 1 of 6');
+    assert.ok(await dialog.locator('.gallery-mode-book').evaluate(e => e.scrollHeight <= e.clientHeight + 1), 'Book fits without vertical scrolling');
     assert.equal(await dialog.locator('.gallery-flow-page').count(), 1);
     assert.equal(await dialog.getByRole('button', { name: /^Turn to next page:/ }).count(), 2, 'Only active spread is interactive');
     assert.equal(await dialog.getByRole('button', { name: 'Back to albums' }).evaluate(e => e === document.activeElement), true);
