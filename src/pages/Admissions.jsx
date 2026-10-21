@@ -1,5 +1,7 @@
 import EnquiryForm from "../components/ui/EnquiryForm";
-import { PageIntro, SectionHeading, Faqs } from "../components/ui/PageElements";
+import { ArrowRight, Send } from "lucide-react";
+import styles from "./AdmissionsHero.module.css";
+import { SectionHeading, Faqs } from "../components/ui/PageElements";
 import {
   ADMISSION_ROADMAP,
   ADMISSION_ELIGIBILITY,
@@ -11,22 +13,22 @@ import {
 export default function Admissions() {
   return (
     <>
-      <PageIntro
-        eyebrow="Nursery to Grade V · Admissions 2026–2027"
-        title="The Next Chapter Starts Here."
-        image={SCHOOL.campusPhoto}
-      >
-        <p>
-          We welcome families looking for a caring, curiosity-driven educational
-          environment. Learn about our 5-step admissions process, class age
-          guidelines, and documentation, then submit your enquiry below.
-        </p>
-        <div className="page-intro-actions">
-          <a className="button button-primary clay-btn-yellow" href="#enquiry">
-            <span>Start an admissions enquiry</span>
-          </a>
+      <section className={`section ${styles.hero}`} aria-labelledby="admissions-hero-title">
+        <div className={`site-container ${styles.layout}`}>
+          <div className={styles.card}>
+            <div className={styles.copy}>
+              <p className={`eyebrow ${styles.eyebrow}`}><span className="eyebrow-dot" /> Nursery to Grade V &middot; Admissions 2026&ndash;2027</p>
+              <h1 id="admissions-hero-title" className={styles.title}>The Next Chapter<br className={styles.desktopBreak} /> Starts <span className={styles.underlined}>Here.</span><span className={styles.rays} aria-hidden="true"><i /><i /><i /></span></h1>
+              <p className={styles.lead}>We welcome families looking for a caring, curiosity-driven educational environment. Learn about our 5-step admissions process, class age guidelines, and documentation, then submit your enquiry below.</p>
+              <a className={styles.button} href="#enquiry"><span>Start an admissions enquiry</span><span className={styles.buttonArrow}><ArrowRight size={26} aria-hidden="true" /></span></a>
+            </div>
+            <div className={styles.flight} aria-hidden="true"><svg viewBox="0 0 270 150" fill="none"><path d="M 4 137 C 99 174 55 20 137 62 S 226 39 245 16" stroke="currentColor" strokeWidth="2" strokeDasharray="7 8" strokeLinecap="round" /></svg><Send size={39} /></div>
+          </div>
+          <figure className={styles.photo} aria-label={SCHOOL.campusPhoto.alt}>
+            <img src={SCHOOL.campusPhoto.src} width={SCHOOL.campusPhoto.width} height={SCHOOL.campusPhoto.height} alt={SCHOOL.campusPhoto.alt} loading="eager" fetchPriority="high" decoding="async" />
+          </figure>
         </div>
-      </PageIntro>
+      </section>
 
       {/* 5-Step Enrolment Roadmap */}
       <section className="section site-container">
