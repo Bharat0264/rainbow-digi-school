@@ -61,7 +61,7 @@ export default function AlbumViewer({ album, onClose, opener, startSlideshow = f
     if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
     closeTimer.current = setTimeout(onClose, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 140 : 600);
   };
-  const turnPage = nextDirection => {
+  function turnPage(nextDirection) {
     if (turn || pages.length < 2) return;
     setDirection(nextDirection);
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -70,7 +70,7 @@ export default function AlbumViewer({ album, onClose, opener, startSlideshow = f
       turnTimer.current = setTimeout(() => setTurn(null), 720);
     }
     setPageIndex((safeIndex + nextDirection + pages.length) % pages.length);
-  };
+  }
   const move = nextDirection => { pause(); turnPage(nextDirection); };
   const swipe = useGallerySwipe(move, pause);
   const openPhoto = (photo, element) => {
