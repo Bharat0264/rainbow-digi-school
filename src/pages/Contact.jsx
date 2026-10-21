@@ -1,3 +1,5 @@
+import styles from "./ContactAdmissions.module.css";
+import admissionsChild from "../assets/contact-admissions-child.webp";
 import { Link } from "react-router-dom";
 import { MapPin, Phone, Mail, ArrowRight, ArrowUpRight } from "lucide-react";
 import { SCHOOL } from "../data/school";
@@ -16,12 +18,12 @@ export default function Contact() {
         </p>
       </PageIntro>
 
-      <section className="section site-container contact-bento" aria-label="Contact and admissions">
+      <section className={`section site-container contact-bento ${styles.section}`} aria-label="Contact and admissions">
         <div className="contact-card contact-card-admissions clay-tile clay-cream">
           <p className="eyebrow contact-admissions-eyebrow">
             <span className="eyebrow-dot" /> Admissions
           </p>
-          <h2 className="contact-admissions-heading">Looking for admissions?</h2>
+          <h2 className="contact-admissions-heading">Looking for <span className={styles.underline}>admissions?</span></h2>
           <p className="contact-admissions-text">
             If you have questions about our Nursery to Grade V programmes, fees,
             availability, or the admissions process, please use our dedicated
@@ -33,6 +35,7 @@ export default function Contact() {
               <ArrowRight size={23} aria-hidden="true" />
             </Link>
           </div>
+          <img className={styles.illustration} src={admissionsChild} alt="" aria-hidden="true" width="1024" height="1024" loading="lazy" />
         </div>
 
         <div className="contact-methods">
