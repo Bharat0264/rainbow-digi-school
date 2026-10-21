@@ -1,5 +1,6 @@
 import EnquiryForm from "../components/ui/EnquiryForm";
-import { ArrowRight, Send } from "lucide-react";
+import enquiryStyles from "./AdmissionsEnquiry.module.css";
+import { ArrowRight, Send, Phone, Mail } from "lucide-react";
 import styles from "./AdmissionsHero.module.css";
 import { SectionHeading, Faqs } from "../components/ui/PageElements";
 import {
@@ -126,7 +127,7 @@ export default function Admissions() {
       </section>
 
       {/* Enquiry Form Section */}
-      <section id="enquiry" className="section soft-section">
+      <section id="enquiry" className={`section soft-section ${enquiryStyles.section}`}>
         <div className="site-container enquiry-layout">
           <div className="enquiry-intro-col">
             <div className="clay-tile clay-cream">
@@ -154,7 +155,7 @@ export default function Admissions() {
                     href={phone.href}
                     className="clay-btn clay-btn-cream contact-pill"
                   >
-                    <span>{phone.label}</span>
+                    <Phone size={20} aria-hidden="true" /><span>{phone.label}</span>
                   </a>
                 ))}
               </div>
@@ -163,12 +164,12 @@ export default function Admissions() {
                 className="clay-btn clay-btn-cream contact-pill email-pill"
                 style={{ marginTop: "12px", display: "inline-flex" }}
               >
-                <span>{SCHOOL.contact.email}</span>
+                <Mail size={20} aria-hidden="true" /><span>{SCHOOL.contact.email}</span>
               </a>
             </div>
           </div>
-          <div className="form-surface clay-tile clay-cream" style={{ alignSelf: "start" }}>
-            <EnquiryForm />
+          <div className="form-surface clay-tile clay-cream" style={{ alignSelf: "stretch" }}>
+            <EnquiryForm illustrated />
           </div>
         </div>
       </section>

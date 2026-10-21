@@ -1,0 +1,35 @@
+.section :global(.enquiry-layout) { grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr); gap:30px; align-items:stretch; }
+.section :global(.clay-tile) { border:1px solid #fffdf8; border-radius:30px; background:linear-gradient(135deg,#fffdf8,#faf6ee); box-shadow:inset 0 1px #fff,0 12px 28px #563a1910; }
+.section :global(.enquiry-intro-col) {display:flex;flex-direction:column;}
+.section :global(.enquiry-intro-col > .clay-tile) {padding:34px;}
+.section :global(.section-heading h2) {font-size:clamp(32px,3vw,46px);line-height:1.14;letter-spacing:-.035em;}
+.section :global(.section-description) {font-size:17px;line-height:1.6;}
+.section :global(.contact-short) {flex:1;background:linear-gradient(120deg,#fbd8d2,#fbd9d4);}
+.section :global(.contact-short h3) {font-size:clamp(27px,2.4vw,37px);line-height:1.15;font-weight:600;}
+.section :global(.contact-short > p) {font-size:17px !important;line-height:1.55;}
+.section :global(.phone-pills) {display:grid;gap:10px;}
+.section :global(.contact-pill) {display:flex !important;width:100%;justify-content:flex-start;gap:18px;min-height:52px;padding:9px 16px;border:1px solid #fff;border-radius:999px;background:#fff;box-shadow:inset 0 2px 4px #28323c0a,0 5px 12px #8b6e2408;font-size:15px;font-weight:500;}
+.section :global(.contact-pill > svg) {flex:none;box-sizing:content-box;padding:9px;border-radius:50%;background:#ffebad;}
+.section :global(.email-pill > svg) {background:#ffc9c7;}
+.section :global(.email-pill span) {overflow-wrap:anywhere;min-width:0;}
+.section :global(.form-surface) {padding:30px;}
+.section :global(.form-grid) {gap:26px 22px;}
+.section :global(.form-field label) {font-size:16px;font-weight:500;color:#17222d;}
+.section :global(.form-field label > span[aria-hidden]) {color:#df2525;}
+.section :global(.enquiry-input-wrap) {position:relative;width:100%;}
+.section :global(.enquiry-field-icon) {position:absolute;left:19px;top:50%;transform:translateY(-50%);color:#344156;pointer-events:none;}
+.section :global(.enquiry-message-wrap .enquiry-field-icon) {top:23px;transform:none;}
+.section :global(.enquiry-input-wrap input),.section :global(.enquiry-input-wrap textarea) {width:100%;min-height:54px;padding:15px 18px 15px 54px;border:1px solid #e8e7e6;background:#fff;border-radius:999px;box-shadow:inset 0 3px 7px #282a3510;color:#17222d;font-size:15px;}
+.section :global(.enquiry-input-wrap textarea) {border-radius:24px;min-height:160px;resize:vertical;}
+.section :global(.enquiry-input-wrap input::placeholder),.section :global(.enquiry-input-wrap textarea::placeholder) {color:#7c8293;opacity:1;}
+.section :global(.glass-select-trigger) {min-height:54px;background:#fff;border:1px solid #e4e5e8;box-shadow:inset 0 2px 5px #282a3508;color:#17222d;}
+.section :global(.glass-select-trigger::before),.section :global(.glass-select-trigger::after) {display:none;}
+.section :global(.glass-select-trigger .glass-badge),.section :global(.glass-chevron-circle) {background:#f4f5f6;color:#29313e;box-shadow:none;border-color:transparent;}
+.section :global(.glass-trigger-label) {color:#17222d;font-size:15px;}
+.section :global(.form-field small),.section :global(.form-privacy) {font-size:13px;line-height:1.55;color:#747a86;}
+.section :global(.form-consent label) {font-size:15px;line-height:1.55;font-weight:400;}
+.section :global(.premium-form > button) {width:100%;min-height:52px;display:flex;justify-content:center;gap:24px;background:linear-gradient(120deg,#ffda65,#ffd24b);border:1px solid #fff0b3;border-radius:999px;font-size:17px;font-weight:500;box-shadow:0 8px 18px #d9a33620;}
+.section :global(.form-notice:empty) {display:none;}
+.section :global(input:focus-visible),.section :global(textarea:focus-visible) {outline:3px solid #d8ac42;outline-offset:2px;}
+@media(max-width:1000px) { .section :global(.enquiry-layout) {grid-template-columns:1fr;} .section :global(.enquiry-intro-col) {display:grid;grid-template-columns:1fr 1fr;gap:20px;} .section :global(.contact-short) {margin-top:0 !important;} }
+@media(max-width:600px) { .section :global(.enquiry-intro-col),.section :global(.form-grid) {grid-template-columns:1fr;} .section :global(.enquiry-intro-col > .clay-tile),.section :global(.form-surface) {padding:24px;} .section :global(.contact-pill) {font-size:13px;gap:10px;padding:9px 12px;} .section :global(.enquiry-layout) {gap:20px;} }

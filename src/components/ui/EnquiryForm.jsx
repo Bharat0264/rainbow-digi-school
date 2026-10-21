@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { UserRound, Phone, Mail, MessageSquare, ArrowRight } from "lucide-react";
 import GlassSelect from "./GlassSelect";
 
 const programs = [
@@ -15,6 +16,7 @@ const programs = [
 
 export default function EnquiryForm({
   idPrefix = "enquiry",
+  illustrated = false,
   submitLabel = "Send enquiry",
 }) {
   const [errors, setErrors] = useState({});
@@ -138,7 +140,10 @@ export default function EnquiryForm({
           <label htmlFor={fieldId("parentName")}>
             Parent or guardian name <span aria-hidden="true">*</span>
           </label>
+          <div className={illustrated ? "enquiry-input-wrap" : undefined}>
+            {illustrated && <UserRound className="enquiry-field-icon" size={21} aria-hidden="true" />}
           <input
+            placeholder={illustrated ? "Enter parent or guardian name" : undefined}
             id={fieldId("parentName")}
             name="parentName"
             autoComplete="name"
@@ -147,12 +152,15 @@ export default function EnquiryForm({
             aria-invalid={!!errors.parentName}
             aria-describedby={describedBy("parentName")}
           />
+          </div>
           {error("parentName")}
         </div>
         <div className="form-field">
           <label htmlFor={fieldId("phone")}>
             Mobile number <span aria-hidden="true">*</span>
           </label>
+          <div className={illustrated ? "enquiry-input-wrap" : undefined}>
+            {illustrated && <Phone className="enquiry-field-icon" size={21} aria-hidden="true" />}
           <input
             id={fieldId("phone")}
             name="phone"
@@ -165,11 +173,15 @@ export default function EnquiryForm({
             aria-invalid={!!errors.phone}
             aria-describedby={describedBy("phone")}
           />
+          </div>
           {error("phone")}
         </div>
         <div className="form-field">
           <label htmlFor={fieldId("email")}>Email (optional)</label>
+          <div className={illustrated ? "enquiry-input-wrap" : undefined}>
+            {illustrated && <Mail className="enquiry-field-icon" size={21} aria-hidden="true" />}
           <input
+            placeholder={illustrated ? "Enter your email address" : undefined}
             id={fieldId("email")}
             name="email"
             type="email"
@@ -178,6 +190,7 @@ export default function EnquiryForm({
             aria-invalid={!!errors.email}
             aria-describedby={describedBy("email")}
           />
+          </div>
           {error("email")}
         </div>
         <div className="form-field">
@@ -198,7 +211,10 @@ export default function EnquiryForm({
       </div>
       <div className="form-field">
         <label htmlFor={fieldId("message")}>Your question (optional)</label>
+        <div className={illustrated ? "enquiry-input-wrap enquiry-message-wrap" : undefined}>
+          {illustrated && <MessageSquare className="enquiry-field-icon" size={21} aria-hidden="true" />}
         <textarea
+          placeholder={illustrated ? "Write your message here..." : undefined}
           id={fieldId("message")}
           name="message"
           rows={4}
@@ -206,6 +222,7 @@ export default function EnquiryForm({
           aria-invalid={!!errors.message}
           aria-describedby={`${fieldId("message")}-hint${errors.message ? ` ${describedBy("message")}` : ""}`}
         />
+        </div>
         <small id={`${fieldId("message")}-hint`}>
           Please do not include your child's full name, medical information or
           identity documents.
@@ -256,6 +273,7 @@ export default function EnquiryForm({
         disabled={pending}
       >
         {pending ? "Sending enquiry…" : submitLabel}
+        {illustrated && <ArrowRight size={24} aria-hidden="true" />}
       </button>
       <div
         ref={statusRef}
