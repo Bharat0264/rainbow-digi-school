@@ -24,7 +24,7 @@ export default function CampusGallery() {
             <img className={introStyles.background} src={botanicalArt} width="1600" height="800" alt="" aria-hidden="true" decoding="async" />
             <div className={introStyles.copy}>
               <p className={`eyebrow ${introStyles.eyebrow}`}><span className="eyebrow-dot" /> Our Campus in Kandlakoya</p>
-              <h1>A Thoughtful Setting<br className={introStyles.break} /> for Learning.</h1>
+              <h1>A Thoughtful Setting for <span className={introStyles.underline}>Learning.</span></h1>
               <p className={introStyles.lead}>
                 Located in a quiet residential enclave in Kandlakoya, Hyderabad, our
                 school offers young learners a calm, secure, and inspiring environment
