@@ -1,8 +1,8 @@
-﻿import { useState } from 'react';
+﻿import { lazy, Suspense, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { ArrowRight, BookOpen, Cloud, Image as ImageIcon, Palette, PartyPopper, School, Send, Sparkles, Star } from 'lucide-react';
 import { albums, galleryPhotos } from '../../data/gallery';
-import AlbumViewer from './AlbumViewer';
+const AlbumViewer = lazy(() => import('./AlbumViewer')); 
 import leafSprig from '../../assets/gallery/decor/leaf-sprig.webp';
 import './Gallery.css';
 
@@ -52,7 +52,7 @@ export default function Gallery() {
     {!visibleAlbums.length && <p className="gallery-empty">No albums match that search. Try an event or a photo caption.</p>}
     <p className="gallery-shelf-hint">Choose a book and turn a little moment into a memory.</p>
     <p className="gallery-privacy">Photos are shared with parental consent.</p>
-    {selected && <AlbumViewer album={selected.album} opener={selected.opener}
-      initialPage={selected.page || 0} onClose={() => setSelected(null)} />}
+    <Suspense fallback={null}>{selected && <AlbumViewer album={selected.album} opener={selected.opener}
+      initialPage={selected.page || 0} onClose={() => setSelected(null)} />}</Suspense>
   </section>;
 }

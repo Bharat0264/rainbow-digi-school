@@ -420,7 +420,6 @@
   width: calc(68px * var(--scale));
   height: calc(68px * var(--scale));
   pointer-events: none;
-  will-change: transform;
 }
 .featured-menu,
 .featured-drawer { display: none; }

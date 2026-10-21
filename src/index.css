@@ -2,6 +2,7 @@
 @source "./main.jsx";
 @source "./components/ui/Logo.jsx";
 
+@import "./styles/fonts.css";
 @import "./styles/clay-tokens.css";
 @import "./styles/clay-paper.css";
 

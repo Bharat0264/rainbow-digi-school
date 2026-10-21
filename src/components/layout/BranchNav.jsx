@@ -205,7 +205,9 @@ export default function BranchNav() {
         <span className="featured-board-content">
           <img
             className="featured-label-art"
-            src={`/assets/nav/labels/${item.id}.png`}
+            src={`/assets/nav/labels/${item.id}.webp`}
+            width={item.id === 'home' ? 2006 : item.id === 'campus' ? 2097 : 2172}
+            height={item.id === 'home' ? 784 : item.id === 'campus' ? 750 : 724}
             alt={item.label}
             decoding="async"
             draggable={false}
