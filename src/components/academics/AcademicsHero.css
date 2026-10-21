@@ -1,0 +1,100 @@
+.academics-hero-section {
+  padding-top: clamp(16px, 2.5vw, 36px);
+  padding-bottom: clamp(20px, 3.5vw, 44px);
+}
+
+.academics-hero-card {
+  position: relative;
+  background-color: #FAF5EB;
+  border: 1px solid #EFE5D2;
+  border-radius: clamp(24px, 3.5vw, 40px);
+  padding: clamp(24px, 3.8vw, 48px);
+  box-shadow: 0 10px 32px rgba(220, 190, 150, 0.12);
+  overflow: hidden;
+}
+
+.academics-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: clamp(24px, 3vw, 44px);
+  align-items: center;
+}
+
+@media (max-width: 960px) {
+  .academics-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+.academics-hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  max-width: 550px;
+  z-index: 2;
+}
+
+.academics-hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.academics-hero-dot {
+  width: 7.5px;
+  height: 7.5px;
+  border-radius: 9999px;
+  background-color: #F5B82E;
+  flex-shrink: 0;
+}
+
+.academics-hero-eyebrow-text {
+  font-family: var(--font-sans, "Plus Jakarta Sans", sans-serif);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  color: #275F54;
+  text-transform: uppercase;
+}
+
+.academics-hero-title {
+  font-family: var(--font-serif, "Playfair Display", Georgia, serif);
+  font-size: clamp(34px, 4.2vw, 54px);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: #0F0401;
+  margin: 0;
+}
+
+.academics-hero-title .text-caramel {
+  color: #A87A55;
+}
+
+.academics-hero-lead {
+  font-family: var(--font-sans, "Plus Jakarta Sans", sans-serif);
+  font-size: clamp(15px, 1.2vw, 16.5px);
+  line-height: 1.7;
+  color: #3E4E48;
+  max-width: 530px;
+  margin: 0;
+}
+
+.academics-hero-art-col {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.academics-hero-img {
+  display: block;
+  width: 100%;
+  max-width: 480px;
+  height: auto;
+  aspect-ratio: 898 / 856;
+  object-fit: contain;
+  user-select: none;
+}

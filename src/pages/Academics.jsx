@@ -7,26 +7,17 @@ import {
   SCHOOL,
 } from "../data/school";
 import {
-  PageIntro,
   SectionHeading,
   ArrowLink,
 } from "../components/ui/PageElements";
+import AcademicsHero from "../components/academics/AcademicsHero";
 
 export default function Academics() {
   const { earlyYears, primaryYears } = ACADEMIC_PROGRAMMES;
 
   return (
     <>
-      <PageIntro
-        eyebrow="Curriculum & Learning"
-        title="Foundations for Curious Minds."
-      >
-        <p>
-          At Rainbow Digi School, we nurture a lifelong love for learning. Explore
-          our educational approach across the early childhood and primary years,
-          from Nursery through Grade V.
-        </p>
-      </PageIntro>
+      <AcademicsHero />
 
       {/* Curriculum Framework Bento */}
       <section id="curriculum" className="section site-container intro-grid">
