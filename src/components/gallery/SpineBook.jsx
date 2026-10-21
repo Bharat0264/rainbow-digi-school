@@ -38,7 +38,7 @@ const SpineBook = forwardRef(function SpineBook({ leaves, title, index, onChange
 
   const cancelTurn = () => { clearTimeout(timer.current); activeTurn.current=null; setTurn(null); };
   const move = direction => {
-    
+
     if (activeTurn.current) return;
     const current = latest.current.index;
     const currentSpread = spreadAt(current,leaves.length,single);

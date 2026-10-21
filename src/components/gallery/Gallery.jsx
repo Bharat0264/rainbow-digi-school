@@ -2,7 +2,7 @@
 import { useLocation } from 'react-router-dom';
 import { ArrowRight, BookOpen, Cloud, Image as ImageIcon, Palette, PartyPopper, School, Send, Sparkles, Star } from 'lucide-react';
 import { albums, galleryPhotos } from '../../data/gallery';
-const AlbumViewer = lazy(() => import('./AlbumViewer')); 
+const AlbumViewer = lazy(() => import('./AlbumViewer'));
 import leafSprig from '../../assets/gallery/decor/leaf-sprig.webp';
 import './Gallery.css';
 
