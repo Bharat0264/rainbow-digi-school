@@ -1,8 +1,7 @@
 ﻿import { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import CampusSpineBook from './CampusSpineBook';
+import SpineBook from './SpineBook';
 import { ArrowLeft, ArrowRight, BookOpen, Grid2X2 } from 'lucide-react';
-import PageTurnBook from './PageTurnBook';
 import GalleryLightbox from './GalleryLightbox';
 import { trapGalleryFocus } from './galleryInteraction';
 
@@ -46,8 +45,7 @@ export default function AlbumViewer({ album, onClose, opener, initialPage = 0 })
   const openPhoto = (photo, element) => {
     setLightbox({ index: photos.findIndex(item => item.id === photo.id), opener: element });
   };
-  const BookRenderer = album.id === 'campus' ? CampusSpineBook : PageTurnBook;
-  const viewer = <dialog ref={dialog} className={`gallery-viewer ${album.id === 'campus' ? 'gallery-viewer-campus' : ''} ${closing ? 'gallery-viewer-closing' : ''}`} aria-labelledby="gallery-album-title" onPointerDownCapture={() => setHintSeen(true)}
+  const viewer = <dialog ref={dialog} className={`gallery-viewer gallery-viewer-spine ${closing ? 'gallery-viewer-closing' : ''}`} aria-labelledby="gallery-album-title" onPointerDownCapture={() => setHintSeen(true)}
     onCancel={event => { event.preventDefault(); close(); }}
     onKeyDown={event => {
       setHintSeen(true);
@@ -55,7 +53,7 @@ export default function AlbumViewer({ album, onClose, opener, initialPage = 0 })
       if (!event.target.matches('input') && view === 'book' && (event.key === 'ArrowRight' || event.key === 'ArrowLeft')) {
         event.preventDefault(); move(event.key === 'ArrowRight' ? 1 : -1);
       }
-      if (!event.target.matches('input') && view === 'book' && ['Home','End'].includes(event.key)) { event.preventDefault(); book.current?.jump(event.key === 'Home' ? 0 : leaves.length - 1); }
+      if (!event.target.matches('input') && view === 'book' && ['Home','End'].includes(event.key)) { event.preventDefault(); book.current?.jump(event.key === 'Home' ? 0 : leaves.length - 1); backButton.current?.focus({ preventScroll: true }); }
       trapGalleryFocus(event, dialog.current);
     }}>
     <header className="gallery-viewer-header">
@@ -75,7 +73,7 @@ export default function AlbumViewer({ album, onClose, opener, initialPage = 0 })
         </button>)}
       </div> : <div className={`gallery-book-flow ${closing ? 'gallery-book-closing' : ''}`}>
         <div className="gallery-coverflow">
-          <BookRenderer ref={book} leaves={leaves} title={album.title} index={safeIndex} onChange={setPageIndex} onInteract={() => setHintSeen(true)} hintSeen={hintSeen} />
+          <SpineBook ref={book} leaves={leaves} title={album.title} index={safeIndex} onChange={setPageIndex} onInteract={() => setHintSeen(true)} hintSeen={hintSeen} />
           <div className={`gallery-opening-cover gallery-tone-${album.tone}`} aria-hidden="true"><span>{album.title}</span></div>
         </div>
         <div className="gallery-page-controls">
@@ -93,5 +91,5 @@ export default function AlbumViewer({ album, onClose, opener, initialPage = 0 })
     </footer>
     {lightbox && <GalleryLightbox photos={photos} initialIndex={lightbox.index} opener={lightbox.opener} onClose={() => setLightbox(null)} />}
   </dialog>;
-  return album.id === 'campus' && typeof document !== 'undefined' ? createPortal(viewer, document.body) : viewer;
+  return typeof document !== 'undefined' ? createPortal(viewer, document.body) : viewer;
 }

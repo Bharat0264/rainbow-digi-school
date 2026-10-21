@@ -1,0 +1,45 @@
+/* Every album uses a fixed spread footprint; every moving sheet shares its spine. */
+.album-spine-area { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; min-width:0; min-height:0; }
+.album-spine-frame { position:relative; flex:none; perspective:2200px; transform-style:preserve-3d; touch-action:pan-y; user-select:none; -webkit-tap-highlight-color:transparent; box-shadow:0 16px 22px -11px #53391550; border-radius:6px; }
+.album-spine-resting,.album-spine-fade { position:absolute; inset:0; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0; }
+.album-spine-slot,.album-spine-page { position:relative; height:100%; min-width:0; min-height:0; }
+.album-spine-page > .paper-leaf { position:relative; display:block; width:100%; height:100%; border-radius:6px; }
+.album-spine-page.--left > .paper-leaf { border-right:0; border-radius:6px 0 0 6px; }
+.album-spine-page.--right > .paper-leaf { border-left:1px solid #d6c39c; border-radius:0 6px 6px 0; }
+.album-spine-page.--left .paper-leaf-content { box-shadow:inset -12px 0 16px -13px #543c2080; }
+.album-spine-page.--right .paper-leaf-content { box-shadow:inset 12px 0 16px -13px #543c2080; }
+.album-spine-blank { height:100%; background:#fff9ec; border:1px solid #dbc9a7; border-radius:6px; }
+.album-spine-sheet { position:absolute; z-index:3; top:0; left:50%; width:50%; height:100%; transform-origin:0 50%; transform-style:preserve-3d; will-change:transform; animation:album-spine-next 450ms cubic-bezier(.645,.045,.355,1) both; pointer-events:none; }
+.album-spine-backward { left:0; transform-origin:100% 50%; animation-name:album-spine-prev; }
+.album-spine-front,.album-spine-back { position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden; }
+.album-spine-back { transform:rotateY(180deg); }
+.album-spine-sheet::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg,#28190524,transparent 45%,#fffdf066); opacity:0; animation:album-spine-shade 450ms ease-in-out; pointer-events:none; }
+.album-spine-fade { z-index:3; pointer-events:none; animation:album-spine-fade 250ms linear both; }
+.album-spine-single .album-spine-resting,.album-spine-single .album-spine-fade { grid-template-columns:minmax(0,1fr); }
+.album-spine-single .album-spine-sheet { left:0; width:100%; animation-name:album-spine-single-next; }
+.album-spine-single .album-spine-backward { transform-origin:100% 50%; animation-name:album-spine-single-prev; }
+.album-spine-single .album-spine-page > .paper-leaf { border:1px solid #dbc9a7; border-radius:6px; }
+@keyframes album-spine-next { from {transform:rotateY(0deg)} to {transform:rotateY(-180deg)} }
+@keyframes album-spine-prev { from {transform:rotateY(0deg)} to {transform:rotateY(180deg)} }
+@keyframes album-spine-single-next { from {transform:rotateY(0deg)} to {transform:rotateY(-90deg)} }
+@keyframes album-spine-single-prev { from {transform:rotateY(0deg)} to {transform:rotateY(90deg)} }
+@keyframes album-spine-shade { 50% {opacity:.55} }
+@keyframes album-spine-fade { from {opacity:1} to {opacity:0} }
+
+/* The native dialog is portalled outside the page's animated ancestors. */
+.gallery-viewer.gallery-viewer-spine { height:100dvh; max-height:100dvh; padding: max(24px,env(safe-area-inset-top)) clamp(12px,2.5vw,36px) max(20px,env(safe-area-inset-bottom)); }
+.gallery-viewer-spine[open] { gap:12px; }
+.gallery-viewer-spine .gallery-viewer-header { min-height:82px; padding-top:4px; }
+.gallery-viewer-spine .gallery-viewer-content { overflow:visible; }
+.gallery-viewer-spine .gallery-book-flow { display:grid; grid-template-rows:minmax(0,1fr) 46px; gap:12px; height:100%; max-height:100%; padding:0; animation:none; }
+.gallery-viewer-spine .gallery-coverflow { height:100%; min-height:0; }
+.gallery-viewer-spine .gallery-page-controls { margin:0; }
+.gallery-viewer-spine .gallery-opening-cover { display:none; }
+.gallery-viewer-spine .gallery-viewer-bottom { padding-top:0; }
+.gallery-viewer-spine .gallery-progress { margin-bottom:8px; }
+.gallery-viewer-spine .gallery-notice { margin-top:8px; }
+@media(max-width:767px) {
+ .gallery-viewer.gallery-viewer-spine { padding-top:max(20px,env(safe-area-inset-top)); padding-bottom:max(16px,env(safe-area-inset-bottom)); }
+ .gallery-viewer-spine .gallery-viewer-header { min-height:64px; }
+ .gallery-viewer-spine .gallery-viewer-title h2 { font-size:28px; }
+}
