@@ -1,0 +1,11 @@
+/* Decorative additions leave the existing card geometry and palette intact. */
+.intro :global(.page-intro-card) {position:relative;overflow:hidden;isolation:isolate;}
+.intro :global(.eyebrow),.intro :global(h1),.intro :global(.page-lead) {position:relative;z-index:2;}
+.underline {position:relative;}
+.underline::after {content:'';position:absolute;left:3%;right:3%;bottom:-6px;height:4px;border-radius:50%;background:#ffd16c;opacity:.85;}
+.art {position:absolute;right:0;bottom:0;width:29%;height:100%;pointer-events:none;z-index:1;color:#ffc85c;}
+.art img {position:absolute;right:0;bottom:0;width:100%;height:76%;object-fit:contain;object-position:bottom right;}
+.glow {position:absolute;right:-12%;bottom:-28%;width:110%;height:110%;background:#ffdc7a40;border-radius:60% 50% 0 0;transform:rotate(-12deg);}
+.doodles {position:absolute;top:5%;right:5%;width:100%;height:70%;}
+@media(max-width:1100px) {.art {width:24%;opacity:.6;}.art img {height:62%;}.glow {opacity:.5;}}
+@media(max-width:900px) {.art {display:none;}}
