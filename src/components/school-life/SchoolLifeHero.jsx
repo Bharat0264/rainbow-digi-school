@@ -23,13 +23,16 @@ export default function SchoolLifeHero() {
 
               {/* Main Heading */}
               <h1 className="school-life-hero-title">
-                More Than a <span className="text-gold">School Day.</span>
-                <span className="school-life-hero-burst" aria-hidden="true">
-                  <svg width="44" height="38" viewBox="0 0 44 38" fill="none">
-                    <path d="M6 32L16 6" stroke="#EEA32B" strokeWidth="4.5" strokeLinecap="round" />
-                    <path d="M16 28L36 12" stroke="#EEA32B" strokeWidth="4.5" strokeLinecap="round" />
-                    <path d="M18 36L32 30" stroke="#EEA32B" strokeWidth="4" strokeLinecap="round" />
-                  </svg>
+                More Than a{' '}
+                <span className="text-gold whitespace-nowrap inline-flex items-center">
+                  School Day.
+                  <span className="school-life-hero-burst" aria-hidden="true">
+                    <svg width="36" height="30" viewBox="0 0 44 38" fill="none">
+                      <path d="M6 32L16 6" stroke="#EEA32B" strokeWidth="4.5" strokeLinecap="round" />
+                      <path d="M16 28L36 12" stroke="#EEA32B" strokeWidth="4.5" strokeLinecap="round" />
+                      <path d="M18 36L32 30" stroke="#EEA32B" strokeWidth="4" strokeLinecap="round" />
+                    </svg>
+                  </span>
                 </span>
               </h1>
 
@@ -47,8 +50,8 @@ export default function SchoolLifeHero() {
               <img
                 src="/images/school-life-hero-art.webp"
                 alt="Illustrated open book with fanning pages, stars, and green paper airplane"
-                width={684}
-                height={682}
+                width={610}
+                height={490}
                 className="school-life-hero-img"
                 loading="eager"
                 fetchPriority="high"
