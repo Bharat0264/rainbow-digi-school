@@ -65,30 +65,35 @@ try {
     await opener.click();
     const dialog = page.getByRole('dialog', { name: 'Classrooms', exact: true });
     await dialog.waitFor({ state: 'visible' }); await page.waitForTimeout(700);
-    assert.equal(await countText(dialog), 'Page 1 of 3');
-    assert.equal(await dialog.locator('.gallery-flow-page').count(), 3);
-    assert.equal(await dialog.getByRole('button', { name: /^Open photo:/ }).count(), 4, 'Only active spread is interactive');
+    assert.equal(await countText(dialog), 'Page 1 of 6');
+    assert.equal(await dialog.locator('.gallery-flow-page').count(), 1);
+    assert.equal(await dialog.getByRole('button', { name: /^Turn to next page:/ }).count(), 2, 'Only active spread is interactive');
     assert.equal(await dialog.getByRole('button', { name: 'Back to albums' }).evaluate(e => e === document.activeElement), true);
     if (width === 390 || width === 1440) {
       await dialog.screenshot({ path: `artifacts/albums-book-${width}.png` });
       await accessible(page, '.gallery-viewer');
     }
-    await page.keyboard.press('ArrowRight'); assert.equal(await countText(dialog), 'Page 2 of 3');
-    await page.keyboard.press('ArrowLeft'); assert.equal(await countText(dialog), 'Page 1 of 3');
-    await dialog.getByRole('button', { name: 'Next page', exact: true }).click(); assert.equal(await countText(dialog), 'Page 2 of 3');
-    await dialog.getByRole('button', { name: 'Previous page', exact: true }).click(); assert.equal(await countText(dialog), 'Page 1 of 3');
+    await page.waitForTimeout(750); await page.keyboard.press('ArrowRight'); assert.equal(await countText(dialog), 'Page 2 of 6');
+    await page.waitForTimeout(750); await page.keyboard.press('ArrowLeft'); assert.equal(await countText(dialog), 'Page 1 of 6');
+    await page.waitForTimeout(750); await dialog.getByRole('button', { name: 'Next page', exact: true }).click(); assert.equal(await countText(dialog), 'Page 2 of 6');
+    await page.waitForTimeout(750); await dialog.getByRole('button', { name: 'Previous page', exact: true }).click(); assert.equal(await countText(dialog), 'Page 1 of 6');
     if (width === 390) {
-      await nativeSwipe(page, '.gallery-coverflow'); assert.equal(await countText(dialog), 'Page 2 of 3');
-      await nativeSwipe(page, '.gallery-coverflow', 1); assert.equal(await countText(dialog), 'Page 1 of 3');
+      await page.waitForTimeout(750); await nativeSwipe(page, '.gallery-coverflow'); assert.equal(await countText(dialog), 'Page 2 of 6');
+      await page.waitForTimeout(750); await nativeSwipe(page, '.gallery-coverflow', 1); assert.equal(await countText(dialog), 'Page 1 of 6');
     }
-    await dialog.getByRole('button', { name: 'Search this album' }).click();
+    await page.waitForTimeout(750); await dialog.getByRole('button', { name: 'Search this album' }).click();
     await dialog.getByRole('searchbox').fill('Friendship');
     assert.equal(await countText(dialog), 'Page 1 of 1');
-    assert.equal(await dialog.getByRole('button', { name: /^Open photo:/ }).count(), 2);
+    assert.equal(await dialog.getByRole('button', { name: /^Turn to next page:/ }).count(), 2);
     await dialog.getByRole('searchbox').fill('No-such-memory');
     assert.ok(await dialog.getByText('No moments match that search. Try another word.').isVisible());
     await dialog.getByRole('searchbox').fill('');
-    await dialog.getByRole('button', { name: 'Search this album' }).click();
+    await page.waitForTimeout(750); await dialog.getByRole('button', { name: 'Search this album' }).click();
+    await dialog.getByRole('button', { name: /^Turn to next page:/ }).first().click();
+    assert.equal(await countText(dialog), 'Page 2 of 6');
+    assert.equal(await dialog.locator('.gallery-turn-sheet').count(), 1);
+    assert.equal(await dialog.locator('.gallery-turn-sheet').evaluate(e => getComputedStyle(e).animationName), 'gallery-paper-forward');
+    await page.waitForTimeout(750);
     await dialog.getByRole('button', { name: 'Show grid view' }).click();
     assert.equal(await dialog.locator('.gallery-grid-photo').count(), 12);
     assert.equal(await dialog.locator('.gallery-flow-page').count(), 0);
@@ -114,8 +119,8 @@ try {
     await dialog.getByRole('button', { name: 'Show book view' }).click();
     if (width === 390) {
       await dialog.getByRole('button', { name: 'Start slideshow' }).click();
-      await page.waitForTimeout(3200); assert.equal(await countText(dialog), 'Page 2 of 3');
-      await dialog.getByRole('button', { name: 'Next page', exact: true }).click();
+      await page.waitForTimeout(3200); assert.equal(await countText(dialog), 'Page 3 of 6');
+      await page.waitForTimeout(750); await dialog.getByRole('button', { name: 'Next page', exact: true }).click();
       assert.ok(await dialog.getByRole('button', { name: 'Start slideshow' }).isVisible());
       const paused = await countText(dialog); await page.waitForTimeout(3100); assert.equal(await countText(dialog), paused);
       await dialog.getByRole('button', { name: 'Enter fullscreen' }).click();
@@ -147,7 +152,7 @@ try {
   await reduced.goto(`${base}/school-life?album=campus&page=2#gallery`);
   const album = reduced.getByRole('dialog', { name: 'Campus', exact: true });
   await album.waitFor({ state: 'visible' });
-  assert.equal(await countText(album), 'Page 2 of 3', 'Shared link opens the chosen page');
+  assert.equal(await countText(album), 'Page 2 of 6', 'Shared link opens the chosen page');
   assert.equal(await album.locator('.gallery-opening-cover').evaluate(e => getComputedStyle(e).display), 'none');
   assert.ok(await album.locator('.gallery-book-flow').evaluate(e => parseFloat(getComputedStyle(e).animationDuration) <= .14));
   await reduced.keyboard.press('Escape'); await album.waitFor({ state: 'hidden' });

@@ -52,7 +52,7 @@ export default function Gallery() {
             <span className="gallery-cover-doodles" aria-hidden="true"><Icon /><Cloud /><Sparkles /></span>
             <span className="gallery-cover-window"><img src={album.cover} alt="" width={album.coverWidth || 400} height={album.coverHeight || 300} loading="lazy" decoding="async" /><span className="gallery-cover-badge" aria-hidden="true"><Icon /></span></span>
             <span className="gallery-book-title">{album.title}</span>
-            <span className="gallery-book-count"><ImageIcon size={16} aria-hidden="true" />{album.pages.flatMap(page => page.photos).length} photos <span aria-hidden="true">·</span> {album.pages.length} pages</span>
+            <span className="gallery-book-count"><ImageIcon size={16} aria-hidden="true" />{album.pages.flatMap(page => page.photos).length} photos <span aria-hidden="true">·</span> {album.pages.reduce((count, page) => count + Math.ceil(page.photos.length / 2), 0)} pages</span>
             <span className="gallery-book-preview">Preview album <ArrowRight size={19} aria-hidden="true" /></span>
           </button>
           <button className="gallery-glass gallery-book-play" type="button" aria-label={`Play ${album.title} slideshow`} onClick={event => openAlbum(album, event, true)}><Play size={17} aria-hidden="true" /></button>

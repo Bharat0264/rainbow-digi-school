@@ -9,11 +9,16 @@ export default function AlbumViewer({ album, onClose, opener, startSlideshow = f
   const [view, setView] = useState('book'), [query, setQuery] = useState(initialQuery);
   const [searchOpen, setSearchOpen] = useState(Boolean(initialQuery));
   const [playing, setPlaying] = useState(startSlideshow), [closing, setClosing] = useState(false);
+  const [turn, setTurn] = useState(null);
+  const turnTimer = useRef(null);
   const [direction, setDirection] = useState(1), [lightbox, setLightbox] = useState(null);
   const [notice, setNotice] = useState(''), [shareLink, setShareLink] = useState(''), [fullscreen, setFullscreen] = useState(false);
   const dialog = useRef(null), backButton = useRef(null), searchInput = useRef(null), closeTimer = useRef(null);
   const normalizedQuery = query.trim().toLowerCase();
-  const pages = useMemo(() => album.pages.map(page => ({ ...page, photos: page.photos.filter(photo =>
+  const pages = useMemo(() => album.pages.flatMap(page => page.photos.reduce((spreads, photo, index) => {
+    if (index % 2 === 0) spreads.push({ ...page, id: `${page.id}-${index / 2}`, photos: [] });
+    spreads[spreads.length - 1].photos.push(photo); return spreads;
+  }, [])).map(page => ({ ...page, photos: page.photos.filter(photo =>
     !normalizedQuery || `${album.title} ${page.label} ${photo.caption} ${photo.alt}`.toLowerCase().includes(normalizedQuery)) }))
     .filter(page => page.photos.length), [album, normalizedQuery]);
   const safeIndex = Math.min(pageIndex, Math.max(0, pages.length - 1));
@@ -26,7 +31,7 @@ export default function AlbumViewer({ album, onClose, opener, startSlideshow = f
     const fullscreenChange = () => setFullscreen(Boolean(document.fullscreenElement));
     document.addEventListener('fullscreenchange', fullscreenChange);
     return () => {
-      clearTimeout(closeTimer.current); viewer.close(); document.body.style.overflow = oldOverflow;
+      clearTimeout(closeTimer.current); clearTimeout(turnTimer.current); viewer.close(); document.body.style.overflow = oldOverflow;
       document.removeEventListener('fullscreenchange', fullscreenChange);
       if (opener?.isConnected) opener.focus({ preventScroll: true });
       else document.querySelector('#gallery [aria-label="Search albums and photos"]')?.focus({ preventScroll: true });
@@ -36,10 +41,10 @@ export default function AlbumViewer({ album, onClose, opener, startSlideshow = f
   useEffect(() => {
     if (!playing || !pages.length || lightbox || closing) return;
     const timer = setInterval(() => {
-      setDirection(1); setPageIndex(value => (value + 1) % pages.length);
+      turnPage(1);
     }, 3000);
     return () => clearInterval(timer);
-  }, [playing, pages.length, lightbox, closing]);
+  });
 
   useEffect(() => {
     if (view !== 'book' || pages.length < 2) return;
@@ -56,10 +61,17 @@ export default function AlbumViewer({ album, onClose, opener, startSlideshow = f
     if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
     closeTimer.current = setTimeout(onClose, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 140 : 600);
   };
-  const move = direction => {
-    pause(); setDirection(direction);
-    if (pages.length) setPageIndex((safeIndex + direction + pages.length) % pages.length);
+  const turnPage = nextDirection => {
+    if (turn || pages.length < 2) return;
+    setDirection(nextDirection);
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduced) {
+      setTurn({ page: pages[safeIndex], number: safeIndex + 1, direction: nextDirection });
+      turnTimer.current = setTimeout(() => setTurn(null), 720);
+    }
+    setPageIndex((safeIndex + nextDirection + pages.length) % pages.length);
   };
+  const move = nextDirection => { pause(); turnPage(nextDirection); };
   const swipe = useGallerySwipe(move, pause);
   const openPhoto = (photo, element) => {
     pause(); setLightbox({ index: photos.findIndex(item => item.id === photo.id), opener: element });
@@ -113,13 +125,13 @@ export default function AlbumViewer({ album, onClose, opener, startSlideshow = f
         </button>)}
       </div> : <div className={`gallery-book-flow ${closing ? 'gallery-book-closing' : ''}`}>
         <div className="gallery-coverflow" {...swipe}>
-          {[-1, 0, 1].filter((offset, index) => pages.length > 2 || offset === 0 || (pages.length === 2 && index === 2)).map(offset => {
-            const index = (safeIndex + offset + pages.length) % pages.length;
-            return <div key={pages[index].id} className={`gallery-flow-page ${offset === 0 ? 'gallery-flow-current' : offset < 0 ? 'gallery-flow-previous' : 'gallery-flow-next'}`}
-              data-direction={direction} aria-hidden={offset !== 0 ? true : undefined} inert={offset !== 0 ? true : undefined}>
-              <ScrapbookSpread page={pages[index]} number={index + 1} active={offset === 0} onPhoto={openPhoto} />
-            </div>;
-          })}
+          <div className="gallery-flow-page gallery-flow-current" data-direction={direction}>
+            <ScrapbookSpread page={pages[safeIndex]} number={safeIndex + 1} active={!turn} onPhoto={() => move(1)} />
+          </div>
+          {turn && <div className={`gallery-turn-sheet gallery-turn-${turn.direction > 0 ? 'forward' : 'backward'}`} aria-hidden="true" inert>
+            <div className="gallery-turn-front"><ScrapbookSpread page={turn.page} number={turn.number} active={false} /></div>
+            <div className="gallery-turn-back" />
+          </div>}
           <div className={`gallery-opening-cover gallery-tone-${album.tone}`} aria-hidden="true"><span>{album.title}</span></div>
         </div>
         <div className="gallery-page-controls">
@@ -142,7 +154,7 @@ export default function AlbumViewer({ album, onClose, opener, startSlideshow = f
           {fullscreen ? <Minimize aria-hidden="true" /> : <Maximize aria-hidden="true" />}
         </button>
       </div>
-      <p className="gallery-notice" role="status">{notice || (playing ? 'Slideshow playing · a new page every 3 seconds' : 'Swipe or use the arrows to turn a page')}</p>
+      <p className="gallery-notice" role="status">{notice || (playing ? 'Slideshow playing · a new page every 3 seconds' : 'Tap a photo, swipe or use the arrows to turn a page')}</p>
       {shareLink && <input className="gallery-share-link" aria-label="Album link" readOnly value={shareLink} onFocus={event => event.target.select()} />}
     </footer>
     {lightbox && <GalleryLightbox photos={photos} initialIndex={lightbox.index} opener={lightbox.opener} onClose={() => setLightbox(null)} />}
