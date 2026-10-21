@@ -50,8 +50,8 @@ export default function SchoolLifeHero() {
               <img
                 src="/images/school-life-hero-art.webp"
                 alt="Illustrated open book with fanning pages, stars, and green paper airplane"
-                width={610}
-                height={490}
+                width={600}
+                height={440}
                 className="school-life-hero-img"
                 loading="eager"
                 fetchPriority="high"

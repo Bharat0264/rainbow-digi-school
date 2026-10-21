@@ -15,7 +15,7 @@
 
 .school-life-hero-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.7fr);
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
   gap: clamp(20px, 2.5vw, 36px);
   align-items: center;
 }
@@ -114,15 +114,15 @@
 .school-life-hero-img {
   display: block;
   width: 100%;
-  max-width: 290px;
+  max-width: 320px;
   height: auto;
-  aspect-ratio: 610 / 490;
+  aspect-ratio: 600 / 440;
   object-fit: contain;
   user-select: none;
 }
 
 @media (max-width: 640px) {
   .school-life-hero-img {
-    max-width: 240px;
+    max-width: 250px;
   }
 }
