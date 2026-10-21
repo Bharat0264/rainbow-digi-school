@@ -1,3 +1,5 @@
+import introStyles from "./CampusIntro.module.css";
+import botanicalArt from "../assets/campus-botanical.webp";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { X, Expand, ArrowUpRight, ArrowRight, School, MessagesSquare, Palette, ShieldCheck, Bus, Phone } from "lucide-react";
@@ -5,7 +7,6 @@ import walkthroughArt from "../assets/campus-walkthrough.webp";
 import styles from "./CampusWalkthrough.module.css";
 import { CAMPUS_DETAILS, SCHOOL } from "../data/school";
 import {
-  PageIntro,
   SectionHeading,
   CampusPhoto,
 } from "../components/ui/PageElements";
@@ -17,16 +18,22 @@ export default function CampusGallery() {
 
   return (
     <>
-      <PageIntro
-        eyebrow="Our Campus in Kandlakoya"
-        title="A Thoughtful Setting for Learning."
-      >
-        <p>
-          Located in a quiet residential enclave in Kandlakoya, Hyderabad, our
-          school offers young learners a calm, secure, and inspiring environment
-          away from busy city noise.
-        </p>
-      </PageIntro>
+      <section className="section page-intro">
+        <div className="site-container">
+          <div className={introStyles.card}>
+            <img className={introStyles.background} src={botanicalArt} width="1600" height="800" alt="" aria-hidden="true" decoding="async" />
+            <div className={introStyles.copy}>
+              <p className={`eyebrow ${introStyles.eyebrow}`}><span className="eyebrow-dot" /> Our Campus in Kandlakoya</p>
+              <h1>A Thoughtful Setting<br className={introStyles.break} /> for Learning.</h1>
+              <p className={introStyles.lead}>
+                Located in a quiet residential enclave in Kandlakoya, Hyderabad, our
+                school offers young learners a calm, secure, and inspiring environment
+                away from busy city noise.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Campus Photo & Environment Bento */}
       <section className="section site-container photo-story">
@@ -83,7 +90,7 @@ export default function CampusGallery() {
           })}
         </ul>
         <figure className={styles.art}>
-          <img src={walkthroughArt} alt="" width="1536" height="1024" loading="lazy" decoding="async" />
+          <img src={walkthroughArt} alt="" width="1600" height="800" loading="lazy" decoding="async" />
         </figure>
         <div className={styles.callout}>
           <span className={styles.phone} aria-hidden="true"><Phone /></span>
