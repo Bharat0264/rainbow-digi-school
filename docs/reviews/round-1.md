@@ -2,70 +2,74 @@
 
 Date: 21 October 2026 (Asia/Calcutta). Agent: Codex.
 
-**Disposition: HOLD — do not merge or promote.** Local code/test gates pass, but the performance gate does not pass. Current-commit deployed-preview equivalence, field INP and actual admissions email delivery are not verified. Existing production contrast defects need a client-facing colour decision. Main and production also contain different work; neither was overwritten.
+**Disposition: HOLD — do not merge or promote.** Local code/test gates pass, but the performance gate does not pass. **Production was promoted during the review by a process outside this agent's explicit deployment commands; see provenance below.** Current-commit preview acceptance, field INP and actual admissions email delivery are not verified. A deployed same-application-source follow-up is now recorded. Existing production contrast defects need a client-facing colour decision. Main remains unmerged. Production promotions were observed during the audit, as recorded below.
 
 ## Safe setup and provenance
 
 - Both existing working trees were clean at start. Fetched `origin`; `git pull --rebase origin main` in the clean main checkout reported already up to date. No force push, shared reset or history rewrite.
 - Production URL: https://rainbow-digi-school.vercel.app. GitHub's latest successful Vercel **Production** deployment at baseline was deployment `7227797590`, SHA `e258ca4a28ed23c135cea11d04aadc4975dc8829`, with successful deployment status and Vercel URL `https://rainbow-digi-school-af3ozhbna-bharat0264s-projects.vercel.app`.
 - Main was `24576794d49f528d3423c245b88fa74a29cf0e3c`. Production and main diverge: **40 production-only commits / 9 main-only commits**, with changes across 90 files. Main contains newer squirrel/hero work and lacks much of the production gallery/contact work. Reviewing main as if it were production would be incorrect.
-- Tagged the exact baseline `pre-review-round-1`; created `review/round-1` from production in `C:/SCHOOL-review-round-1`. Pushed only this branch and review tags to `origin`, never `old-origin`. Main is unchanged.
+- Tagged the exact baseline `pre-review-round-1`; created `review/round-1` from production in `C:/SCHOOL-review-round-1`. Pushed only this branch and review tags to `origin`, never `old-origin`. Main is unchanged. **Late observation:** Vercel subsequently recorded Production promotions of review commits `c7cfa88` and `e27b907` (deployments `7229518424` / `7229532411`, 21 October 2026 at 15:08/15:09 UTC). Codex did not merge main or execute a successful production-deploy command. The actor/process that promoted them is not established; do not overwrite another operator's deployment. The original `e258ca4` baseline remains preserved. Fresh public-CDN evidence is being recorded under `after-deployed`; protected immutable deployment URLs redirected to Vercel login and were not bypassed.
 - A successful preview exists for earlier review commit `c7cfa88` at `https://rainbow-digi-school-2vnuuycxr-bharat0264s-projects.vercel.app`. This is **not** proof for the current review commit. The stored CLI credential was expired; linking the current project failed. The ensuing device-login wait was cancelled, no auth token contents were inspected or exposed, and no temporary/unowned deployment was created.
 
 ## Baseline and comparison coverage
 
-Crawled `/`, `/academics`, `/admissions`, `/campus`, `/school-life`, `/contact`, `/privacy-policy`, `/404` at **390, 768, 1024, 1440 and 1920px**: 40 before and 40 after full-page screenshots, complete request inventories, decoded/encoded resource sizes, initial lab LCP/CLS observers, console diagnostics, image dimensions/alt checks, overflow, text and links. Added mobile-menu, dropdown, validation-error and all four album last-spread states at 390/1440px. Used reduced motion for reproducible full-page captures, and normal motion separately for interactions. Real unknown production URLs return 404; explicit `/404` is a noindex HTML page and returns 200. GET `/api/enquiries` correctly returns 405.
+Crawled `/`, `/academics`, `/admissions`, `/campus`, `/school-life`, `/contact`, `/privacy-policy`, `/404` at **390, 768, 1024, 1440 and 1920px**: 40 before and 40 local after plus 40 deployed follow-up full-page screenshots, complete request inventories, decoded/encoded resource sizes, initial lab LCP/CLS observers, console diagnostics, image dimensions/alt checks, overflow, text and links. Added mobile-menu, dropdown, validation-error and all four album last-spread states at 390/1440px. Used reduced motion for reproducible full-page captures, and normal motion separately for interactions. Real unknown production URLs return 404; explicit `/404` is a noindex HTML page and returns 200. GET `/api/enquiries` correctly returns 405.
 
 An immutable local evidence ZIP and its SHA-256 are saved as `artifacts/review-round-1-evidence.zip` and [evidence/archive.sha256](evidence/archive.sha256). Raw evidence is local in `artifacts/review-round-1/{before,after,comparison}`. Public numerical evidence is in [round-1-summary.json](evidence/round-1-summary.json). Raw screenshots and reports are intentionally ignored rather than adding large generated files to source control. CI uploads browser reports/traces; the manual deployed-review workflow uploads its crawl/Lighthouse evidence.
 
 ### Summary
 
-The after transfer measurements below are **local preview** measurements; Lighthouse before is the real Vercel CDN, while after is local HTTP/1.1. The serving stacks differ. Those scores are not an apples-to-apples CDN improvement claim; the regression blocks promotion until the same deployed-preview measurement is rerun. Do not present local lab estimates as real-user Core Web Vitals.
+The primary after numbers now use the public Vercel CDN after its observed promotions, with the same application source tree as this review. [Live follow-up evidence](evidence/round-1-live-followup.json) records that provenance and 28/28 live smoke tests. These remain one cold Lighthouse run per route/mode, not real-user Core Web Vitals. Local HTTP/1.1 runs are retained as diagnostics only and are not used to claim a CDN improvement. The public alias moved between review-derived deployment SHAs; the client source tree stayed identical, but this is not a frozen current-commit preview acceptance pass.
 
 | Metric | Production before | Review after | Interpretation |
 |---|---:|---:|---|
-| Home full crawl transfer at 390px | 9,236.9 kB | 7,004.3 kB | 24.2% less; includes eagerly decoded below-fold images for inventory |
-| Initial JS, decoded/raw | 407.0 kB | 387.5 kB | Same entry graph method; album viewer now lazy |
-| Initial CSS, decoded/raw | 124.4 kB | 119.0 kB | Paper-viewer CSS is lazy; local font faces included |
+| Home full crawl transfer at 390px | 9.24 MB | 7.01 MB | 24.1% less on CDN; full below-fold inventory included |
+| Initial JS, decoded/raw | 407.0 kB | 387.5 kB | Vercel build; viewer is lazy |
+| Initial CSS, decoded/raw | 124.4 kB | 118.9 kB | Vercel build; viewer CSS is lazy |
 | Runtime direct dependencies | 7 | 6 | Removed obsolete `page-flip` |
 | Development direct dependencies | 16 | 24 | Added explicit QA tools; removed `@vercel/node` and unused Puppeteer |
 | Project npm audit findings | 11 (10 high, 1 moderate) | 0 | No force/major upgrade; type-only Vercel toolchain removed and safe patch applied |
 | Source files removed | 0 | 22 | 84,018 bytes; rendered PaperPage extracted intact |
-| Tracked file count | 376 | 391, including review documentation | QA, licences, local fonts and review evidence intentionally add files |
+| Tracked file count | 376 | 393, including review documentation | QA, licences, local fonts and review evidence intentionally add files |
 | Screenshot dimensions | 40 baselines | 40 unchanged dimensions | No layout-size changes |
-| Screenshot comparison | — | 22 with no detected difference; 18 flagged | Pixelmatch threshold 0.1, AA exclusion; maximum 0.02786% changed pixels |
+| Screenshot comparison | — | 28 with no detected difference; 12 flagged (deployed) | Pixelmatch threshold 0.1, AA exclusion; maximum 0.01455% changed pixels (deployed); local comparison retained separately |
 | Console JS errors / broken decoded images / horizontal overflow | 0 / 0 / 0 | 0 / 0 / 0 | All 40 captures |
+| Lighthouse mobile performance | 69-95 | 49-94 on deployed follow-up | FAIL: several regressions; not a promotion pass |
+| Mobile LCP (lab) | 2.56-5.89s | 2.86-19.27s | Includes slow home-page sample; targets not met |
+| Mobile CLS (lab) | 0-0.00058 | 0 | Within target in measured runs |
+| Mobile TBT (lab) | 36.5-277ms | 45-1,177ms | Home outlier fails target |
 | Real-user INP | Unavailable | Unavailable | No RUM/CrUX evidence available; never substitute TBT for INP |
 
 ### Per-route Lighthouse (one cold lab run per mode)
 
-`P` = performance score, `LCP` seconds. Before is production CDN; after is local preview, **not a deployment acceptance measurement**. Detailed CLS, TBT, accessibility and transfer sizes remain in the JSON evidence.
+`P` = performance score, `LCP` seconds. Both primary columns below are public-CDN runs. Before is the original production baseline; after is the observed review-derived production source. The slow home/mobile sample is retained, not dropped as an inconvenient outlier. Detailed CLS, TBT, accessibility and transfer sizes remain in the JSON evidence. These numbers do not constitute promotion approval.
 
-| Route | Mobile before P / LCP | Mobile local after P / LCP | Desktop before P / LCP | Desktop local after P / LCP |
+| Route | Mobile before P / LCP | Mobile deployed after P / LCP | Desktop before P / LCP | Desktop deployed after P / LCP |
 |---|---:|---:|---:|---:|
-| / | 95 / 2.56s | 74 / 12.61s | 88 / 2.23s | 76 / 5.96s |
-| /academics | 83 / 3.92s | 85 / 4.14s | 81 / 3.12s | 76 / 5.68s |
-| /admissions | 69 / 5.89s | 74 / 12.61s | 76 / 2.85s | 76 / 5.93s |
-| /campus | 79 / 4.14s | 85 / 4.13s | 97 / 1.14s | 77 / 4.90s |
-| /school-life | 89 / 2.92s | 74 / 11.78s | 85 / 2.70s | 76 / 5.98s |
-| /contact | 94 / 2.65s | 85 / 4.13s | 95 / 1.28s | 81 / 3.51s |
-| /privacy-policy | 93 / 2.74s | 74 / 11.48s | 88 / 2.01s | 78 / 4.77s |
-| /404 | 95 / 2.61s | 74 / 11.42s | 85 / 2.28s | 78 / 4.78s |
+| / | 95 / 2.56s | 49 / 19.26s | 88 / 2.23s | 97 / 1.22s |
+| /academics | 83 / 3.92s | 90 / 2.91s | 81 / 3.12s | 97 / 1.28s |
+| /admissions | 69 / 5.89s | 91 / 3.02s | 76 / 2.85s | 92 / 1.81s |
+| /campus | 79 / 4.14s | 81 / 3.66s | 97 / 1.14s | 99 / 0.85s |
+| /school-life | 89 / 2.92s | 94 / 2.86s | 85 / 2.70s | 99 / 0.85s |
+| /contact | 94 / 2.65s | 77 / 3.52s | 95 / 1.28s | 97 / 1.24s |
+| /privacy-policy | 93 / 2.74s | 93 / 2.87s | 88 / 2.01s | 92 / 1.84s |
+| /404 | 95 / 2.61s | 93 / 2.90s | 85 / 2.28s | 99 / 0.82s |
 
-The mobile targets (P>=95, LCP<=1.8s, CLS<=0.02, INP<=150ms, TBT<=150ms) are **not collectively met**. Large production artwork is still oversized: the lossless label conversion saves transfer but retains the source resolution to avoid resampling artwork. A second responsive-resizing pass and a current Vercel preview are required before claiming the targets; this review does not claim those targets are impossible. No source image was replaced or recoloured.
+The mobile targets (P>=95, LCP<=1.8s, CLS<=0.02, INP<=150ms, TBT<=150ms) are **not collectively met**. Large production artwork is still oversized: the lossless label conversion saves transfer but retains the source resolution to avoid resampling artwork. Six multi-megabyte desktop label assets are still eagerly requested even when CSS hides the signs on mobile. A follow-up should test responsive sizing and non-visible-image loading on a controlled preview before any promotion. This is an identified optimization candidate, not proof of the entire regression cause. The home/mobile run also recorded 1,177ms TBT and needs investigation, not approval. A current controlled Vercel preview is required before claiming the targets; this review does not claim those targets are impossible. No source image was replaced or recoloured.
 
 ### Per-route transfer (1440px full inventory)
 
-| Route | Before | Local after |
+| Route | Before CDN | Deployed after CDN |
 |---|---:|---:|
-| / | 9,799.2 kB | 7,566.4 kB |
-| /academics | 9,374.3 kB | 7,141.5 kB |
-| /admissions | 9,610.0 kB | 7,393.7 kB |
-| /campus | 9,962.8 kB | 7,713.4 kB |
-| /school-life | 9,725.1 kB | 7,393.1 kB |
-| /contact | 9,324.1 kB | 7,091.5 kB |
-| /privacy-policy | 9,195.9 kB | 6,980.0 kB |
-| /404 | 9,194.6 kB | 6,978.7 kB |
+| / | 9,799.2 kB | 7,573.7 kB |
+| /academics | 9,374.3 kB | 7,148.8 kB |
+| /admissions | 9,610.0 kB | 7,401.1 kB |
+| /campus | 9,962.8 kB | 7,720.7 kB |
+| /school-life | 9,725.1 kB | 7,399.8 kB |
+| /contact | 9,324.1 kB | 7,098.5 kB |
+| /privacy-policy | 9,195.9 kB | 6,987.1 kB |
+| /404 | 9,194.6 kB | 6,985.6 kB |
 
 ## Bugs and fixes
 
@@ -94,7 +98,7 @@ The mobile-menu test initially failed because its locator used the old accessibl
 
 ## Visual comparison requiring final review
 
-All 40 full-page images retain the same dimensions and content. Eighteen have small detected differences, confined to shared navigation/artwork rendering in inspected examples (e.g. 216 pixels in the mobile navigation region, not text/layout changes). Lossless WebP preserves visible source colours; transparent RGB data may be discarded by the encoder. Canvas timing and rasterization are not guaranteed byte-identical. The raw difference images and all per-image ratios are retained. These differences are **listed**, not silently labelled a zero-difference acceptance pass.
+All 40 deployed follow-up full-page images retain the same dimensions and content. Twelve have small detected differences, confined to shared navigation/artwork rendering in inspected examples (the deployed maximum is 0.01455%, without dimension changes; the earlier local comparison found 216 pixels in the mobile navigation region). Lossless WebP preserves visible source colours; transparent RGB data may be discarded by the encoder. Canvas timing and rasterization are not guaranteed byte-identical. The raw difference images and all per-image ratios are retained. These differences are **listed**, not silently labelled a zero-difference acceptance pass.
 
 ## Deletion log
 
@@ -140,6 +144,8 @@ Dependencies removed: runtime `page-flip` (no rendered caller), dev `@vercel/nod
 - 6daaf20 chore [Codex]: automate deployed final-review comparison gates
 - fbdaeed chore [Codex]: remove unused Puppeteer installation
 - eb5cda7 test [Codex]: verify rapid form submits and 4x CPU album turns
+- 23580f2 docs [Codex]: record round-one evidence and hold promotion gates
+- 5a4d831 fix [Codex]: scope immutable cache and reject protected review redirects
 
 This report/README/agent-rule commit follows those implementation commits. No application copy, route, environment variable name or supplied photo content was changed.
 
@@ -147,18 +153,18 @@ This report/README/agent-rule commit follows those implementation commits. No ap
 
 | Gate | Result |
 |---|---|
-| Clean install, lint (zero warnings), strict API typecheck, build | PASS locally and in CI at `e27b907` |
-| 23 API scenarios, SEO checks, 28 browser tests | PASS; mocked API only |
+| Clean install, lint (zero warnings), strict API typecheck, build | PASS locally and in CI (including `e27b907`, later test/doc runs also passed) |
+| 23 API scenarios, SEO checks, 28 browser tests | PASS locally and against live production; mocked API only |
 | Source-asset 404s, new JS errors, overflow / missing decoded images | PASS locally |
-| Current deployed preview screenshot equivalence | NOT VERIFIED; only earlier preview `c7cfa88` was available; CLI credentials expired |
-| Performance equal/better on all deployed routes and mobile targets | FAIL / NOT VERIFIED; local lab regression recorded, no current comparable CDN run |
+| Current deployed preview screenshot equivalence | HOLD; immutable preview URLs are protected and CLI credentials expired. Same-application-source live follow-up passed flows and dimension checks but has 12 small visual differences to review |
+| Performance equal/better on all deployed routes and mobile targets | FAIL; deployed desktop improved to 92-99, mobile 49-94 does not meet targets and several routes regress; local diagnostic runs retained |
 | Accessibility | Existing serious contrast failures persist on home, academics and school-life at both tested widths; no new violations |
 | Actual email delivery and production storage error path | NOT VERIFIED; requires approved staging recipient and mailbox/log access |
 | Main integration | HOLD; production/main diverge substantially. Do not overwrite either history. |
 
 Decisions required before promotion:
 
-1. Make a current preview of `review/round-1` available, then rerun the deployed baseline workflow. Authenticate Vercel locally or provide a current preview URL; do not paste credentials into chat or source.
+1. Establish who/what promoted review commits to Production before all gates passed, and stop ungated promotion. Make a current preview of `review/round-1` available, then rerun the deployed baseline workflow. Authenticate Vercel locally or provide a current preview URL; do not paste credentials into chat or source.
 2. Approve minimal contrast colour fixes or explicitly retain the production palette with documented accessibility exceptions. Gold/green stage text and preview captions are the known affected areas; see axe targets in the evidence.
 3. Select durable rate limiting (Vercel WAF/platform configuration or approved shared storage) without silently introducing a new service/env contract.
 4. Provide an approved staging email recipient/log/mailbox verification route for end-to-end delivery. Keep synthetic tests separate from school records.
@@ -174,6 +180,10 @@ Decisions required before promotion:
 - Verify staging storage and actual email receipt, then remove only approved synthetic test records through the school's normal data process.
 - Review the exact contrast changes/differences and the main-only changes. Acknowledge all exceptions; do not weaken tests to greenwash them.
 - Freeze: bug fixes only; no new features, redesigns, dependencies or route/env renames. Direct dependency versions are pinned and the lockfile is committed. Never rewrite shared history or force push.
-- Merge only after **all** agreed gates pass. Then smoke-test canonical production and compare its deployment SHA. This round did **not** merge or promote.
+- Merge only after **all** agreed gates pass. Then smoke-test canonical production and compare its deployment SHA. This agent did **not** merge or execute a successful promotion. Vercel production promotions were observed during the audit; their initiating actor/process is unknown.
 
-Rollback (if a later approved merge is deployed): **Vercel Instant Rollback to production deployment `e258ca4`**, or `git revert -m 1 <approved-merge-commit> && git push origin main`. No reset/force push. At this hold point production needs no rollback because it was unchanged.
+Rollback (if a later approved merge is deployed): **Vercel Instant Rollback to production deployment `e258ca4`**, or `git revert -m 1 <approved-merge-commit> && git push origin main`. No reset/force push. Production has moved since the initial baseline. If those ungated promotions were unintended, an authorised Vercel operator should use Instant Rollback to the initial deployment; do not blindly overwrite another operator's deployment.
+
+## Late deployed follow-up archive
+
+The original `review-round-1` tag and evidence archive are preserved, not rewritten. The follow-up records live promotions and CDN evidence in `artifacts/review-round-1-live-followup.zip`, with SHA-256 in [archive-live-followup.sha256](evidence/archive-live-followup.sha256). Main remains unmerged. Immutable deployment login redirects were rejected rather than bypassed.

@@ -1,0 +1,1073 @@
+{
+  "observation": "Production moved during review, not through a Codex main merge or successful prod-deploy command. Initial baseline e258ca4 retained. Public URL benchmark spans review-derived deployments with the same src tree. Immutable URLs require Vercel login and were not bypassed.",
+  "initialProductionCommit": "e258ca4",
+  "laterProductionCommits": [
+    "c7cfa88",
+    "e27b907",
+    "6daaf20",
+    "eb5cda7"
+  ],
+  "applicationSourceTree": "496a21531513d0a88b3c29dc889bd25bfa37eec6",
+  "cdnLighthouseAfter": [
+    {
+      "route": "/",
+      "mode": "mobile",
+      "performance": 49,
+      "accessibility": 96,
+      "lcp": 19264.523,
+      "cls": 0,
+      "tbt": 1177,
+      "weight": 6512133,
+      "unusedJS": 150,
+      "unusedCSS": 150,
+      "runtimeError": null
+    },
+    {
+      "route": "/academics",
+      "mode": "mobile",
+      "performance": 90,
+      "accessibility": 96,
+      "lcp": 2908.1882,
+      "cls": 0,
+      "tbt": 207,
+      "weight": 6086770,
+      "unusedJS": 150,
+      "unusedCSS": 0,
+      "runtimeError": null
+    },
+    {
+      "route": "/admissions",
+      "mode": "mobile",
+      "performance": 91,
+      "accessibility": 100,
+      "lcp": 3016.9512,
+      "cls": 0,
+      "tbt": 131.5,
+      "weight": 6339253,
+      "unusedJS": 300,
+      "unusedCSS": 0,
+      "runtimeError": null
+    },
+    {
+      "route": "/campus",
+      "mode": "mobile",
+      "performance": 81,
+      "accessibility": 100,
+      "lcp": 3664.0967,
+      "cls": 0,
+      "tbt": 298,
+      "weight": 6658977,
+      "unusedJS": 300,
+      "unusedCSS": 0,
+      "runtimeError": null
+    },
+    {
+      "route": "/school-life",
+      "mode": "mobile",
+      "performance": 94,
+      "accessibility": 96,
+      "lcp": 2856.0982,
+      "cls": 0,
+      "tbt": 45,
+      "weight": 6056742,
+      "unusedJS": 300,
+      "unusedCSS": 0,
+      "runtimeError": null
+    },
+    {
+      "route": "/contact",
+      "mode": "mobile",
+      "performance": 77,
+      "accessibility": 100,
+      "lcp": 3516.9269999999997,
+      "cls": 0,
+      "tbt": 465.5,
+      "weight": 6536202,
+      "unusedJS": 300,
+      "unusedCSS": 0,
+      "runtimeError": null
+    },
+    {
+      "route": "/privacy-policy",
+      "mode": "mobile",
+      "performance": 93,
+      "accessibility": 100,
+      "lcp": 2865.6627,
+      "cls": 0,
+      "tbt": 93,
+      "weight": 6424868,
+      "unusedJS": 300,
+      "unusedCSS": 0,
+      "runtimeError": null
+    },
+    {
+      "route": "/404",
+      "mode": "mobile",
+      "performance": 93,
+      "accessibility": 100,
+      "lcp": 2896.3658,
+      "cls": 0,
+      "tbt": 98.5,
+      "weight": 6423332,
+      "unusedJS": 0,
+      "unusedCSS": 0,
+      "runtimeError": null
+    },
+    {
+      "route": "/",
+      "mode": "desktop",
+      "performance": 97,
+      "accessibility": 96,
+      "lcp": 1215.0081,
+      "cls": 0,
+      "tbt": 88,
+      "weight": 7044005,
+      "unusedJS": 40,
+      "unusedCSS": 0,
+      "runtimeError": null
+    },
+    {
+      "route": "/academics",
+      "mode": "desktop",
+      "performance": 97,
+      "accessibility": 96,
+      "lcp": 1275.758,
+      "cls": 0.0003573059333204732,
+      "tbt": 58,
+      "weight": 6828841,
+      "unusedJS": 40,
+      "unusedCSS": 0,
+      "runtimeError": null
+    },
+    {
+      "route": "/admissions",
+      "mode": "desktop",
+      "performance": 92,
+      "accessibility": 100,
+      "lcp": 1806.8678,
+      "cls": 0,
+      "tbt": 23,
+      "weight": 6871571,
+      "unusedJS": 0,
+      "unusedCSS": 0,
+      "runtimeError": null
+    },
+    {
+      "route": "/campus",
+      "mode": "desktop",
+      "performance": 99,
+      "accessibility": 100,
+      "lcp": 849.9986,
+      "cls": 0,
+      "tbt": 35,
+      "weight": 7690777,
+      "unusedJS": 40,
+      "unusedCSS": 0,
+      "runtimeError": null
+    },
+    {
+      "route": "/school-life",
+      "mode": "desktop",
+      "performance": 99,
+      "accessibility": 96,
+      "lcp": 845.1895999999999,
+      "cls": 0,
+      "tbt": 0,
+      "weight": 7369616,
+      "unusedJS": 40,
+      "unusedCSS": 0,
+      "runtimeError": null
+    },
+    {
+      "route": "/contact",
+      "mode": "desktop",
+      "performance": 97,
+      "accessibility": 100,
+      "lcp": 1240.9383,
+      "cls": 0,
+      "tbt": 33,
+      "weight": 7068476,
+      "unusedJS": 40,
+      "unusedCSS": 0,
+      "runtimeError": null
+    },
+    {
+      "route": "/privacy-policy",
+      "mode": "desktop",
+      "performance": 92,
+      "accessibility": 100,
+      "lcp": 1836.0142,
+      "cls": 0,
+      "tbt": 15,
+      "weight": 6956969,
+      "unusedJS": 40,
+      "unusedCSS": 0,
+      "runtimeError": null
+    },
+    {
+      "route": "/404",
+      "mode": "desktop",
+      "performance": 99,
+      "accessibility": 100,
+      "lcp": 822.8108,
+      "cls": 0,
+      "tbt": 0,
+      "weight": 6955640,
+      "unusedJS": 40,
+      "unusedCSS": 0,
+      "runtimeError": null
+    }
+  ],
+  "cdnCrawlAfter": [
+    {
+      "route": "/",
+      "width": 390,
+      "status": 200,
+      "bytes": 7011756,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/academics",
+      "width": 390,
+      "status": 200,
+      "bytes": 6586683,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/admissions",
+      "width": 390,
+      "status": 200,
+      "bytes": 6839112,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/campus",
+      "width": 390,
+      "status": 200,
+      "bytes": 7158695,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/school-life",
+      "width": 390,
+      "status": 200,
+      "bytes": 6837681,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/contact",
+      "width": 390,
+      "status": 200,
+      "bytes": 6536460,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/privacy-policy",
+      "width": 390,
+      "status": 200,
+      "bytes": 6424971,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/404",
+      "width": 390,
+      "status": 200,
+      "bytes": 6423535,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/",
+      "width": 768,
+      "status": 200,
+      "bytes": 7573689,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/academics",
+      "width": 768,
+      "status": 200,
+      "bytes": 7148718,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/admissions",
+      "width": 768,
+      "status": 200,
+      "bytes": 7401198,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/campus",
+      "width": 768,
+      "status": 200,
+      "bytes": 7720734,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/school-life",
+      "width": 768,
+      "status": 200,
+      "bytes": 7399843,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/contact",
+      "width": 768,
+      "status": 200,
+      "bytes": 7098523,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/privacy-policy",
+      "width": 768,
+      "status": 200,
+      "bytes": 6987085,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/404",
+      "width": 768,
+      "status": 200,
+      "bytes": 6985647,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/",
+      "width": 1024,
+      "status": 200,
+      "bytes": 7573617,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/academics",
+      "width": 1024,
+      "status": 200,
+      "bytes": 7148640,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/admissions",
+      "width": 1024,
+      "status": 200,
+      "bytes": 7401081,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/campus",
+      "width": 1024,
+      "status": 200,
+      "bytes": 7720637,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/school-life",
+      "width": 1024,
+      "status": 200,
+      "bytes": 7399849,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/contact",
+      "width": 1024,
+      "status": 200,
+      "bytes": 7098561,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/privacy-policy",
+      "width": 1024,
+      "status": 200,
+      "bytes": 6987090,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/404",
+      "width": 1024,
+      "status": 200,
+      "bytes": 6985576,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/",
+      "width": 1440,
+      "status": 200,
+      "bytes": 7573697,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/academics",
+      "width": 1440,
+      "status": 200,
+      "bytes": 7148768,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/admissions",
+      "width": 1440,
+      "status": 200,
+      "bytes": 7401078,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/campus",
+      "width": 1440,
+      "status": 200,
+      "bytes": 7720737,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/school-life",
+      "width": 1440,
+      "status": 200,
+      "bytes": 7399774,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/contact",
+      "width": 1440,
+      "status": 200,
+      "bytes": 7098478,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/privacy-policy",
+      "width": 1440,
+      "status": 200,
+      "bytes": 6987092,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/404",
+      "width": 1440,
+      "status": 200,
+      "bytes": 6985621,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/",
+      "width": 1920,
+      "status": 200,
+      "bytes": 7573846,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/academics",
+      "width": 1920,
+      "status": 200,
+      "bytes": 7148643,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/admissions",
+      "width": 1920,
+      "status": 200,
+      "bytes": 7401141,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/campus",
+      "width": 1920,
+      "status": 200,
+      "bytes": 7720736,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/school-life",
+      "width": 1920,
+      "status": 200,
+      "bytes": 7529303,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/contact",
+      "width": 1920,
+      "status": 200,
+      "bytes": 7098486,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/privacy-policy",
+      "width": 1920,
+      "status": 200,
+      "bytes": 6987050,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "route": "/404",
+      "width": 1920,
+      "status": 200,
+      "bytes": 7115130,
+      "errors": [],
+      "warnings": []
+    }
+  ],
+  "cdnScreenshotComparison": [
+    {
+      "file": "404-1024.png",
+      "before": [
+        1024,
+        1495
+      ],
+      "after": [
+        1024,
+        1495
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "404-1440.png",
+      "before": [
+        1440,
+        1541
+      ],
+      "after": [
+        1440,
+        1541
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "404-1920.png",
+      "before": [
+        1920,
+        1723
+      ],
+      "after": [
+        1920,
+        1723
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "404-390.png",
+      "before": [
+        390,
+        1988
+      ],
+      "after": [
+        390,
+        1988
+      ],
+      "pixels": 54,
+      "ratio": 6.964866119795698e-05
+    },
+    {
+      "file": "404-768.png",
+      "before": [
+        768,
+        1380
+      ],
+      "after": [
+        768,
+        1380
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "academics-1024.png",
+      "before": [
+        1024,
+        4724
+      ],
+      "after": [
+        1024,
+        4724
+      ],
+      "pixels": 25,
+      "ratio": 5.168091130397968e-06
+    },
+    {
+      "file": "academics-1440.png",
+      "before": [
+        1440,
+        4269
+      ],
+      "after": [
+        1440,
+        4269
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "academics-1920.png",
+      "before": [
+        1920,
+        4459
+      ],
+      "after": [
+        1920,
+        4459
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "academics-390.png",
+      "before": [
+        390,
+        7589
+      ],
+      "after": [
+        390,
+        7589
+      ],
+      "pixels": 54,
+      "ratio": 1.8245030763149094e-05
+    },
+    {
+      "file": "academics-768.png",
+      "before": [
+        768,
+        5043
+      ],
+      "after": [
+        768,
+        5043
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "admissions-1024.png",
+      "before": [
+        1024,
+        5012
+      ],
+      "after": [
+        1024,
+        5012
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "admissions-1440.png",
+      "before": [
+        1440,
+        5022
+      ],
+      "after": [
+        1440,
+        5022
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "admissions-1920.png",
+      "before": [
+        1920,
+        5226
+      ],
+      "after": [
+        1920,
+        5226
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "admissions-390.png",
+      "before": [
+        390,
+        8978
+      ],
+      "after": [
+        390,
+        8978
+      ],
+      "pixels": 54,
+      "ratio": 1.542231437531059e-05
+    },
+    {
+      "file": "admissions-768.png",
+      "before": [
+        768,
+        6071
+      ],
+      "after": [
+        768,
+        6071
+      ],
+      "pixels": 10,
+      "ratio": 2.1447592379069894e-06
+    },
+    {
+      "file": "campus-1024.png",
+      "before": [
+        1024,
+        4658
+      ],
+      "after": [
+        1024,
+        4658
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "campus-1440.png",
+      "before": [
+        1440,
+        3575
+      ],
+      "after": [
+        1440,
+        3575
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "campus-1920.png",
+      "before": [
+        1920,
+        3758
+      ],
+      "after": [
+        1920,
+        3758
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "campus-390.png",
+      "before": [
+        390,
+        5578
+      ],
+      "after": [
+        390,
+        5578
+      ],
+      "pixels": 54,
+      "ratio": 2.482279284000331e-05
+    },
+    {
+      "file": "campus-768.png",
+      "before": [
+        768,
+        4729
+      ],
+      "after": [
+        768,
+        4729
+      ],
+      "pixels": 5,
+      "ratio": 1.3767005004581658e-06
+    },
+    {
+      "file": "contact-1024.png",
+      "before": [
+        1024,
+        2534
+      ],
+      "after": [
+        1024,
+        2534
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "contact-1440.png",
+      "before": [
+        1440,
+        2448
+      ],
+      "after": [
+        1440,
+        2448
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "contact-1920.png",
+      "before": [
+        1920,
+        2661
+      ],
+      "after": [
+        1920,
+        2661
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "contact-390.png",
+      "before": [
+        390,
+        3594
+      ],
+      "after": [
+        390,
+        3594
+      ],
+      "pixels": 54,
+      "ratio": 3.852574804160781e-05
+    },
+    {
+      "file": "contact-768.png",
+      "before": [
+        768,
+        2778
+      ],
+      "after": [
+        768,
+        2778
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "home-1024.png",
+      "before": [
+        1024,
+        6436
+      ],
+      "after": [
+        1024,
+        6436
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "home-1440.png",
+      "before": [
+        1440,
+        5190
+      ],
+      "after": [
+        1440,
+        5190
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "home-1920.png",
+      "before": [
+        1920,
+        5378
+      ],
+      "after": [
+        1920,
+        5378
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "home-390.png",
+      "before": [
+        397,
+        7649
+      ],
+      "after": [
+        397,
+        7649
+      ],
+      "pixels": 216,
+      "ratio": 7.113094581435547e-05
+    },
+    {
+      "file": "home-768.png",
+      "before": [
+        768,
+        6299
+      ],
+      "after": [
+        768,
+        6299
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "privacy-policy-1024.png",
+      "before": [
+        1024,
+        2477
+      ],
+      "after": [
+        1024,
+        2477
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "privacy-policy-1440.png",
+      "before": [
+        1440,
+        2599
+      ],
+      "after": [
+        1440,
+        2599
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "privacy-policy-1920.png",
+      "before": [
+        1920,
+        2780
+      ],
+      "after": [
+        1920,
+        2780
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "privacy-policy-390.png",
+      "before": [
+        390,
+        3809
+      ],
+      "after": [
+        390,
+        3809
+      ],
+      "pixels": 216,
+      "ratio": 0.00014540460851828664
+    },
+    {
+      "file": "privacy-policy-768.png",
+      "before": [
+        768,
+        2521
+      ],
+      "after": [
+        768,
+        2521
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "school-life-1024.png",
+      "before": [
+        1024,
+        3975
+      ],
+      "after": [
+        1024,
+        3975
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "school-life-1440.png",
+      "before": [
+        1440,
+        3773
+      ],
+      "after": [
+        1440,
+        3773
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "school-life-1920.png",
+      "before": [
+        1920,
+        3997
+      ],
+      "after": [
+        1920,
+        3997
+      ],
+      "pixels": 0,
+      "ratio": 0
+    },
+    {
+      "file": "school-life-390.png",
+      "before": [
+        390,
+        5979
+      ],
+      "after": [
+        390,
+        5979
+      ],
+      "pixels": 54,
+      "ratio": 2.315797599289822e-05
+    },
+    {
+      "file": "school-life-768.png",
+      "before": [
+        768,
+        4191
+      ],
+      "after": [
+        768,
+        4191
+      ],
+      "pixels": 17,
+      "ratio": 5.281655134017339e-06
+    }
+  ],
+  "initialJSDecoded": 387536,
+  "initialCSSDecoded": 118938,
+  "liveSmokeTests": {
+    "passed": 28,
+    "mockedSubmissionsOnly": true
+  },
+  "localBundleByteMatch": false,
+  "note": "Windows/local and Linux/Vercel build filenames differ; equivalence is source-tree based and screenshot/flow checked, not a byte-identical build assertion."
+}
