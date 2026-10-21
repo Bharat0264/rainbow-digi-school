@@ -25,3 +25,8 @@
 @media(min-width:1280px) { .flight { right:28px; bottom:35px; } }
 @media(max-width:1023px) { .layout { gap:22px; } .card { padding:30px; } .eyebrow { margin-bottom:22px; } .title { font-size:clamp(36px,5vw,52px); } .flight { width:140px; height:90px; bottom:20px; opacity:.5; } .photo { padding:12px; } .lead { margin-top:26px; } }
 @media(max-width:767px) { .layout { grid-template-columns:minmax(0,1fr); gap:22px; } .card { padding:32px 24px; border-radius:26px; } .title { font-size:clamp(36px,9vw,50px); } .desktopBreak { display:none; } .eyebrow { font-size:9px; letter-spacing:.09em; } .lead { font-size:15px; margin:28px 0 24px; } .rays { right:-10px; top:-15px; transform:scale(.7) rotate(-8deg); } .button { min-height:56px; padding:9px 12px 9px 20px; gap:12px; } .buttonArrow { width:36px; height:36px; } .flight { right:12px; bottom:10px; width:100px; height:70px; opacity:.22; } .photo { padding:12px; border-radius:27px; } .photo img { border-radius:18px; } }
+
+/* Use the curriculum intro surface and ink palette. */
+.card { border:1px solid rgba(255,255,255,.65); border-radius:var(--radius-card); background:var(--clay-cream); box-shadow:var(--shadow-raised); }
+.title {color:var(--ink-dark);}
+.lead,.eyebrow {color:var(--ink-muted);}

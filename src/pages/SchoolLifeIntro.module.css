@@ -12,3 +12,8 @@
 @media(max-width:900px) { .card {min-height:330px;} .copy {width:74%;} .copy h1 {font-size:38px;} .art {width:26%;right:12px;} }
 @media(max-width:600px) { .card {display:block;min-height:0;padding-bottom:220px;} .copy {width:100%;} .copy h1 {font-size:36px;} .art {width:180px;height:210px;right:18px;bottom:12px;} .flight {width:130%;right:0;top:-24px;} }
 @media(prefers-reduced-motion:reduce) { .art {animation:none;} }
+
+/* Use the curriculum intro surface and ink palette. */
+.card { border:1px solid rgba(255,255,255,.65); border-radius:var(--radius-card); background:var(--clay-cream); box-shadow:var(--shadow-raised); }
+.copy h1 {color:var(--ink-dark);}
+.copy :global(.page-lead),.copy :global(.eyebrow) {color:var(--ink-muted);}

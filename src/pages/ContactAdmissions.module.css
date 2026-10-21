@@ -56,3 +56,8 @@
   .section:global(.contact-bento) {padding-block:16px;}
   .section :global(.contact-chip),.section :global(.contact-chip:not(.contact-admissions-chip)) {padding:12px 15px;font-size:13px;gap:9px;}
 }
+
+/* Match only the admissions intro card to the curriculum surface. */
+.section :global(.contact-card-admissions) { border:1px solid rgba(255,255,255,.65); border-radius:var(--radius-card) !important; background:var(--clay-cream); box-shadow:var(--shadow-raised); }
+.section :global(.contact-card-admissions h2.contact-admissions-heading) {color:var(--ink-dark);}
+.section :global(.contact-admissions-text),.section :global(.contact-admissions-eyebrow) {color:var(--ink-muted) !important;}
